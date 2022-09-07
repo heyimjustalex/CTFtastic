@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class CTFtasticApplication {
 	@RequestMapping("/")
 	public String home() {
-		return "Hello World";
+		return "TEST";
 	}
 
 	public static void main(String[] args) {
