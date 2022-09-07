@@ -4,7 +4,7 @@
 ### Java ###
 # Compiled class file
 backend/target/*
-backend/idea/*
+backend/.idea/*
 
 backend/*.class
 
