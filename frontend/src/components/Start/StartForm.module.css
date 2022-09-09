@@ -1,0 +1,32 @@
+.whiteFont {
+    color: #FAF9F6;
+}
+
+.controlInput {
+    background-color: #212121;
+    color: #FAF9F6;
+}
+
+.controlInput:hover,
+.controlInput:focus {
+    background-color: #313131;
+    color: #FAF9F6;
+}
+
+.formButton {
+    color: #FAF9F6;
+    background-color: #0CC6FF;
+}
+
+.formButton[disabled]:hover,
+.formButton[disabled]:focus {
+    color: #FAF9F6;
+    background-color: #0CC6FF;
+
+}
+
+.formButton:hover,
+.formButton:focus {
+    color: #FAF9F6;
+    background-color: #0aa4dd;
+}
