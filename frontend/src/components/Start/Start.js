@@ -4,16 +4,18 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from './../UI/Card/Card'
+import StartPage from './StartPage';
 const Start = () => {
 
     return (
-
-        <Container className='mt-4' fluid="lg"  >
+        <>
+            {/* <Container className='mt-4' fluid="lg"  >
             <Row>
                 <Col> <Card><StartForm /></Card></Col>
             </Row>
-        </Container>
-
+        </Container> */}
+            <StartPage />
+        </>
 
     );
 }

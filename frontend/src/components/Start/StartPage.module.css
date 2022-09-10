@@ -1,0 +1,80 @@
+html,
+body {
+    height: 100%;
+}
+
+
+.logo {
+    color: white;
+    margin: auto;
+
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+}
+
+.Image-logo {
+
+    max-width: 60%;
+    height: auto;
+    margin-bottom: 2em;
+}
+
+.main {
+    min-height: 100%;
+    overflow: auto;
+    background-color: black;
+    color: #FAF9F6;
+    font-family: 'Montserrat Alternates';
+    display: flex;
+    flex-direction: row;
+    width: 100vw;
+    justify-content: center;
+}
+
+.logo-text {
+    text-align: center;
+
+}
+
+.logo-text h1 {
+    font-size: 10em;
+}
+
+.logo-text h2 {
+    font-size: 5em;
+}
+
+.button-div {
+    margin-top: 4em;
+    text-align: center;
+}
+
+.start-button {
+    font-family: 'Space Mono';
+    font-weight: bolder;
+    font-size: 1.5em;
+    padding: 0.5em;
+    padding-left: 1em;
+    padding-right: 1em;
+    border-radius: 0.7em;
+    width: auto;
+    color: #FAF9F6;
+    background-color: #0CC6FF;
+    margin-bottom: 2em;
+
+}
+
+.start-button[disabled]:hover,
+.start-button[disabled]:focus {
+    color: #FAF9F6;
+    background-color: #0CC6FF;
+
+}
+
+.start-button:hover,
+.start-button:focus {
+    color: #FAF9F6;
+    background-color: #0aa4dd;
+}

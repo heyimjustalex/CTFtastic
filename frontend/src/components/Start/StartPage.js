@@ -1,0 +1,35 @@
+import Container from 'react-bootstrap/Container';
+import Button from 'react-bootstrap/Button';
+import styles from './StartPage.module.css';
+import Image from 'react-bootstrap/Image'
+import mainLogo from './../../assets/img/logo_darker.png';
+import BouncingArrow from '../UI/BouncingArrow';
+
+const StartPage = () => {
+
+
+    return (
+
+        <Container className={`${styles.main} min-vh-100`} fluid>
+            <div className='mt-3'>
+                <div className={styles.logo}>
+                    <Image className={styles['Image-logo']} src={mainLogo}></Image>
+                </div>
+                <div className={styles['logo-text']}>
+                    <h1>CTF</h1>
+                    <h2>tastic</h2>
+                </div>
+                <div className={styles['button-div']}>
+                    <BouncingArrow />
+                    <Button className={`${styles['start-button']} mt-4`} variant="custom" type="submit">
+                        Get started!
+                    </Button>
+                </div>
+            </div>
+        </Container>
+
+    );
+}
+
+export default StartPage;
+
