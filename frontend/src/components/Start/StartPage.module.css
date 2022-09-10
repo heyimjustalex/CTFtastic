@@ -66,6 +66,8 @@ body {
 
 }
 
+
+
 .start-button[disabled]:hover,
 .start-button[disabled]:focus {
     color: #FAF9F6;

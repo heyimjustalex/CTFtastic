@@ -1,3 +1,16 @@
+.admin-header {
+    color: #FAF9F6;
+    font-family: 'Montserrat Alternates';
+    margin-bottom: 2em;
+    text-align: center;
+}
+
+.button-div {
+    display: flex;
+    /* background-color: red; */
+    justify-content: flex-end;
+}
+
 .whiteFont {
     color: #FAF9F6;
 }
@@ -13,9 +26,21 @@
     color: #FAF9F6;
 }
 
+
 .formButton {
+
+
+    font-family: 'Space Mono';
+    margin-top: 1em;
+    font-size: 1em;
+    padding: 0.5em;
+    padding-left: 1.5em;
+    padding-right: 1.5em;
+    border-radius: 0.7em;
+    width: auto;
     color: #FAF9F6;
     background-color: #0CC6FF;
+    margin-bottom: 2em;
 }
 
 .formButton[disabled]:hover,
@@ -29,4 +54,59 @@
 .formButton:focus {
     color: #FAF9F6;
     background-color: #0aa4dd;
+}
+
+.main {
+    overflow: auto;
+    background-color: black;
+    color: #FAF9F6;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    justify-content: center;
+}
+
+.start-form {
+    width: 40%;
+    font-size: 1.3em;
+
+}
+
+@media screen and (max-width: 800px) {
+    body {
+        text-align: center;
+
+    }
+
+    .admin-header {
+        font-size: 2em;
+        margin-bottom: 1.3em;
+
+    }
+
+    .start-form {
+        width: 70%;
+        font-size: 1.3em;
+
+    }
+
+    .formButton {
+        width: 100%;
+        margin-top: 3em;
+    }
+}
+
+
+@media screen and (max-width: 600px) {
+    body {
+        text-align: center;
+
+    }
+
+    .start-form {
+        width: 90%;
+        font-size: 1.3em;
+
+    }
 }

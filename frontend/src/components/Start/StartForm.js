@@ -3,9 +3,10 @@ import Form from 'react-bootstrap/Form';
 import useInput from '../../hooks/use-input';
 import { emailValidator, passwordValidator } from './../validators'
 import styles from './StartForm.module.css';
-
+import Container from 'react-bootstrap/Container';
 
 const StartForm = () => {
+
     const
         {
             value: emailValue,
@@ -43,9 +44,8 @@ const StartForm = () => {
     const formSubmitHandler = (event) => {
         console.log('formSubmitted');
         event.preventDefault();
+
     }
-
-
 
 
     let passwordsMatch = null;
@@ -76,45 +76,49 @@ const StartForm = () => {
 
 
     return (
+        <Container className={`${styles.main} min-vh-100 d-flex flex-column`} fluid>
+            <h1 className={styles['admin-header']}>create admin account</h1>
+            <Form className={`${styles['start-form']}`} onSubmit={formSubmitHandler}>
+                <Form.Group className="mb-3" controlId="formBasicEmail">
+                    <Form.Label>Email address</Form.Label>
+                    <Form.Control className={styles.controlInput} isValid={emailIsValid && emailIsTouched} isInvalid={!emailIsValid && emailIsTouched} onBlur={emailBlurHandler} onChange={emailChangeHandler} value={emailValue} type="email" placeholder="Enter email" />
+                    <Form.Text className="text-muted">
+                        We'll never share your email with anyone else.
+                    </Form.Text>
+                </Form.Group>
 
-        <Form className={styles.whiteFont} onSubmit={formSubmitHandler}>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Label>Email address</Form.Label>
-                <Form.Control className={styles.controlInput} isValid={emailIsValid && emailIsTouched} isInvalid={!emailIsValid && emailIsTouched} onBlur={emailBlurHandler} onChange={emailChangeHandler} value={emailValue} type="email" placeholder="Enter email" />
-                <Form.Text className="text-muted">
-                    We'll never share your email with anyone else.
-                </Form.Text>
-            </Form.Group>
+                <Form.Group className="mb-3" controlId="formPassword">
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control className={styles.controlInput}
+                        isValid={passwordIsValid && passwordIsTouched}
+                        isInvalid={(!passwordIsValid && passwordIsTouched) || (!passwordsMatch && passwordIsTouched)}
+                        onBlur={passwordBlurHandler} onChange={passwordChangeHandler}
+                        type="password" placeholder="Password" />
+                    <Form.Text className="text-muted">
+                        2 uppercase, 2 lowercase, 2 digits, 2 special characters
+                    </Form.Text>
+                </Form.Group>
 
-            <Form.Group className="mb-3" controlId="formPassword">
-                <Form.Label>Password</Form.Label>
-                <Form.Control className={styles.controlInput}
-                    isValid={passwordIsValid && passwordIsTouched}
-                    isInvalid={(!passwordIsValid && passwordIsTouched) || (!passwordsMatch && passwordIsTouched)}
-                    onBlur={passwordBlurHandler} onChange={passwordChangeHandler}
-                    type="password" placeholder="Password" />
-                <Form.Text className="text-muted">
-                    2 uppercase, 2 lowercase, 2 digits, 2 special characters
-                </Form.Text>
-            </Form.Group>
+                <Form.Group className="mb-3" controlId="formRepeatPassword">
+                    <Form.Label>Repeat Password</Form.Label>
+                    <Form.Control className={styles.controlInput}
+                        isValid={repeatedPasswordIsValid && repeatedPasswordIsTouched && passwordsMatch}
+                        isInvalid={(!repeatedPasswordIsValid && repeatedPasswordIsTouched) || (!passwordsMatch && repeatedPasswordIsTouched)}
+                        onBlur={repeatedPasswordBlurHandler} onChange={repeatedPasswordChangeHandler}
+                        type="password"
+                        placeholder="Password" />
+                    {!passwordsMatch && repeatedPasswordIsTouched && passwordIsTouched && <Form.Text className="text-muted">
+                        Passwords do not match!
+                    </Form.Text>}
+                </Form.Group>
 
-            <Form.Group className="mb-3" controlId="formRepeatPassword">
-                <Form.Label>Repeat Password</Form.Label>
-                <Form.Control className={styles.controlInput}
-                    isValid={repeatedPasswordIsValid && repeatedPasswordIsTouched && passwordsMatch}
-                    isInvalid={(!repeatedPasswordIsValid && repeatedPasswordIsTouched) || (!passwordsMatch && repeatedPasswordIsTouched)}
-                    onBlur={repeatedPasswordBlurHandler} onChange={repeatedPasswordChangeHandler}
-                    type="password"
-                    placeholder="Password" />
-                {!passwordsMatch && repeatedPasswordIsTouched && passwordIsTouched && <Form.Text className="text-muted">
-                    Passwords do not match!
-                </Form.Text>}
-            </Form.Group>
-
-            <Button disabled={!formIsValid} className={`${styles.formButton} ${buttonDisabledClass}`} variant="custom" type="submit">
-                Submit
-            </Button>
-        </Form>
+                <div className={styles['button-div']}>
+                    <Button onSubmit={formSubmitHandler} disabled={!formIsValid} className={`${styles.formButton} ${buttonDisabledClass}`} variant="custom" type="submit">
+                        Submit
+                    </Button>
+                </div>
+            </Form>
+        </Container >
     );
 
 }
