@@ -1,0 +1,118 @@
+.main {
+    min-height: 100%;
+    overflow: auto;
+    background-color: black;
+    color: #FAF9F6;
+    font-family: 'Montserrat Alternates';
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+
+    align-items: center;
+
+}
+
+
+
+.date-time {
+    outline: none;
+}
+
+.date-wrapper {
+
+    display: flex;
+    justify-content: center;
+
+}
+
+.date-wrapper>div {
+    width: 100%;
+    cursor: pointer;
+}
+
+
+.date-header {
+    margin-top: 3em;
+    color: #FAF9F6;
+    font-family: 'Montserrat Alternates';
+    margin-bottom: 2em;
+    text-align: center;
+}
+
+
+.internal-container {
+
+    width: 50%;
+}
+
+.internal-header {
+    font-family: 'Space Mono';
+    margin-bottom: 1em;
+    margin-top: 1em;
+}
+
+.button-div {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    margin-top: 1em;
+}
+
+.formButton {
+
+    font-family: 'Space Mono';
+    margin-top: 1em;
+    font-size: 1.2em;
+    padding: 0.5em;
+    padding-left: 1.5em;
+    padding-right: 1.5em;
+    border-radius: 0.7em;
+    width: auto;
+    color: #FAF9F6;
+    background-color: #0CC6FF;
+    margin-bottom: 2em;
+}
+
+.formButton[disabled]:hover,
+.formButton[disabled]:focus {
+    color: #FAF9F6;
+    background-color: #0CC6FF;
+
+}
+
+.formButton:hover,
+.formButton:focus {
+    color: #FAF9F6;
+    background-color: #0aa4dd;
+}
+
+
+
+@media screen and (max-width: 1500px) {
+
+
+    .internal-container {
+
+        width: 70%;
+    }
+
+}
+
+
+@media screen and (max-width: 1000px) {
+
+
+    .internal-container {
+
+        width: 100%;
+    }
+
+}
+
+@media screen and (max-width: 700px) {
+
+    .formButton {
+        width: 100%;
+        margin-top: 3em;
+    }
+}

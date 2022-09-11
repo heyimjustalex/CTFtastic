@@ -9,9 +9,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Navigate to='/start' />}></Route>
           <Route path='/start' element={<Start />} />
-
         </Routes>
-
       </BrowserRouter>
     </div>
   );
