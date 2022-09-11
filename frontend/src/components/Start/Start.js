@@ -13,7 +13,8 @@ const Start = () => {
             renderedComponent: 'startPage',
             adminEmail: '',
             adminPassword: '',
-            contestStartDate: {}
+            contestStartDate: {},
+            contestEndDate: {}
         }
 
     );
@@ -31,9 +32,18 @@ const Start = () => {
             ...startingData,
             adminEmail: email,
             adminPassword: password,
-            renderedComponent: 'startTime'
+            renderedComponent: 'startDateTime'
         });
 
+    }
+
+    const onDateTimeFilledHandler = (dates) => {
+        setStartingData({
+            ...startingData,
+            renderedComponent: 'end',
+            contestStartDate: dates.startDate,
+            contestEndDate: dates.endDate
+        })
     }
 
     return (
@@ -42,8 +52,12 @@ const Start = () => {
                 <StartPage onGetStarted={onGetStartedClickedHandler} />}
             {startingData.renderedComponent === 'startForm' &&
                 <StartForm onAdminAccFilled={onAdminAccFilledHandler} />}
-            {startingData.renderedComponent === 'startTime' &&
-                <StartTime startingData={startingData} />}
+            {startingData.renderedComponent === 'startDateTime' &&
+                <StartTime
+                    onDateTimeFilled={onDateTimeFilledHandler}
+                    startingData={startingData}
+                />}
+            {startingData.renderedComponent === 'end' && <p>END</p>}
         </>
 
     );

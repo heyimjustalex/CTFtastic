@@ -89,24 +89,37 @@ const StartTime = (props) => {
     const handleStartDateChange = (newValue) => {
         setStartDateIsOpened(true);
         setStartDate(newValue);
-        console.log(newValue);
+        // console.log("newVal", newValue);
     };
 
     const handleEndDateChange = (newValue) => {
         setEndDateIsOpened(true);
         setEndDate(newValue);
-        console.log(newValue);
+        //console.log(newValue);
     };
 
     const handleClickAway = () => {
-        console.log("handleclickaway");
+        //console.log("handleclickaway");
         //     setStartDateIsOpened(false);
         //   setEndDateIsOpened(false);
     }
 
     const nextButtonClickHandler = () => {
-        console.log(startDate)
-        console.log(endDate)
+        console.log("TUTAJ")
+        let startDate_TMP = startDate['$d'];
+        let endDate_TMP = endDate['$d'];
+
+        startDate_TMP.setMilliseconds(0);
+        startDate_TMP.setSeconds(0);
+
+        endDate_TMP.setMilliseconds(0);
+        endDate_TMP.setSeconds(0);
+
+
+        console.log(startDate_TMP)
+        console.log(endDate_TMP)
+        const dates = { startDate: startDate_TMP, endDate: endDate_TMP }
+        props.onDateTimeFilled(dates)
     }
 
     return (
