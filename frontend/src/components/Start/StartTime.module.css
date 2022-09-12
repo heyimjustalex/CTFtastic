@@ -12,8 +12,20 @@
 
 }
 
+.utc-date {
+    margin-top: 1em;
+}
+
+.utc-date h2 {
+    font-family: 'Space Mono';
+    font-size: 1em;
+    color: #0CC6FF;
+
+}
+
+
 .date-error-h {
-    color: red;
+    color: #FF304E;
     font-family: 'Space Mono';
 }
 
@@ -68,7 +80,7 @@
     margin-top: 1em;
 }
 
-.formButton {
+.next-button {
 
     font-family: 'Space Mono';
     margin-top: 1em;
@@ -83,15 +95,15 @@
     margin-bottom: 2em;
 }
 
-.formButton[disabled]:hover,
-.formButton[disabled]:focus {
+.next-button[disabled]:hover,
+.next-button[disabled]:focus {
     color: #FAF9F6;
     background-color: #0CC6FF;
 
 }
 
-.formButton:hover,
-.formButton:focus {
+.next-button:hover,
+.next-button:focus {
     color: #FAF9F6;
     background-color: #0aa4dd;
 }
@@ -121,7 +133,7 @@
 
 @media screen and (max-width: 700px) {
 
-    .formButton {
+    .next-button {
         width: 100%;
         margin-top: 3em;
     }

@@ -11,6 +11,7 @@ const StartPage = (props) => {
         event.preventDefault();
         props.onGetStarted();
     }
+
     return (
 
         <Container className={`${styles.main} min-vh-100`} fluid>
