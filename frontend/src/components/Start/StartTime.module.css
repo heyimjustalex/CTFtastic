@@ -12,7 +12,17 @@
 
 }
 
+.date-error-h {
+    color: red;
+    font-family: 'Space Mono';
+}
 
+.error-wrapper {
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+}
 
 .date-time {
     outline: none;

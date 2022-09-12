@@ -83,7 +83,8 @@ const StartTime = (props) => {
     const [endDate, setEndDate] = useState(new Date());
     const [startDateIsOpened, setStartDateIsOpened] = useState(false);
     const [endDateIsOpened, setEndDateIsOpened] = useState(false);
-    console.log(startDateIsOpened);
+    const [errorDate, setErrorDate] = useState(null);
+    // console.log(startDateIsOpened);
 
 
     const handleStartDateChange = (newValue) => {
@@ -104,10 +105,12 @@ const StartTime = (props) => {
         //   setEndDateIsOpened(false);
     }
 
-    const nextButtonClickHandler = () => {
-        console.log("TUTAJ")
-        let startDate_TMP = startDate['$d'];
-        let endDate_TMP = endDate['$d'];
+    const datesValidator = () => {
+        let startDate_TMP;
+        let endDate_TMP;
+        startDate['$d'] == null ? startDate_TMP = startDate : startDate_TMP = startDate['$d'];
+        endDate['$d'] == null ? endDate_TMP = endDate : endDate_TMP = endDate['$d'];
+
 
         startDate_TMP.setMilliseconds(0);
         startDate_TMP.setSeconds(0);
@@ -115,11 +118,32 @@ const StartTime = (props) => {
         endDate_TMP.setMilliseconds(0);
         endDate_TMP.setSeconds(0);
 
+        const timeStart = startDate_TMP.getTime();
+        const timeEnd = endDate_TMP.getTime();
 
-        console.log(startDate_TMP)
-        console.log(endDate_TMP)
-        const dates = { startDate: startDate_TMP, endDate: endDate_TMP }
-        props.onDateTimeFilled(dates)
+        if (timeEnd - timeStart > 0) {
+            console.log("startdate earlier");
+            const dates = { startDate: startDate_TMP, endDate: endDate_TMP }
+            return dates;
+        }
+        else {
+            console.log("starting date must be earlier");
+            return null;
+        }
+    }
+
+    const nextButtonClickHandler = () => {
+
+        const dates = datesValidator();
+        if (dates) {
+            console.log('validated');
+            setErrorDate(false);
+        }
+        else {
+            console.log('notvalidated');
+            setErrorDate(true);
+        }
+        // props.onDateTimeFilled(dates)
     }
 
     return (
@@ -140,6 +164,7 @@ const StartTime = (props) => {
                                         actions: ["cancel", "accept"]
                                     }
                                 }}
+                                ampm={false}
                                 minDate={new Date("01/01/2020")}
                                 open={startDateIsOpened}
                                 onOpen={() => setStartDateIsOpened(true)}
@@ -214,6 +239,7 @@ const StartTime = (props) => {
                                         actions: ["cancel", "accept"]
                                     }
                                 }}
+                                ampm={false}
                                 open={endDateIsOpened}
                                 onOpen={() => setEndDateIsOpened(true)}
                                 onClose={() => setEndDateIsOpened(false)}
@@ -223,6 +249,7 @@ const StartTime = (props) => {
                                 // popperProps={{
                                 //     disablePortal: true,
                                 // }}
+                                disableMaskedInput
                                 value={endDate}
                                 onChange={handleEndDateChange}
                                 renderInput={(params) => <TextField
@@ -277,7 +304,10 @@ const StartTime = (props) => {
                         Next!
                     </Button>
                 </div>
-
+                <div className={styles['error-wrapper']}>
+                    {errorDate && <h3 className={styles['date-error-h']}>
+                        wrong date input</h3>}
+                </div>
             </div>
 
 
