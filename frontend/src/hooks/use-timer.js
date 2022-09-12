@@ -5,7 +5,7 @@ import { useState } from "react"
 const useTimer = (startTime, callbackOnEnd = () => { }) => {
     const [time, setTime] = useState(startTime)
     const [intervalID, setIntervalID] = useState(null)
-    const hasTimerEnded = time <= 0
+    const hasTimerEnded = time < 0
     const isTimerRunning = intervalID != null
 
     const update = () => {

@@ -10,6 +10,15 @@
     justify-content: center;
 }
 
+.redText {
+    color: #FF304E;
+}
+
+.whiteText {
+    color: #FAF9F6;
+}
+
+
 .output-container {
     width: 70%;
 
@@ -54,7 +63,6 @@
         width: 100%;
         font-size: 1.3em;
         text-align: center;
-        color: red;
     }
 }
 

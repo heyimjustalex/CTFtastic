@@ -27,9 +27,7 @@ const Start = () => {
             contestEndDate: {},
             contestEndDateUTC: {},
         }
-
     );
-
 
     useEffect(() => {
         ///sendrequest if it's the end of this process
@@ -100,11 +98,17 @@ const Start = () => {
             contestEndDateUTC: dates.endDateUTC
         })
     }
+    let textColor = "";
 
     if (status === 'completed') {
         startTimer();
     }
-
+    if (status === 'completed' && error) {
+        textColor = styles['redText'];
+    }
+    else if (status === 'completed' && !error) {
+        textColor = styles['whiteText'];
+    }
 
     return (
         <>
@@ -121,24 +125,20 @@ const Start = () => {
                 <Container className={`${styles.main} min-vh-100 d-flex flex-column`} fluid>
 
                     <div className={styles['output-container']}>
-                        <h1>{output ? output.header : ''}</h1>
+                        <h1 className={textColor}>{output ? output.header : ''}</h1>
                         <h1> {output ? output.content : ''}</h1>
-
                     </div>
-
-                    <div className={styles['redirect-timer']} >
-                        <span className={styles['pulsingText']}>
-                            <h1>Redirect in...</h1>
-                            <h1>{time}</h1>
-                        </span>
-                    </div>
+                    {!(status === 'pending') &&
+                        <div className={styles['redirect-timer']} >
+                            <span className={styles['pulsingText']}>
+                                <h1>Redirect in...</h1>
+                                <h1>{time}</h1>
+                            </span>
+                        </div>}
 
                 </Container>
             }
-
-
         </>
-
     );
 }
 
