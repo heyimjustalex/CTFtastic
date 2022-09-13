@@ -1,5 +1,5 @@
 .main {
-    overflow: auto;
+    overflow: scroll;
     background-color: black;
     color: #FAF9F6;
     font-family: 'Montserrat Alternates', 'Space Mono', 'Verdana';

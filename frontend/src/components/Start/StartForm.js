@@ -61,7 +61,7 @@ const StartForm = (props) => {
         passwordsMatch = false;
     }
 
-    
+
     const formIsValid =
         emailIsValid &&
         emailIsTouched &&
@@ -71,24 +71,22 @@ const StartForm = (props) => {
         repeatedPasswordIsTouched &&
         passwordsMatch;
 
-
     const buttonDisabledClass = formIsValid ? "" : "disabled";
-    // console.log("MECZ", passwordsMatch)
-
 
 
     return (
-        <Container className={`${styles.main} min-vh-100 d-flex flex-column`} fluid>
-
+        <Container className={`${styles['main']} min-vh-100 d-flex flex-column`} fluid>
             <h1 className={styles['admin-header']}>create admin account</h1>
             <Form className={`${styles['start-form']}`} onSubmit={formSubmitHandler}>
+
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label>Email address</Form.Label>
                     <Form.Control
-                        className={styles.controlInput}
+                        className={styles['control-input']}
                         isValid={emailIsValid && emailIsTouched}
                         isInvalid={!emailIsValid && emailIsTouched}
-                        onBlur={emailBlurHandler} onChange={emailChangeHandler}
+                        onBlur={emailBlurHandler}
+                        onChange={emailChangeHandler}
                         value={emailValue}
                         type="email"
                         placeholder="Enter email"
@@ -101,7 +99,8 @@ const StartForm = (props) => {
 
                 <Form.Group className="mb-3" controlId="formPassword">
                     <Form.Label>Password</Form.Label>
-                    <Form.Control className={styles.controlInput}
+                    <Form.Control
+                        className={styles['control-input']}
                         isValid={passwordIsValid && passwordIsTouched}
                         isInvalid={(!passwordIsValid && passwordIsTouched) || (!passwordsMatch && passwordIsTouched)}
                         onBlur={passwordBlurHandler} onChange={passwordChangeHandler}
@@ -116,7 +115,7 @@ const StartForm = (props) => {
 
                 <Form.Group className="mb-3" controlId="formRepeatPassword">
                     <Form.Label>Repeat Password</Form.Label>
-                    <Form.Control className={styles.controlInput}
+                    <Form.Control className={styles['control-input']}
                         isValid={repeatedPasswordIsValid && repeatedPasswordIsTouched && passwordsMatch}
                         isInvalid={(!repeatedPasswordIsValid && repeatedPasswordIsTouched) || (!passwordsMatch && repeatedPasswordIsTouched)}
                         onBlur={repeatedPasswordBlurHandler} onChange={repeatedPasswordChangeHandler}
@@ -130,7 +129,7 @@ const StartForm = (props) => {
                 </Form.Group>
 
                 <div className={styles['button-div']}>
-                    <Button onSubmit={formSubmitHandler} disabled={!formIsValid} className={`${styles.formButton} ${buttonDisabledClass}`} variant="custom" type="submit">
+                    <Button onSubmit={formSubmitHandler} disabled={!formIsValid} className={`${styles['form-button']} ${buttonDisabledClass}`} variant="custom" type="submit">
                         Next!
                     </Button>
                 </div>
