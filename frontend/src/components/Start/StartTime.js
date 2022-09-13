@@ -84,7 +84,7 @@ const StartTime = (props) => {
 
     return (
 
-        <Container className={`${styles.main} min-vh-100 d-flex`} fluid>
+        <Container className={`${styles['main']} min-vh-100 d-flex`} fluid>
             <h1 className={styles['date-header']}>choose contest date&time </h1>
             <div className={`${styles['internal-container']}`}>
                 <h2 className={styles['internal-header']}>start date&time</h2>
@@ -125,9 +125,9 @@ const StartTime = (props) => {
 
                                     sx={{
 
-                                        svg: { color: '#fff' },
-                                        input: { color: '#fff' },
-                                        label: { color: "#fff" },
+                                        svg: { color: '#FAF9F6' },
+                                        input: { color: '#FAF9F6' },
+                                        label: { color: "#FAF9F6" },
 
                                         "& *": {
                                             cursor: 'pointer'
@@ -135,13 +135,16 @@ const StartTime = (props) => {
 
                                         "&.MuiInputBase-inputAdornedEnd": {
                                             width: '100%',
+
                                         },
                                         "& .MuiInputBase-input": {
                                             width: '100%',
-                                            fontFamily: 'Space Mono'
+                                            fontFamily: 'Space Mono',
+                                            fontSize: '0.94rem',
+                                            height: '1rem'
                                         },
                                         "& .MuiInputBase-root": {
-                                            border: "1px solid white",
+                                            border: "1px solid #FAF9F6",
                                             width: '100%',
                                             "& .MuiOutlinedInput-notchedOutline": {
                                                 border: 'none'
@@ -208,7 +211,9 @@ const StartTime = (props) => {
                                         },
                                         "& .MuiInputBase-input": {
                                             width: '100%',
-                                            fontFamily: 'Space Mono'
+                                            fontFamily: 'Space Mono',
+                                            height: '1rem',
+                                            fontSize: '0.94rem'
                                         },
                                         "& .MuiInputBase-root": {
                                             border: "1px solid #FAF9F6",

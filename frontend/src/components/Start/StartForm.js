@@ -80,7 +80,7 @@ const StartForm = (props) => {
             <Form className={`${styles['start-form']}`} onSubmit={formSubmitHandler}>
 
                 <Form.Group className="mb-3" controlId="formBasicEmail">
-                    <Form.Label>Email address</Form.Label>
+                    <Form.Label className={styles['form-label']}>Email address</Form.Label>
                     <Form.Control
                         className={styles['control-input']}
                         isValid={emailIsValid && emailIsTouched}
@@ -98,7 +98,7 @@ const StartForm = (props) => {
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formPassword">
-                    <Form.Label>Password</Form.Label>
+                    <Form.Label className={styles['form-label']}>Password</Form.Label>
                     <Form.Control
                         className={styles['control-input']}
                         isValid={passwordIsValid && passwordIsTouched}
@@ -114,7 +114,7 @@ const StartForm = (props) => {
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formRepeatPassword">
-                    <Form.Label>Repeat Password</Form.Label>
+                    <Form.Label className={styles['form-label']}>Repeat Password</Form.Label>
                     <Form.Control className={styles['control-input']}
                         isValid={repeatedPasswordIsValid && repeatedPasswordIsTouched && passwordsMatch}
                         isInvalid={(!repeatedPasswordIsValid && repeatedPasswordIsTouched) || (!passwordsMatch && repeatedPasswordIsTouched)}

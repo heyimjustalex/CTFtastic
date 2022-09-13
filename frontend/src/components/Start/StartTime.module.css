@@ -1,46 +1,34 @@
 .main {
-    min-height: 100%;
-    overflow: auto;
     background-color: black;
     color: #FAF9F6;
-    font-family: 'Montserrat Alternates';
+    font-family: 'Montserrat Alternates', 'Space Mono', 'Verdana';
     display: flex;
     flex-direction: column;
-    width: 100vw;
     align-items: center;
-
 }
 
-.utc-date {
+.date-header {
+    color: #FAF9F6;
+    margin-top: 6rem;
+    font-size: 2.5em;
+    font-weight: bolder;
+    font-family: 'Space Mono', 'Verdana', 'Montserrat Alternates';
+    margin-bottom: 1em;
+    text-align: center;
+}
+
+.internal-container {
+    width: 50%;
+}
+
+.internal-header {
+    font-family: 'Space Mono', 'Verdana', 'Montserrat Alternates';
+    font-size: 1.3rem;
+    margin-bottom: 1em;
     margin-top: 1em;
 }
 
-.utc-date h2 {
-    font-family: 'Space Mono';
-    font-size: 1em;
-    color: #0CC6FF;
-
-}
-
-
-.date-error-h {
-    color: #FF304E;
-    font-family: 'Space Mono';
-}
-
-.error-wrapper {
-    width: 100%;
-
-    display: flex;
-    justify-content: center;
-}
-
-.date-time {
-    outline: none;
-}
-
 .date-wrapper {
-
     display: flex;
     justify-content: center;
 
@@ -51,25 +39,19 @@
     cursor: pointer;
 }
 
-
-.date-header {
-    margin-top: 3em;
-    color: #FAF9F6;
-    font-family: 'Montserrat Alternates';
-    margin-bottom: 2em;
-    text-align: center;
+.date-time {
+    outline: none;
 }
 
 
-.internal-container {
-
-    width: 50%;
-}
-
-.internal-header {
-    font-family: 'Space Mono';
-    margin-bottom: 1em;
+.utc-date {
     margin-top: 1em;
+}
+
+.utc-date h2 {
+    font-family: 'Space Mono', 'Montserrat Alternates', 'Verdana';
+    font-size: 0.94rem;
+    color: #0CC6FF;
 }
 
 .button-div {
@@ -81,17 +63,17 @@
 
 .next-button {
 
-    font-family: 'Space Mono';
-    margin-top: 1em;
-    font-size: 1.2em;
-    padding: 0.5em;
-    padding-left: 1.5em;
-    padding-right: 1.5em;
-    border-radius: 0.7em;
-    width: auto;
+    font-family: 'Space Mono', 'Verdana', 'Montserrat Alternates';
+    font-weight: bolder;
+    margin-top: 1rem;
+    font-size: 1.3rem;
+    padding: 0.5rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    border-radius: 0.7rem;
     color: #FAF9F6;
     background-color: #0CC6FF;
-    margin-bottom: 2em;
+    margin-bottom: 2rem;
 }
 
 .next-button[disabled]:hover,
@@ -107,33 +89,43 @@
     background-color: #0aa4dd;
 }
 
+.error-wrapper {
+    width: 100%;
 
+    display: flex;
+    justify-content: center;
+}
 
-@media screen and (max-width: 1500px) {
-
-
-    .internal-container {
-
-        width: 70%;
-    }
-
+.date-error-h {
+    color: #FF304E;
+    font-family: 'Space Mono', 'Montserrat Alternates', 'Verdana';
 }
 
 
-@media screen and (max-width: 1000px) {
 
+@media screen and (max-width: 1200px) {
 
     .internal-container {
-
-        width: 100%;
+        width: 60%;
     }
-
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 800px) {
+
+    .internal-container {
+        width: 85%;
+        font-size: 1.3em;
+    }
+
+    .date-header {
+        font-size: 1.9em;
+        margin-bottom: 1.3rem;
+        margin-top: 4rem;
+
+    }
 
     .next-button {
         width: 100%;
-        margin-top: 3em;
+        margin-top: 2rem;
     }
 }

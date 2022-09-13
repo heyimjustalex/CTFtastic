@@ -1,9 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@800&family=Montserrat:wght@700;900&display=swap');
 
-* {
-  background-color: black;
-}
-
 body {
   margin: 0;
   box-sizing: border-box;
