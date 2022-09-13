@@ -15,10 +15,9 @@ const StartPage = (props) => {
     return (
 
         <Container className={`${styles.main} min-vh-100`} fluid>
-            <div className='mt-3'>
-
-                <div className={styles.logo}>
-                    <Image className={styles['Image-logo']} src={mainLogo}></Image>
+            <div className={`${styles['internal-conatiner']} mt-4`}>
+                <div className={styles['logo']}>
+                    <Image className={styles['image-logo']} src={mainLogo}></Image>
                 </div>
                 <div className={styles['logo-text']}>
                     <h1>CTF</h1>
@@ -26,7 +25,11 @@ const StartPage = (props) => {
                 </div>
                 <div className={styles['button-div']}>
                     <BouncingArrow />
-                    <Button onClick={getStartedClickedHandler} className={`${styles['start-button']} mt-4`} variant="custom" type="submit">
+                    <Button
+                        onClick={getStartedClickedHandler}
+                        className={`${styles['get-started-button']} mt-4`}
+                        variant="custom"
+                        type="submit">
                         Get started!
                     </Button>
                 </div>

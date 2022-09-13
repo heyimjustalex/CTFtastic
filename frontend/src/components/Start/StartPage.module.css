@@ -1,82 +1,88 @@
-html,
-body {
-    height: 100%;
+.main {
+    overflow: auto;
+    background-color: black;
+    color: #FAF9F6;
+    font-family: 'Montserrat Alternates', 'Space Mono', 'Verdana';
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
-
 
 .logo {
     color: white;
-    margin: auto;
-
-    width: 100%;
     display: flex;
     justify-content: center;
-
+    width: 20em;
 }
 
-.Image-logo {
-
+.image-logo {
     max-width: 60%;
     height: auto;
     margin-bottom: 2em;
 }
 
-.main {
-    min-height: 100%;
-    overflow: auto;
-    background-color: black;
-    color: #FAF9F6;
-    font-family: 'Montserrat Alternates';
-    display: flex;
-    flex-direction: row;
-    width: 100vw;
-    justify-content: center;
-}
-
 .logo-text {
     text-align: center;
-
 }
 
 .logo-text h1 {
-    font-size: 10em;
+    font-size: 8em;
 }
 
 .logo-text h2 {
-    font-size: 5em;
+    font-size: 4em;
 }
 
 .button-div {
-    margin-top: 4em;
     text-align: center;
 }
 
-.start-button {
-    font-family: 'Space Mono';
+.get-started-button {
+    font-family: 'Space Mono', 'Verdana', 'Montserrat Alternates';
     font-weight: bolder;
-    font-size: 1.5em;
+    font-size: 1.2em;
     padding: 0.5em;
     padding-left: 1em;
     padding-right: 1em;
     border-radius: 0.7em;
-    width: auto;
     color: #FAF9F6;
     background-color: #0CC6FF;
     margin-bottom: 2em;
-
 }
 
-
-
-.start-button[disabled]:hover,
-.start-button[disabled]:focus {
-    color: #FAF9F6;
-    background-color: #0CC6FF;
-
-}
-
-.start-button:hover,
-.start-button:focus {
+.get-started-button:hover,
+.get-started-button:focus {
     color: #FAF9F6;
     background-color: #0aa4dd;
+}
+
+
+@media screen and (max-width: 700px) {
+
+    .logo-text h1 {
+        font-size: 6em;
+    }
+
+    .logo-text h2 {
+        font-size: 3em;
+    }
+
+    .logo {
+
+        width: 16em;
+    }
+
+
+    .get-started-button {
+
+        font-size: 1em;
+        padding: 0.5em;
+        padding-left: 1em;
+        padding-right: 1em;
+
+    }
+
+
+
 }

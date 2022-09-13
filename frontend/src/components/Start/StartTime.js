@@ -20,7 +20,6 @@ const StartTime = (props) => {
     const handleStartDateChange = (newValue) => {
         setStartDateIsOpened(true);
         setStartDate(newValue);
-        console.log("start date change");
         setUtcStartTime(newValue['$d'].toUTCString())
     };
 
@@ -239,7 +238,7 @@ const StartTime = (props) => {
                 </div>
                 <div className={styles['error-wrapper']}>
                     {errorDate && <h3 className={styles['date-error-h']}>
-                        wrong date input</h3>}
+                        start date cannot be bigger than end date</h3>}
                 </div>
             </div>
 

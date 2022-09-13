@@ -60,6 +60,8 @@ const StartForm = (props) => {
     else {
         passwordsMatch = false;
     }
+
+    
     const formIsValid =
         emailIsValid &&
         emailIsTouched &&
