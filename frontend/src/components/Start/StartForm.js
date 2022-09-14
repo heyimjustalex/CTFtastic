@@ -8,8 +8,7 @@ import Container from 'react-bootstrap/Container';
 const StartForm = (props) => {
 
     const
-        {
-            value: emailValue,
+        { value: emailValue,
             isTouched: emailIsTouched,
             isValid: emailIsValid,
             hasError: emailHasError,
@@ -131,7 +130,7 @@ const StartForm = (props) => {
                 </Form.Group>
 
                 <div className={styles['button-div']}>
-                    <Button onSubmit={formSubmitHandler} disabled={!formIsValid} className={`${styles['form-button']} ${buttonDisabledClass}`} variant="custom" type="submit">
+                    <Button aria-label="Next" onSubmit={formSubmitHandler} disabled={!formIsValid} className={`${styles['form-button']} ${buttonDisabledClass}`} variant="custom" type="submit">
                         Next!
                     </Button>
                 </div>

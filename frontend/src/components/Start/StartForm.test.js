@@ -1,5 +1,4 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import StartForm from './StartForm';
 
 describe('StartForm componenet', () => {
@@ -212,10 +211,12 @@ describe('StartForm componenet', () => {
     //     //Arrange
     //     const onAdminAccFilledHandler = jest.fn();
     //     <StartForm onAdminAccFilled={onAdminAccFilledHandler} />
-    //     //Act
-    //     const buttonElement = screen.getByRole('button', { name: /next!/i });
+    //     //  Act
+    //     const buttonElement = screen.getByRole('button', {
+    //         name: /Next/i, hidden: true
+    //     })
     //     fireEvent.click(buttonElement);
-    //     //Assert
+    //     // Assert
     //     expect(onAdminAccFilledHandler).toHaveBeenCalledTimes(1);
 
     // })

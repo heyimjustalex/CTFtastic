@@ -2,20 +2,30 @@ import StartForm from './StartForm';
 import StartPage from './StartPage';
 import StartTime from './StartTime';
 import styles from './Start.module.css';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { addStartingData } from './../../lib/api'
 import useHttp from './../../hooks/use-http'
 import LoadingRing from '../UI/LoadingRing';
 import Container from 'react-bootstrap/Container';
 import useTimer from '../../hooks/use-timer';
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
+import StartContext from './../../store/start-context';
 
+const Start = (props) => {
 
-const Start = () => {
+    const { hasStarted, setFalseStarted, setTrueStarted } = useContext(StartContext);
+
+    if (hasStarted) {
+
+        <Navigate to='/'></Navigate>
+    }
+
     const { sendRequest, status, error } = useHttp(addStartingData);
     const [output, setOutput] = useState({});
     const navigate = useNavigate();
-    const { time, startTimer, stopTimer } = useTimer(5, () => navigate("/"));
+    const { time, startTimer, stopTimer } = useTimer(5, () => {
+        setTrueStarted(); navigate("/")
+    });
 
     const [startingData, setStartingData] = useState(
         {
@@ -116,12 +126,10 @@ const Start = () => {
             {startingData.renderedComponent === 'startForm' &&
                 <StartForm onAdminAccFilled={onAdminAccFilledHandler} />}
             {startingData.renderedComponent === 'startDateTime' &&
-                <StartTime
-                    onDateTimeFilled={onDateTimeFilledHandler}
-                    startingData={startingData}
-                />}
+                <StartTime onDateTimeFilled={onDateTimeFilledHandler} />}
+
             {startingData.renderedComponent === 'end' &&
-                <Container className={`${styles.main} min-vh-100 d-flex flex-column`} fluid>
+                <Container className={`${styles['main']} min-vh-100 d-flex flex-column`} fluid>
 
                     <div className={styles['output-container']}>
                         <h1 className={textColor}>{output ? output.header : ''}</h1>

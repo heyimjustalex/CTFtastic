@@ -17,29 +17,11 @@ const StartTime = (props) => {
     const [utcStartTime, setUtcStartTime] = useState(new Date().toUTCString());
     const [utcEndTime, setUtcEndTime] = useState(new Date().toUTCString());
 
-    const handleStartDateChange = (newValue) => {
-        setStartDateIsOpened(true);
-        setStartDate(newValue);
-        setUtcStartTime(newValue['$d'].toUTCString())
-    };
-
-    const handleEndDateChange = (newValue) => {
-        setEndDateIsOpened(true);
-        setEndDate(newValue);
-        setUtcEndTime(newValue['$d'].toUTCString())
-
-    };
-
-    // const handleClickAway = () => {
-    //console.log("handleclickaway");
-    // }
-
     const datesValidator = () => {
         let startDate_TMP;
         let endDate_TMP;
         startDate['$d'] == null ? startDate_TMP = startDate : startDate_TMP = startDate['$d'];
         endDate['$d'] == null ? endDate_TMP = endDate : endDate_TMP = endDate['$d'];
-
 
         startDate_TMP.setMilliseconds(0);
         startDate_TMP.setSeconds(0);
@@ -67,7 +49,40 @@ const StartTime = (props) => {
         }
     }
 
-    const nextButtonClickHandler = () => {
+
+    const startDateChangeHandler = (newValue) => {
+        setStartDateIsOpened(true);
+        setStartDate(newValue);
+        setUtcStartTime(newValue['$d'].toUTCString())
+    };
+
+    const endDateChangeHandler = (newValue) => {
+        setEndDateIsOpened(true);
+        setEndDate(newValue);
+        setUtcEndTime(newValue['$d'].toUTCString())
+    };
+
+    const closeStartDateHandler = () => {
+        setStartDateIsOpened(false);
+        const dates = datesValidator();
+        dates ? setErrorDate(false) : setErrorDate(true);
+
+    }
+
+    const closeEndDateHandler = () => {
+        setEndDateIsOpened(false);
+
+        const dates = datesValidator();
+        dates ? setErrorDate(false) : setErrorDate(true);
+
+    }
+
+    // const handleClickAway = () => {
+    //console.log("handleclickaway");
+    // }
+
+
+    const submitButtonClickHandler = () => {
 
         const dates = datesValidator();
         if (dates) {
@@ -83,7 +98,6 @@ const StartTime = (props) => {
     }
 
     return (
-
         <Container className={`${styles['main']} min-vh-100 d-flex`} fluid>
             <h1 className={styles['date-header']}>choose contest date&time </h1>
             <div className={`${styles['internal-container']}`}>
@@ -103,14 +117,14 @@ const StartTime = (props) => {
                                 minDate={new Date("01/01/2020")}
                                 open={startDateIsOpened}
                                 onOpen={() => setStartDateIsOpened(true)}
-                                onClose={() => setStartDateIsOpened(false)}
+                                onClose={() => closeStartDateHandler()}
                                 autoOk={true}
                                 // showToolbar={true}
                                 // popperProps={{
                                 //     disablePortal: true,
                                 // }}
                                 value={startDate}
-                                onChange={handleStartDateChange}
+                                onChange={startDateChangeHandler}
                                 renderInput={(params) => <TextField
                                     {...params}
 
@@ -179,12 +193,12 @@ const StartTime = (props) => {
                                 ampm={false}
                                 open={endDateIsOpened}
                                 onOpen={() => setEndDateIsOpened(true)}
-                                onClose={() => setEndDateIsOpened(false)}
+                                onClose={() => closeEndDateHandler()}
                                 autoOk={true}
                                 minDate={new Date("01/01/2020")}
                                 disableMaskedInput
                                 value={endDate}
-                                onChange={handleEndDateChange}
+                                onChange={endDateChangeHandler}
                                 renderInput={(params) => <TextField
                                     {...params}
 
@@ -237,8 +251,13 @@ const StartTime = (props) => {
                     </div>
                 </LocalizationProvider>
                 <div className={styles['button-div']}>
-                    <Button onClick={nextButtonClickHandler} className={`${styles['next-button']}`} variant="custom" type="submit">
-                        Next!
+                    <Button
+                        disabled={errorDate || errorDate === null}
+                        onClick={submitButtonClickHandler}
+                        className={`${styles['submit-button']}`}
+                        variant="custom"
+                        type="submit">
+                        Submit!
                     </Button>
                 </div>
                 <div className={styles['error-wrapper']}>

@@ -61,7 +61,7 @@
     margin-top: 1em;
 }
 
-.next-button {
+.submit-button {
 
     font-family: 'Space Mono', 'Verdana', 'Montserrat Alternates';
     font-weight: bolder;
@@ -76,15 +76,15 @@
     margin-bottom: 2rem;
 }
 
-.next-button[disabled]:hover,
-.next-button[disabled]:focus {
+.submit-button[disabled]:hover,
+.submit-button[disabled]:focus {
     color: #FAF9F6;
     background-color: #0CC6FF;
 
 }
 
-.next-button:hover,
-.next-button:focus {
+.submit-button:hover,
+.submit-button:focus {
     color: #FAF9F6;
     background-color: #0aa4dd;
 }
@@ -127,7 +127,7 @@
 
     }
 
-    .next-button {
+    .submit-button {
         width: 100%;
         margin-top: 2rem;
     }
