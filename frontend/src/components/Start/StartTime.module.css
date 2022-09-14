@@ -94,11 +94,14 @@
 
     display: flex;
     justify-content: center;
+
 }
 
 .date-error-h {
     color: #FF304E;
     font-family: 'Space Mono', 'Montserrat Alternates', 'Verdana';
+    font-size: 1.2rem;
+    text-align: center;
 }
 
 
