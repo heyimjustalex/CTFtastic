@@ -208,7 +208,17 @@ describe('StartForm componenet', () => {
     });
 
 
+    // test('Calls function on button click', () => {
+    //     //Arrange
+    //     const onAdminAccFilledHandler = jest.fn();
+    //     <StartForm onAdminAccFilled={onAdminAccFilledHandler} />
+    //     //Act
+    //     const buttonElement = screen.getByRole('button', { name: /next!/i });
+    //     fireEvent.click(buttonElement);
+    //     //Assert
+    //     expect(onAdminAccFilledHandler).toHaveBeenCalledTimes(1);
 
+    // })
 }
 )
 
