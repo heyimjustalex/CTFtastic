@@ -33,7 +33,7 @@ const Start = () => {
         ///sendrequest if it's the end of this process
 
         if (startingData.renderedComponent === 'end') {
-            console.log(startingData);
+            // console.log(startingData);
             const tempData = {
 
                 adminEmail: startingData.adminEmail,
@@ -60,7 +60,6 @@ const Start = () => {
 
             setOutput({ header: 'Success!', content: 'contest created' });
 
-            console.log('asd')
         }
 
         else if (status === 'completed' && error) {
