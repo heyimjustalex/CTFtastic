@@ -107,6 +107,7 @@ const StartForm = (props) => {
                         type="password"
                         placeholder="Password"
                         value={passwordValue}
+
                     />
                     <Form.Text className="text-muted">
                         2 uppercase, 2 lowercase, 2 digits, 2 special characters
@@ -120,12 +121,13 @@ const StartForm = (props) => {
                         isInvalid={(!repeatedPasswordIsValid && repeatedPasswordIsTouched) || (!passwordsMatch && repeatedPasswordIsTouched)}
                         onBlur={repeatedPasswordBlurHandler} onChange={repeatedPasswordChangeHandler}
                         type="password"
-                        placeholder="Password"
+                        placeholder="Repeat Password"
                         value={repeatedPasswordValue}
                     />
-                    {!passwordsMatch && repeatedPasswordIsTouched && passwordIsTouched && <Form.Text className="text-muted">
-                        Passwords do not match!
-                    </Form.Text>}
+                    {!passwordsMatch && repeatedPasswordIsTouched && passwordIsTouched &&
+                        <Form.Text>
+                            <p>Passwords do not match!</p>
+                        </Form.Text>}
                 </Form.Group>
 
                 <div className={styles['button-div']}>
