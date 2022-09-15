@@ -12,18 +12,14 @@ import { Navigate, useNavigate } from "react-router-dom";
 import StartContext from './../../store/start-context';
 
 const Start = (props) => {
+    window.history.pushState({}, null, "/start");
 
     const { hasStarted, setFalseStarted, setTrueStarted } = useContext(StartContext);
-
-    if (hasStarted) {
-
-        <Navigate to='/'></Navigate>
-    }
-
+    const navigate = useNavigate();
     const { sendRequest, status, error } = useHttp(addStartingData);
     const [output, setOutput] = useState({});
-    const navigate = useNavigate();
-    const { time, startTimer, stopTimer } = useTimer(5, () => {
+
+    const { time, startTimer, stopTimer } = useTimer(3, () => {
         setTrueStarted(); navigate("/")
     });
 

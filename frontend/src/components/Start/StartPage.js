@@ -4,6 +4,7 @@ import styles from './StartPage.module.css';
 import Image from 'react-bootstrap/Image'
 import mainLogo from './../../assets/img/logo_darker.png';
 import BouncingArrow from '../UI/BouncingArrow';
+import { useEffect, useState } from 'react';
 
 const StartPage = (props) => {
 

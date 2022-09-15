@@ -17,7 +17,7 @@ const retrieveHasStartedInfo = () => {
 
 export const StartContextProvider = (props) => {
 
-    const [hasStarted, setHasStarted] = useState(false);
+    const [hasStarted, setHasStarted] = useState(true);
     useEffect(() => {
         const initalState = retrieveHasStartedInfo();
         setHasStarted(initalState);
