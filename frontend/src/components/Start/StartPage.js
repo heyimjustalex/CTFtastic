@@ -1,12 +1,16 @@
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import styles from './StartPage.module.css';
-import Image from 'react-bootstrap/Image'
+
 import mainLogo from './../../assets/img/logo_darker.png';
 import BouncingArrow from '../UI/BouncingArrow';
-import { useEffect, useState } from 'react';
+
+const imageElement = new Image();
+imageElement.src = mainLogo;
 
 const StartPage = (props) => {
+
+
 
     const getStartedClickedHandler = (event) => {
         event.preventDefault();
@@ -18,7 +22,7 @@ const StartPage = (props) => {
         <Container className={`${styles.main} min-vh-100`} fluid>
             <div className={`${styles['internal-conatiner']} mt-4`}>
                 <div className={styles['logo']}>
-                    <Image className={styles['image-logo']} src={mainLogo}></Image>
+                    <img alt='logo' className={styles['image-logo']} src={imageElement.src} />
                 </div>
                 <div className={styles['logo-text']}>
                     <h1>CTF</h1>
