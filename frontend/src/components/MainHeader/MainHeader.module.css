@@ -1,0 +1,119 @@
+.navbar {
+    display: flex;
+    text-align: left;
+
+
+
+}
+
+.navDropdown {
+
+    color: #FAF9F6;
+
+
+}
+
+.navDropdown div {
+    border: 1px solid white !important;
+}
+
+
+
+
+.dropdownItem {
+
+    background-color: black;
+    color: #FAF9F6;
+
+
+}
+
+
+.dropdownItem:hover {
+    color: #eae8e5 !important;
+    background-color: #222222 !important;
+
+}
+
+.dropdownItem:focus {
+    color: #eae8e5;
+    background-color: #222222;
+
+}
+
+
+
+
+
+
+.dropdownItem:global(.active) {
+    color: #FAF9F6;
+    background-color: black;
+
+}
+
+.nav-drop-divider {
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+/* 
+tutaj elementy stykajace beda brzydko blisko a to nie dziala
+.nav-drop-divider~div {
+    margin-top: 10px;
+} */
+
+
+#dropdownMenu+div {
+    background-color: black !important;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+
+/* #dropdownMenu::+div:hover {
+    background-color: #111 !important;
+} */
+
+.navbar-brand {
+    margin-right: 2em;
+    font-family: 'Montserrat Alternates', 'Space Mono', 'Verdana';
+}
+
+.navbar-brand img {
+    margin-right: 1em;
+}
+
+@media screen and (max-width: 992px) {
+    .nav {
+
+        text-align: center;
+    }
+
+    .dropdownItem {
+        text-align: center;
+    }
+
+
+    .navDropdown {
+        background-color: #111;
+        color: #FAF9F6;
+        border: 1px solid #faf9f6;
+        border-radius: 8px;
+
+    }
+
+
+
+
+
+
+
+
+
+
+}
