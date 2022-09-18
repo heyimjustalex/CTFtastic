@@ -1,10 +1,6 @@
 .navbar {
     display: flex;
-    text-align: left;
     font-size: 1.2em;
-
-
-
 }
 
 .navbar-brand {
@@ -20,40 +16,29 @@
 }
 
 .nav-dropdown div {
-    border: 1px solid white !important;
+    border: 1px solid #FAF9F6 !important;
     border-radius: 0px;
 
 }
 
 .dropdown-item {
-
     background-color: black;
     color: rgba(255, 255, 255, .5);
     font-size: 1.1em;
-
 }
 
 .dropdown-item:hover {
-    color: #eae8e5 !important;
+    color: #FAF9F6 !important;
     background-color: #222222 !important;
 }
 
 .dropdown-item:focus {
-    color: #eae8e5;
+    color: #FAF9F6;
     background-color: #222222;
 }
 
 .dropdown-item:global(.active) {
-    background-color: red !important;
-}
-
-/* .active {
-    text-decoration: underline;
-    text-decoration-color: #0CC6FF;
-} */
-
-.right-menu {
-    /* background-color: blue; */
+    /* background-color: red !important; */
 }
 
 .right-menu a {
@@ -64,18 +49,7 @@
     margin-right: 30px !important;
 }
 
-
-/* color: rgba(255, 255, 255, .5); */
-/* color: red;
-text-decoration: underline !important;
-text-decoration-color: blue !important;
-background-color: black;
-} 
-
 .dropdown-item:focus a {}
-
-
-
 
 .nav-drop-divider {
     padding-top: 0;
@@ -88,14 +62,6 @@ background-color: black;
     margin-right: 30px !important;
 }
 
-
-/* 
-tutaj elementy stykajace beda brzydko blisko a to nie dziala
-.nav-drop-divider~div {
-    margin-top: 10px;
-} */
-
-
 #dropdown-menu+div {
     background-color: black !important;
     padding-top: 0;
@@ -104,14 +70,9 @@ tutaj elementy stykajace beda brzydko blisko a to nie dziala
     margin-bottom: 0;
 }
 
-/* #dropdownMenu::+div:hover {
-    background-color: #111 !important;
-} */
-
 .navbar-brand {
     margin-right: 2em;
     font-family: 'Montserrat Alternates', 'Space Mono', 'Verdana';
-
 }
 
 .navbar-brand img {
@@ -143,23 +104,19 @@ tutaj elementy stykajace beda brzydko blisko a to nie dziala
     height: 1.9px;
 }
 
-
 .active {
     display: inline-block;
     position: relative;
-
-    color: #eae8e5 !important;
+    color: #FAF9F6 !important;
 }
 
 .active:after {
     content: '';
     position: absolute;
     width: 100%;
-    /* transform: scaleX(0); */
-
-    height: 1.9px;
+    margin-bottom: 0.1px;
+    height: 1.6px;
     bottom: 0;
-
     left: 0;
     background-color: #0CC6FF;
     transform-origin: bottom right;
@@ -173,17 +130,14 @@ tutaj elementy stykajace beda brzydko blisko a to nie dziala
     align-items: center;
     padding: 0;
     margin: 0;
-
     padding-bottom: 10px;
     padding-top: 8px;
-
     color: rgba(255, 255, 255, .5);
-
 }
 
 .navlink:hover {
     text-decoration: none;
-    color: #eae8e5;
+    color: #FAF9F6;
 }
 
 
@@ -192,6 +146,12 @@ tutaj elementy stykajace beda brzydko blisko a to nie dziala
     .nav {
 
         text-align: center;
+    }
+
+
+
+    .navbar div a {
+        margin-left: 0px;
     }
 
     .dropdown-item {
@@ -208,4 +168,7 @@ tutaj elementy stykajace beda brzydko blisko a to nie dziala
         margin-right: 0px !important;
     }
 
+    .left-menu a {
+        margin-right: 0px !important;
+    }
 }
