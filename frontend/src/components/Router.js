@@ -12,6 +12,7 @@ const Router = (props) => {
             <Routes>
                 <Route path="/" element={hasStarted ? <p>HOME</p> : <Start />} />
                 <Route path='/start' element={<Navigate to='/' />} />
+                <Route path='/register' element={<p>register</p>} />
 
             </Routes>
 

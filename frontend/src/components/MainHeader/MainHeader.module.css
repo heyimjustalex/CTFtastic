@@ -1,56 +1,81 @@
 .navbar {
     display: flex;
     text-align: left;
+    font-size: 1.2em;
 
 
 
 }
 
-.navDropdown {
+.navbar-brand {
+    cursor: pointer;
+}
 
+.navbar div a {
+    margin-left: 10px;
+}
+
+.nav-dropdown {
     color: #FAF9F6;
-
-
 }
 
-.navDropdown div {
+.nav-dropdown div {
     border: 1px solid white !important;
+    border-radius: 0px;
+
 }
 
-
-
-
-.dropdownItem {
+.dropdown-item {
 
     background-color: black;
-    color: #FAF9F6;
-
+    color: rgba(255, 255, 255, .5);
+    font-size: 1.1em;
 
 }
 
-
-.dropdownItem:hover {
+.dropdown-item:hover {
     color: #eae8e5 !important;
     background-color: #222222 !important;
-
 }
 
-.dropdownItem:focus {
+.dropdown-item:focus {
     color: #eae8e5;
     background-color: #222222;
+}
 
+.dropdown-item:global(.active) {
+    background-color: red !important;
+}
+
+/* .active {
+    text-decoration: underline;
+    text-decoration-color: #0CC6FF;
+} */
+
+.right-menu {
+    /* background-color: blue; */
+}
+
+.right-menu a {
+    margin-right: 30px !important;
+}
+
+.left-menu a {
+    margin-right: 30px !important;
 }
 
 
+/* color: rgba(255, 255, 255, .5); */
+/* color: red;
+text-decoration: underline !important;
+text-decoration-color: blue !important;
+background-color: black;
+} 
+
+.dropdown-item:focus a {}
 
 
 
-
-.dropdownItem:global(.active) {
-    color: #FAF9F6;
-    background-color: black;
-
-}
 
 .nav-drop-divider {
     padding-top: 0;
@@ -59,6 +84,11 @@
     margin-bottom: 0;
 }
 
+.right-menu a {
+    margin-right: 30px !important;
+}
+
+
 /* 
 tutaj elementy stykajace beda brzydko blisko a to nie dziala
 .nav-drop-divider~div {
@@ -66,14 +96,13 @@ tutaj elementy stykajace beda brzydko blisko a to nie dziala
 } */
 
 
-#dropdownMenu+div {
+#dropdown-menu+div {
     background-color: black !important;
     padding-top: 0;
     padding-bottom: 0;
     margin-top: 0;
     margin-bottom: 0;
 }
-
 
 /* #dropdownMenu::+div:hover {
     background-color: #111 !important;
@@ -82,11 +111,82 @@ tutaj elementy stykajace beda brzydko blisko a to nie dziala
 .navbar-brand {
     margin-right: 2em;
     font-family: 'Montserrat Alternates', 'Space Mono', 'Verdana';
+
 }
 
 .navbar-brand img {
     margin-right: 1em;
 }
+
+.hover-underline-animation {
+    display: inline-block;
+    position: relative;
+    color: #0CC6FF;
+}
+
+.hover-underline-animation:after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 1.9px;
+    bottom: 0;
+    left: 0;
+    background-color: #0CC6FF;
+    transform-origin: bottom right;
+    transition: transform 0.25s ease-out;
+}
+
+.hover-underline-animation:hover:after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+    height: 1.9px;
+}
+
+
+.active {
+    display: inline-block;
+    position: relative;
+
+    color: #eae8e5 !important;
+}
+
+.active:after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    /* transform: scaleX(0); */
+
+    height: 1.9px;
+    bottom: 0;
+
+    left: 0;
+    background-color: #0CC6FF;
+    transform-origin: bottom right;
+    transition: transform 0.25s ease-out;
+}
+
+.navlink {
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+
+    padding-bottom: 10px;
+    padding-top: 8px;
+
+    color: rgba(255, 255, 255, .5);
+
+}
+
+.navlink:hover {
+    text-decoration: none;
+    color: #eae8e5;
+}
+
+
 
 @media screen and (max-width: 992px) {
     .nav {
@@ -94,26 +194,18 @@ tutaj elementy stykajace beda brzydko blisko a to nie dziala
         text-align: center;
     }
 
-    .dropdownItem {
+    .dropdown-item {
         text-align: center;
     }
 
 
-    .navDropdown {
-        background-color: #111;
+    .nav-dropdown {
+        background-color: black;
         color: #FAF9F6;
-        border: 1px solid #faf9f6;
-        border-radius: 8px;
-
     }
 
-
-
-
-
-
-
-
-
+    .right-menu a {
+        margin-right: 0px !important;
+    }
 
 }
