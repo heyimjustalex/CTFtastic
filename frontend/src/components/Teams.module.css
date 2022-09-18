@@ -1,0 +1,12 @@
+.main {
+    width: 100%;
+    color: #FAF9F6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.ul-teams {
+    list-style-type: none;
+}

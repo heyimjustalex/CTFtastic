@@ -15,3 +15,29 @@ export async function addStartingData(startingData) {
     }
     return null;
 }
+
+export async function getTeams() {
+    const response = await fetch(`${FIREBASE_DOMAIN}/teams.json`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    });
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(data.message || 'Couldnt fetch teams data.');
+    }
+    console.log('KEY')
+    let arr = [];
+
+    for (let key in data) {
+        const obj = data[key];
+        arr.push(obj)
+    }
+
+    // console.log("sadasf")
+    console.log(arr)
+
+    return arr;
+}

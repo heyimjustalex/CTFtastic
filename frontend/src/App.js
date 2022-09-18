@@ -5,6 +5,7 @@ import Router from './components/Router'
 import StartContext from './store/start-context';
 import Start from './components/Start/Start';
 import { useContext } from 'react';
+import Teams from './components/Teams';
 
 function App() {
 
@@ -24,7 +25,7 @@ function App() {
           <Route path='/login' element={<p>Login</p>} />
           <Route path='/scoreboard' element={<p>Scoreboard</p>} />
           <Route path='/challenges' element={<p>challenges</p>} />
-          <Route path='/teams' element={<p>Teams</p>} />
+          <Route path='/teams' element={<Teams />} />
         </Routes>
 
       </BrowserRouter>
