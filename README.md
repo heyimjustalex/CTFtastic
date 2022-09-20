@@ -62,9 +62,10 @@ MySQL database schema is stored in setup.sql. To modify it you need to:
 docker exec -it <container-id> bash
 ```
 ```python 
-mysql -u root -p ```[ENTER]
-
-```python password ``` [ENTER]
+mysql -u root -p [ENTER]
+```
+```python password  [ENTER]
+ ```
 ```python 
 SHOW databases;
 USE db;
