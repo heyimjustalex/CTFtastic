@@ -53,8 +53,7 @@ db:
       - '3306:3306'
     volumes:
       - CTFtasticDB:/var/lib/mysql
-      - ./setup.sql:/docker-entrypoint-initdb.d/setup.sql
-   # command: mysqld --init-file="/tmp/database/init_schema.sql"
+      - ./setup.sql:/docker-entrypoint-initdb.d/setup.sql  
     networks:
       - mynetwork
 
