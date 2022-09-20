@@ -64,7 +64,8 @@ docker exec -it <container-id> bash
 ```python 
 mysql -u root -p [ENTER]
 ```
-```python password  [ENTER]
+```python 
+ password  [ENTER]
  ```
 ```python 
 SHOW databases;
