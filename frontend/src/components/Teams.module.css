@@ -4,9 +4,43 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    /* background-color: red; */
+    box-sizing: border-box;
+    padding: 1em;
+    font-size: 1.5em;
+    height: 70vh;
+
 
 }
 
-.ul-teams {
+table {
+    border-collapse: collapse;
+    width: 70%;
+}
+
+th,
+td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #FAF9F6;
+}
+
+th {
+    color: #0CC6FF;
+}
+
+
+
+tr:hover {
+    background-color: #111;
+    cursor: pointer;
+}
+
+tr:first-child:hover {
+    background-color: black;
+    cursor: auto;
+}
+
+.table-teams {
     list-style-type: none;
 }

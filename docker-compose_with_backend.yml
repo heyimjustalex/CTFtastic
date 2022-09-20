@@ -40,7 +40,7 @@ services:
     networks:
       - mynetwork
 
-  db:
+db:
     image: mysql:5.7
     container_name: mysqldb_CTF
     restart: always
@@ -53,6 +53,8 @@ services:
       - '3306:3306'
     volumes:
       - CTFtasticDB:/var/lib/mysql
+      - ./setup.sql:/docker-entrypoint-initdb.d/setup.sql
+   # command: mysqld --init-file="/tmp/database/init_schema.sql"
     networks:
       - mynetwork
 

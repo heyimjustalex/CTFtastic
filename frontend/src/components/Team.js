@@ -2,7 +2,11 @@
 const Team = (props) => {
     return (
         <>
-            <li>{props.id} | {props.name} | {props.points}</li>
+            <tr>
+                <td>{props.id}</td>
+                <td>{props.name}</td>
+                <td>{props.points}</td>
+            </tr>
         </>
     )
 }

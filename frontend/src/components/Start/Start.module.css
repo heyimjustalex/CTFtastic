@@ -3,7 +3,7 @@
     overflow: auto;
     background-color: black;
     color: #0CC6FF;
-    font-family: 'Montserrat Alternates';
+    font-family: 'Montserrat Alternates', 'Space Mono', 'Verdana';
     display: flex;
     align-items: center;
     width: 100vw;

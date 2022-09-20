@@ -48,12 +48,14 @@ const Teams = () => {
     }, [status, error, setOutput, data]);
     return (
         <Container className={`${styles['main']} d-flex flex-column`} fluid>
-
-            <ul className={styles['ul-teams']}>
+            <table className={styles['table-teams']}>
+                <tr>
+                    <th></th>
+                    <th>Name</th>
+                    <th>Points</th>
+                </tr>
                 {output.content}
-
-            </ul>
-
+            </table>
 
         </Container>
     )

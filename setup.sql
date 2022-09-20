@@ -1,0 +1,18 @@
+CREATE DATABASE IF NOT EXISTS db;
+
+-- create the user database
+-- CREATE USER 'user'@'%' IDENTIFIED BY 'password';
+
+FLUSH PRIVILEGES;
+GRANT CREATE, ALTER, INDEX, LOCK TABLES, REFERENCES, UPDATE, DELETE, DROP, SELECT, INSERT ON `db`.* TO 'user'@'%';
+
+
+USE db
+
+CREATE TABLE MyGuests (
+id int  PRIMARY KEY,
+firstname VARCHAR(30) NOT NULL,
+lastname VARCHAR(30) NOT NULL,
+email VARCHAR(50)
+
+) 
