@@ -39,6 +39,7 @@ services:
       - '3306:3306'
     volumes:
       - CTFtasticDB:/var/lib/mysql
+      #this is not required if used JPA, but it shouldn't impact JPA bcs setup.sql and Entites in backend are consistent
       - ./setup.sql:/docker-entrypoint-initdb.d/setup.sql
     networks:
       - mynetwork
