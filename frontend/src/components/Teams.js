@@ -5,6 +5,8 @@ import LoadingRing from './UI/LoadingRing';
 import Container from 'react-bootstrap/Container';
 import Team from "./Team";
 import styles from './Teams.module.css';
+import { TableContainer } from "@mui/material";
+import LoadingRingTable from "./UI/LoadingRingTable";
 
 
 const Teams = () => {
@@ -21,7 +23,7 @@ const Teams = () => {
         //handle different status states
 
         if (status === 'pending') {
-            setOutput({ header: 'Loading...', content: <LoadingRing /> });
+            setOutput({ header: 'Loading...', content: <LoadingRingTable /> });
         }
 
         else if (status === 'completed' && !error) {
@@ -43,20 +45,30 @@ const Teams = () => {
 
     }, [status, error, setOutput, data]);
     return (
-        <Container className={`${styles['main']} d-flex flex-column`}>
-            <table className={styles['table-teams']}>
-                {status === 'completed' && !error &&
-                    <tr className={styles['table-header']}>
-                        <th></th>
-                        <th>Name</th>
-                        <th className={styles["points"]}>Points</th>
-                    </tr>}
 
-                {status === 'completed' && !error && output.content}
+        <Container className={`${styles['main']} d-flex flex-column`}>
+
+
+            <table className={styles['table-teams']}>
+
+                {status === 'completed' && !error &&
+                    <thead>
+                        <tr className={styles['table-header']}>
+                            <th></th>
+                            <th>Name</th>
+                            <th className={styles["points"]}>Points</th>
+                        </tr>
+                    </thead>
+                }
+                <tbody>
+                    {status === 'completed' && !error && output.content}
+
+                    {status === 'pending' && <tr><td style={{ border: 'none' }}><h3 className={styles['loading-header']}>{output.header}</h3></td></tr>}
+                    {status === 'pending' && output.content}
+                </tbody>
             </table>
-            {status === 'pending' && <Container className={`${styles['output-content-container']}`} ><h3 className={styles['loading-header']}>{output.header}</h3></Container>}
-            {status === 'pending' && <Container className={`${styles['output-content-container']}`} >{output.content}</Container>}
             {status === 'completed' && error && <Container className={`${styles['output-content-container']}`}><h3 className={styles['error-header']}>{output.content}</h3></Container>}
+
 
         </Container>
     )
