@@ -5,7 +5,7 @@ const Team = (props) => {
             <tr>
                 <td>{props.id}</td>
                 <td>{props.name}</td>
-                <td>{props.points}</td>
+                <td> {props.points}</td>
             </tr>
         </>
     )
