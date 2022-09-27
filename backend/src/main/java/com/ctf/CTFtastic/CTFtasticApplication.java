@@ -5,16 +5,18 @@ import com.ctf.CTFtastic.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.nio.file.Path;
+import java.util.List;
+import java.util.Optional;
 
 @SpringBootApplication
 @RestController
 
 public class CTFtasticApplication {
-
-
-
 	@RequestMapping("/")
 	public String home() {
 		return "TEST";
@@ -22,7 +24,6 @@ public class CTFtasticApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(CTFtasticApplication.class, args);
-
 
 	}
 
