@@ -1,7 +1,7 @@
 package com.ctf.CTFtastic.repository;
 
-import com.ctf.CTFtastic.entity.Team;
-import com.ctf.CTFtastic.projection.TeamForListVM;
+import com.ctf.CTFtastic.model.entity.Team;
+import com.ctf.CTFtastic.model.projection.TeamForListVM;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

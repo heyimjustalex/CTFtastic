@@ -1,15 +1,10 @@
 package com.ctf.CTFtastic;
 
-import com.ctf.CTFtastic.entity.Contest;
-import com.ctf.CTFtastic.entity.Team;
+import com.ctf.CTFtastic.model.entity.Contest;
 
 import com.ctf.CTFtastic.repository.ContestRepository;
-import com.ctf.CTFtastic.repository.TeamRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 

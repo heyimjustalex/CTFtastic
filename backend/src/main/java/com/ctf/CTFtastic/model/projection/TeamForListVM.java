@@ -1,4 +1,4 @@
-package com.ctf.CTFtastic.projection;
+package com.ctf.CTFtastic.model.projection;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 

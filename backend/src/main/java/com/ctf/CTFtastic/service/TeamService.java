@@ -1,6 +1,6 @@
 package com.ctf.CTFtastic.service;
 
-import com.ctf.CTFtastic.projection.TeamForListVM;
+import com.ctf.CTFtastic.model.projection.TeamForListVM;
 import com.ctf.CTFtastic.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

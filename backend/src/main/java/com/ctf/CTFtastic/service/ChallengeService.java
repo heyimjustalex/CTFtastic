@@ -1,7 +1,7 @@
 package com.ctf.CTFtastic.service;
 
-import com.ctf.CTFtastic.projection.ChallengeDetailsVM;
-import com.ctf.CTFtastic.projection.ChallengeForListVM;
+import com.ctf.CTFtastic.model.projection.ChallengeDetailsVM;
+import com.ctf.CTFtastic.model.projection.ChallengeForListVM;
 import com.ctf.CTFtastic.repository.ChallengeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,6 +1,6 @@
 package com.ctf.CTFtastic.controller;
-import com.ctf.CTFtastic.projection.ChallengeDetailsVM;
-import com.ctf.CTFtastic.projection.ChallengeForListVM;
+import com.ctf.CTFtastic.model.projection.ChallengeDetailsVM;
+import com.ctf.CTFtastic.model.projection.ChallengeForListVM;
 import com.ctf.CTFtastic.service.ChallengeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;

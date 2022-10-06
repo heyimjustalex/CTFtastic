@@ -1,5 +1,5 @@
 package com.ctf.CTFtastic.controller;
-import com.ctf.CTFtastic.projection.TeamForListVM;
+import com.ctf.CTFtastic.model.projection.TeamForListVM;
 import com.ctf.CTFtastic.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;

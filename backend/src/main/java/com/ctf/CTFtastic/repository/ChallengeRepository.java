@@ -1,15 +1,13 @@
 package com.ctf.CTFtastic.repository;
 
-import com.ctf.CTFtastic.entity.Challenge;
-import com.ctf.CTFtastic.projection.ChallengeDetailsVM;
-import com.ctf.CTFtastic.projection.ChallengeForListVM;
-import com.ctf.CTFtastic.projection.TeamForListVM;
+import com.ctf.CTFtastic.model.entity.Challenge;
+import com.ctf.CTFtastic.model.projection.ChallengeDetailsVM;
+import com.ctf.CTFtastic.model.projection.ChallengeForListVM;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface ChallengeRepository extends JpaRepository<Challenge, Integer> {
