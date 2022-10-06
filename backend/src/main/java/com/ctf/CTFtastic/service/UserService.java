@@ -32,6 +32,10 @@ public class UserService implements UserDetailsService {
         return participantRepository.getByIdToView(id);
     }
 
+    public String getRoleByEmail(String email){
+        return participantRepository.getRole(email);
+    }
+
     public UserDetailsVM getByEmail(String email) {
         return participantRepository.getByEmailUser(email);
     }

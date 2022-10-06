@@ -15,17 +15,20 @@ import java.util.Optional;
 
 @Repository
 public interface ParticipantRepository extends JpaRepository<Participant, Integer> {
-    @Query("select c.id as id, c.email as email,c.team.name as nameTeam from Participant c where c.isHidden = false" )
+    @Query("select c.id as id, c.email as email,c.team.name as nameTeam from Participant c LEFT JOIN Team ht ON ht.id = c.team.id where c.isHidden = false " )
     List<UserForListVM> getUsers();
 
-    @Query("select c.id as id, c.email as email, c.team.name as nameTeam, c.website as website, c.affiliation as affiliation, c.country as country from Participant c where c.id = :id")
+    @Query("select c.email as email, c.team.name as nameTeam, c.website as website, c.affiliation as affiliation, c.country as country from Participant c where c.id = :id")
     UserDetailsVM getByIdToView(@Param("id") int id);
 
-    @Query("select c.id as id, c.email as email, c.team.name as nameTeam, c.website as website, c.affiliation as affiliation, c.country as country from Participant c where c.email = :email")
+    @Query("select c.email as email, c.team.name as nameTeam, c.website as website, c.affiliation as affiliation, c.country as country from Participant c where c.email = :email")
     UserDetailsVM getByEmailUser(@Param("email") String email);
 
     Optional<Participant> findByEmail(String email);
 
     @Query("select c.email as username, c.passwordHash as password, c.role.name as role from Participant c where c.email = :email")
     Optional<userr> findByEmailGetEmailAndPassword(@Param("email") String email);
+
+    @Query("select c.role.name from Participant c where c.email = :email")
+    String getRole(@Param("email") String email);
 }
