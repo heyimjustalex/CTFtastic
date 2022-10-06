@@ -10,22 +10,27 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 
 public class CTFtasticApplication {
-	@RequestMapping("/")
+	@RequestMapping("/team_capitan")
 	@PreAuthorize("hasAnyRole('ROLE_TEAM_CAPITAN')")
 	public String home() {
-		return "TEST";
+		return "ROLE_TEAM_CAPITAN";
 	}
 
-	@RequestMapping("/test1")
+	@RequestMapping("/ctfadmin")
 	@PreAuthorize("hasAnyRole('ROLE_CTF_ADMIN')")
 	public String test1() {
-		return "test1";
+		return "ROLE_CTF_ADMIN";
 	}
 
-	@RequestMapping("/test2")
+	@RequestMapping("/user")
 	@PreAuthorize("hasAnyRole('USER')")
 	public String test2() {
-		return "test2";
+		return "USER";
+	}
+
+	@RequestMapping("/nouser")
+	public String test3() {
+		return "nouser";
 	}
 
 	public static void main(String[] args) {

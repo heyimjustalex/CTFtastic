@@ -40,7 +40,7 @@ services:
     networks:
       - mynetwork
 
-db:
+  db:
     image: mysql:5.7
     container_name: mysqldb_CTF
     restart: always
