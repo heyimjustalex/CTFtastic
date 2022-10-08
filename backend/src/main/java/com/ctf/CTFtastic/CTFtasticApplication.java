@@ -1,10 +1,8 @@
 package com.ctf.CTFtastic;
 
-import com.ctf.CTFtastic.entity.Team;
-import com.ctf.CTFtastic.repository.TeamRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,17 +10,31 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 
 public class CTFtasticApplication {
-
-
-
-	@RequestMapping("/")
+	@RequestMapping("/team_capitan")
+	@PreAuthorize("hasAnyRole('ROLE_TEAM_CAPITAN')")
 	public String home() {
-		return "TEST";
+		return "ROLE_TEAM_CAPITAN";
+	}
+
+	@RequestMapping("/ctfadmin")
+	@PreAuthorize("hasAnyRole('ROLE_CTF_ADMIN')")
+	public String test1() {
+		return "ROLE_CTF_ADMIN";
+	}
+
+	@RequestMapping("/user")
+	@PreAuthorize("hasAnyRole('USER')")
+	public String test2() {
+		return "USER";
+	}
+
+	@RequestMapping("/nouser")
+	public String test3() {
+		return "nouser";
 	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(CTFtasticApplication.class, args);
-
 
 	}
 
