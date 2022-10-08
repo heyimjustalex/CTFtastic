@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Setter
 @ToString
 @Entity
-@Table(name = "role")
+@Table(name = "duty")
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

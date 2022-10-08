@@ -2,6 +2,8 @@ package com.ctf.CTFtastic;
 
 import com.ctf.CTFtastic.jwt.JwtTokenFilter;
 import com.ctf.CTFtastic.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,8 +19,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
-@EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+//@EnableWebSecurity
+//@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private PasswordEncoder passwordEncoder;
@@ -26,6 +28,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private JwtTokenFilter jwtTokenFilter;
 
     private UserService userService;
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public SecurityConfig(PasswordEncoder passwordEncoder,
                                      UserService myUserDetailsService
@@ -37,9 +41,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http
+                .cors().disable()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/login","/signup","/signin","/register","/nouser","registerAdmin").permitAll()
+                .antMatchers("/login","/signup","/signin","/register","/nouser","/registerAdmin").permitAll()
                 .antMatchers("/test1").permitAll()
                 .anyRequest()
                 .authenticated()

@@ -12,11 +12,15 @@ CREATE TABLE team(
   is_hidden BOOLEAN NOT NULL
 );
 
+CREATE TABLE duty (
+  id INTEGER PRIMARY KEY AUTO_INCREMENT,
+  name_role VARCHAR(100) NOT NULL
+);
 
 CREATE TABLE participant (
   id INTEGER PRIMARY KEY AUTO_INCREMENT,
   id_team INTEGER,
-  id_role INTEGER(11) NOT NULL,
+  id_role INTEGER NOT NULL,
   email VARCHAR(25) NOT NULL,
   password_hash VARCHAR(350) NOT NULL,
   website VARCHAR(50),
@@ -28,12 +32,9 @@ CREATE TABLE participant (
   is_ctf_admin BOOLEAN NOT NULL,
   is_team_capitan BOOLEAN NOT NULL,
   
-  FOREIGN KEY (id_team) REFERENCES team(id) 
-  
+  FOREIGN KEY (id_team) REFERENCES team(id), 
+  FOREIGN KEY (id_role) REFERENCES duty(id)
 );
-
-ALTER TABLE `participant`
-  ADD KEY `id_role` (`id_role`) USING BTREE;
 
 CREATE TABLE address(
   id INTEGER PRIMARY KEY AUTO_INCREMENT,
@@ -79,13 +80,8 @@ CREATE TABLE submit(
   
 );
 
-CREATE TABLE `role` (
-  `id` int(11) NOT NULL,
-  `name_role` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-
-INSERT INTO `role` (`id`, `name_role`) VALUES
+INSERT INTO `duty` (`id`, `name_role`) VALUES
 (1, 'ROLE_CTF_ADMIN'),
 (2, 'ROLE_TEAM_CAPITAN'),
 (3, 'ROLE_USER');
@@ -111,9 +107,9 @@ INSERT INTO `challenge` (`id`, `id_contest`, `name`, `category`, `message`, `poi
 
 
 INSERT INTO participant (id, id_team, id_role, email, password_hash, website, affiliation, country, is_verified, is_banned, is_hidden, is_ctf_admin, is_team_capitan) VALUES
-(1, NULL, 1, 'Test2@gmail.com', '$2a$10$YRBdKiJytZT3vL5CPrQ4tOzgw7GXU2e44wt1yfdzUg5wg9lHd1yWC', 'example1.com', 'PL', NULL, 0, 0, 0, 0, 0),
-(2, NULL, 3, 'Test3@gmail.com', '$2a$10$0ThvMYe//xAZxcxlb7TptOv3.iu69SlVAHD9qQBQa8z77gsGXxRP6','example1.com', 'EN', NULL, 0, 0, 0, 0, 0),
-(3, NULL, 3, 'Test4@gmail.com', '$2a$10$cg26PE5.3zo7sNTdl1d44.YppxHYtF/8pjgB5fkJ64tQkR4AtfV92', 'example1.com', 'PL', NULL, 0, 0, 0, 0, 0),
-(4, NULL, 3, 'Test1@gmail.com', '$2a$10$X6cyoKgfedC1ODb6XkiIDebfVLE7L0SKgqjVjzSbmwQiWBevrvp5e', 'example1.com', 'EN', NULL, 0, 0, 0, 0, 0),
-(5, NULL, 2, 'Test123@gmail.com', '$2a$10$I14lTg3P9YYRf4KP/Rj1Pe1zoj7bwu0u1pXE/.s4UmWp26DJMOep2', 'example1.com', 'PL', NULL, 0, 0, 0, 0, 0),
-(6, NULL, 1, 'NowyTestowy@gmail.com', '$2a$10$GDdmTTzBAeqttwXaPQ4hlurf1YquvabIuNtDr/Jv39HiDe9Yk4A5u', 'example1.com', 'GER', NULL, 0, 0, 0, 0, 0);
+(1, 1, 1, 'Test2@gmail.com', '$2a$10$YRBdKiJytZT3vL5CPrQ4tOzgw7GXU2e44wt1yfdzUg5wg9lHd1yWC', 'example1.com', 'PL', NULL, 0, 0, 0, 0, 0),
+(2, 2, 3, 'Test3@gmail.com', '$2a$10$0ThvMYe//xAZxcxlb7TptOv3.iu69SlVAHD9qQBQa8z77gsGXxRP6','example1.com', 'EN', NULL, 0, 0, 0, 0, 0),
+(3, 3, 3, 'Test4@gmail.com', '$2a$10$cg26PE5.3zo7sNTdl1d44.YppxHYtF/8pjgB5fkJ64tQkR4AtfV92', 'example1.com', 'PL', NULL, 0, 0, 0, 0, 0),
+(4, 1, 3, 'Test1@gmail.com', '$2a$10$X6cyoKgfedC1ODb6XkiIDebfVLE7L0SKgqjVjzSbmwQiWBevrvp5e', 'example1.com', 'EN', NULL, 0, 0, 0, 0, 0),
+(5, 2, 2, 'Test123@gmail.com', '$2a$10$I14lTg3P9YYRf4KP/Rj1Pe1zoj7bwu0u1pXE/.s4UmWp26DJMOep2', 'example1.com', 'PL', NULL, 0, 0, 0, 0, 0),
+(6, 1, 1, 'NowyTestowy@gmail.com', '$2a$10$GDdmTTzBAeqttwXaPQ4hlurf1YquvabIuNtDr/Jv39HiDe9Yk4A5u', 'example1.com', 'GER', NULL, 0, 0, 0, 0, 0);

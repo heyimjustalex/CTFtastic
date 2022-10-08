@@ -45,12 +45,12 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             try {
                 username = jwtTokenUtil.getUsernameFromToken(jwtToken);
             } catch (IllegalArgumentException e) {
-                //logger.error("JWT_TOKEN_UNABLE_TO_GET_USERNAME", e);
+                logger.error("JWT_TOKEN_UNABLE_TO_GET_USERNAME", e);
             } catch (ExpiredJwtException e) {
-                //logger.warn("JWT_TOKEN_EXPIRED", e);
+                logger.warn("JWT_TOKEN_EXPIRED", e);
             }
         } else {
-            //logger.warn("JWT_TOKEN_DOES_NOT_START_WITH_BEARER_STRING");
+            logger.warn("JWT_TOKEN_DOES_NOT_START_WITH_BEARER_STRING");
         }
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
