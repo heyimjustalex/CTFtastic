@@ -1,4 +1,4 @@
-package com.ctf.CTFtastic.entity;
+package com.ctf.CTFtastic.model.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

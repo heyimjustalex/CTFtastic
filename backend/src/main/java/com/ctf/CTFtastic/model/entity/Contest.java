@@ -1,4 +1,4 @@
-package com.ctf.CTFtastic.entity;
+package com.ctf.CTFtastic.model.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,15 +11,12 @@ import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,42 +27,24 @@ import java.util.List;
 @Setter
 @ToString
 @Entity
-@Table(name = "challenge")
-public class Challenge {
+@Table(name = "contest")
+public class Contest {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @JoinColumn(name = "id_contest", nullable = false)
-    @ManyToOne
-    private Contest contest;
+    @Column(name = "start_time", nullable = false)
+    private LocalDateTime startTime;
 
-    private String name;
+    @Column(name = "end_time", nullable = false)
+    private LocalDateTime endTime;
 
-    private String category;
 
-    private String message;
-
-    private Integer points;
-
-    private String flag;
-
-    @Column(name = "is_case_sensitive")
-    private boolean isCaseSensitive;
-
-    @Column(name = "is_visible")
-    private boolean isVisible;
-
-    @Lob
-    private byte[] file;
-
-    private String dockerfile;
-
-    @OneToMany(mappedBy = "challenge")
+    @OneToMany(mappedBy = "contest")
     //bad ale bez tego leci exception przy save, trzeba to poprawic ->
     // https://javarevisited.blogspot.com/2017/01/how-to-create-localdatetime-in-java-8.html
     // Zobacz do testu jeszcze
     @LazyCollection(LazyCollectionOption.FALSE)
-    private List<Submit> submits = new ArrayList<>();
+    private List<Challenge> challenges = new ArrayList<>();
 }
