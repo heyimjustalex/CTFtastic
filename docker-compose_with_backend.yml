@@ -1,36 +1,38 @@
 version: "3.8"
 services:
-  frontend:
-    container_name: frontend_CTF
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    volumes:
-      - ./frontend/src:/app/src:ro
-      - /app/node_modules
-    ports:
-      - 80:3000
-    environment:
-      - CHOKIDAR_USEPOLLING=true
-    networks:
-      - mynetwork
+  #frontend:
+  #  container_name: frontendCTF
+  #  build:
+  #    context: ./frontend
+  #    dockerfile: Dockerfile
+  #  volumes:
+  #    - ./frontend/src:/app/src:ro
+  #    - /app/node_modules
+  #  ports:
+  #    - 80:3000
+  #  environment:
+  #    - CHOKIDAR_USEPOLLING=true
+  #  networks:
+  #    - mynetwork
 
   backend:
-    container_name: backend_CTF
+    container_name: backendCTF
     build:
       context: ./backend
       dockerfile: Dockerfile
     ports:
       - 8080:8080
     environment:
-      - spring.datasource.url=jdbc:mysql://mysqldb_CTF:3306/db?enabledTLSProtocols=TLSv1.2
+      - spring.datasource.url=jdbc:mysql://mysqldbCTF:3306/db?enabledTLSProtocols=TLSv1.2
     depends_on:
-      - "db"
+      db:
+        condition: service_healthy
+    restart: on-failure
     networks:
       - mynetwork
 
   phpmyadmin:
-    container_name: phpmyadmin_CTF
+    container_name: phpmyadminCTF
     image: phpmyadmin
     restart: always
     ports:
@@ -40,9 +42,9 @@ services:
     networks:
       - mynetwork
 
-db:
+  db:
     image: mysql:5.7
-    container_name: mysqldb_CTF
+    container_name: mysqldbCTF
     restart: always
     environment:
       MYSQL_DATABASE: 'db'
@@ -56,6 +58,14 @@ db:
       - ./setup.sql:/docker-entrypoint-initdb.d/setup.sql  
     networks:
       - mynetwork
+    healthcheck:
+        test: mysqladmin ping -h 127.0.0.1 -u $$MYSQL_USER --password=$$MYSQL_PASSWORD
+       # test: ["CMD-SHELL", 'mysqladmin ping']
+       # test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost", "-uroot", "-ppassword"]
+        interval: 2s
+        timeout: 20s
+        retries: 10
+
 
 volumes:
   CTFtasticDB:
