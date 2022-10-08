@@ -1,22 +1,22 @@
 version: "3.8"
 services:
-#  frontend:
-#    container_name: frontend_CTF
-#    build:
-#      context: ./frontend
-#      dockerfile: Dockerfile
-#    volumes:
-#      - ./frontend/src:/app/src:ro
-#      - /app/node_modules
-#    ports:
-#      - 80:3000
-#    environment:
-#      - CHOKIDAR_USEPOLLING=true
-#    networks:
-#      - mynetwork
+## frontend:
+##   container_name: frontendCTF
+##   build:
+##     context: ./frontend
+##     dockerfile: Dockerfile
+##   volumes:
+##     - ./frontend/src:/app/src:ro
+##     - /app/node_modules
+##   ports:
+##     - 80:3000
+##   environment:
+##     - CHOKIDAR_USEPOLLING=true
+##   networks:
+##     - mynetwork
 
   phpmyadmin:
-    container_name: phpmyadmin_CTF
+    container_name: phpmyadminCTF
     image: phpmyadmin
     restart: always
     ports:
@@ -28,7 +28,7 @@ services:
 
   db:
     image: mysql:5.7
-    container_name: mysqldb_CTF
+    container_name: mysqldbCTF
     restart: always
     environment:
       MYSQL_DATABASE: 'db'
