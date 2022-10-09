@@ -9,9 +9,7 @@ import { useNavigate } from "react-router-dom";
 const Teams = () => {
     const [output, setOutput] = useState({});
     const { sendRequest, status, error, data } = useHttp(getTeams);
-
     const navigate = useNavigate();
-
     const handleRowClick = (id) => {
         navigate(`/teams/${id}`);
     }
@@ -33,7 +31,6 @@ const Teams = () => {
                     <td>{element.name}</td>
                     <td> {element.points}</td>
                 </tr>
-
             });
 
             setOutput({ header: 'Success!', content: dataWithSelector });

@@ -7,10 +7,7 @@ const Team = (props) => {
 
     return (
         <React.Fragment>
-
-
             <h1>This is a dynamic page for {id} </h1>
-
         </React.Fragment>
     )
 }

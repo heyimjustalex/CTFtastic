@@ -10,7 +10,7 @@ import Container from 'react-bootstrap/Container';
 import useTimer from '../../hooks/use-timer';
 import { useNavigate } from "react-router-dom";
 import StartContext from './../../store/start-context';
-
+import BasicDescription from './BasicDescription';
 const Start = (props) => {
     window.history.pushState({}, null, "/start");
 
@@ -32,6 +32,8 @@ const Start = (props) => {
     const [startingData, setStartingData] = useState(
         {
             renderedComponent: 'startPage',
+            title: '',
+            description: '',
             adminEmail: '',
             adminPassword: '',
             contestStartDate: {},
@@ -47,7 +49,8 @@ const Start = (props) => {
         if (startingData.renderedComponent === 'end') {
             // console.log(startingData);
             const tempData = {
-
+                title: startingData.title,
+                description: startingData.description,
                 adminEmail: startingData.adminEmail,
                 adminPassword: startingData.adminPassword,
                 contestStartDate: startingData.contestStartDate,
@@ -85,9 +88,20 @@ const Start = (props) => {
     const onGetStartedClickedHandler = () => {
         setStartingData({
             ...startingData,
+            renderedComponent: 'basicDescription'
+        });
+    }
+
+    const onDescriptionFilledHandler = (title, description) => {
+        setStartingData({
+            ...startingData,
+            title: title,
+            description: description,
             renderedComponent: 'startForm'
         });
     }
+
+
 
     const onAdminAccFilledHandler = (email, password) => {
         setStartingData({
@@ -102,11 +116,11 @@ const Start = (props) => {
     const onDateTimeFilledHandler = (dates) => {
         setStartingData({
             ...startingData,
-            renderedComponent: 'end',
             contestStartDate: dates.startDate,
             contestEndDate: dates.endDate,
             contestStartDateUTC: dates.startDateUTC,
-            contestEndDateUTC: dates.endDateUTC
+            contestEndDateUTC: dates.endDateUTC,
+            renderedComponent: 'end'
         })
     }
     let textColor = "";
@@ -127,8 +141,13 @@ const Start = (props) => {
         <>
             {startingData.renderedComponent === 'startPage' &&
                 <StartPage onGetStarted={onGetStartedClickedHandler} />}
+
+            {startingData.renderedComponent === 'basicDescription' &&
+                <BasicDescription onDescriptionFilled={onDescriptionFilledHandler} />}
+
             {startingData.renderedComponent === 'startForm' &&
                 <StartForm onAdminAccFilled={onAdminAccFilledHandler} />}
+
             {startingData.renderedComponent === 'startDateTime' &&
                 <StartTime onDateTimeFilled={onDateTimeFilledHandler} />}
 

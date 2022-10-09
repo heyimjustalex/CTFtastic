@@ -7,7 +7,7 @@ import Start from './components/Start/Start';
 import { useContext } from 'react';
 import Teams from './components/Teams';
 import Register from './components/Register';
-import SingleTeam from './components/SingleTeam';
+import Team from './components/Team';
 
 function App() {
 
@@ -22,16 +22,20 @@ function App() {
         {hasStarted && <MainHeader />}
         <Routes>
           <Route path="/" element={hasStarted ? <p>HOME</p> : <Start />} />
-          <Route path='/start' element={<Navigate to='/' />} />
-          <Route path='/register' element={<Register />} />
-          <Route path='/login' element={<p>Login</p>} />
-          <Route path='/scoreboard' element={<p>Scoreboard</p>} />
-          <Route path='/challenges' element={<p>challenges</p>} />
-          <Route path='/teams' element={<Teams />}>
-
-          </Route>
-          <Route path='/teams/:id' element={<SingleTeam />} />
+          <Route path="*" element={<Navigate to='/' />} />
         </Routes>
+        {hasStarted &&
+          <Routes>
+            <Route path='/start' element={<Navigate to='/' />} />
+            <Route path='/register' element={<Register />} />
+            <Route path='/login' element={<p>Login</p>} />
+            <Route path='/scoreboard' element={<p>Scoreboard</p>} />
+            <Route path='/challenges' element={<p>challenges</p>} />
+            <Route path='/teams' element={<Teams />}>
+
+            </Route>
+            <Route path='/teams/:id' element={<Team />} />
+          </Routes>}
 
       </BrowserRouter>
 
