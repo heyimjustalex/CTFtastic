@@ -17,7 +17,7 @@ function App() {
       {/* <Router /> */}
 
       <BrowserRouter>
-        <MainHeader />
+        {hasStarted && <MainHeader />}
         <Routes>
           <Route path="/" element={hasStarted ? <p>HOME</p> : <Start />} />
           <Route path='/start' element={<Navigate to='/' />} />

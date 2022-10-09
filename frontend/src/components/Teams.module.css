@@ -25,7 +25,7 @@
 
 table {
     border-collapse: collapse;
-    width: 70%;
+    width: 100%;
 }
 
 .table-teams {
@@ -52,9 +52,10 @@ tr:hover {
     cursor: pointer;
 }
 
-tr:first-child:hover {
+thead tr:first-child:hover {
     background-color: black;
     cursor: auto;
+
 }
 
 .output-content-container h3 {
@@ -68,6 +69,8 @@ tr:first-child:hover {
 .table-header th {
     padding-bottom: 0.5em;
 }
+
+
 
 .table-header th {
     word-break: normal;
@@ -84,4 +87,19 @@ tr:first-child:hover {
 
 .error-header {
     color: #FF304E;
+}
+
+
+@media screen and (max-width: 768px) {
+
+    .main {
+
+        font-size: 1.3em;
+    }
+
+    .table-header th:first-child {
+        display: none;
+    }
+
+
 }

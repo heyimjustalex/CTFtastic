@@ -8,7 +8,7 @@ import useHttp from './../../hooks/use-http'
 import LoadingRing from '../UI/LoadingRing';
 import Container from 'react-bootstrap/Container';
 import useTimer from '../../hooks/use-timer';
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import StartContext from './../../store/start-context';
 
 const Start = (props) => {
@@ -19,8 +19,14 @@ const Start = (props) => {
     const { sendRequest, status, error } = useHttp(addStartingData);
     const [output, setOutput] = useState({});
 
-    const { time, startTimer, stopTimer } = useTimer(3, () => {
-        setTrueStarted(); navigate("/")
+    const { time: timeWhenContestCreated, startTimer: startTimerWhenContestCreated, stopTimer: stopTimerWhenContestCreated } = useTimer(3, () => {
+        setTrueStarted();
+        navigate("/");
+    });
+
+    const { time: timeWhenContestCreationFailed, startTimer: startTimerWhenContestCreationFailed, stopTimer: stopTimerWhenCreationFailed } = useTimer(3, () => {
+        setFalseStarted();
+        navigate('/start');
     });
 
     const [startingData, setStartingData] = useState(
@@ -104,16 +110,18 @@ const Start = (props) => {
         })
     }
     let textColor = "";
-
-    if (status === 'completed') {
-        startTimer();
+    let time = "";
+    if (status === 'completed' && !error) {
+        textColor = styles['whiteText'];
+        startTimerWhenContestCreated();
+        time = timeWhenContestCreated;
     }
     if (status === 'completed' && error) {
         textColor = styles['redText'];
+        startTimerWhenContestCreationFailed();
+        time = timeWhenContestCreationFailed;
     }
-    else if (status === 'completed' && !error) {
-        textColor = styles['whiteText'];
-    }
+
 
     return (
         <>

@@ -1,7 +1,8 @@
-const FIREBASE_DOMAIN = 'https://react-http-f2a23-default-rtdb.europe-west1.firebasedatabase.app';
+//const BACKEND_ADDRESS = 'http://localhost:8080';
+const BACKEND_ADDRESS = 'https://react-http-f2a23-default-rtdb.europe-west1.firebasedatabase.app';
 
 export async function addStartingData(startingData) {
-    const response = await fetch(`${FIREBASE_DOMAIN}/startingData.json`, {
+    const response = await fetch(`${BACKEND_ADDRESS}/startingData.json`, {
         method: 'POST',
         body: JSON.stringify(startingData),
         headers: {
@@ -17,7 +18,7 @@ export async function addStartingData(startingData) {
 }
 
 export async function getTeams() {
-    const response = await fetch(`${FIREBASE_DOMAIN}/teams.json`, {
+    const response = await fetch(`${BACKEND_ADDRESS}/teams.json`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
