@@ -8,9 +8,7 @@
     box-sizing: border-box;
     padding: 1em;
     font-size: 1.5em;
-    height: 70vh;
-
-
+    min-height: 90vh;
 }
 
 .output-content-container {
@@ -101,5 +99,8 @@ thead tr:first-child:hover {
         display: none;
     }
 
+    .team-id {
+        display: none;
+    }
 
 }

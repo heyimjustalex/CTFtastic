@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from 'react-router-dom'
 
-const Team = (props) => {
+const SingleTeam = (props) => {
 
     const { id } = useParams();
 
@@ -14,4 +14,4 @@ const Team = (props) => {
         </React.Fragment>
     )
 }
-export default Team;
+export default SingleTeam;

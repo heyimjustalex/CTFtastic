@@ -7,6 +7,11 @@ function emailValidator(input) {
         );
 }
 
+function usernameValidator(input) {
+    return String(input).match(/^(?=.{6,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/);
+}
+
+
 function passwordValidator(p) {
     var anUpperCase = /[A-Z]/;
     var aLowerCase = /[a-z]/;
@@ -44,4 +49,4 @@ function passwordValidator(p) {
     return obj.result;
 }
 
-export { emailValidator, passwordValidator };
+export { emailValidator, passwordValidator, usernameValidator };
