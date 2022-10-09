@@ -47,8 +47,9 @@ CREATE TABLE address(
 CREATE TABLE contest(
  id INTEGER PRIMARY KEY AUTO_INCREMENT,
  start_time DATETIME NOT NULL,
- end_time DATETIME NOT NULL
-
+ end_time DATETIME NOT NULL,
+ start_time_utc DATETIME NOT NULL,
+ end_time_utc DATETIME NOT NULL
 );
 
 CREATE TABLE challenge(
@@ -92,13 +93,13 @@ INSERT INTO `team` (`id`, `name`, `password_hash`, `points`, `website`, `affilia
 (3, 'Team3', '1234', 345, 'url.com/2', 'idc', 1, 0, 1),
 (4, 'Team4', '1235', 50, 'url.com/3', 'idc', 1, 0, 0);
 
-INSERT INTO `contest` (`id`, `start_time`, `end_time`) VALUES
-(1, '2022-10-06 17:01:08', '2022-10-06 17:01:08'),
-(2, '2022-10-06 17:02:34', '2022-10-06 17:02:34'),
-(3, '2022-10-06 17:03:55', '2022-10-06 17:03:55'),
-(4, '2022-10-06 17:14:05', '2022-10-06 17:14:05'),
-(5, '2022-10-06 17:18:41', '2022-10-06 17:18:41'),
-(6, '2022-10-06 17:23:06', '2022-10-06 17:23:06');
+INSERT INTO `contest` (`id`, `start_time`, `end_time`, `start_time_utc`, `end_time_utc`) VALUES
+(1, '2022-10-06 17:01:08', '2022-10-06 17:01:08', '2022-10-06 17:01:08', '2022-10-06 17:01:08'),
+(2, '2022-10-06 17:02:34', '2022-10-06 17:02:34', '2022-10-06 17:02:34', '2022-10-06 17:02:34'),
+(3, '2022-10-06 17:03:55', '2022-10-06 17:03:55', '2022-10-06 17:03:55', '2022-10-06 17:03:55'),
+(4, '2022-10-06 17:14:05', '2022-10-06 17:14:05', '2022-10-06 17:14:05', '2022-10-06 17:14:05'),
+(5, '2022-10-06 17:18:41', '2022-10-06 17:18:41', '2022-10-06 17:18:41', '2022-10-06 17:18:41'),
+(6, '2022-10-06 17:23:06', '2022-10-06 17:23:06', '2022-10-06 17:23:06', '2022-10-06 17:23:06');
 
 INSERT INTO `challenge` (`id`, `id_contest`, `name`, `category`, `message`, `points`, `flag`, `is_case_sensitive`, `is_visible`, `file`, `dockerfile`) VALUES
 (1, 1, 'challenge1', 'category1', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and', 100, 'flag1', 0, 1, NULL, NULL),

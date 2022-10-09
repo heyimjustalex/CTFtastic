@@ -40,6 +40,11 @@ public class Contest {
     @Column(name = "end_time", nullable = false)
     private LocalDateTime endTime;
 
+    @Column(name = "start_time_utc", nullable = false)
+    private LocalDateTime startTimeUtc;
+
+    @Column(name = "end_time_utc", nullable = false)
+    private LocalDateTime endTimeUtc;
 
     @OneToMany(mappedBy = "contest")
     //bad ale bez tego leci exception przy save, trzeba to poprawic ->

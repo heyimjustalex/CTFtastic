@@ -18,10 +18,10 @@ public class DataInitializer {
     @PostConstruct
     private synchronized void init() {
 
-        LocalDateTime rightNow = LocalDateTime.now();
-        Contest contest = Contest.builder().startTime(rightNow).endTime(rightNow).build();
-        contestRepository.save(contest);
-        List<Contest> all = contestRepository.findAll();
+        //LocalDateTime rightNow = LocalDateTime.now();
+        //Contest contest = Contest.builder().startTime(rightNow).endTime(rightNow).build();
+        //contestRepository.save(contest);
+        //List<Contest> all = contestRepository.findAll();
     }
 
 
