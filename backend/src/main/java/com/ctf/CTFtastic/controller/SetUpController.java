@@ -26,8 +26,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 public class SetUpController {
-    @Value("${controller.set.up.aplikation}")
-    boolean isEnableConfigureController;
+    //@Value("${controller.set.up.aplikation}")
+    //boolean isEnableConfigureController;
 
     @Autowired
     private UserService userService;
@@ -60,6 +60,8 @@ public class SetUpController {
                 .startTimeUtc(registerAdminAndCreateContestRequest.getStartTimeUtf())
                 .endTime(registerAdminAndCreateContestRequest.getEndTime())
                 .endTimeUtc(registerAdminAndCreateContestRequest.getEndTimeUtf())
+                .title(registerAdminAndCreateContestRequest.getTitle())
+                .description(registerAdminAndCreateContestRequest.getDescription())
                 .build();
 
         try{

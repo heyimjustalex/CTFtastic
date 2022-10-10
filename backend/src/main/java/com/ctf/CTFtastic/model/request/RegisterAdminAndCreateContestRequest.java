@@ -14,4 +14,6 @@ public class RegisterAdminAndCreateContestRequest extends SignupRequest {
     private LocalDateTime endTime;
     private LocalDateTime startTimeUtf;
     private LocalDateTime endTimeUtf;
+    private String title;
+    private String description;
 }
