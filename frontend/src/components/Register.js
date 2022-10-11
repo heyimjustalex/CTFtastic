@@ -52,7 +52,7 @@ const Register = (props) => {
 
     const formSubmitHandler = (event) => {
         event.preventDefault();
-        props.onAdminAccFilled(emailValue, passwordValue);
+        /// send request
 
     }
 
@@ -161,7 +161,7 @@ const Register = (props) => {
 
                 <div className={styles['button-div']}>
                     <Button aria-label="Next" onSubmit={formSubmitHandler} disabled={!formIsValid} className={`${styles['form-button']} ${buttonDisabledClass}`} variant="custom" type="submit">
-                        Next!
+                        Sign up!
                     </Button>
                 </div>
             </Form>

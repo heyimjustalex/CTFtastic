@@ -34,10 +34,22 @@
     justify-content: flex-end;
 }
 
-.control-input {
-    background-color: #212121;
+.control-input:not(active) {
+    background-color: #000 !important;
+
     color: #FAF9F6;
 }
+
+.control-input:active {
+    background-color: #000 !important;
+
+    color: #FAF9F6;
+}
+
+.control-input:focus {
+    background-color: #000 !important;
+}
+
 
 .control-input:hover,
 .control-input:focus {
