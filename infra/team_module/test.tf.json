@@ -14,56 +14,19 @@
                 "keep_locally": true
             }
         },
-        "docker_container": [
-            {
-                "nginx_0": {
-                    "image": "docker_image.nginx.latest",
-                    "name": "test_0",
-                    "ports": {
-                        "internal": 80
-                    },
-                    "networks_advanced": {
-                        "name": "${module.network_mod.network_name}"
-                    }
-                }
-            },
-            {
-                "nginx_1": {
-                    "image": "docker_image.nginx.latest",
-                    "name": "test_1",
-                    "ports": {
-                        "internal": 80
-                    },
-                    "networks_advanced": {
-                        "name": "${module.network_mod.network_name}"
-                    }
-                }
-            },
-            {
-                "nginx_2": {
-                    "image": "docker_image.nginx.latest",
-                    "name": "test_2",
-                    "ports": {
-                        "internal": 80
-                    },
-                    "networks_advanced": {
-                        "name": "${module.network_mod.network_name}"
-                    }
-                }
-            },
-            {
-                "nginx_3": {
-                    "image": "docker_image.nginx.latest",
-                    "name": "test_3",
-                    "ports": {
-                        "internal": 80
-                    },
-                    "networks_advanced": {
-                        "name": "${module.network_mod.network_name}"
-                    }
+        "docker_container": {
+            "nginx": {
+                "image": "${docker_image.nginx.latest}",
+                "count": "4",
+                "name": "test${count.index}_${module.network_mod.network_name}",
+                "ports": {
+                    "internal": 80
+                },
+                "networks_advanced": {
+                    "name": "${module.network_mod.network_name}"
                 }
             }
-        ]
+        }
     },
     "module": {
         "network_mod": {

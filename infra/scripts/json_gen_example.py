@@ -18,13 +18,25 @@ tf_dict = {
     },
 
     'resource': {
-        # 'docker_image': {
-        #     'nginx': {
-        #         'name': 'nginx:latest',
-        #         'keep_locally': True
-        #     }
-        # },
-        'docker_container': [],
+        'docker_image': {
+            'nginx': {
+                'name': 'nginx:latest',
+                'keep_locally': True
+            }
+        },
+        'docker_container': {
+            f'nginx': {
+                    'image': '${docker_image.nginx.latest}',
+                    'count': f"{args.number_of_challs}",
+                    'name': f"{args.challenge_name}" + '${count.index}_${module.network_mod.network_name}',
+                    'ports': {
+                        'internal': 80
+                    },
+                    'networks_advanced': {
+                        'name': "${module.network_mod.network_name}"
+                    }
+            },
+        }
     },
 
     'module': {
@@ -34,21 +46,21 @@ tf_dict = {
     },
 }
 
-for idx, x in enumerate(range(args.number_of_challs)):
-    tf_dict['resource']['docker_container'].append(
-        {
-            f'nginx_{idx}': {
-                'image': 'docker_image.nginx.latest',
-                'name': f"{args.challenge_name}_{idx}",
-                'ports': {
-                    'internal': 80
-                },
-                'networks_advanced': {
-                    'name': "${module.network_mod.network_name}"
-                }
-            }
-        }
-    )
+# for idx, x in enumerate(range(args.number_of_challs)):
+#     tf_dict['resource']['docker_container'].append(
+#         {
+#             f'nginx_{idx}': {
+#                 'image': '${docker_image.nginx.latest}',
+#                 'name': f"{args.challenge_name}_{idx}",
+#                 'ports': {
+#                     'internal': 80
+#                 },
+#                 'networks_advanced': {
+#                     'name': "${module.network_mod.network_name}"
+#                 }
+#             }
+#         }
+#     )
 
 json_obj = json.dumps(tf_dict, indent=4)
 
