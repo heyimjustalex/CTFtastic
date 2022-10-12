@@ -4,6 +4,8 @@ import com.ctf.CTFtastic.model.userr;
 import com.ctf.CTFtastic.model.entity.Participant;
 import com.ctf.CTFtastic.model.projection.UserDetailsVM;
 import com.ctf.CTFtastic.model.projection.UserForListVM;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -16,7 +18,7 @@ import java.util.Optional;
 @Repository
 public interface ParticipantRepository extends JpaRepository<Participant, Integer> {
     @Query("select c.id as id, c.email as email,c.team.name as nameTeam from Participant c LEFT JOIN Team ht ON ht.id = c.team.id where c.isHidden = false " )
-    List<UserForListVM> getUsers();
+    Page<UserForListVM> getUsers(Pageable pageable);
 
     @Query("select c.email as email, c.team.name as nameTeam, c.website as website, c.affiliation as affiliation, c.country as country from Participant c where c.id = :id")
     UserDetailsVM getByIdToView(@Param("id") int id);
