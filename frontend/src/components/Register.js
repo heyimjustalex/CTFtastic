@@ -4,8 +4,35 @@ import useInput from '../hooks/use-input';
 import { emailValidator, passwordValidator, usernameValidator } from './validators'
 import styles from './Register.module.css';
 import Container from 'react-bootstrap/Container';
+import { registerUser } from './../lib/api'
+import useHttp from './../hooks/use-http'
+import { useState, useEffect } from 'react';
+import LoadingRing from './UI/LoadingRing';
 
 const Register = (props) => {
+
+    const { sendRequest, status, error } = useHttp(registerUser);
+    const [output, setOutput] = useState({});
+
+    useEffect(() => {
+
+        if (status === 'pending') {
+            setOutput({ header: 'Loading...', content: <LoadingRing /> });
+        }
+
+        else if (status === 'completed' && !error) {
+
+            setOutput({ header: 'Success!', content: 'contest created' });
+
+        }
+
+        else if (status === 'completed' && error) {
+            setOutput({ header: 'Error occured:', content: error });
+
+        }
+
+    }, [status, error, setOutput]);
+
 
     const
         { value: usernameValue,
@@ -53,6 +80,14 @@ const Register = (props) => {
     const formSubmitHandler = (event) => {
         event.preventDefault();
         /// send request
+        const requestData = {
+            email: emailValue,
+            password: passwordValue,
+            country: "PL",
+            affiliation: "test"
+        }
+
+        sendRequest(requestData);
 
     }
 

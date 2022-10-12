@@ -4,7 +4,11 @@ import useInput from '../hooks/use-input';
 import styles from './Login.module.css';
 import Container from 'react-bootstrap/Container';
 
-const Register = (props) => {
+const Login = (props) => {
+
+
+
+
 
     const
         { value: emailValue,
@@ -35,9 +39,6 @@ const Register = (props) => {
 
     }
 
-
-
-
     return (
         <Container className={`${styles['main']} d-flex flex-column`} fluid>
             <h1 className={styles['admin-header']}>login</h1>
@@ -47,9 +48,7 @@ const Register = (props) => {
                     <Form.Label className={styles['form-label']}>Email address</Form.Label>
                     <Form.Control
                         className={styles['control-input']}
-                        isValid={emailIsValid && emailIsTouched}
-                        isInvalid={!emailIsValid && emailIsTouched}
-                        onBlur={emailBlurHandler}
+                        style={{ backgroundColor: "#111", color: "white" }}
                         onChange={emailChangeHandler}
                         value={emailValue}
                         type="email"
@@ -57,7 +56,6 @@ const Register = (props) => {
 
                     />
                     <Form.Text className="text-muted">
-                        We'll never share your email with anyone else.
                     </Form.Text>
                 </Form.Group>
 
@@ -65,20 +63,16 @@ const Register = (props) => {
                     <Form.Label className={styles['form-label']}>Password</Form.Label>
                     <Form.Control
                         className={styles['control-input']}
-                        isValid={passwordIsValid && passwordIsTouched}
-                        isInvalid={(!passwordIsValid && passwordIsTouched)}
-                        onBlur={passwordBlurHandler} onChange={passwordChangeHandler}
+                        isValid={null}
+                        onChange={passwordChangeHandler}
                         type="password"
                         placeholder="Password"
                         value={passwordValue}
 
                     />
                     <Form.Text className="text-muted">
-                        2 uppercase, 2 lowercase, 2 digits, 2 special characters
                     </Form.Text>
                 </Form.Group>
-
-
 
                 <div className={styles['button-div']}>
                     <Button aria-label="Next" className={styles['form-button']} variant="custom" type="submit">
@@ -91,4 +85,4 @@ const Register = (props) => {
 
 }
 
-export default Register;
+export default Login;
