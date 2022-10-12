@@ -1,10 +1,8 @@
 package com.ctf.CTFtastic.model.projection;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonPropertyOrder({ "id", "name", "category", "points", "message", "file", "dockerfile"})
+@JsonPropertyOrder({"name", "category", "points", "message", "file", "dockerfile"})
 public interface ChallengeDetailsVM {
-    Integer getId();
-
     String getName();
 
     String getCategory();

@@ -1,20 +1,14 @@
 package com.ctf.CTFtastic.controller;
 
-import com.ctf.CTFtastic.Passwordconfig;
 import com.ctf.CTFtastic.jwt.JwtTokenUtil;
 import com.ctf.CTFtastic.model.entity.Role;
-import com.ctf.CTFtastic.model.projection.UserDetailsVM;
 import com.ctf.CTFtastic.model.request.SignupAdminRequest;
-import com.ctf.CTFtastic.model.userr;
 import com.ctf.CTFtastic.model.entity.Participant;
 import com.ctf.CTFtastic.model.request.LoginRequest;
 import com.ctf.CTFtastic.model.request.SignupRequest;
-import com.ctf.CTFtastic.repository.ParticipantRepository;
 import com.ctf.CTFtastic.repository.TeamRepository;
 import com.ctf.CTFtastic.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +16,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;

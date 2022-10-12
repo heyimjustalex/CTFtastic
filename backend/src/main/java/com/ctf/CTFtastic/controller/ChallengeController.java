@@ -1,9 +1,13 @@
 package com.ctf.CTFtastic.controller;
+import com.ctf.CTFtastic.model.PageableOfT;
 import com.ctf.CTFtastic.model.projection.ChallengeDetailsVM;
 import com.ctf.CTFtastic.model.projection.ChallengeForListVM;
+import com.ctf.CTFtastic.model.projection.TeamForListVM;
 import com.ctf.CTFtastic.service.ChallengeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,14 +18,24 @@ public class ChallengeController {
     @Autowired
     private ChallengeService challengeService;
 
-    @RequestMapping(value = {"/challenges", "/challenges/"})
-    @PreAuthorize("hasAnyRole('ROLE_CTF_ADMIN','ROLE_USER','ROLE_TEAM_CAPITAN')")
-    public List<ChallengeForListVM> getAll() {
-        return challengeService.getAllForListView();
+    @RequestMapping(value = {"/challenges/{page}/{size}"})
+    public PageableOfT<ChallengeForListVM> getAll(@PathVariable("page") int page, @PathVariable("size") int size) {
+        Pageable pageable = PageRequest.of(page,size);
+        Page<ChallengeForListVM> pageChallenges = challengeService.getAllForListView(pageable);
+
+        List<ChallengeForListVM> challanges = pageChallenges.getContent();
+
+        PageableOfT<ChallengeForListVM> challangeToView = PageableOfT.<ChallengeForListVM>builder()
+                .elements(challanges)
+                .currentPage(pageChallenges.getNumber())
+                .totalElements(pageChallenges.getTotalElements())
+                .totalPages(pageChallenges.getTotalPages())
+                .build();
+
+        return challangeToView;
     }
 
-    @RequestMapping(value = {"challenge/{id}","challenge/{id}/"})
-    @PreAuthorize("hasAnyRole('ROLE_CTF_ADMIN','ROLE_USER','ROLE_TEAM_CAPITAN')")
+    @RequestMapping(value = {"challenges/{id}"})
     public ChallengeDetailsVM getById(@PathVariable("id") int id){
         return challengeService.getById(id);
     }
