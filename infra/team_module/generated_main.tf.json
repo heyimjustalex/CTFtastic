@@ -1,0 +1,75 @@
+{
+    "terraform": {
+        "required_providers": {
+            "docker": {
+                "source": "kreuzwerker/docker",
+                "version": ">= 2.13.0"
+            }
+        }
+    },
+    "resource": {
+        "docker_image": [
+            {
+                "nginx": {
+                    "name": "nginx:latest",
+                    "keep_locally": true
+                }
+            },
+            {
+                "traefik": {
+                    "name": "traefik:latest",
+                    "keep_locally": true
+                }
+            },
+            {
+                "redis": {
+                    "name": "redis:latest",
+                    "keep_locally": true
+                }
+            }
+        ],
+        "docker_container": [
+            {
+                "nginx": {
+                    "image": "${docker_image.nginx.latest}",
+                    "name": "nginx_0_${module.network_mod.network_name}",
+                    "ports": {
+                        "internal": 80
+                    },
+                    "networks_advanced": {
+                        "name": "${module.network_mod.network_name}"
+                    }
+                }
+            },
+            {
+                "traefik": {
+                    "image": "${docker_image.traefik.latest}",
+                    "name": "traefik_1_${module.network_mod.network_name}",
+                    "ports": {
+                        "internal": 80
+                    },
+                    "networks_advanced": {
+                        "name": "${module.network_mod.network_name}"
+                    }
+                }
+            },
+            {
+                "redis": {
+                    "image": "${docker_image.redis.latest}",
+                    "name": "redis_2_${module.network_mod.network_name}",
+                    "ports": {
+                        "internal": 80
+                    },
+                    "networks_advanced": {
+                        "name": "${module.network_mod.network_name}"
+                    }
+                }
+            }
+        ]
+    },
+    "module": {
+        "network_mod": {
+            "source": "./network_module"
+        }
+    }
+}
