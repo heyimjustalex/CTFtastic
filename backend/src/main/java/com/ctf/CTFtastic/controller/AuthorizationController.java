@@ -34,7 +34,7 @@ public class AuthorizationController {
     private TeamRepository teamRepository;
     @Autowired
     private JwtTokenUtil jwtTokenUntil;
-
+    
     @PostMapping(value = {"/register", "/signup"})
     @ResponseBody
     public ResponseEntity<Participant> registerUser(@RequestBody SignupRequest signupRequest){
