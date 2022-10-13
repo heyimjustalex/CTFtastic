@@ -8,9 +8,9 @@ import useHttp from './../../hooks/use-http'
 import LoadingRing from '../UI/LoadingRing';
 import Container from 'react-bootstrap/Container';
 import useTimer from '../../hooks/use-timer';
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import StartContext from './../../store/start-context';
-
+import BasicDescription from './BasicDescription';
 const Start = (props) => {
     window.history.pushState({}, null, "/start");
 
@@ -19,13 +19,21 @@ const Start = (props) => {
     const { sendRequest, status, error } = useHttp(addStartingData);
     const [output, setOutput] = useState({});
 
-    const { time, startTimer, stopTimer } = useTimer(3, () => {
-        setTrueStarted(); navigate("/")
+    const { time: timeWhenContestCreated, startTimer: startTimerWhenContestCreated, stopTimer: stopTimerWhenContestCreated } = useTimer(3, () => {
+        setTrueStarted();
+        navigate("/");
+    });
+
+    const { time: timeWhenContestCreationFailed, startTimer: startTimerWhenContestCreationFailed, stopTimer: stopTimerWhenCreationFailed } = useTimer(3, () => {
+        setFalseStarted();
+        navigate('/start');
     });
 
     const [startingData, setStartingData] = useState(
         {
             renderedComponent: 'startPage',
+            title: '',
+            description: '',
             adminEmail: '',
             adminPassword: '',
             contestStartDate: {},
@@ -41,7 +49,8 @@ const Start = (props) => {
         if (startingData.renderedComponent === 'end') {
             // console.log(startingData);
             const tempData = {
-
+                title: startingData.title,
+                description: startingData.description,
                 adminEmail: startingData.adminEmail,
                 adminPassword: startingData.adminPassword,
                 contestStartDate: startingData.contestStartDate,
@@ -79,6 +88,15 @@ const Start = (props) => {
     const onGetStartedClickedHandler = () => {
         setStartingData({
             ...startingData,
+            renderedComponent: 'basicDescription'
+        });
+    }
+
+    const onDescriptionFilledHandler = (title, description) => {
+        setStartingData({
+            ...startingData,
+            title: title,
+            description: description,
             renderedComponent: 'startForm'
         });
     }
@@ -90,37 +108,43 @@ const Start = (props) => {
             adminPassword: password,
             renderedComponent: 'startDateTime'
         });
-
     }
 
     const onDateTimeFilledHandler = (dates) => {
         setStartingData({
             ...startingData,
-            renderedComponent: 'end',
             contestStartDate: dates.startDate,
             contestEndDate: dates.endDate,
             contestStartDateUTC: dates.startDateUTC,
-            contestEndDateUTC: dates.endDateUTC
+            contestEndDateUTC: dates.endDateUTC,
+            renderedComponent: 'end'
         })
     }
     let textColor = "";
-
-    if (status === 'completed') {
-        startTimer();
+    let time = "";
+    if (status === 'completed' && !error) {
+        textColor = styles['whiteText'];
+        startTimerWhenContestCreated();
+        time = timeWhenContestCreated;
     }
     if (status === 'completed' && error) {
         textColor = styles['redText'];
+        startTimerWhenContestCreationFailed();
+        time = timeWhenContestCreationFailed;
     }
-    else if (status === 'completed' && !error) {
-        textColor = styles['whiteText'];
-    }
+
 
     return (
         <>
             {startingData.renderedComponent === 'startPage' &&
                 <StartPage onGetStarted={onGetStartedClickedHandler} />}
+
+            {startingData.renderedComponent === 'basicDescription' &&
+                <BasicDescription onDescriptionFilled={onDescriptionFilledHandler} />}
+
             {startingData.renderedComponent === 'startForm' &&
                 <StartForm onAdminAccFilled={onAdminAccFilledHandler} />}
+
             {startingData.renderedComponent === 'startDateTime' &&
                 <StartTime onDateTimeFilled={onDateTimeFilledHandler} />}
 

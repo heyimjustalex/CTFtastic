@@ -6,26 +6,32 @@ import StartContext from './store/start-context';
 import Start from './components/Start/Start';
 import { useContext } from 'react';
 import Teams from './components/Teams';
-
+import Register from './components/Register';
+import Team from './components/Team';
+import Login from './components/Login';
 function App() {
 
   const { hasStarted, setFalseStarted, setTrueStarted } = useContext(StartContext);
 
   return (
-
     <div className="App">
       {/* <Router /> */}
 
       <BrowserRouter>
-        <MainHeader />
+        {hasStarted && <MainHeader />}
         <Routes>
           <Route path="/" element={hasStarted ? <p>HOME</p> : <Start />} />
+          {/* <Route path="*" element={<Navigate to='/' />} /> */}
+          <Route path='/login' element={<Login />} />
           <Route path='/start' element={<Navigate to='/' />} />
-          <Route path='/register' element={<p>Register</p>} />
-          <Route path='/login' element={<p>Login</p>} />
+          <Route path='/register' element={<Register />} />
+          <Route path='/login' element={<Login />} />
           <Route path='/scoreboard' element={<p>Scoreboard</p>} />
           <Route path='/challenges' element={<p>challenges</p>} />
-          <Route path='/teams' element={<Teams />} />
+          <Route path='/teams' element={<Teams />}>
+
+          </Route>
+          <Route path='/teams/:id' element={<Team />} />
         </Routes>
 
       </BrowserRouter>

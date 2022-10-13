@@ -4,6 +4,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import styles from './MainHeader.module.css';
 import mainLogo from './../../assets/img/logo_darker.png';
 import { Navigate, NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { useState, useEffect, useRef } from 'react';
 
 
 const imageElement = new Image();
@@ -11,9 +12,13 @@ imageElement.src = mainLogo;
 
 
 const MainHeader = (props) => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const [expanded, setExpanded] = useState(false);
+
+
+
   return (
-    <Navbar sticky="top" expand="lg" className={styles['navbar']} variant="dark" >
+    <Navbar expanded={expanded} sticky="top" expand="lg" className={styles['navbar']} variant="dark" >
       <Navbar.Brand className={styles['navbar-brand']} onClick={() => { navigate('/') }}>
         <img
           src={mainLogo}
@@ -22,13 +27,13 @@ const MainHeader = (props) => {
           className="d-inline-block align-top test"
           alt="Logo"
         />CTFtastic</Navbar.Brand>
-      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      <Navbar.Toggle onClick={() => setExpanded(expanded ? false : "expanded")} aria-controls="basic-navbar-nav" />
 
       <Navbar.Collapse id="basic-navbar-nav">
-        <Nav className={styles['nav'] + ' ' + styles['left-menu'] + ' mr-auto'}>
-          <NavLink className={({ isActive }) => (isActive ? styles['active'] : styles['hover-underline-animation']) + ' ' + styles['navlink']} to="/teams">Teams</NavLink>
-          <NavLink className={({ isActive }) => (isActive ? styles['active'] : styles['hover-underline-animation']) + ' ' + styles['navlink']} to="/challenges">Challenges</NavLink>
-          <NavLink className={({ isActive }) => (isActive ? styles['active'] : styles['hover-underline-animation']) + ' ' + styles['navlink']} to="/scoreboard">Scoreboard</NavLink>
+        <Nav className={styles['nav'] + ' ' + styles['left-menu'] + ' mr-auto '}>
+          <NavLink onClick={() => setExpanded(false)} className={({ isActive }) => (isActive ? styles['active'] : styles['hover-underline-animation']) + ' ' + styles['navlink']} to="/teams">Teams</NavLink>
+          <NavLink onClick={() => setExpanded(false)} className={({ isActive }) => (isActive ? styles['active'] : styles['hover-underline-animation']) + ' ' + styles['navlink']} to="/challenges">Challenges</NavLink>
+          <NavLink onClick={() => setExpanded(false)} className={({ isActive }) => (isActive ? styles['active'] : styles['hover-underline-animation']) + ' ' + styles['navlink']} to="/scoreboard">Scoreboard</NavLink>
           {/* <NavDropdown className={styles['nav-dropdown']} title="Dropdown" id={styles['dropdown-menu']}>
             <NavDropdown.Item className={styles['dropdown-item']} href="#action/3.1">Action</NavDropdown.Item>
             <NavDropdown.Item className={styles['dropdown-item']} href="#action/3.2">
@@ -41,9 +46,9 @@ const MainHeader = (props) => {
             </NavDropdown.Item>
           </NavDropdown> */}
         </Nav>
-        <Nav className={styles['nav'] + ' ' + styles['right-menu'] + ' mr-right'}>
-          <NavLink className={({ isActive }) => (isActive ? styles['active'] : styles['hover-underline-animation']) + ' ' + styles['navlink']} to="/register">Register</NavLink>
-          <NavLink className={({ isActive }) => (isActive ? styles['active'] : styles['hover-underline-animation']) + ' ' + styles['navlink']} to="/login">Login</NavLink>
+        <Nav className={styles['nav'] + ' ' + styles['right-menu'] + ' mr-right '}>
+          <NavLink onClick={() => setExpanded(false)} className={({ isActive }) => (isActive ? styles['active'] : styles['hover-underline-animation']) + ' ' + styles['navlink']} to="/register">Register</NavLink>
+          <NavLink onClick={() => setExpanded(false)} className={({ isActive }) => (isActive ? styles['active'] : styles['hover-underline-animation']) + ' ' + styles['navlink']} to="/login">Login</NavLink>
 
 
         </Nav>

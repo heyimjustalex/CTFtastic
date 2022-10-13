@@ -13,7 +13,7 @@ const useInput = (valueValidator) => {
         switch (action.type) {
             case ACTIONS.SET_ENTERED_VALUE:
                 const newObj = { enteredValue: action.enteredValue, enteredValueIsTouched: true };
-                console.log(newObj);
+                // console.log(newObj);
                 return newObj;
             case ACTIONS.SET_VALUE_IS_TOUCHED:
                 const newState = { enteredValue: state.enteredValue, enteredValueIsTouched: true }
@@ -66,7 +66,7 @@ const useInput = (valueValidator) => {
         hasError: hasError,
         valueChangeHandler: enteredValueChangeHandler,
         valueBlurHandler: enteredValueBlurHandler,
-        reset
+        reset: reset
     }
 
 }

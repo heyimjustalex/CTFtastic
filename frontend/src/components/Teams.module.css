@@ -8,9 +8,7 @@
     box-sizing: border-box;
     padding: 1em;
     font-size: 1.5em;
-    height: 70vh;
-
-
+    min-height: 90vh;
 }
 
 .output-content-container {
@@ -25,7 +23,7 @@
 
 table {
     border-collapse: collapse;
-    width: 70%;
+    width: 100%;
 }
 
 .table-teams {
@@ -52,9 +50,10 @@ tr:hover {
     cursor: pointer;
 }
 
-tr:first-child:hover {
+thead tr:first-child:hover {
     background-color: black;
     cursor: auto;
+
 }
 
 .output-content-container h3 {
@@ -84,4 +83,22 @@ tr:first-child:hover {
 
 .error-header {
     color: #FF304E;
+}
+
+
+@media screen and (max-width: 768px) {
+
+    .main {
+
+        font-size: 1.3em;
+    }
+
+    .table-header th:first-child {
+        display: none;
+    }
+
+    .team-id {
+        display: none;
+    }
+
 }
