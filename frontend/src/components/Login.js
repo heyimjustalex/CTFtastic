@@ -3,12 +3,36 @@ import Form from 'react-bootstrap/Form';
 import useInput from '../hooks/use-input';
 import styles from './Login.module.css';
 import Container from 'react-bootstrap/Container';
+import { useEffect, useState } from 'react';
+import useHttp from '../hooks/use-http';
+import { loginUser } from '../lib/api';
+import LoadingRing from './UI/LoadingRing';
 
 const Login = (props) => {
 
+    const { sendRequest, data, status, error } = useHttp(loginUser);
+    const [output, setOutput] = useState({});
 
+    useEffect(() => {
 
+        if (status === 'pending') {
+            setOutput({ header: 'Loading...', content: <LoadingRing /> });
+        }
 
+        else if (status === 'completed' && !error) {
+            console.log("DATA FROM USEFECT");
+            console.log(data);
+
+            setOutput({ header: 'Success!', content: 'you have been logged in' });
+
+        }
+
+        else if (status === 'completed' && error) {
+            setOutput({ header: 'Error occured:', content: error });
+
+        }
+
+    }, [status, error, setOutput]);
 
     const
         { value: emailValue,
@@ -35,7 +59,17 @@ const Login = (props) => {
 
     const formSubmitHandler = (event) => {
         event.preventDefault();
-        props.onAdminAccFilled(emailValue, passwordValue);
+        console.log("ASDA");
+        console.log(emailValue);
+        console.log(passwordValue);
+
+        const dataTemp = {
+            email: emailValue,
+            password: passwordValue
+        };
+
+        sendRequest(dataTemp);
+
 
     }
 
@@ -43,7 +77,6 @@ const Login = (props) => {
         <Container className={`${styles['main']} d-flex flex-column`} fluid>
             <h1 className={styles['admin-header']}>login</h1>
             <Form className={`${styles['start-form']}`} onSubmit={formSubmitHandler}>
-
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label className={styles['form-label']}>Email address</Form.Label>
                     <Form.Control
@@ -53,7 +86,6 @@ const Login = (props) => {
                         value={emailValue}
                         type="email"
                         placeholder="Enter email"
-
                     />
                     <Form.Text className="text-muted">
                     </Form.Text>
@@ -68,7 +100,6 @@ const Login = (props) => {
                         type="password"
                         placeholder="Password"
                         value={passwordValue}
-
                     />
                     <Form.Text className="text-muted">
                     </Form.Text>
@@ -79,6 +110,7 @@ const Login = (props) => {
                         Sign in!
                     </Button>
                 </div>
+                {output.content}
             </Form>
         </Container >
     );

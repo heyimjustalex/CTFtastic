@@ -14,8 +14,6 @@ function App() {
   const { hasStarted, setFalseStarted, setTrueStarted } = useContext(StartContext);
 
   return (
-
-
     <div className="App">
       {/* <Router /> */}
 
@@ -24,19 +22,17 @@ function App() {
         <Routes>
           <Route path="/" element={hasStarted ? <p>HOME</p> : <Start />} />
           {/* <Route path="*" element={<Navigate to='/' />} /> */}
-        </Routes>
-        {hasStarted &&
-          <Routes>
-            <Route path='/start' element={<Navigate to='/' />} />
-            <Route path='/register' element={<Register />} />
-            <Route path='/login' element={<Login />} />
-            <Route path='/scoreboard' element={<p>Scoreboard</p>} />
-            <Route path='/challenges' element={<p>challenges</p>} />
-            <Route path='/teams' element={<Teams />}>
+          <Route path='/login' element={<Login />} />
+          <Route path='/start' element={<Navigate to='/' />} />
+          <Route path='/register' element={<Register />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/scoreboard' element={<p>Scoreboard</p>} />
+          <Route path='/challenges' element={<p>challenges</p>} />
+          <Route path='/teams' element={<Teams />}>
 
-            </Route>
-            <Route path='/teams/:id' element={<Team />} />
-          </Routes>}
+          </Route>
+          <Route path='/teams/:id' element={<Team />} />
+        </Routes>
 
       </BrowserRouter>
 

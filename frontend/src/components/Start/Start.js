@@ -101,8 +101,6 @@ const Start = (props) => {
         });
     }
 
-
-
     const onAdminAccFilledHandler = (email, password) => {
         setStartingData({
             ...startingData,
@@ -110,7 +108,6 @@ const Start = (props) => {
             adminPassword: password,
             renderedComponent: 'startDateTime'
         });
-
     }
 
     const onDateTimeFilledHandler = (dates) => {
