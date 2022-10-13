@@ -28,7 +28,7 @@ export async function registerUser(userData) {
     const data = await response.json();
 
     if (!response.ok) {
-        throw new Error(data.message || 'Could not initalize contest data.');
+        throw new Error(data.error || 'Could not register user');
     }
     return null;
 }
