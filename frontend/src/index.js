@@ -6,11 +6,14 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { StartContextProvider } from "./store/start-context";
+import { AuthContextProvider } from "./store/auth-context";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <StartContextProvider>
-    <App />
+    <AuthContextProvider>
+      <App />
+    </AuthContextProvider>
   </StartContextProvider>
 );
 

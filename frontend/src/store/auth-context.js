@@ -1,18 +1,18 @@
 import React, { useEffect, useState, useCallback } from "react"
+import { useNavigate } from "react-router-dom";
 
 let logoutTimer;
 
-const AuthContext = React.createContext({
+export const AuthContext = React.createContext({
     token: '',
     isLoggedIn: false,
-    login: (token) => { },
+    login: (token, role, expirationTime) => { },
     logout: () => { }
 })
 
 const calculateRemainingTime = (expTime) => {
     const currentTime = new Date().getTime();
     const adjExpTime = new Date(expTime);
-
     const remainingDuration = adjExpTime - currentTime;
 
     return remainingDuration;
@@ -51,20 +51,20 @@ export const AuthContextProvider = (props) => {
         if (logoutTimer) {
             clearTimeout(logoutTimer);
         }
+
     }, [])
 
-    const loginHandler = (token, expirationTime) => {
+    const loginHandler = (token, role, expireTime) => {
         setToken(token);
         localStorage.setItem('token', token);
-        localStorage.setItem('expirationTime', expirationTime);
-        const remainingTime = calculateRemainingTime(expirationTime);
-
+        localStorage.setItem('expirationTime', expireTime);
+        localStorage.setItem('role', role);
+        const remainingTime = calculateRemainingTime(expireTime);
         logoutTimer = setTimeout(logoutHandler, remainingTime);
     }
 
     useEffect(() => {
         if (tokenData) {
-            console.log(tokenData.duration);
             logoutTimer = setTimeout(logoutHandler, tokenData.duration);
         }
 
@@ -77,10 +77,7 @@ export const AuthContextProvider = (props) => {
         login: loginHandler,
         logout: logoutHandler
     }
-
     return <AuthContext.Provider value={contextValue}>{props.children}</AuthContext.Provider>
-
-
 }
 
 

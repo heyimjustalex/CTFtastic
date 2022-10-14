@@ -61,7 +61,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .addFilterAfter(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterAfter(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(corsWebFilter(),CorsFilter.class);
     }
 
     @Bean

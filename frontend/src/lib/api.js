@@ -43,7 +43,8 @@ export async function loginUser(userData) {
         },
     });
 
-    const data = await response;
+    const data = await response.json();
+    console.log(data);
 
     if (!response.ok) {
         throw new Error('Could not login user');
@@ -53,7 +54,7 @@ export async function loginUser(userData) {
 
 
 export async function getTeams() {
-    const response = await fetch(`${BACKEND_ADDRESS}/teams.json`, {
+    const response = await fetch(`${BACKEND_ADDRESS}/teams/0/5`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'

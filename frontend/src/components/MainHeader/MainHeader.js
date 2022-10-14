@@ -4,7 +4,8 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import styles from './MainHeader.module.css';
 import mainLogo from './../../assets/img/logo_darker.png';
 import { Navigate, NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useContext } from 'react';
+import AuthContext from '../../store/auth-context';
 
 
 const imageElement = new Image();
@@ -14,8 +15,28 @@ imageElement.src = mainLogo;
 const MainHeader = (props) => {
   const navigate = useNavigate();
   const [expanded, setExpanded] = useState(false);
+  const authCTX = useContext(AuthContext);
+  const [loginButtonContentAndUrl, setloginButtonContentAndUrl] = useState({ url: '/login', buttonContent: 'Login' });
+
+  const logInOutHandler = () => {
+    setExpanded(false);
+    if (authCTX.isLoggedIn) {
+      authCTX.logout();
+    }
+  }
+
+  useEffect(() => {
+
+    if (authCTX.isLoggedIn) {
+      setloginButtonContentAndUrl({ url: '/', buttonContent: 'Logout' });
+
+    }
+    else {
+      setloginButtonContentAndUrl({ url: '/login', buttonContent: 'Login' });
+    }
 
 
+  }, [setloginButtonContentAndUrl, authCTX.isLoggedIn])
 
   return (
     <Navbar expanded={expanded} sticky="top" expand="lg" className={styles['navbar']} variant="dark" >
@@ -48,7 +69,7 @@ const MainHeader = (props) => {
         </Nav>
         <Nav className={styles['nav'] + ' ' + styles['right-menu'] + ' mr-right '}>
           <NavLink onClick={() => setExpanded(false)} className={({ isActive }) => (isActive ? styles['active'] : styles['hover-underline-animation']) + ' ' + styles['navlink']} to="/register">Register</NavLink>
-          <NavLink onClick={() => setExpanded(false)} className={({ isActive }) => (isActive ? styles['active'] : styles['hover-underline-animation']) + ' ' + styles['navlink']} to="/login">Login</NavLink>
+          <NavLink onClick={logInOutHandler} className={({ isActive }) => (isActive ? styles['active'] : styles['hover-underline-animation']) + ' ' + styles['navlink']} to={loginButtonContentAndUrl.url}>{loginButtonContentAndUrl.buttonContent}</NavLink>
 
 
         </Nav>
