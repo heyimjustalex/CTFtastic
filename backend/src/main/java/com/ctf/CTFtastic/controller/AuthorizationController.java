@@ -8,6 +8,8 @@ import com.ctf.CTFtastic.model.request.LoginRequest;
 import com.ctf.CTFtastic.model.request.SignupRequest;
 import com.ctf.CTFtastic.repository.TeamRepository;
 import com.ctf.CTFtastic.service.UserService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -19,6 +21,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 public class AuthorizationController {
@@ -34,7 +39,7 @@ public class AuthorizationController {
     private TeamRepository teamRepository;
     @Autowired
     private JwtTokenUtil jwtTokenUntil;
-    
+
     @PostMapping(value = {"/register", "/signup"})
     @ResponseBody
     public ResponseEntity<Participant> registerUser(@RequestBody SignupRequest signupRequest){
@@ -93,14 +98,24 @@ public class AuthorizationController {
 
             //UserDetails userDetails = (UserDetails) authenticate.getPrincipal();
 
+            var token = jwtTokenUntil.generateToken(loginRequest.getEmail());
+
+            Map<String, String> elements =  new HashMap<>();
+            elements.put("token",token);
+            elements.put("role", userService.getRoleByEmail(loginRequest.getEmail()));
+            elements.put("expireTime", "72000"); //potem zmienic żeby brał z prop
+
+            ObjectMapper objectMapper = new ObjectMapper();
+
+            String test = objectMapper.writeValueAsString(elements);
+
             return ResponseEntity.ok()
-                    .header(
-                            HttpHeaders.AUTHORIZATION,
-                            jwtTokenUntil.generateToken(loginRequest.getEmail())
-                    ).body(userService.getRoleByEmail(loginRequest.getEmail()));
+                    .body(test);
             //return ResponseEntity.ok("Dane Prrawidlowe");
 
         } catch (BadCredentialsException ex) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        } catch (JsonProcessingException e){ //poprawić
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
     }
