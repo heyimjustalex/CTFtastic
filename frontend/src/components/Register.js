@@ -209,14 +209,13 @@ const Register = (props) => {
                     <Button aria-label="Next" onSubmit={formSubmitHandler} disabled={!formIsValid} className={`${styles['form-button']} ${buttonDisabledClass}`} variant="custom" type="submit">
                         Sign up!
                     </Button>
-
                 </div>
-
             </Form>
 
             <div className={styles['output-container']}>
                 {!(status === 'pending') &&
                     <h1 className={styles[textColor]}>{output ? output.header : ''}</h1>}
+
                 {!(status === 'pending') && <h1> {output ? output.content : ''}</h1>}
                 {status === 'pending' &&
                     <LoadingRing />}

@@ -35,7 +35,7 @@ const Login = (props) => {
 
         }
 
-    }, [status, error, setOutput, data, authCTX]);
+    }, [status, error, setOutput, data, authCTX, navigate]);
 
     const
         { value: emailValue,
@@ -71,6 +71,16 @@ const Login = (props) => {
 
         sendRequest(dataTemp);
     }
+
+    let textColor = "";
+    if (status === 'completed' && !error) {
+        textColor = 'blueText';
+
+    }
+    if (status === 'completed' && error) {
+        textColor = 'redText';
+    }
+
 
     return (
 
@@ -112,7 +122,14 @@ const Login = (props) => {
                                 Sign in!
                             </Button>
                         </div>
-                        {output.content}
+                        <div className={styles['output-container']}>
+                            {!(status === 'pending') &&
+                                <h1 className={styles[textColor]}>{output ? output.header : ''}</h1>}
+
+                            {!(status === 'pending') && <h1> {output ? output.content : ''}</h1>}
+                            {status === 'pending' &&
+                                <LoadingRing />}
+                        </div>
                     </Form>
                 </>
             }
