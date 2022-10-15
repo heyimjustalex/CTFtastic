@@ -17,9 +17,11 @@ function App() {
 
       let backendResponseIfStarted = await askBackendIfContestHasStarted();
       if (backendResponseIfStarted) {
+        console.log("HEHEE")
         setTrueStartedLocalStorage();
       }
       else {
+
         setFalseStartedLocalStorage();
       }
 
@@ -28,6 +30,7 @@ function App() {
 
   }, [hasStarted, askBackendIfContestHasStarted, setTrueStartedLocalStorage, setFalseStartedLocalStorage]);
 
+  console.log("HERE", hasStarted);
 
   return (
     <div className="App">

@@ -11,8 +11,14 @@ const StartContext = React.createContext({
 export const StartContextProvider = (props) => {
 
     const askBackendIfContestHasStarted = async () => {
+        if (retrieveHasStartedInfo()) {
+
+            return true;
+        }
+
 
         async function getContests() {
+
             const response = await fetch(`${BACKEND_ADDRESS}/contests`, {
                 method: 'GET',
                 headers: {
@@ -34,24 +40,28 @@ export const StartContextProvider = (props) => {
         }
 
         let data = await getContests();
+
         if (data.elements.length) {
             return true;
+
         }
         return false;
     }
 
     const retrieveHasStartedInfo = () => {
         const storedHasStarted = localStorage.getItem('hasStarted');
+
         if (storedHasStarted) {
+
             return true;
         }
         return false;
     }
     const [hasStarted, setHasStarted] = useState(true);
-    useEffect(() => {
-        const initalState = retrieveHasStartedInfo();
-        setHasStarted(initalState);
-    }, [])
+    // useEffect(() => {
+    //     const initalState = retrieveHasStartedInfo();
+    //     setHasStarted(initalState);
+    // }, [])
 
     const setFalseStartedLocalStorage = useCallback(() => {
         localStorage.removeItem('hasStarted');

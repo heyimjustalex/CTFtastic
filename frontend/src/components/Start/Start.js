@@ -52,7 +52,6 @@ const Start = (props) => {
         if (startingData.renderedComponent === 'end') {
             // console.log(startingData);
             const transformDate = (date) => {
-                console.log(typeof (date))
                 date = new Date(date);
                 let month = date.getMonth();
                 let day = date.getDay();
@@ -67,7 +66,6 @@ const Start = (props) => {
                 second >= 0 && second <= 9 ? second = '0' + String(second) : String(second);
 
                 const temp = String(date.getFullYear() + '-' + month + '-' + day + 'T' + hour + ':' + minute + ':' + second);
-                console.log(temp);
                 return temp;
             }
 
@@ -82,8 +80,6 @@ const Start = (props) => {
                 description: startingData.description
             }
             transformDate(tempData.startTime);
-            console.log(tempData);
-
             sendRequest(tempData)
         }
 
