@@ -107,10 +107,10 @@ public class AuthorizationController {
 
             ObjectMapper objectMapper = new ObjectMapper();
 
-            String test = objectMapper.writeValueAsString(elements);
+            String returnData = objectMapper.writeValueAsString(elements);
 
             return ResponseEntity.ok()
-                    .body(test);
+                    .body(returnData);
             //return ResponseEntity.ok("Dane Prrawidlowe");
 
         } catch (BadCredentialsException ex) {

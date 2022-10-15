@@ -48,20 +48,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http
-                .cors().disable()
-                .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/login","/signup","/signin","/register","/nouser","/registerAdmin", "/set-up").permitAll()
+                .antMatchers("/login","/signup","/signin","/register","/nouser","/registerAdmin", "/set-up", "/contests").permitAll()
                 .antMatchers("/teams/{id}", "/teams/{page}/{size}").permitAll()
                 .antMatchers("/users/{page}/{size}", "/users/{id}").permitAll()
-                .antMatchers("challenges/{id}","/challenges/{page}/{size}").permitAll()
+                .antMatchers("/challenges/{id}","/challenges/{page}/{size}").permitAll()
                 .antMatchers("/test1").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .addFilterAfter(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterAfter(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(corsWebFilter(), CorsFilter.class);
     }
 
     @Bean
@@ -100,4 +99,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         return new CorsFilter((CorsConfigurationSource) source);
     }
+
 }
