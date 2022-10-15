@@ -8,6 +8,10 @@
     background: #000;
 }
 
+.redText {
+    color: #FF304E !important;
+}
+
 .navbar-brand {
     cursor: pointer;
 }

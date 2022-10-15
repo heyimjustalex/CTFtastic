@@ -3,7 +3,7 @@ import StartPage from './StartPage';
 import StartTime from './StartTime';
 import styles from './Start.module.css';
 import { useState, useEffect, useContext } from 'react';
-import { addStartingData } from './../../lib/api'
+import { setUpContest } from './../../lib/api'
 import useHttp from './../../hooks/use-http'
 import LoadingRing from '../UI/LoadingRing';
 import Container from 'react-bootstrap/Container';
@@ -11,12 +11,13 @@ import useTimer from '../../hooks/use-timer';
 import { useNavigate } from "react-router-dom";
 import StartContext from './../../store/start-context';
 import BasicDescription from './BasicDescription';
+import { integerPropType } from '@mui/utils';
 const Start = (props) => {
     window.history.pushState({}, null, "/start");
 
     const { hasStarted, setFalseStarted, setTrueStarted } = useContext(StartContext);
     const navigate = useNavigate();
-    const { sendRequest, status, error } = useHttp(addStartingData);
+    const { sendRequest, status, error } = useHttp(setUpContest);
     const [output, setOutput] = useState({});
 
     const { time: timeWhenContestCreated, startTimer: startTimerWhenContestCreated, stopTimer: stopTimerWhenContestCreated } = useTimer(3, () => {
@@ -48,16 +49,38 @@ const Start = (props) => {
 
         if (startingData.renderedComponent === 'end') {
             // console.log(startingData);
-            const tempData = {
-                title: startingData.title,
-                description: startingData.description,
-                adminEmail: startingData.adminEmail,
-                adminPassword: startingData.adminPassword,
-                contestStartDate: startingData.contestStartDate,
-                contestStartDateUTC: startingData.contestStartDateUTC,
-                contestEndDate: startingData.contestEndDate,
-                contestEndDateUTC: startingData.contestEndDateUTC
+            const transformDate = (date) => {
+                console.log(typeof (date))
+                date = new Date(date);
+                let month = date.getMonth();
+                let day = date.getDay();
+                let hour = date.getHours();
+                let minute = date.getMinutes();
+                let second = date.getSeconds();
+
+                month >= 0 && month <= 9 ? month = '0' + String(month) : String(month);
+                day >= 0 && day <= 9 ? day = '0' + String(day) : String(day);
+                hour >= 0 && hour <= 9 ? hour = '0' + String(hour) : String(hour);
+                minute >= 0 && minute <= 9 ? minute = '0' + String(minute) : String(minute);
+                second >= 0 && second <= 9 ? second = '0' + String(second) : String(second);
+
+                const temp = String(date.getFullYear() + '-' + month + '-' + day + 'T' + hour + ':' + minute + ':' + second);
+                console.log(temp);
+                return temp;
             }
+
+            const tempData = {
+                email: startingData.adminEmail,
+                password: startingData.adminPassword,
+                startTime: transformDate(startingData.contestStartDate),
+                startTimeUtf: transformDate(startingData.contestStartDateUTC),
+                endTime: transformDate(startingData.contestEndDate),
+                endTimeUtf: transformDate(startingData.contestEndDateUTC),
+                title: startingData.title,
+                description: startingData.description
+            }
+            transformDate(tempData.startTime);
+            console.log(tempData);
 
             sendRequest(tempData)
         }

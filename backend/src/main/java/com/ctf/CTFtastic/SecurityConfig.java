@@ -61,6 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .addFilterAfter(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(corsWebFilter(), CorsFilter.class);
+
     }
 
     @Bean
@@ -93,7 +94,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         corsConfig.addAllowedHeader("*");
         corsConfig.addExposedHeader("Access-Control-Expose-Headers");
         corsConfig.addExposedHeader("Location");
-
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", corsConfig);
 
