@@ -29,6 +29,9 @@
 .output-container {
     width: 70%;
     text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .output-container h1 {

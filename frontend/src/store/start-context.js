@@ -1,22 +1,27 @@
 import React, { useState, useCallback, useEffect } from "react"
-
-
+import useHttp from "../hooks/use-http";
 
 const StartContext = React.createContext({
-    hasStarted: false
+    hasStarted: false,
+    setFalseStarted: () => { },
+    setTrueStarted: () => { }
 })
-
-
-const retrieveHasStartedInfo = () => {
-    const storedHasStarted = localStorage.getItem('hasStarted');
-    if (storedHasStarted) {
-        return true
-    }
-    return false
-}
 
 export const StartContextProvider = (props) => {
 
+    // const { sendRequest, data, status, error } = useHttp(getStartingInfo);
+    const retrieveHasStartedInfo = () => {
+
+
+        const storedHasStarted = localStorage.getItem('hasStarted');
+        if (storedHasStarted) {
+            return true
+        }
+        else {
+
+        }
+        return false
+    }
     const [hasStarted, setHasStarted] = useState(true);
     useEffect(() => {
         const initalState = retrieveHasStartedInfo();
