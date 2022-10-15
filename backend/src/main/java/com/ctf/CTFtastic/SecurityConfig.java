@@ -48,13 +48,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http
-                .cors().disable()
-                .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/login","/signup","/signin","/register","/nouser","/registerAdmin", "/set-up").permitAll()
+                .antMatchers("/login","/signup","/signin","/register","/nouser","/registerAdmin", "/set-up", "/contests").permitAll()
                 .antMatchers("/teams/{id}", "/teams/{page}/{size}").permitAll()
                 .antMatchers("/users/{page}/{size}", "/users/{id}").permitAll()
-                .antMatchers("challenges/{id}","/challenges/{page}/{size}").permitAll()
+                .antMatchers("/challenges/{id}","/challenges/{page}/{size}").permitAll()
                 .antMatchers("/test1").permitAll()
                 .anyRequest()
                 .authenticated()
@@ -62,7 +60,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .addFilterAfter(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(corsWebFilter(),CorsFilter.class);
+                .addFilterBefore(corsWebFilter(), CorsFilter.class);
+
     }
 
     @Bean
@@ -95,10 +94,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         corsConfig.addAllowedHeader("*");
         corsConfig.addExposedHeader("Access-Control-Expose-Headers");
         corsConfig.addExposedHeader("Location");
-
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", corsConfig);
 
         return new CorsFilter((CorsConfigurationSource) source);
     }
+
 }
