@@ -10,8 +10,6 @@ imageElement.src = mainLogo;
 
 const StartPage = (props) => {
 
-
-
     const getStartedClickedHandler = (event) => {
         event.preventDefault();
         props.onGetStarted();

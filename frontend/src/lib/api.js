@@ -18,14 +18,31 @@ export async function setUpContest(setupData) {
     if (contentType && contentType.indexOf('application/json') !== -1) {
         return response.json();
     } else {
-        //if response is not json and mostly empty
+        return null;
+    }
+}
+export async function getContests() {
+    const response = await fetch(`${BACKEND_ADDRESS}/contests`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    });
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(data.error || 'Couldnt fetch teams data.');
+    }
+
+    var contentType = response.headers.get('content-type')
+    if (contentType && contentType.indexOf('application/json') !== -1) {
+        return response.json();
+    } else {
         return null;
     }
 
-
-
-
 }
+
 
 export async function registerUser(userData) {
     const response = await fetch(`${BACKEND_ADDRESS}/register`, {
@@ -54,7 +71,6 @@ export async function loginUser(userData) {
     });
 
     const data = await response.json();
-    console.log(data);
 
     if (!response.ok) {
         throw new Error('Could not login user');

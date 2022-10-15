@@ -1,14 +1,17 @@
 import React, { useEffect, useState, useCallback } from "react"
 import { useNavigate } from "react-router-dom";
 
+
 let logoutTimer;
 
 export const AuthContext = React.createContext({
     token: '',
     isLoggedIn: false,
     login: (token, role, expirationTime) => { },
-    logout: () => { }
+    logout: () => { },
+
 })
+
 
 const calculateRemainingTime = (expTime) => {
     const currentTime = new Date().getTime();
@@ -34,6 +37,10 @@ const retrieveStoredToken = () => {
 }
 
 export const AuthContextProvider = (props) => {
+
+
+     
+
     const tokenData = retrieveStoredToken();
     let initialToken;
     if (tokenData) {
@@ -75,7 +82,8 @@ export const AuthContextProvider = (props) => {
         token: token,
         isLoggedIn: userIsLoggedIn,
         login: loginHandler,
-        logout: logoutHandler
+        logout: logoutHandler,
+       
     }
     return <AuthContext.Provider value={contextValue}>{props.children}</AuthContext.Provider>
 }

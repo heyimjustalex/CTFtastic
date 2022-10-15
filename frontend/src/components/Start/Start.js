@@ -11,22 +11,24 @@ import useTimer from '../../hooks/use-timer';
 import { useNavigate } from "react-router-dom";
 import StartContext from './../../store/start-context';
 import BasicDescription from './BasicDescription';
-import { integerPropType } from '@mui/utils';
-const Start = (props) => {
-    window.history.pushState({}, null, "/start");
 
-    const { hasStarted, setFalseStarted, setTrueStarted } = useContext(StartContext);
+const Start = (props) => {
+
+    const { hasStarted, setFalseStartedLocalStorage, setTrueStartedLocalStorage } = useContext(StartContext);
     const navigate = useNavigate();
     const { sendRequest, status, error } = useHttp(setUpContest);
     const [output, setOutput] = useState({});
 
-    const { time: timeWhenContestCreated, startTimer: startTimerWhenContestCreated, stopTimer: stopTimerWhenContestCreated } = useTimer(3, () => {
-        setTrueStarted();
-        navigate("/");
-    });
+    const {
+        time: timeWhenContestCreated,
+        startTimer: startTimerWhenContestCreated,
+        stopTimer: stopTimerWhenContestCreated } = useTimer(3, () => {
+            setTrueStartedLocalStorage();
+            navigate("/");
+        });
 
     const { time: timeWhenContestCreationFailed, startTimer: startTimerWhenContestCreationFailed, stopTimer: stopTimerWhenCreationFailed } = useTimer(3, () => {
-        setFalseStarted();
+        setFalseStartedLocalStorage();
         navigate('/start');
     });
 
