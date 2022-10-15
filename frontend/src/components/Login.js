@@ -27,6 +27,7 @@ const Login = (props) => {
             authCTX.login(data.token, data.role, expTime.toISOString());
 
             setOutput({ header: 'Success!', content: 'you have been logged in' });
+
             navigate('/');
         }
 
@@ -133,6 +134,8 @@ const Login = (props) => {
                     </Form>
                 </>
             }
+
+            {authCTX.isLoggedIn && <div className={styles['output-container']}> <h1 className={styles['redText']}>You are logged in!</h1></div>}
         </Container >
     );
 

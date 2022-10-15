@@ -36,7 +36,7 @@ const useInput = (valueValidator) => {
     // console.log("state is touched ", state.enteredValueIsTouched);
 
     const enteredValueChangeHandler = (event) => {
-        console.log(event.target.value);
+        // console.log(event.target.value);
         dispatch({ type: "SET_ENTERED_VALUE", enteredValue: event.target.value });
 
     }

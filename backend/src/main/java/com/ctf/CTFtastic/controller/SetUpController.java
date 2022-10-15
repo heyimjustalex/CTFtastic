@@ -8,6 +8,7 @@ import com.ctf.CTFtastic.model.request.RegisterAdminAndCreateContestRequest;
 import com.ctf.CTFtastic.model.request.SignupRequest;
 import com.ctf.CTFtastic.service.ContestService;
 import com.ctf.CTFtastic.service.UserService;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -41,7 +42,7 @@ public class SetUpController {
 
     @PostMapping(value = {"/set-up",})
     @ResponseBody
-    public ResponseEntity<String> setUpAplikation(@RequestBody RegisterAdminAndCreateContestRequest registerAdminAndCreateContestRequest) {
+    public ResponseEntity setUpAplikation(@RequestBody RegisterAdminAndCreateContestRequest registerAdminAndCreateContestRequest) {
         Participant participant = Participant.builder()
                 .isHidden(true)
                 .isCtfAdmin(true)
@@ -77,7 +78,7 @@ public class SetUpController {
                     .header(
                             HttpHeaders.AUTHORIZATION,
                             jwtTokenUtil.generateToken(participant.getEmail())
-                    ).body(userService.getRoleByEmail(participant.getEmail()));
+                    ).body(null);
 
         } catch (BadCredentialsException ex) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);

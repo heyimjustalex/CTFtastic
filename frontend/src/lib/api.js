@@ -1,20 +1,30 @@
 const BACKEND_ADDRESS = 'http://localhost:8080';
 //const BACKEND_ADDRESS = 'https://react-http-f2a23-default-rtdb.europe-west1.firebasedatabase.app';
 
-export async function addStartingData(startingData) {
-    const response = await fetch(`${BACKEND_ADDRESS}/startingData.json`, {
+export async function setUpContest(setupData) {
+    const response = await fetch(`${BACKEND_ADDRESS}/set-up`, {
         method: 'POST',
-        body: JSON.stringify(startingData),
+        body: JSON.stringify(setupData),
         headers: {
             'Content-Type': 'application/json',
         },
     });
-    const data = await response.json();
 
     if (!response.ok) {
-        throw new Error(data.error || 'Could not initalize contest data.');
+        throw new Error(setupData.error || 'Could not initalize contest data.');
     }
-    return null;
+
+    var contentType = response.headers.get('content-type')
+    if (contentType && contentType.indexOf('application/json') !== -1) {
+        return response.json();
+    } else {
+        //if response is not json and mostly empty
+        return null;
+    }
+
+
+
+
 }
 
 export async function registerUser(userData) {
