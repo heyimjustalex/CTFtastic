@@ -28,7 +28,7 @@ export async function getContests() {
             'Content-Type': 'application/json'
         },
     });
-    const data = await response.json();
+    const data = await response;
 
     if (!response.ok) {
         throw new Error(data.error || 'Couldnt fetch teams data.');

@@ -8,6 +8,7 @@ import Teams from './components/Teams';
 import Register from './components/Register';
 import Team from './components/Team';
 import Login from './components/Login';
+import Home from './components/Home';
 
 function App() {
   const { hasStarted, setFalseStartedLocalStorage, setTrueStartedLocalStorage, askBackendIfContestHasStarted } = useContext(StartContext);
@@ -17,7 +18,7 @@ function App() {
 
       let backendResponseIfStarted = await askBackendIfContestHasStarted();
       if (backendResponseIfStarted) {
-        console.log("HEHEE")
+
         setTrueStartedLocalStorage();
       }
       else {
@@ -37,7 +38,7 @@ function App() {
       <BrowserRouter>
         {hasStarted && <MainHeader />}
         <Routes>
-          <Route path="/" element={hasStarted ? <p>HOME</p> : <Start />} />
+          <Route path="/" element={hasStarted ? <Home /> : <Start />} />
           {/* <Route path="*" element={<Navigate to='/' />} /> */}
           <Route path='/login' element={<Login />} />
           <Route path='/start' element={<Navigate to='/' />} />

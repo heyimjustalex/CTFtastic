@@ -47,14 +47,13 @@ const Start = (props) => {
     );
 
     useEffect(() => {
-        ///sendrequest if it's the end of this process
 
         if (startingData.renderedComponent === 'end') {
-            // console.log(startingData);
             const transformDate = (date) => {
+
                 date = new Date(date);
                 let month = date.getMonth();
-                let day = date.getDay();
+                let day = date.getDate();
                 let hour = date.getHours();
                 let minute = date.getMinutes();
                 let second = date.getSeconds();
@@ -79,7 +78,7 @@ const Start = (props) => {
                 title: startingData.title,
                 description: startingData.description
             }
-            transformDate(tempData.startTime);
+
             sendRequest(tempData)
         }
 
