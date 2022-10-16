@@ -5,17 +5,33 @@ import Container from 'react-bootstrap/Container';
 import styles from './Teams.module.css';
 import LoadingRingTable from "./UI/LoadingRingTable";
 import { useNavigate } from "react-router-dom";
+import ReactPaginate from "react-paginate";
 
 const Teams = () => {
     const [output, setOutput] = useState({});
     const { sendRequest, status, error, data } = useHttp(getTeams);
+    const [currentPageNumber, setCurrentPageNumber] = useState(0);
+    const teamsPerPage = 6;
+    const [totalElements, setTotalElements] = useState(0);
+    const [totalPages, setTotalPages] = useState(0);
+    useEffect(() => {
+
+        const pagData = { page: currentPageNumber, size: teamsPerPage };
+        sendRequest(pagData);
+
+    }, [sendRequest, currentPageNumber])
+
+    // const teamsVisited = pageNumber * teamsPerPage;
+
+
+
     const navigate = useNavigate();
     const handleRowClick = (id) => {
         navigate(`/teams/${id}`);
     }
 
     useEffect(() => {
-        sendRequest()
+
     }, [sendRequest]);
 
     useEffect(() => {
@@ -25,8 +41,14 @@ const Teams = () => {
         }
 
         else if (status === 'completed' && !error) {
-            const dataWithSelector = data.map((element) => {
-                return <tr onClick={() => handleRowClick(element.id)}>
+
+            console.log("DATA", data);
+            setTotalElements(data.totalElements);
+            setTotalPages(data.totalPages);
+            console.log(data.totalElements)
+
+            const dataWithSelector = data.elements.map((element) => {
+                return <tr key={element.id} onClick={() => handleRowClick(element.id)}>
                     <td className={styles['team-id']}>{element.id}</td>
                     <td>{element.name}</td>
                     <td> {element.points}</td>
@@ -43,6 +65,13 @@ const Teams = () => {
         }
 
     }, [status, error, setOutput, data]);
+
+
+    const onChangePageHandler = ({ selected }) => {
+        console.log("SELECTED", selected);
+        setCurrentPageNumber(selected);
+    }
+
     return (
 
         <Container className={`${styles['main']} d-flex flex-column`}>
@@ -63,6 +92,14 @@ const Teams = () => {
                 </tbody>
             </table>
             {status === 'completed' && error && <Container className={`${styles['output-content-container']}`}><h3 className={styles['error-header']}>{output.content}</h3></Container>}
+            <ReactPaginate
+                previousLabel="Previous"
+                nextLabel="Next"
+                pageCount={totalPages}
+                onPageChange={onChangePageHandler}
+            >
+
+            </ReactPaginate>
         </Container>
     )
 }

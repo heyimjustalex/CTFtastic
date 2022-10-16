@@ -79,8 +79,8 @@ export async function loginUser(userData) {
 }
 
 
-export async function getTeams() {
-    const response = await fetch(`${BACKEND_ADDRESS}/teams/0/5`, {
+export async function getTeams(paginationData) {
+    const response = await fetch(`${BACKEND_ADDRESS}/teams/${paginationData.page}/${paginationData.size}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
@@ -93,11 +93,14 @@ export async function getTeams() {
     }
 
     let arr = [];
-
+    console.log('JSON DATA API', data);
+    return data;
     for (let key in data) {
+
         const obj = data[key];
         arr.push(obj)
     }
+    console.log("ARR API", arr);
 
-    return arr;
+    return data;
 }
