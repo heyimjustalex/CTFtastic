@@ -85,6 +85,91 @@ thead tr:first-child:hover {
     color: #FF304E;
 }
 
+.pagination {
+
+    width: 100%;
+    margin-top: 1em;
+    /* background-color: red; */
+    /* margin-top: 1em; */
+    /* background-color: red; */
+}
+
+.pagination>ul {
+    justify-content: center;
+    display: flex;
+}
+
+.pagination li {
+    float: left;
+    padding: 2px 5px;
+    border: 1px solid black;
+}
+
+
+.page-item {
+    background-color: #000;
+
+    /* border: 1px solid white; */
+
+}
+
+.page-link {
+    background-color: black;
+    color: white;
+    margin-left: 0.25em;
+    margin-right: 0.25em;
+}
+
+.page-link:hover {
+    color: #0CC6FF;
+    text-decoration: none;
+}
+
+.pagination>li.active>a {
+    color: #fff;
+    border: 1px solid #0CC6FF;
+}
+
+.pagination>li>a {
+    min-width: 30px;
+    width: fit-content;
+    text-align: center;
+}
+
+.pagination>li:first-child>a,
+.pagination>li:first-child>span {
+    margin-left: 0;
+}
+
+.page-button {
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 10px;
+    margin-left: 20px;
+    margin-right: 10px;
+    background-color: #0CC6FF;
+    color: #eee;
+}
+
+.page-button:hover {
+    text-decoration: none;
+    background-color: #0BB5EE;
+}
+
+.pagination>li>a:hover {
+
+    color: white;
+    cursor: pointer;
+}
+
+.pagination>li {
+
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+
+}
+
 
 @media screen and (max-width: 768px) {
 

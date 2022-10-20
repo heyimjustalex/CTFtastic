@@ -92,15 +92,27 @@ const Teams = () => {
                 </tbody>
             </table>
             {status === 'completed' && error && <Container className={`${styles['output-content-container']}`}><h3 className={styles['error-header']}>{output.content}</h3></Container>}
-            <ReactPaginate
-                previousLabel="Previous"
-                nextLabel="Next"
-                pageCount={totalPages}
-                onPageChange={onChangePageHandler}
-            >
 
-            </ReactPaginate>
-        </Container>
+            <div className={styles['pagination']}>
+                <ReactPaginate
+                    previousLabel="prev"
+                    nextLabel="next"
+                    pageCount={totalPages}
+                    onPageChange={onChangePageHandler}
+                    breakClassName={styles["page-item"]}
+                    breakLinkClassName={styles["page-link"]}
+                    containerClassName={styles["pagination"]}
+                    pageClassName={styles["page-item"]}
+                    pageLinkClassName={styles["page-link"]}
+                    previousClassName={styles["page-link"]}
+                    previousLinkClassName={styles["page-button"]}
+                    nextClassName={styles["page-item"]}
+                    nextLinkClassName={styles["page-button"]}
+                    activeClassName={styles["active"]}
+                >
+
+                </ReactPaginate></div>
+        </Container >
     )
 }
 
