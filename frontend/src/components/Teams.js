@@ -6,13 +6,14 @@ import styles from './Teams.module.css';
 import LoadingRingTable from "./UI/LoadingRingTable";
 import { useNavigate } from "react-router-dom";
 import ReactPaginate from "react-paginate";
+import Pagination from "./Pagination";
 
 const Teams = () => {
     const [output, setOutput] = useState({});
     const { sendRequest, status, error, data } = useHttp(getTeams);
     const [currentPageNumber, setCurrentPageNumber] = useState(0);
     const teamsPerPage = 6;
-    const [totalElements, setTotalElements] = useState(0);
+    // const [totalElements, setTotalElements] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
     useEffect(() => {
 
@@ -34,10 +35,6 @@ const Teams = () => {
 
     useEffect(() => {
 
-    }, [sendRequest]);
-
-    useEffect(() => {
-
         if (status === 'pending') {
             setOutput({ header: 'Loading...', content: <LoadingRingTable /> });
         }
@@ -45,7 +42,7 @@ const Teams = () => {
         else if (status === 'completed' && !error) {
 
             // console.log("DATA", data);
-            setTotalElements(data.totalElements);
+            // setTotalElements(data.totalElements);
             setTotalPages(data.totalPages);
             // console.log(data.totalElements)
 
@@ -70,7 +67,7 @@ const Teams = () => {
 
 
     const onChangePageHandler = ({ selected }) => {
-        console.log("SELECTED", selected);
+        // console.log("SELECTED", selected);
         setCurrentPageNumber(selected);
     }
 
@@ -95,25 +92,8 @@ const Teams = () => {
             </table>
             {status === 'completed' && error && <Container className={`${styles['output-content-container']}`}><h3 className={styles['error-header']}>{output.content}</h3></Container>}
 
-            <div className={styles['pagination']}>
-                <ReactPaginate
-                    previousLabel="prev"
-                    nextLabel="next"
-                    pageCount={totalPages}
-                    onPageChange={onChangePageHandler}
-                    breakClassName={styles["page-item"]}
-                    breakLinkClassName={styles["page-link"]}
-                    containerClassName={styles["pagination"]}
-                    pageClassName={styles["page-item"]}
-                    pageLinkClassName={styles["page-link"]}
-                    previousClassName={styles["page-link"]}
-                    previousLinkClassName={styles["page-button"]}
-                    nextClassName={styles["page-item"]}
-                    nextLinkClassName={styles["page-button"]}
-                    activeClassName={styles["active"]}
-                >
+            <Pagination pageCount={totalPages} onChangePage={onChangePageHandler}></Pagination>
 
-                </ReactPaginate></div>
         </Container >
     )
 }
