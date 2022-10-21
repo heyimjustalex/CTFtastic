@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import useHttp from "../hooks/use-http";
 import { getTeams } from "../lib/api";
 import Container from 'react-bootstrap/Container';
@@ -26,9 +26,11 @@ const Teams = () => {
 
 
     const navigate = useNavigate();
-    const handleRowClick = (id) => {
+    const handleRowClick = useCallback((id) => {
         navigate(`/teams/${id}`);
-    }
+    }, [navigate])
+
+
 
     useEffect(() => {
 
@@ -42,10 +44,10 @@ const Teams = () => {
 
         else if (status === 'completed' && !error) {
 
-            console.log("DATA", data);
+            // console.log("DATA", data);
             setTotalElements(data.totalElements);
             setTotalPages(data.totalPages);
-            console.log(data.totalElements)
+            // console.log(data.totalElements)
 
             const dataWithSelector = data.elements.map((element) => {
                 return <tr key={element.id} onClick={() => handleRowClick(element.id)}>
@@ -64,7 +66,7 @@ const Teams = () => {
 
         }
 
-    }, [status, error, setOutput, data]);
+    }, [status, error, setOutput, data, handleRowClick]);
 
 
     const onChangePageHandler = ({ selected }) => {

@@ -91,16 +91,28 @@ thead tr:first-child:hover {
     margin-top: 1em;
     /* background-color: red; */
     /* margin-top: 1em; */
-    /* background-color: red; */
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
 }
 
 .pagination>ul {
-    justify-content: center;
-    display: flex;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+
+    /* background-color: blue; */
+    width: 100%;
+
 }
 
 .pagination li {
-    float: left;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+
     padding: 2px 5px;
     border: 1px solid black;
 }
@@ -136,10 +148,8 @@ thead tr:first-child:hover {
     text-align: center;
 }
 
-.pagination>li:first-child>a,
-.pagination>li:first-child>span {
-    margin-left: 0;
-}
+.pagination>li:first-child,
+.pagination>li:first-child>span {}
 
 .page-button {
     padding-left: 10px;
@@ -170,6 +180,35 @@ thead tr:first-child:hover {
 
 }
 
+li.page-item:first-child {
+    margin-left: 10%;
+}
+
+li.page-item:last-child {
+    margin-right: 10%;
+}
+
+@media screen and (max-width: 768px) {
+    .pagination>li>a {
+        min-width: 1px;
+
+    }
+
+    .page-link {
+
+        margin-left: 0.1em;
+        margin-right: 0.1em;
+    }
+
+    .page-button {
+        padding-left: 10px;
+        padding-right: 10px;
+        border-radius: 10px;
+        margin-left: 5px;
+        margin-right: 5px;
+
+    }
+}
 
 @media screen and (max-width: 768px) {
 
