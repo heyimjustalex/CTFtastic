@@ -21,6 +21,7 @@ const Pagination = (props) => {
                 nextLinkClassName={styles["page-button"]}
                 activeClassName={styles["active"]}
                 disabledClassName={styles['disabled']}
+
             >
             </ReactPaginate></div>
     );

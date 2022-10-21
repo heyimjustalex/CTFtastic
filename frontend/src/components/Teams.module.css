@@ -26,7 +26,7 @@ table {
     width: 100%;
 }
 
-.table-teams {
+.table-elements {
     list-style-type: none;
 }
 
@@ -43,6 +43,7 @@ th {
 
 th {
     color: #0CC6FF;
+    /* color: :; */
 }
 
 tr:hover {
@@ -85,6 +86,18 @@ thead tr:first-child:hover {
     color: #FF304E;
 }
 
+.tr-hover-when-loggedin:hover {
+    background-color: #111 !important;
+    cursor: pointer !important;
+}
+
+
+thead tr:first-child:hover {
+    background-color: black !important;
+    cursor: auto !important;
+
+}
+
 @media screen and (max-width: 768px) {
 
     .main {
@@ -96,7 +109,7 @@ thead tr:first-child:hover {
         display: none;
     }
 
-    .team-id {
+    .element-id {
         display: none;
     }
 

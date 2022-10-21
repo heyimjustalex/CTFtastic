@@ -69,6 +69,9 @@ export async function loginUser(userData) {
             'Content-Type': 'application/json',
         },
     });
+    if (!response.ok) {
+        throw new Error('Login failed');
+    }
 
     const data = await response.json();
 

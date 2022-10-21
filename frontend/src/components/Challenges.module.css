@@ -44,9 +44,9 @@ th {
     color: #0CC6FF;
 }
 
-tr:hover {
-    background-color: #111;
-    cursor: pointer;
+.tr-hover-when-loggedin:hover {
+    background-color: #111 !important;
+    cursor: pointer !important;
 }
 
 thead tr:first-child:hover {
@@ -89,10 +89,7 @@ thead tr:first-child:hover {
         font-size: 1em;
     }
 
-
-
 }
-
 
 @media screen and (max-width: 768px) {
 

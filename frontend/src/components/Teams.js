@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import useHttp from "../hooks/use-http";
 import { getTeams } from "../lib/api";
 import Container from 'react-bootstrap/Container';
@@ -6,13 +6,16 @@ import styles from './Teams.module.css';
 import LoadingRingTable from "./UI/LoadingRingTable";
 import { useNavigate } from "react-router-dom";
 import Pagination from "./Pagination";
+import { AuthContext } from '../store/auth-context';
 
-const Scoreboard = () => {
+
+const Teams = () => {
     const [output, setOutput] = useState({});
     const { sendRequest, status, error, data } = useHttp(getTeams);
     const [currentPageNumber, setCurrentPageNumber] = useState(0);
     const teamsPerPage = 6;
     // const [totalElements, setTotalElements] = useState(0);
+    const authCTX = useContext(AuthContext);
     const [totalPages, setTotalPages] = useState(0);
     useEffect(() => {
 
@@ -23,10 +26,11 @@ const Scoreboard = () => {
 
     const navigate = useNavigate();
     const handleRowClick = useCallback((id) => {
-        navigate(`/teams/${id}`);
-    }, [navigate])
+        if (authCTX.isLoggedIn) {
+            navigate(`/teams/${id}`);
+        }
 
-
+    }, [navigate, authCTX.isLoggedIn])
 
     useEffect(() => {
 
@@ -39,10 +43,12 @@ const Scoreboard = () => {
             setTotalPages(data.totalPages);
 
             const dataWithSelector = data.elements.map((element) => {
-                return <tr key={element.id} onClick={() => handleRowClick(element.id)}>
-                    <td className={styles['team-id']}>{element.id}</td>
+                return <tr className={authCTX.isLoggedIn ? styles['tr-hover-when-loggedin'] : ''} key={element.id} onClick={() => handleRowClick(element.id)}>
+                    <td className={styles['element-id']}>{element.id}</td>
                     <td>{element.name}</td>
-                    <td> {element.points}</td>
+                    <td>nasztywno.com</td>
+                    <td>nasztywno</td>
+                    {/* <td> {element.points}</td> */}
                 </tr>
             });
 
@@ -55,7 +61,7 @@ const Scoreboard = () => {
 
         }
 
-    }, [status, error, setOutput, data, handleRowClick]);
+    }, [status, error, setOutput, data, handleRowClick, authCTX.isLoggedIn]);
 
 
     const onChangePageHandler = ({ selected }) => {
@@ -65,13 +71,15 @@ const Scoreboard = () => {
     return (
 
         <Container className={`${styles['main']} d-flex flex-column`}>
-            <table className={styles['table-teams']}>
+            <table className={styles['table-elements']}>
                 {status === 'completed' && !error &&
                     <thead>
                         <tr className={styles['table-header']}>
                             <th>ID</th>
                             <th>Name</th>
-                            <th className={styles["points"]}>Points</th>
+                            <th>Website</th>
+                            <th>Country</th>
+                            {/* <th className={styles["points"]}>Points</th> */}
                         </tr>
                     </thead>
                 }
@@ -89,4 +97,4 @@ const Scoreboard = () => {
     )
 }
 
-export default Scoreboard;
+export default Teams;
