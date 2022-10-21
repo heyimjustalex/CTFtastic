@@ -10,6 +10,7 @@ import { AuthContext } from '../store/auth-context';
 
 
 const Teams = () => {
+
     const [output, setOutput] = useState({});
     const { sendRequest, status, error, data } = useHttp(getTeams);
     const [currentPageNumber, setCurrentPageNumber] = useState(0);

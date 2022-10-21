@@ -1,10 +1,12 @@
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import { NavDropdown } from 'react-bootstrap';
 import styles from './MainHeader.module.css';
 import mainLogo from './../../assets/img/logo_darker.png';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useState, useEffect, useContext } from 'react';
 import AuthContext from '../../store/auth-context';
+
 
 const imageElement = new Image();
 imageElement.src = mainLogo;
@@ -49,17 +51,21 @@ const MainHeader = (props) => {
           <NavLink onClick={() => setExpanded(false)} className={({ isActive }) => (isActive ? styles['active'] : styles['hover-underline-animation']) + ' ' + styles['navlink']} to="/teams">Teams</NavLink>
           <NavLink onClick={() => setExpanded(false)} className={({ isActive }) => (isActive ? styles['active'] : styles['hover-underline-animation']) + ' ' + styles['navlink']} to="/challenges">Challenges</NavLink>
           <NavLink onClick={() => setExpanded(false)} className={({ isActive }) => (isActive ? styles['active'] : styles['hover-underline-animation']) + ' ' + styles['navlink']} to="/scoreboard">Scoreboard</NavLink>
-          {/* <NavDropdown className={styles['nav-dropdown']} title="Dropdown" id={styles['dropdown-menu']}>
-            <NavDropdown.Item className={styles['dropdown-item']} href="#action/3.1">Action</NavDropdown.Item>
-            <NavDropdown.Item className={styles['dropdown-item']} href="#action/3.2">
+
+          <NavDropdown className={styles['nav-dropdown']} title="Dropdown">
+            <NavDropdown.Item className={styles['dropdown-item'] + ' ' + styles['hover-underline-animation']}>Action</NavDropdown.Item>
+
+
+            <NavDropdown.Item as={NavLink} to={'/ceeee'} className={styles['dropdown-item'] + ' ' + styles['hover-underline-animation']}>
               Another action
             </NavDropdown.Item>
-            <NavDropdown.Item className={styles['dropdown-item']} href="#action/3.3">Something</NavDropdown.Item>
-            <NavDropdown.Divider className={styles['nav-drop-divider']} />
-            <NavDropdown.Item className={styles['dropdown-item']} href="#action/3.4">
+            <NavDropdown.Item className={styles['dropdown-item'] + ' ' + styles['hover-underline-animation']} >Something</NavDropdown.Item>
+            {/* <NavDropdown.Divider /> */}
+            {/* <NavDropdown.Item className={styles['dropdown-item'] + ' ' + styles['hover-underline-animation']}  >
               Separated link
-            </NavDropdown.Item>
-          </NavDropdown> */}
+            </NavDropdown.Item> */}
+          </NavDropdown>
+
         </Nav>
         <Nav className={styles['nav'] + ' ' + styles['right-menu'] + ' mr-right '}>
           {!authCTX.isLoggedIn && <NavLink onClick={() => setExpanded(false)} className={({ isActive }) => (isActive ? styles['active'] : styles['hover-underline-animation']) + ' ' + styles['navlink']} to="/register">Register</NavLink>}
