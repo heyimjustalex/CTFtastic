@@ -1,15 +1,15 @@
 import { useCallback, useEffect, useState } from "react";
 import useHttp from "../hooks/use-http";
-import { getTeams } from "../lib/api";
+import { getChallenges } from "../lib/api";
 import Container from 'react-bootstrap/Container';
-import styles from './Teams.module.css';
+import styles from './Challenges.module.css';
 import LoadingRingTable from "./UI/LoadingRingTable";
 import { useNavigate } from "react-router-dom";
 import Pagination from "./Pagination";
 
-const Scoreboard = () => {
+const Challenges = () => {
     const [output, setOutput] = useState({});
-    const { sendRequest, status, error, data } = useHttp(getTeams);
+    const { sendRequest, status, error, data } = useHttp(getChallenges);
     const [currentPageNumber, setCurrentPageNumber] = useState(0);
     const teamsPerPage = 6;
     // const [totalElements, setTotalElements] = useState(0);
@@ -40,8 +40,9 @@ const Scoreboard = () => {
 
             const dataWithSelector = data.elements.map((element) => {
                 return <tr key={element.id} onClick={() => handleRowClick(element.id)}>
-                    <td className={styles['team-id']}>{element.id}</td>
+                    <td className={styles['element-id']}>{element.id}</td>
                     <td>{element.name}</td>
+                    <td>{element.category}</td>
                     <td> {element.points}</td>
                 </tr>
             });
@@ -65,12 +66,13 @@ const Scoreboard = () => {
     return (
 
         <Container className={`${styles['main']} d-flex flex-column`}>
-            <table className={styles['table-teams']}>
+            <table className={styles['table-elements']}>
                 {status === 'completed' && !error &&
                     <thead>
                         <tr className={styles['table-header']}>
                             <th>ID</th>
                             <th>Name</th>
+                            <th>Category</th>
                             <th className={styles["points"]}>Points</th>
                         </tr>
                     </thead>
@@ -89,4 +91,4 @@ const Scoreboard = () => {
     )
 }
 
-export default Scoreboard;
+export default Challenges;

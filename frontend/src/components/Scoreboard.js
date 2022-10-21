@@ -2,9 +2,8 @@ import { useCallback, useEffect, useState } from "react";
 import useHttp from "../hooks/use-http";
 import { getTeams } from "../lib/api";
 import Container from 'react-bootstrap/Container';
-import styles from './Teams.module.css';
+import styles from './Scoreboard.module.css';
 import LoadingRingTable from "./UI/LoadingRingTable";
-import { useNavigate } from "react-router-dom";
 import Pagination from "./Pagination";
 
 const Scoreboard = () => {
@@ -12,7 +11,6 @@ const Scoreboard = () => {
     const { sendRequest, status, error, data } = useHttp(getTeams);
     const [currentPageNumber, setCurrentPageNumber] = useState(0);
     const teamsPerPage = 6;
-    // const [totalElements, setTotalElements] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
     useEffect(() => {
 
@@ -20,11 +18,6 @@ const Scoreboard = () => {
         sendRequest(pagData);
 
     }, [sendRequest, currentPageNumber])
-
-    const navigate = useNavigate();
-    const handleRowClick = useCallback((id) => {
-        navigate(`/teams/${id}`);
-    }, [navigate])
 
 
 
@@ -39,8 +32,8 @@ const Scoreboard = () => {
             setTotalPages(data.totalPages);
 
             const dataWithSelector = data.elements.map((element) => {
-                return <tr key={element.id} onClick={() => handleRowClick(element.id)}>
-                    <td className={styles['team-id']}>{element.id}</td>
+                return <tr key={element.id}>
+                    <td className={styles['element-id']}>{element.id}</td>
                     <td>{element.name}</td>
                     <td> {element.points}</td>
                 </tr>
@@ -55,7 +48,7 @@ const Scoreboard = () => {
 
         }
 
-    }, [status, error, setOutput, data, handleRowClick]);
+    }, [status, error, setOutput, data]);
 
 
     const onChangePageHandler = ({ selected }) => {
@@ -65,7 +58,7 @@ const Scoreboard = () => {
     return (
 
         <Container className={`${styles['main']} d-flex flex-column`}>
-            <table className={styles['table-teams']}>
+            <table className={styles['table-elements']}>
                 {status === 'completed' && !error &&
                     <thead>
                         <tr className={styles['table-header']}>

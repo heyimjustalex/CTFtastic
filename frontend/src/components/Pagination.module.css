@@ -98,6 +98,16 @@ li.page-item:last-child {
     margin-right: 10%;
 }
 
+.disabled a {
+    background-color: #111111 !important;
+    cursor: default !important;
+    color: #dddddd !important;
+}
+
+.disabled a:hover {
+    color: #dddddd !important;
+}
+
 @media screen and (max-width: 768px) {
     .pagination>li>a {
         min-width: 1px;

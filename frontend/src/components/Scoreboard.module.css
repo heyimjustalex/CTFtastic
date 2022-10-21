@@ -26,7 +26,7 @@ table {
     width: 100%;
 }
 
-.table-teams {
+.table-elements {
     list-style-type: none;
 }
 
@@ -46,8 +46,8 @@ th {
 }
 
 tr:hover {
-    background-color: #111;
-    cursor: pointer;
+    background-color: #000 !important;
+    cursor: default !important;
 }
 
 thead tr:first-child:hover {
@@ -85,6 +85,15 @@ thead tr:first-child:hover {
     color: #FF304E;
 }
 
+@media screen and (max-width: 992px) {
+
+    .main {
+
+        font-size: 1em;
+    }
+
+}
+
 @media screen and (max-width: 768px) {
 
     .main {
@@ -96,7 +105,7 @@ thead tr:first-child:hover {
         display: none;
     }
 
-    .team-id {
+    .element-id {
         display: none;
     }
 

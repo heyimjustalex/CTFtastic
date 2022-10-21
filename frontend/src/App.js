@@ -4,11 +4,13 @@ import MainHeader from './components/MainHeader/MainHeader';
 import StartContext from './store/start-context';
 import Start from './components/Start/Start';
 import { useContext, useEffect } from 'react';
-import Teams from './components/Teams';
+import Teams from './components/Scoreboard';
 import Register from './components/Register';
 import Team from './components/Team';
 import Login from './components/Login';
 import Home from './components/Home';
+import Challenges from './components/Challenges';
+import Scoreboard from './components/Scoreboard';
 
 function App() {
   const { hasStarted, setFalseStartedLocalStorage, setTrueStartedLocalStorage, askBackendIfContestHasStarted } = useContext(StartContext);
@@ -31,7 +33,6 @@ function App() {
 
   }, [hasStarted, askBackendIfContestHasStarted, setTrueStartedLocalStorage, setFalseStartedLocalStorage]);
 
-  console.log("HERE", hasStarted);
 
   return (
     <div className="App">
@@ -43,12 +44,12 @@ function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/start' element={<Navigate to='/' />} />
           <Route path='/register' element={<Register />} />
-          <Route path='/scoreboard' element={<p>Scoreboard</p>} />
-          <Route path='/challenges' element={<p>challenges</p>} />
+          <Route path='/scoreboard' element={<Scoreboard />} />
+          <Route path='/challenges' element={<Challenges />} />
           <Route path='/teams' element={<Teams />}>
 
           </Route>
-          <Route path='/teams/:id' element={<Team />} />
+          {/* <Route path='/teams/:id' element={<Team />} /> */}
         </Routes>
 
       </BrowserRouter>

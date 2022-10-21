@@ -91,16 +91,21 @@ export async function getTeams(paginationData) {
     if (!response.ok) {
         throw new Error(data.error || 'Couldnt fetch teams data.');
     }
-
-    let arr = [];
-    console.log('JSON DATA API', data);
     return data;
-    for (let key in data) {
+}
 
-        const obj = data[key];
-        arr.push(obj)
+
+export async function getChallenges(paginationData) {
+    const response = await fetch(`${BACKEND_ADDRESS}/challenges/${paginationData.page}/${paginationData.size}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    });
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(data.error || 'Couldnt fetch teams data.');
     }
-    console.log("ARR API", arr);
-
     return data;
 }
