@@ -31,7 +31,7 @@ export async function getContests() {
     const data = await response;
 
     if (!response.ok) {
-        throw new Error(data.error || 'Couldnt fetch teams data.');
+        throw new Error(data.error || 'Couldnt fetch contests data.');
     }
 
     var contentType = response.headers.get('content-type')
@@ -43,7 +43,6 @@ export async function getContests() {
 
 }
 
-
 export async function registerUser(userData) {
     const response = await fetch(`${BACKEND_ADDRESS}/register`, {
         method: 'POST',
@@ -52,12 +51,14 @@ export async function registerUser(userData) {
             'Content-Type': 'application/json',
         },
     });
-    const data = await response.json();
 
-    if (!response.ok) {
-        throw new Error(data.error || 'Could not register user');
+    try {
+        const data = await response.json();
+        return data;
     }
-    return null;
+    catch {
+        throw new Error('Could not register user');
+    }
 }
 
 export async function loginUser(userData) {
@@ -69,14 +70,14 @@ export async function loginUser(userData) {
             'Content-Type': 'application/json',
         },
     });
-    if (!response.ok) {
+
+    try {
+        const data = await response.json();
+        return data;
+    }
+    catch {
         throw new Error('Login failed');
     }
-
-    const data = await response.json();
-
-
-    return data;
 }
 
 
@@ -87,12 +88,13 @@ export async function getTeams(paginationData) {
             'Content-Type': 'application/json'
         },
     });
-    const data = await response.json();
-
-    if (!response.ok) {
-        throw new Error(data.error || 'Couldnt fetch teams data.');
+    try {
+        const data = await response.json();
+        return data;
     }
-    return data;
+    catch {
+        throw new Error('Couldnt fetch teams data.');
+    }
 }
 
 
@@ -103,12 +105,15 @@ export async function getChallenges(paginationData) {
             'Content-Type': 'application/json'
         },
     });
-    const data = await response.json();
 
-    if (!response.ok) {
-        throw new Error(data.error || 'Couldnt fetch teams data.');
+    try {
+        const data = await response.json();
+        return data;
     }
-    return data;
+    catch {
+        throw new Error('Couldnt fetch challenges data.');
+    }
+
 }
 
 export async function joinTeam(userData) {
@@ -120,14 +125,14 @@ export async function joinTeam(userData) {
             'Content-Type': 'application/json',
         },
     });
-    if (!response.ok) {
+
+    try {
+        const data = await response.json();
+        return data;
+    }
+    catch {
         throw new Error('Joining team failed');
     }
-
-    const data = await response.json();
-
-
-    return data;
 }
 
 
@@ -140,13 +145,31 @@ export async function createTeam(userData) {
             'Content-Type': 'application/json',
         },
     });
-    if (!response.ok) {
+
+    try {
+        const data = await response.json();
+        return data;
+    }
+    catch {
+
         throw new Error('Creating team failed');
     }
+}
 
-    const data = await response.json();
+export async function changeUserCredentials(userData) {
+    const response = await fetch(`${BACKEND_ADDRESS}/change-creds`, {
+        method: 'POST',
+        body: JSON.stringify(userData),
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+    try {
+        const data = await response.json();
+        return data;
+    }
+    catch {
 
-
-    return data;
-
+        throw new Error('Updating credentials failed');
+    }
 }

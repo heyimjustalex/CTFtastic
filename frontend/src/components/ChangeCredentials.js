@@ -1,18 +1,19 @@
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import useInput from '../hooks/use-input';
-import { emailValidator, passwordValidator, usernameValidator, oldPasswordValidator } from './validators'
-import styles from './Register.module.css';
+import { passwordValidator, oldPasswordValidator } from './validators'
+import styles from './ChangeCredentials.module.css';
 import Container from 'react-bootstrap/Container';
-import { registerUser } from './../lib/api'
+import { changeUserCredentials } from './../lib/api'
 import useHttp from './../hooks/use-http'
 import { useState, useEffect } from 'react';
 import LoadingRing from './UI/LoadingRing';
 import AuthContext from '../store/auth-context';
 import { useContext } from 'react';
-const Register = (props) => {
 
-    const { sendRequest, status, error } = useHttp(registerUser);
+const ChangeCredentials = (props) => {
+
+    const { sendRequest, status, error } = useHttp(changeUserCredentials);
     const [output, setOutput] = useState({});
     const authCTX = useContext(AuthContext);
     useEffect(() => {
@@ -23,7 +24,7 @@ const Register = (props) => {
 
         else if (status === 'completed' && !error) {
 
-            setOutput({ header: 'Success!', content: 'account created' });
+            setOutput({ header: 'Success!', content: 'Account credentials updated' });
 
         }
 
@@ -33,9 +34,6 @@ const Register = (props) => {
         }
 
     }, [status, error, setOutput]);
-
-
-
 
     const
         { value: oldPasswordValue,
@@ -79,7 +77,6 @@ const Register = (props) => {
         repeatedPasswordReset();
         passwordReset();
         sendRequest(requestData);
-
     }
 
 
@@ -95,7 +92,6 @@ const Register = (props) => {
     else {
         passwordsMatch = false;
     }
-
 
     const formIsValid =
         oldPasswordIsValid &&
@@ -115,7 +111,6 @@ const Register = (props) => {
     if (status === 'completed' && error) {
         textColor = 'redText';
     }
-
 
     return (
         <Container className={`${styles['main']} d-flex flex-column`} fluid>
@@ -147,7 +142,8 @@ const Register = (props) => {
                                 className={styles['control-input']}
                                 isValid={passwordIsValid && passwordIsTouched}
                                 isInvalid={(!passwordIsValid && passwordIsTouched) || (!passwordsMatch && passwordIsTouched)}
-                                onBlur={passwordBlurHandler} onChange={passwordChangeHandler}
+                                onBlur={passwordBlurHandler}
+                                onChange={passwordChangeHandler}
                                 type="password"
                                 placeholder="Password"
                                 value={passwordValue}
@@ -197,4 +193,4 @@ const Register = (props) => {
     );
 }
 
-export default Register;
+export default ChangeCredentials;
