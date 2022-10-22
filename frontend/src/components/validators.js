@@ -11,6 +11,11 @@ function usernameValidator(input) {
     return String(input).match(/^(?=.{6,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/);
 }
 
+function teamNameValidator(input) {
+    return String(input).match(/^(?=.{6,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/);
+}
+
+
 function titleValidator(input) {
     return String(input).match(/^[\S\s]{1,70}$/);
 }
@@ -57,4 +62,4 @@ function passwordValidator(p) {
     return obj.result;
 }
 
-export { emailValidator, passwordValidator, usernameValidator, titleValidator, descriptionValidator };
+export { emailValidator, passwordValidator, usernameValidator, titleValidator, descriptionValidator, teamNameValidator };

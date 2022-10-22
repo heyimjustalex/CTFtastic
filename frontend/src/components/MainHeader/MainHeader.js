@@ -52,19 +52,27 @@ const MainHeader = (props) => {
           <NavLink onClick={() => setExpanded(false)} className={({ isActive }) => (isActive ? styles['active'] : styles['hover-underline-animation']) + ' ' + styles['navlink']} to="/challenges">Challenges</NavLink>
           <NavLink onClick={() => setExpanded(false)} className={({ isActive }) => (isActive ? styles['active'] : styles['hover-underline-animation']) + ' ' + styles['navlink']} to="/scoreboard">Scoreboard</NavLink>
 
-          <NavDropdown className={styles['nav-dropdown']} title="Dropdown">
-            <NavDropdown.Item className={styles['dropdown-item'] + ' ' + styles['hover-underline-animation']}>Action</NavDropdown.Item>
-
-
-            <NavDropdown.Item as={NavLink} to={'/ceeee'} className={styles['dropdown-item'] + ' ' + styles['hover-underline-animation']}>
-              Another action
+          {authCTX.isLoggedIn && <NavDropdown className={styles['nav-dropdown']} id={styles['nav-dropdown']} title="User options">
+            <NavDropdown.Item
+              as={NavLink} to={'/join-team'}
+              className={styles['dropdown-item'] + ' ' + styles['hover-underline-animation']}>
+              Join Team
             </NavDropdown.Item>
-            <NavDropdown.Item className={styles['dropdown-item'] + ' ' + styles['hover-underline-animation']} >Something</NavDropdown.Item>
+            <NavDropdown.Item
+              as={NavLink}
+              to={'/create-team'}
+              className={styles['dropdown-item'] + ' ' + styles['hover-underline-animation']}>
+              Create Team
+            </NavDropdown.Item>
+            <NavDropdown.Item
+              as={NavLink}
+              to={'/change-creds'}
+              className={styles['dropdown-item'] + ' ' + styles['hover-underline-animation']}>
+              Change Credentials
+            </NavDropdown.Item>
             {/* <NavDropdown.Divider /> */}
-            {/* <NavDropdown.Item className={styles['dropdown-item'] + ' ' + styles['hover-underline-animation']}  >
-              Separated link
-            </NavDropdown.Item> */}
-          </NavDropdown>
+
+          </NavDropdown>}
 
         </Nav>
         <Nav className={styles['nav'] + ' ' + styles['right-menu'] + ' mr-right '}>

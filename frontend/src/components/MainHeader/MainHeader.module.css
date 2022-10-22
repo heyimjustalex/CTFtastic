@@ -21,13 +21,13 @@
 }
 
 .nav-dropdown {
-
-    color: #FAF9F6;
-
     margin: 0;
     padding: 0;
 }
 
+#nav-dropdown {
+    color: #0CC6FF;
+}
 
 
 .nav-dropdown div {
@@ -192,7 +192,7 @@
 
     .nav-dropdown {
         background-color: black;
-        color: #FAF9F6;
+
     }
 
     .right-menu a {

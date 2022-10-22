@@ -12,6 +12,8 @@ import Home from './components/Home';
 import Challenges from './components/Challenges';
 import Scoreboard from './components/Scoreboard';
 import Challenge from './components/Challenge';
+import JoinTeam from './components/JoinTeam'
+import CreateTeam from './components/CreateTeam'
 
 function App() {
   const { hasStarted, setFalseStartedLocalStorage, setTrueStartedLocalStorage, askBackendIfContestHasStarted } = useContext(StartContext);
@@ -47,11 +49,14 @@ function App() {
           <Route path='/register' element={<Register />} />
           <Route path='/scoreboard' element={<Scoreboard />} />
           <Route path='/challenges' element={<Challenges />} />
-          <Route path='/teams' element={<Teams />}>
+          <Route path='/join-team' element={<JoinTeam />} />
+          <Route path='/teams' element={<Teams />} />
+          <Route path='/create-team' element={<CreateTeam />}></Route>
 
-          </Route>
-          {<Route path='/teams/:id' element={<Team />} />}
-          {<Route path='/challenges/:id' element={<Challenge />} />}
+
+
+          <Route path='/teams/:id' element={<Team />} />
+          <Route path='/challenges/:id' element={<Challenge />} />
         </Routes>
 
       </BrowserRouter>

@@ -13,7 +13,6 @@ export const AuthContext = React.createContext({
 
 })
 
-
 const calculateRemainingTime = (expTime) => {
     const currentTime = new Date().getTime();
     const adjExpTime = new Date(expTime);

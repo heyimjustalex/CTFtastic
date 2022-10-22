@@ -75,9 +75,7 @@ export async function loginUser(userData) {
 
     const data = await response.json();
 
-    if (!response.ok) {
-        throw new Error('Could not login user');
-    }
+
     return data;
 }
 
@@ -111,4 +109,41 @@ export async function getChallenges(paginationData) {
         throw new Error(data.error || 'Couldnt fetch teams data.');
     }
     return data;
+}
+
+export async function joinTeam(userData) {
+
+    const response = await fetch(`${BACKEND_ADDRESS}/join-team`, {
+        method: 'POST',
+        body: JSON.stringify(userData),
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+    if (!response.ok) {
+        throw new Error('Joining team failed');
+    }
+
+    const data = await response.json();
+
+
+    return data;
+}
+
+
+
+export async function createTeam(userData) {
+    const response = await fetch(`${BACKEND_ADDRESS}/create-team`, {
+        method: 'POST',
+        body: JSON.stringify(userData),
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(data.error || 'Could not create team');
+    }
+    return null;
 }
