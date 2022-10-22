@@ -12,8 +12,9 @@ import Home from './components/Home';
 import Challenges from './components/Challenges';
 import Scoreboard from './components/Scoreboard';
 import Challenge from './components/Challenge';
-import JoinTeam from './components/JoinTeam'
-import CreateTeam from './components/CreateTeam'
+import JoinTeam from './components/JoinTeam';
+import CreateTeam from './components/CreateTeam';
+import ChangeCredentials from './components/ChangeCredentials';
 
 function App() {
   const { hasStarted, setFalseStartedLocalStorage, setTrueStartedLocalStorage, askBackendIfContestHasStarted } = useContext(StartContext);
@@ -51,7 +52,9 @@ function App() {
           <Route path='/challenges' element={<Challenges />} />
           <Route path='/join-team' element={<JoinTeam />} />
           <Route path='/teams' element={<Teams />} />
-          <Route path='/create-team' element={<CreateTeam />}></Route>
+          <Route path='/create-team' element={<CreateTeam />} />
+          <Route path='/change-creds' element={<ChangeCredentials />} />
+
 
 
 

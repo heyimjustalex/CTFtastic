@@ -20,6 +20,10 @@ function titleValidator(input) {
     return String(input).match(/^[\S\s]{1,70}$/);
 }
 
+function oldPasswordValidator(input) {
+    return String(input).match(/^[\S\s]{1,70}$/);
+}
+
 function descriptionValidator(input) {
     return String(input).match(/^[\S\s]{1,500}$/);
 }
@@ -62,4 +66,4 @@ function passwordValidator(p) {
     return obj.result;
 }
 
-export { emailValidator, passwordValidator, usernameValidator, titleValidator, descriptionValidator, teamNameValidator };
+export { emailValidator, passwordValidator, usernameValidator, titleValidator, descriptionValidator, teamNameValidator, oldPasswordValidator };

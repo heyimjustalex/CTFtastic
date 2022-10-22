@@ -170,7 +170,7 @@ const Register = (props) => {
                         </Form.Text>
                     </Form.Group>
 
-                    <Form.Group className="mb-3" controlId="formBasicEmail">
+                    <Form.Group className="mb-3" controlId="formBasicWebsite">
                         <Form.Label className={styles['form-label']}>Website</Form.Label>
                         <Form.Control
                             className={styles['control-input']}
@@ -188,7 +188,7 @@ const Register = (props) => {
                         </Form.Text>
                     </Form.Group>
 
-                    <Form.Group className="mb-3" controlId="formBasicEmail">
+                    <Form.Group className="mb-3" controlId="formBasicAffiliation">
                         <Form.Label className={styles['form-label']}>Affiliation</Form.Label>
                         <Form.Control
                             className={styles['control-input']}
