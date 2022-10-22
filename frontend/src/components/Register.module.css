@@ -55,13 +55,13 @@
 }
 
 .control-input {
-    background-color: #212121;
+    background-color: #000;
     color: #FAF9F6;
 }
 
 .control-input:hover,
 .control-input:focus {
-    background-color: #313131;
+    background-color: #000;
     color: #FAF9F6;
 }
 

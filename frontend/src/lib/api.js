@@ -140,10 +140,13 @@ export async function createTeam(userData) {
             'Content-Type': 'application/json',
         },
     });
+    if (!response.ok) {
+        throw new Error('Creating team failed');
+    }
+
     const data = await response.json();
 
-    if (!response.ok) {
-        throw new Error(data.error || 'Could not create team');
-    }
-    return null;
+
+    return data;
+
 }
