@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import ReactPaginate from 'react-paginate'
 import styles from './Pagination.module.css'
 
@@ -5,6 +6,7 @@ const Pagination = (props) => {
 
     return (
         <div className={styles['pagination']}>
+
             <ReactPaginate
                 previousLabel="prev"
                 nextLabel="next"
@@ -21,6 +23,7 @@ const Pagination = (props) => {
                 nextLinkClassName={styles["page-button"]}
                 activeClassName={styles["active"]}
                 disabledClassName={styles['disabled']}
+                renderOnZeroPageCount={null}
             >
             </ReactPaginate></div>
     );

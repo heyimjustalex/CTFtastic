@@ -51,10 +51,9 @@ const Challenges = () => {
                     <td>{element.category}</td>
                     <td> {element.points}</td>
                 </tr>
+
             });
-
             setOutput({ header: 'Success!', content: dataWithSelector });
-
         }
 
         else if (status === 'completed' && error) {
@@ -72,8 +71,9 @@ const Challenges = () => {
     return (
 
         <Container className={`${styles['main']} d-flex flex-column`}>
+
             <table className={styles['table-elements']}>
-                {status === 'completed' && !error &&
+                {status === 'completed' && !error && data.elements.length !== 0 &&
                     <thead>
                         <tr className={styles['table-header']}>
                             <th>ID</th>
@@ -84,14 +84,19 @@ const Challenges = () => {
                     </thead>
                 }
                 <tbody>
-                    {status === 'completed' && !error && output.content}
+                    {status === 'completed' && !error && data.elements.length !== 0 && output.content}
                     {status === 'pending' && <tr><td style={{ border: 'none' }}><h3 className={styles['loading-header']}>{output.header}</h3></td></tr>}
                     {status === 'pending' && output.content}
                 </tbody>
             </table>
             {status === 'completed' && error && <Container className={`${styles['output-content-container']}`}><h3 className={styles['error-header']}>{output.content}</h3></Container>}
 
+
             <Pagination pageCount={totalPages} onChangePage={onChangePageHandler}></Pagination>
+            {status === 'completed' &&
+                !error &&
+                !data.elements.length &&
+                <div className={styles['output-container']}> <h1 className={styles['redText']}>No challenges added!</h1></div>}
 
         </Container >
     )

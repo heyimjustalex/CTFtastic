@@ -59,7 +59,8 @@ const Scoreboard = () => {
 
         <Container className={`${styles['main']} d-flex flex-column`}>
             <table className={styles['table-elements']}>
-                {status === 'completed' && !error &&
+
+                {status === 'completed' && !error && data.elements.length !== 0 &&
                     <thead>
                         <tr className={styles['table-header']}>
                             <th>ID</th>
@@ -68,6 +69,7 @@ const Scoreboard = () => {
                         </tr>
                     </thead>
                 }
+
                 <tbody>
                     {status === 'completed' && !error && output.content}
                     {status === 'pending' && <tr><td style={{ border: 'none' }}><h3 className={styles['loading-header']}>{output.header}</h3></td></tr>}
@@ -77,7 +79,10 @@ const Scoreboard = () => {
             {status === 'completed' && error && <Container className={`${styles['output-content-container']}`}><h3 className={styles['error-header']}>{output.content}</h3></Container>}
 
             <Pagination pageCount={totalPages} onChangePage={onChangePageHandler}></Pagination>
-
+            {status === 'completed' &&
+                !error &&
+                !data.elements.length &&
+                <div className={styles['output-container']}> <h1 className={styles['redText']}>Scoreboard is empty!</h1></div>}
         </Container >
     )
 }

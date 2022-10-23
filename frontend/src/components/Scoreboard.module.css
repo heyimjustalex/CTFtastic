@@ -21,6 +21,28 @@
 
 }
 
+.redText {
+    color: #FF304E;
+}
+
+.blueText {
+    color: #0CC6FF;
+}
+
+.output-container {
+    margin: auto;
+    width: 70%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.output-container h1 {
+    font-size: 1.5em;
+    margin-bottom: 1em;
+    text-align: center;
+}
+
 table {
     border-collapse: collapse;
     width: 100%;
