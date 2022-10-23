@@ -53,11 +53,11 @@ spec:
           livenessProbe:
             exec:
               command:
-              - mysqladmin ping -h 127.0.0.1 -u $$MYSQL_USER --password=$$MYSQL_PASSWORD
-            initialDelaySeconds: 60
-            periodSeconds: 5
-            timeoutSeconds: 20
-            failureThreshold: 10
+              - mysqladmin ping -u$MYSQL_USER --password=$MYSQL_PASSWORD
+            initialDelaySeconds: 120
+            periodSeconds: 10
+            timeoutSeconds: 30
+            failureThreshold: 20
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:
