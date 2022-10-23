@@ -17,6 +17,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.beans.Transient;
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 

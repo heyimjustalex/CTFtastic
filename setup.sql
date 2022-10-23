@@ -19,6 +19,7 @@ CREATE TABLE duty (
 
 CREATE TABLE participant (
   id INTEGER PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(25) NOT NULL,
   id_team INTEGER,
   id_role INTEGER NOT NULL,
   email VARCHAR(25) NOT NULL,
@@ -109,10 +110,10 @@ INSERT INTO `challenge` (`id`, `id_contest`, `name`, `category`, `message`, `poi
 (3, 1, 'challenge3', 'category3', 'Lorem Ipsum is simply ', 1, 'flag3', 1, 0, NULL, NULL);
 
 
-INSERT INTO participant (id, id_team, id_role, email, password_hash, website, affiliation, country, is_verified, is_banned, is_hidden, is_ctf_admin, is_team_capitan) VALUES
-(1, 1, 1, 'Test2@gmail.com', '$2a$10$YRBdKiJytZT3vL5CPrQ4tOzgw7GXU2e44wt1yfdzUg5wg9lHd1yWC', 'example1.com', 'PL', NULL, 0, 0, 0, 0, 0),
-(2, 2, 3, 'Test3@gmail.com', '$2a$10$0ThvMYe//xAZxcxlb7TptOv3.iu69SlVAHD9qQBQa8z77gsGXxRP6','example1.com', 'EN', NULL, 0, 0, 0, 0, 0),
-(3, 3, 3, 'Test4@gmail.com', '$2a$10$cg26PE5.3zo7sNTdl1d44.YppxHYtF/8pjgB5fkJ64tQkR4AtfV92', 'example1.com', 'PL', NULL, 0, 0, 0, 0, 0),
-(4, 1, 3, 'Test1@gmail.com', '$2a$10$X6cyoKgfedC1ODb6XkiIDebfVLE7L0SKgqjVjzSbmwQiWBevrvp5e', 'example1.com', 'EN', NULL, 0, 0, 0, 0, 0),
-(5, 2, 2, 'Test123@gmail.com', '$2a$10$I14lTg3P9YYRf4KP/Rj1Pe1zoj7bwu0u1pXE/.s4UmWp26DJMOep2', 'example1.com', 'PL', NULL, 0, 0, 0, 0, 0),
-(6, 1, 1, 'NowyTestowy@gmail.com', '$2a$10$GDdmTTzBAeqttwXaPQ4hlurf1YquvabIuNtDr/Jv39HiDe9Yk4A5u', 'example1.com', 'GER', NULL, 0, 0, 0, 0, 0);
+INSERT INTO participant (id, name, id_team, id_role, email, password_hash, website, affiliation, country, is_verified, is_banned, is_hidden, is_ctf_admin, is_team_capitan) VALUES
+(1, 'Test2', 1, 1, 'Test2@gmail.com', '$2a$10$YRBdKiJytZT3vL5CPrQ4tOzgw7GXU2e44wt1yfdzUg5wg9lHd1yWC', 'example1.com', 'PL', NULL, 0, 0, 0, 0, 0),
+(2, 'Test3',2, 3, 'Test3@gmail.com', '$2a$10$0ThvMYe//xAZxcxlb7TptOv3.iu69SlVAHD9qQBQa8z77gsGXxRP6','example1.com', 'EN', NULL, 0, 0, 0, 0, 0),
+(3, 'Test4',3, 3, 'Test4@gmail.com', '$2a$10$cg26PE5.3zo7sNTdl1d44.YppxHYtF/8pjgB5fkJ64tQkR4AtfV92', 'example1.com', 'PL', NULL, 0, 0, 0, 0, 0),
+(4, 'Test1',1, 3, 'Test1@gmail.com', '$2a$10$X6cyoKgfedC1ODb6XkiIDebfVLE7L0SKgqjVjzSbmwQiWBevrvp5e', 'example1.com', 'EN', NULL, 0, 0, 0, 0, 0),
+(5, 'Test123',2, 2, 'Test123@gmail.com', '$2a$10$I14lTg3P9YYRf4KP/Rj1Pe1zoj7bwu0u1pXE/.s4UmWp26DJMOep2', 'example1.com', 'PL', NULL, 0, 0, 0, 0, 0),
+(6, 'NowyTestowy',1, 1, 'NowyTestowy@gmail.com', '$2a$10$GDdmTTzBAeqttwXaPQ4hlurf1YquvabIuNtDr/Jv39HiDe9Yk4A5u', 'example1.com', 'GER', NULL, 0, 0, 0, 0, 0);
