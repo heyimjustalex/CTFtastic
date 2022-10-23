@@ -1,5 +1,7 @@
 package com.ctf.CTFtastic.repository;
 
+import com.ctf.CTFtastic.model.entity.Role;
+import com.ctf.CTFtastic.model.entity.Team;
 import com.ctf.CTFtastic.model.projection.UserWithIdAndName;
 import com.ctf.CTFtastic.model.userr;
 import com.ctf.CTFtastic.model.entity.Participant;
@@ -8,6 +10,7 @@ import com.ctf.CTFtastic.model.projection.UserForListVM;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -39,5 +42,10 @@ public interface ParticipantRepository extends JpaRepository<Participant, Intege
 
     @Query("select c.id as id, c.name as name from Participant c where c.team.name = :name")
     List<UserWithIdAndName> getAllUserByTeamName(String name);
+    @Modifying
+    @Query("update Participant p set p.role = :role, p.team = :team where p.name = :name")
+    void update(@Param("name") String name, @Param("role") Role role, @Param("team") Team team);
 
+    @Query("select c.role.name from Participant c where c.id = :id")
+    String getRoleById(int id);
 }

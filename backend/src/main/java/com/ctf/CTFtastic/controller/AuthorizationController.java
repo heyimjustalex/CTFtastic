@@ -22,6 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -91,6 +92,7 @@ public class AuthorizationController {
     @PostMapping(value = {"/login", "/signin"})
     @ResponseBody
     public ResponseEntity<String> createToken(@RequestBody LoginRequest loginRequest){
+
         try{
             Authentication authenticate = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(

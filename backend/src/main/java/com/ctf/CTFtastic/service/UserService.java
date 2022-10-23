@@ -2,6 +2,8 @@ package com.ctf.CTFtastic.service;
 
 
 import com.ctf.CTFtastic.model.entity.Participant;
+import com.ctf.CTFtastic.model.entity.Role;
+import com.ctf.CTFtastic.model.entity.Team;
 import com.ctf.CTFtastic.model.projection.UserDetailsVM;
 import com.ctf.CTFtastic.model.projection.UserForListVM;
 import com.ctf.CTFtastic.model.userr;
@@ -9,16 +11,15 @@ import com.ctf.CTFtastic.repository.ParticipantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.authentication.AccountStatusUserDetailsChecker;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.beans.Transient;
 import java.security.Principal;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -64,5 +65,18 @@ public class UserService implements UserDetailsService {
         UserDetails userToChecker = User.withUsername(oneUser.getUsername()).password(oneUser.getPassword()).authorities(oneUser.getRole()).build();
         //new AccountStatusUserDetailsChecker().check(userToChecker);
         return userToChecker;
+    }
+
+    public Optional<Participant> findByEmail(String name) {
+        return participantRepository.findByEmail(name);
+    }
+
+    @Transactional
+    public void update(Participant p, Role role, Team team){
+        participantRepository.update(p.getName(),role, team);
+    }
+
+    public String getRoleById(int id) {
+        return participantRepository.getRoleById(id);
     }
 }

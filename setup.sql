@@ -88,7 +88,8 @@ CREATE TABLE submit(
 INSERT INTO `duty` (`id`, `name_role`) VALUES
 (1, 'ROLE_CTF_ADMIN'),
 (2, 'ROLE_TEAM_CAPITAN'),
-(3, 'ROLE_USER');
+(3, 'ROLE_USER'),
+(4, 'ROLE_USER_WITH_TEAM');
 
 INSERT INTO `team` (`id`, `name`, `password_hash`, `points`, `website`, `affiliation`, `is_verified`, `is_banned`, `is_hidden`) VALUES
 (1, 'Team1', '123', 100, 'url.com', 'idc', 1, 0, 0),
