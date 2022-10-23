@@ -1,9 +1,6 @@
 package com.ctf.CTFtastic.controller;
 import com.ctf.CTFtastic.model.PageableOfT;
-import com.ctf.CTFtastic.model.entity.Contest;
 import com.ctf.CTFtastic.model.projection.ContestForListVM;
-import com.ctf.CTFtastic.model.projection.TeamDetailsVM;
-import com.ctf.CTFtastic.model.projection.TeamForListVM;
 import com.ctf.CTFtastic.service.ContestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

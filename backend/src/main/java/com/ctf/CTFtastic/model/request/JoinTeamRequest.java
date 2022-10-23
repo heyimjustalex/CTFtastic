@@ -7,8 +7,8 @@ import lombok.*;
 @Data
 @Getter
 @Setter
-public class SignupAdminRequest {
-    private String email;
+public class JoinTeamRequest {
+    private int id;
     private String name;
     private String password;
 }

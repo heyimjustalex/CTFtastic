@@ -1,7 +1,9 @@
 package com.ctf.CTFtastic.model.projection;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonPropertyOrder({ "name", "points", "website", "affiliation"})
+import java.util.List;
+
+@JsonPropertyOrder({ "name", "points", "website", "affiliation", "users"})
 public interface TeamDetailsVM {
     String getName();
 
@@ -10,4 +12,6 @@ public interface TeamDetailsVM {
     String getWebsite();
 
     String getAffiliation();
+
+    List<UserWithIdAndName> getUsers();
 }
