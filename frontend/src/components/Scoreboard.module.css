@@ -1,0 +1,134 @@
+.main {
+    width: 100%;
+    color: #FAF9F6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background-color: red; */
+    box-sizing: border-box;
+    padding: 1em;
+    font-size: 1.5em;
+    min-height: 90vh;
+}
+
+.output-content-container {
+    width: 100%;
+    text-align: center;
+    color: #FAF9F6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.redText {
+    color: #FF304E;
+}
+
+.blueText {
+    color: #0CC6FF;
+}
+
+.output-container {
+    margin: auto;
+    width: 70%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.output-container h1 {
+    font-size: 1.5em;
+    margin-bottom: 1em;
+    text-align: center;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.table-elements {
+    list-style-type: none;
+}
+
+td,
+th {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    padding-left: 2em;
+    padding-right: 2em;
+    word-break: break-all;
+    text-align: center;
+    border-bottom: 1px solid #FAF9F6;
+}
+
+th {
+    color: #0CC6FF;
+}
+
+tr:hover {
+    background-color: #000 !important;
+    cursor: default !important;
+}
+
+thead tr:first-child:hover {
+    background-color: black;
+    cursor: auto;
+
+}
+
+.output-content-container h3 {
+    text-align: center;
+}
+
+.points {
+    word-break: normal;
+}
+
+.table-header th {
+    padding-bottom: 0.5em;
+}
+
+.table-header th {
+    word-break: normal;
+}
+
+.loading-header {
+    margin-top: 1em;
+    margin-bottom: 2em;
+    color: #0CC6FF;
+    text-align: center;
+
+}
+
+
+.error-header {
+    color: #FF304E;
+}
+
+@media screen and (max-width: 992px) {
+
+    .main {
+
+        font-size: 1em;
+    }
+
+}
+
+@media screen and (max-width: 768px) {
+
+    .main {
+
+        font-size: 1.3em;
+    }
+
+    .table-header th:first-child {
+        display: none;
+    }
+
+    .element-id {
+        display: none;
+    }
+
+}

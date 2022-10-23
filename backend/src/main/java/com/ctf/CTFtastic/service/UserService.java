@@ -7,6 +7,8 @@ import com.ctf.CTFtastic.model.projection.UserForListVM;
 import com.ctf.CTFtastic.model.userr;
 import com.ctf.CTFtastic.repository.ParticipantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AccountStatusUserDetailsChecker;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,8 +26,8 @@ public class UserService implements UserDetailsService {
     private ParticipantRepository participantRepository;
 
     @Transient
-    public List<UserForListVM> getAllForListView(){
-        return participantRepository.getUsers();
+    public Page<UserForListVM> getAllForListView(Pageable pageable){
+        return participantRepository.getUsers(pageable);
     }
 
     public UserDetailsVM getById(int id) {

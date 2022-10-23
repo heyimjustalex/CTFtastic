@@ -1,41 +1,82 @@
 import React, { useState, useCallback, useEffect } from "react"
-
-
+const BACKEND_ADDRESS = 'http://localhost:8080';
 
 const StartContext = React.createContext({
-    hasStarted: false
+    hasStarted: '',
+    setFalseStartedLocalStorage: () => { },
+    setTrueStartedLocalStorage: () => { },
+    askBackendIfContestHasStarted: () => { }
 })
-
-
-const retrieveHasStartedInfo = () => {
-    const storedHasStarted = localStorage.getItem('hasStarted');
-    if (storedHasStarted) {
-        return true
-    }
-    return false
-}
 
 export const StartContextProvider = (props) => {
 
-    const [hasStarted, setHasStarted] = useState(true);
-    useEffect(() => {
-        const initalState = retrieveHasStartedInfo();
-        setHasStarted(initalState);
-    }, [])
+    const askBackendIfContestHasStarted = async () => {
+        if (retrieveHasStartedInfo()) {
 
-    const setFalseStarted = useCallback(() => {
+            return true;
+        }
+
+
+        async function getContests() {
+
+            const response = await fetch(`${BACKEND_ADDRESS}/contests`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            });
+            const data = await response;
+
+            if (!response.ok) {
+                throw new Error(data.error || 'Couldnt fetch teams data.');
+            }
+
+            var contentType = response.headers.get('content-type')
+            if (contentType && contentType.indexOf('application/json') !== -1) {
+                return response.json();
+            } else {
+                return null;
+            }
+        }
+
+        let data = await getContests();
+
+        if (data.elements.length) {
+            return true;
+
+        }
+        return false;
+    }
+
+    const retrieveHasStartedInfo = () => {
+        const storedHasStarted = localStorage.getItem('hasStarted');
+
+        if (storedHasStarted) {
+
+            return true;
+        }
+        return false;
+    }
+    const [hasStarted, setHasStarted] = useState(true);
+    // useEffect(() => {
+    //     const initalState = retrieveHasStartedInfo();
+    //     setHasStarted(initalState);
+    // }, [])
+
+    const setFalseStartedLocalStorage = useCallback(() => {
         localStorage.removeItem('hasStarted');
         setHasStarted(false);
     })
-    const setTrueStarted = useCallback(() => {
+    const setTrueStartedLocalStorage = useCallback(() => {
         localStorage.setItem('hasStarted', true)
         setHasStarted(true);
     })
 
     const contextValue = {
         hasStarted: hasStarted,
-        setFalseStarted,
-        setTrueStarted
+        setFalseStartedLocalStorage: setFalseStartedLocalStorage,
+        setTrueStartedLocalStorage: setTrueStartedLocalStorage,
+        askBackendIfContestHasStarted: askBackendIfContestHasStarted
     }
 
     return <StartContext.Provider value={contextValue}>{props.children}</StartContext.Provider>

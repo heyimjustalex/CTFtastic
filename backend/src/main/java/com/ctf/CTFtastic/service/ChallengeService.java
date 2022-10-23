@@ -4,6 +4,8 @@ import com.ctf.CTFtastic.model.projection.ChallengeDetailsVM;
 import com.ctf.CTFtastic.model.projection.ChallengeForListVM;
 import com.ctf.CTFtastic.repository.ChallengeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.beans.Transient;
@@ -15,8 +17,8 @@ public class ChallengeService {
     private ChallengeRepository challengeRepository;
 
     @Transient
-    public List<ChallengeForListVM> getAllForListView(){
-        return challengeRepository.getAllChallenges();
+    public Page<ChallengeForListVM> getAllForListView(Pageable pageable){
+        return challengeRepository.getAllChallenges(pageable);
     }
     @Transient
     public ChallengeDetailsVM getByIdForView(int id) {

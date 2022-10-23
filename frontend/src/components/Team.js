@@ -1,13 +1,13 @@
 import React from "react";
+import { useParams } from 'react-router-dom'
 
 const Team = (props) => {
+
+    const { id } = useParams();
+
     return (
         <React.Fragment>
-            <tr>
-                <td>{props.id}</td>
-                <td>{props.name}</td>
-                <td> {props.points}</td>
-            </tr>
+            <h1>This is a dynamic page for {id} </h1>
         </React.Fragment>
     )
 }

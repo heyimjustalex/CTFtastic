@@ -17,6 +17,13 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
+import java.util.Collections;
 
 @Configuration
 //@EnableWebSecurity
@@ -32,7 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public SecurityConfig(PasswordEncoder passwordEncoder,
-                                     UserService myUserDetailsService
+                          UserService myUserDetailsService
     ) {
         this.passwordEncoder = passwordEncoder;
         this.userService = myUserDetailsService;
@@ -44,14 +51,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors().disable()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/login","/signup","/signin","/register","/nouser","/registerAdmin").permitAll()
+                .antMatchers("/login","/signup","/signin","/register","/nouser","/registerAdmin", "/set-up","/contests").permitAll()
+                .antMatchers("/teams/{id}", "/teams/{page}/{size}").permitAll()
+                .antMatchers("/users/{page}/{size}", "/users/{id}").permitAll()
+                .antMatchers("challenges/{id}","/challenges/{page}/{size}").permitAll()
                 .antMatchers("/test1").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .addFilterAfter(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterAfter(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(corsWebFilter(),CorsFilter.class);
     }
 
     @Bean
@@ -73,4 +84,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         provider.setUserDetailsService(userService);
         return provider;
     }
+
+    @Bean
+    public CorsFilter corsWebFilter() {
+
+        final CorsConfiguration corsConfig = new CorsConfiguration();
+        corsConfig.setAllowedOrigins(Collections.singletonList("*"));
+        corsConfig.setMaxAge(3600L);
+        corsConfig.setAllowedMethods(Arrays.asList("GET", "POST", "DELETE", "PUT"));
+        corsConfig.addAllowedHeader("*");
+        corsConfig.addExposedHeader("Access-Control-Expose-Headers");
+        corsConfig.addExposedHeader("Location");
+        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", corsConfig);
+
+        return new CorsFilter((CorsConfigurationSource) source);
+    }
+
 }
