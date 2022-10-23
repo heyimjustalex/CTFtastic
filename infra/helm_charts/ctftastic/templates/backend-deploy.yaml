@@ -38,5 +38,8 @@ spec:
             - name: http
               containerPort: 80
               protocol: TCP
+          env:
+            - name: spring.datasource.url
+              value: jdbc:mysql://{{ include "ctftastic.fullname" . }}-db-svc:{{ .Values.service.other.db.port }}/db?enabledTLSProtocols=TLSv1.2
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
