@@ -63,7 +63,6 @@ public class UserController {
 
             ObjectMapper objectMapper = new ObjectMapper();
             String returnData = objectMapper.writeValueAsString(elements);
-
             return ResponseEntity.ok(returnData);
         } catch (Exception ex) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
