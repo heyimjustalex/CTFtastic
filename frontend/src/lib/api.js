@@ -1,4 +1,5 @@
-const BACKEND_ADDRESS = 'http://localhost:8080';
+const BACKEND_ADDRESS = process.env.REACT_APP_BACKEND_ADDRESS;
+//const BACKEND_ADDRESS = 'http://localhost:8080';
 //const BACKEND_ADDRESS = 'https://react-http-f2a23-default-rtdb.europe-west1.firebasedatabase.app';
 
 export async function setUpContest(setupData) {

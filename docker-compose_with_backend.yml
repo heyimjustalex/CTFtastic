@@ -1,19 +1,21 @@
 version: "3.8"
 services:
-#  frontend:
-#    container_name: frontendCTF
-#    build:
-#      context: ./frontend
-#      dockerfile: Dockerfile
-#    volumes:
-#      - ./frontend/src:/app/src:ro
-#      - /app/node_modules
-#    ports:
-#      - 80:3000
-#    environment:
-#      - CHOKIDAR_USEPOLLING=true
-#    networks:
-#      - mynetwork
+  frontend:
+    container_name: frontendCTF
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    volumes:
+      - ./frontend/src:/app/src:ro
+      - /app/node_modules
+    ports:
+      - 80:3000
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - REACT_APP_BACKEND_ADDRESS=http://backendCTF:8080
+      - WDS_SOCKET_PORT=0
+    networks:
+      - mynetwork
 
   backend:
     container_name: backendCTF
