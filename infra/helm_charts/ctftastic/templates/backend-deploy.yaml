@@ -33,7 +33,7 @@ spec:
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.ctftastic.backend.repository }}:{{ .Values.image.ctftastic.backend.tag }}"
-          imagePullPolicy: {{ .pullPolicy }}
+          imagePullPolicy: {{ .Values.image.ctftastic.backend.pullPolicy }}
           ports:
             - name: http
               containerPort: 80

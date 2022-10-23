@@ -8,7 +8,7 @@ spec:
   type: {{ .Values.service.ctftastic.frontend.type }}
   ports:
     - port: {{ .Values.service.ctftastic.frontend.port }}
-      targetPort: http
+      targetPort: 3000
       protocol: TCP
       name: http
       nodePort: {{ .Values.service.ctftastic.frontend.nodePort }}
