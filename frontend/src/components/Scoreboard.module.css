@@ -21,7 +21,6 @@
 
 }
 
-
 .redText {
     color: #FF304E;
 }
@@ -40,8 +39,8 @@
 
 .output-container h1 {
     font-size: 1.5em;
-    text-align: center;
     margin-bottom: 1em;
+    text-align: center;
 }
 
 table {
@@ -66,12 +65,11 @@ th {
 
 th {
     color: #0CC6FF;
-    /* color: :; */
 }
 
 tr:hover {
-    background-color: #111;
-    cursor: pointer;
+    background-color: #000 !important;
+    cursor: default !important;
 }
 
 thead tr:first-child:hover {
@@ -109,15 +107,12 @@ thead tr:first-child:hover {
     color: #FF304E;
 }
 
-.tr-hover-when-loggedin:hover {
-    background-color: #111 !important;
-    cursor: pointer !important;
-}
+@media screen and (max-width: 992px) {
 
+    .main {
 
-thead tr:first-child:hover {
-    background-color: black !important;
-    cursor: auto !important;
+        font-size: 1em;
+    }
 
 }
 

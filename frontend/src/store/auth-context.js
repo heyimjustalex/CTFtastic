@@ -1,13 +1,16 @@
 import React, { useEffect, useState, useCallback } from "react"
 import { useNavigate } from "react-router-dom";
 
+
 let logoutTimer;
 
 export const AuthContext = React.createContext({
     token: '',
+    role: '',
     isLoggedIn: false,
     login: (token, role, expirationTime) => { },
-    logout: () => { }
+    logout: () => { },
+
 })
 
 const calculateRemainingTime = (expTime) => {
@@ -21,23 +24,28 @@ const calculateRemainingTime = (expTime) => {
 const retrieveStoredToken = () => {
     const storedToken = localStorage.getItem('token');
     const storedExpirationDate = localStorage.getItem('expirationTime');
-
+    const role = localStorage.getItem('role');
     const remaningTime = calculateRemainingTime(storedExpirationDate);
 
     if (remaningTime <= 60000) {
         localStorage.removeItem('token');
+        localStorage.removeItem('role');
         localStorage.removeItem('expirationTime');
         return null;
 
     }
-    return { token: storedToken, duration: remaningTime };
+    return { token: storedToken, duration: remaningTime, role: role };
 }
 
 export const AuthContextProvider = (props) => {
+
     const tokenData = retrieveStoredToken();
     let initialToken;
+    let role;
     if (tokenData) {
         initialToken = tokenData.token;
+        role = tokenData.role;
+
 
     }
     const [token, setToken] = useState(initialToken);
@@ -74,8 +82,10 @@ export const AuthContextProvider = (props) => {
     const contextValue = {
         token: token,
         isLoggedIn: userIsLoggedIn,
+        role: role,
         login: loginHandler,
-        logout: logoutHandler
+        logout: logoutHandler,
+
     }
     return <AuthContext.Provider value={contextValue}>{props.children}</AuthContext.Provider>
 }

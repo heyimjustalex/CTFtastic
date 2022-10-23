@@ -1,4 +1,5 @@
-const BACKEND_ADDRESS = 'http://localhost:8080';
+const BACKEND_ADDRESS = process.env.REACT_APP_BACKEND_ADDRESS;
+//const BACKEND_ADDRESS = 'http://localhost:8080';
 //const BACKEND_ADDRESS = 'https://react-http-f2a23-default-rtdb.europe-west1.firebasedatabase.app';
 
 export async function setUpContest(setupData) {
@@ -18,12 +19,28 @@ export async function setUpContest(setupData) {
     if (contentType && contentType.indexOf('application/json') !== -1) {
         return response.json();
     } else {
-        //if response is not json and mostly empty
         return null;
     }
+}
+export async function getContests() {
+    const response = await fetch(`${BACKEND_ADDRESS}/contests`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    });
+    const data = await response;
 
+    if (!response.ok) {
+        throw new Error(data.error || 'Couldnt fetch contests data.');
+    }
 
-
+    var contentType = response.headers.get('content-type')
+    if (contentType && contentType.indexOf('application/json') !== -1) {
+        return response.json();
+    } else {
+        return null;
+    }
 
 }
 
@@ -35,12 +52,14 @@ export async function registerUser(userData) {
             'Content-Type': 'application/json',
         },
     });
-    const data = await response.json();
 
-    if (!response.ok) {
-        throw new Error(data.error || 'Could not register user');
+    try {
+        const data = await response.json();
+        return data;
     }
-    return null;
+    catch {
+        throw new Error('Could not register user');
+    }
 }
 
 export async function loginUser(userData) {
@@ -53,35 +72,105 @@ export async function loginUser(userData) {
         },
     });
 
-    const data = await response.json();
-    console.log(data);
-
-    if (!response.ok) {
-        throw new Error('Could not login user');
+    try {
+        const data = await response.json();
+        return data;
     }
-    return data;
+    catch {
+        throw new Error('Login failed');
+    }
 }
 
 
-export async function getTeams() {
-    const response = await fetch(`${BACKEND_ADDRESS}/teams/0/5`, {
+export async function getTeams(paginationData) {
+    const response = await fetch(`${BACKEND_ADDRESS}/teams/${paginationData.page}/${paginationData.size}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
         },
     });
-    const data = await response.json();
+    try {
+        const data = await response.json();
+        return data;
+    }
+    catch {
+        throw new Error('Couldnt fetch teams data.');
+    }
+}
 
-    if (!response.ok) {
-        throw new Error(data.error || 'Couldnt fetch teams data.');
+
+export async function getChallenges(paginationData) {
+    const response = await fetch(`${BACKEND_ADDRESS}/challenges/${paginationData.page}/${paginationData.size}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    });
+
+    try {
+        const data = await response.json();
+        return data;
+    }
+    catch {
+        throw new Error('Couldnt fetch challenges data.');
     }
 
-    let arr = [];
+}
 
-    for (let key in data) {
-        const obj = data[key];
-        arr.push(obj)
+export async function joinTeam(userData) {
+
+    const response = await fetch(`${BACKEND_ADDRESS}/join-team`, {
+        method: 'POST',
+        body: JSON.stringify(userData),
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+
+    try {
+        const data = await response.json();
+        return data;
     }
+    catch {
+        throw new Error('Joining team failed');
+    }
+}
 
-    return arr;
+
+
+export async function createTeam(userData) {
+    const response = await fetch(`${BACKEND_ADDRESS}/create-team`, {
+        method: 'POST',
+        body: JSON.stringify(userData),
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+
+    try {
+        const data = await response.json();
+        return data;
+    }
+    catch {
+
+        throw new Error('Creating team failed');
+    }
+}
+
+export async function changeUserCredentials(userData) {
+    const response = await fetch(`${BACKEND_ADDRESS}/change-creds`, {
+        method: 'POST',
+        body: JSON.stringify(userData),
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+    try {
+        const data = await response.json();
+        return data;
+    }
+    catch {
+
+        throw new Error('Updating credentials failed');
+    }
 }

@@ -11,22 +11,24 @@ import useTimer from '../../hooks/use-timer';
 import { useNavigate } from "react-router-dom";
 import StartContext from './../../store/start-context';
 import BasicDescription from './BasicDescription';
-import { integerPropType } from '@mui/utils';
-const Start = (props) => {
-    window.history.pushState({}, null, "/start");
 
-    const { hasStarted, setFalseStarted, setTrueStarted } = useContext(StartContext);
+const Start = (props) => {
+
+    const { hasStarted, setFalseStartedLocalStorage, setTrueStartedLocalStorage } = useContext(StartContext);
     const navigate = useNavigate();
     const { sendRequest, status, error } = useHttp(setUpContest);
     const [output, setOutput] = useState({});
 
-    const { time: timeWhenContestCreated, startTimer: startTimerWhenContestCreated, stopTimer: stopTimerWhenContestCreated } = useTimer(3, () => {
-        setTrueStarted();
-        navigate("/");
-    });
+    const {
+        time: timeWhenContestCreated,
+        startTimer: startTimerWhenContestCreated,
+        stopTimer: stopTimerWhenContestCreated } = useTimer(3, () => {
+            setTrueStartedLocalStorage();
+            navigate("/");
+        });
 
     const { time: timeWhenContestCreationFailed, startTimer: startTimerWhenContestCreationFailed, stopTimer: stopTimerWhenCreationFailed } = useTimer(3, () => {
-        setFalseStarted();
+        setFalseStartedLocalStorage();
         navigate('/start');
     });
 
@@ -45,15 +47,13 @@ const Start = (props) => {
     );
 
     useEffect(() => {
-        ///sendrequest if it's the end of this process
 
         if (startingData.renderedComponent === 'end') {
-            // console.log(startingData);
             const transformDate = (date) => {
-                console.log(typeof (date))
+
                 date = new Date(date);
                 let month = date.getMonth();
-                let day = date.getDay();
+                let day = date.getDate();
                 let hour = date.getHours();
                 let minute = date.getMinutes();
                 let second = date.getSeconds();
@@ -65,7 +65,6 @@ const Start = (props) => {
                 second >= 0 && second <= 9 ? second = '0' + String(second) : String(second);
 
                 const temp = String(date.getFullYear() + '-' + month + '-' + day + 'T' + hour + ':' + minute + ':' + second);
-                console.log(temp);
                 return temp;
             }
 
@@ -79,8 +78,6 @@ const Start = (props) => {
                 title: startingData.title,
                 description: startingData.description
             }
-            transformDate(tempData.startTime);
-            console.log(tempData);
 
             sendRequest(tempData)
         }

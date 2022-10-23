@@ -1,0 +1,131 @@
+.pagination {
+
+    width: 100%;
+    margin-top: 1em;
+    /* background-color: red; */
+    /* margin-top: 1em; */
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+
+.pagination>ul {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+
+    /* background-color: blue; */
+    width: 100%;
+
+}
+
+.pagination li {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+
+    padding: 2px 5px;
+    border: 1px solid black;
+}
+
+
+.page-item {
+    background-color: #000;
+
+    /* border: 1px solid white; */
+
+}
+
+.page-link {
+    background-color: black;
+    color: white;
+    margin-left: 0.25em;
+    margin-right: 0.25em;
+}
+
+.page-link:hover {
+    color: #0CC6FF;
+    text-decoration: none;
+}
+
+.pagination>li.active>a {
+    color: #fff;
+    border: 1px solid #0CC6FF;
+}
+
+.pagination>li>a {
+    min-width: 30px;
+    width: fit-content;
+    text-align: center;
+}
+
+.page-button {
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 10px;
+    margin-left: 20px;
+    margin-right: 10px;
+    background-color: #0CC6FF;
+    color: #eee;
+}
+
+.page-button:hover {
+    text-decoration: none;
+    background-color: #0BB5EE;
+}
+
+.pagination>li>a:hover {
+
+    color: white;
+    cursor: pointer;
+}
+
+.pagination>li {
+
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+
+}
+
+li.page-item:first-child {
+    margin-left: 10%;
+}
+
+li.page-item:last-child {
+    margin-right: 10%;
+}
+
+.disabled a {
+    background-color: #111111 !important;
+    cursor: default !important;
+    color: #dddddd !important;
+}
+
+.disabled a:hover {
+    color: #dddddd !important;
+}
+
+@media screen and (max-width: 768px) {
+    .pagination>li>a {
+        min-width: 1px;
+
+    }
+
+    .page-link {
+
+        margin-left: 0.1em;
+        margin-right: 0.1em;
+    }
+
+    .page-button {
+        padding-left: 10px;
+        padding-right: 10px;
+        border-radius: 10px;
+        margin-left: 5px;
+        margin-right: 5px;
+
+    }
+}

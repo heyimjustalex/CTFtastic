@@ -43,9 +43,7 @@ const StartForm = (props) => {
     const formSubmitHandler = (event) => {
         event.preventDefault();
         props.onAdminAccFilled(emailValue, passwordValue);
-
     }
-
 
     let passwordsMatch = null;
     if (passwordValue !== "" && repeatedPasswordValue !== "") {

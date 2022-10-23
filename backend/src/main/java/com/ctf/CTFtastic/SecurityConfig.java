@@ -49,10 +49,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors().disable()
                 .csrf().disable()
                 .authorizeRequests()
+
                 .antMatchers("/login","/signup","/signin","/register","/nouser","/registerAdmin", "/set-up", "/contets").permitAll()
+
                 .antMatchers("/teams/{id}", "/teams/{page}/{size}").permitAll()
                 .antMatchers("/users/{page}/{size}", "/users/{id}").permitAll()
-                .antMatchers("/challenges/{id}","/challenges/{page}/{size}").permitAll()
+                .antMatchers("challenges/{id}","/challenges/{page}/{size}").permitAll()
                 .antMatchers("/test1").permitAll()
                 .anyRequest()
                 .authenticated()
@@ -60,8 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .addFilterAfter(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(corsWebFilter(), CorsFilter.class);
-
+                .addFilterBefore(corsWebFilter(),CorsFilter.class);
     }
 
     @Bean

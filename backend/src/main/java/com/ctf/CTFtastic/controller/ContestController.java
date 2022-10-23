@@ -15,7 +15,7 @@ public class ContestController {
     @Autowired
     private ContestService contestService;
 
-    @RequestMapping(value = {"/contests",})
+    @RequestMapping(value = "/contests", method = RequestMethod.GET)
     public PageableOfT<ContestForListVM> getAll() {
         Pageable pageable = PageRequest.of(0,100);
         Page<ContestForListVM> pagesContest = contestService.getAllForListView(pageable);

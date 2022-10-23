@@ -10,7 +10,7 @@ function httpReducer(state, action) {
     }
 
     if (action.type === 'SUCCESS') {
-        console.log(action.responseData);
+        // console.log(action.responseData);
         return {
             data: action.responseData,
             error: null,
