@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "ctftastic.fullname" . }}-backend
+  labels:
+    {{- include "ctftastic.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "ctftastic.selectorLabels" . | nindent 6 }}
+      {{- include "ctftastic.coreSelectorLabels" . | nindent 6 }}
+      ctftastic/type: backend
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "ctftastic.selectorLabels" . | nindent 8 }}
+        {{- include "ctftastic.coreSelectorLabels" . | nindent 8 }}
+        ctftastic/type: backend
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: ctftastic-backend
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.ctftastic.backend.repository }}:{{ .Values.image.ctftastic.backend.tag }}"
+          imagePullPolicy: {{ .Values.image.ctftastic.backend.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          env:
+            - name: spring.datasource.url
+              value: jdbc:mysql://{{ include "ctftastic.fullname" . }}-db-svc:{{ .Values.service.other.db.port }}/db?enabledTLSProtocols=TLSv1.2
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}

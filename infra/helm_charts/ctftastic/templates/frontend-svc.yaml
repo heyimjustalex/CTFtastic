@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "ctftastic.fullname" . }}-frontend-svc
+  labels:
+    {{- include "ctftastic.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.ctftastic.frontend.type }}
+  ports:
+    - port: {{ .Values.service.ctftastic.frontend.port }}
+      targetPort: 3000
+      protocol: TCP
+      name: http
+      nodePort: {{ .Values.service.ctftastic.frontend.nodePort }}
+  selector:
+    ctftastic/type: frontend
