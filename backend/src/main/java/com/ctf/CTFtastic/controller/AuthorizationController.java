@@ -22,6 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,6 +50,7 @@ public class AuthorizationController {
                 .isVerified(false)
                 .isTeamCapitan(false)
                 .isBanned(false)
+                .username(signupRequest.getUsername())
                 //.team(teamRepository.findById(1))
                 .country(signupRequest.getCountry())
                 .affiliation(signupRequest.getAffiliation())
@@ -72,6 +74,7 @@ public class AuthorizationController {
                 .isVerified(false)
                 .isTeamCapitan(false)
                 .isBanned(false)
+                .username(SignupAdminRequest.getUsername())
                 //.team(teamRepository.findById(1))
                 .country("country brak")
                 .affiliation("affiliation brak")
@@ -89,6 +92,7 @@ public class AuthorizationController {
     @PostMapping(value = {"/login", "/signin"})
     @ResponseBody
     public ResponseEntity<String> createToken(@RequestBody LoginRequest loginRequest){
+
         try{
             Authentication authenticate = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -103,6 +107,7 @@ public class AuthorizationController {
             Map<String, String> elements =  new HashMap<>();
             elements.put("token",token);
             elements.put("role", userService.getRoleByEmail(loginRequest.getEmail()));
+            elements.put("username", userService.getByEmail(loginRequest.getEmail()));
             elements.put("expireTime", "72000"); //potem zmienic żeby brał z prop
 
             ObjectMapper objectMapper = new ObjectMapper();

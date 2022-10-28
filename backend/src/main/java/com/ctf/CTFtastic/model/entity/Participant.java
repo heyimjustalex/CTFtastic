@@ -46,6 +46,9 @@ public class Participant {
     @Column(nullable = false)
     private String email;
 
+    @Column(nullable = false)
+    private String username;
+
     @Column(name = "password_hash", nullable = false)
     private String passwordHash;
 

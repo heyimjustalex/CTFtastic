@@ -2,7 +2,6 @@ package com.ctf.CTFtastic.controller;
 import com.ctf.CTFtastic.model.PageableOfT;
 import com.ctf.CTFtastic.model.projection.ChallengeDetailsVM;
 import com.ctf.CTFtastic.model.projection.ChallengeForListVM;
-import com.ctf.CTFtastic.model.projection.TeamForListVM;
 import com.ctf.CTFtastic.service.ChallengeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
