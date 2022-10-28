@@ -50,7 +50,9 @@ public class AuthorizationController {
                 .isVerified(false)
                 .isTeamCapitan(false)
                 .isBanned(false)
-                .name(signupRequest.getName())
+
+                .username(signupRequest.getUsername())
+
                 //.team(teamRepository.findById(1))
                 .country(signupRequest.getCountry())
                 .affiliation(signupRequest.getAffiliation())
@@ -74,7 +76,9 @@ public class AuthorizationController {
                 .isVerified(false)
                 .isTeamCapitan(false)
                 .isBanned(false)
-                .name(SignupAdminRequest.getName())
+
+                .username(SignupAdminRequest.getUsername())
+
                 //.team(teamRepository.findById(1))
                 .country("country brak")
                 .affiliation("affiliation brak")
@@ -107,7 +111,9 @@ public class AuthorizationController {
             Map<String, String> elements =  new HashMap<>();
             elements.put("token",token);
             elements.put("role", userService.getRoleByEmail(loginRequest.getEmail()));
-            elements.put("nick", userService.getByEmail(loginRequest.getEmail()).getName());
+
+            elements.put("username", userService.getByEmail(loginRequest.getEmail()));
+
             elements.put("expireTime", "72000"); //potem zmienic żeby brał z prop
 
             ObjectMapper objectMapper = new ObjectMapper();

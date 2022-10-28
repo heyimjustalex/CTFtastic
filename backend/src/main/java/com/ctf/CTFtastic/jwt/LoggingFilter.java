@@ -38,6 +38,8 @@ public class LoggingFilter extends OncePerRequestFilter {
         var test = responseWrapper.getHeaderNames();
         var test1 = responseWrapper.getHeaders("Vary");
 
+        LOGGER.info("HEADER");
+
         for (var element: test1) {
             LOGGER.info(element);
         }

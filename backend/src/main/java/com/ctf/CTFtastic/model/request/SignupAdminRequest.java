@@ -9,6 +9,8 @@ import lombok.*;
 @Setter
 public class SignupAdminRequest {
     private String email;
-    private String name;
+
+    private String username;
+
     private String password;
 }
