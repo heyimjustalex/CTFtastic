@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "ctftastic.fullname" . }}-db
+  labels:
+    {{- include "ctftastic.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "ctftastic.selectorLabels" . | nindent 6 }}
+      {{- include "ctftastic.coreSelectorLabels" . | nindent 6 }}
+      ctftastic/type: db
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "ctftastic.selectorLabels" . | nindent 8 }}
+        {{- include "ctftastic.coreSelectorLabels" . | nindent 8 }}
+        ctftastic/type: db
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: ctftastic-db
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.other.db.repository }}:{{ .Values.image.other.db.tag }}"
+          imagePullPolicy: {{ .Values.image.other.db.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 3306
+              protocol: TCP
+          volumeMounts:
+            - name: mysql-initdb
+              mountPath: /docker-entrypoint-initdb.d
+          env:
+            - name: MYSQL_DATABASE
+              value: db
+            - name: MYSQL_USER
+              value: user
+            - name: MYSQL_PASSWORD
+              value: password
+            - name: MYSQL_ROOT_PASSWORD
+              value: password
+          livenessProbe:
+            exec:
+              command:
+              - mysqladmin ping -u$MYSQL_USER --password=$MYSQL_PASSWORD
+            initialDelaySeconds: 120
+            periodSeconds: 10
+            timeoutSeconds: 30
+            failureThreshold: 20
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - name: mysql-initdb
+          configMap:
+            name: mysql-initdb-config
+          
+          
