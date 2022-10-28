@@ -3,12 +3,13 @@ services:
   proxy:
     container_name: nginxCTF
     build:
-      context: ./infra/reverse_proxy
+      context: ./reverse_proxy
       dockerfile: Dockerfile
     ports:
       - 80:80
     networks:
       - mynetwork
+    restart: on-failure
   frontend:
     container_name: frontendCTF
     build:
