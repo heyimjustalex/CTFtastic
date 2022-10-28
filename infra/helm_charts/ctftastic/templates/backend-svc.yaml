@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "ctftastic.fullname" . }}-backend-svc
+  labels:
+    {{- include "ctftastic.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.ctftastic.backend.type }}
+  ports:
+    - port: {{ .Values.service.ctftastic.backend.port }}
+      targetPort: 8080
+      protocol: TCP
+      name: http
+  selector:
+    ctftastic/type: backend
