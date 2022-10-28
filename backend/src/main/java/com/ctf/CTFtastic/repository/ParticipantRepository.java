@@ -23,6 +23,7 @@ import java.util.Optional;
 
 @Repository
 public interface ParticipantRepository extends JpaRepository<Participant, Integer> {
+
     @Query("select c.id as id, c.username as name , c.email as email,c.team.name as nameTeam from Participant c LEFT JOIN Team ht ON ht.id = c.team.id where c.isHidden = false " )
     Page<UserForListVM> getUsers(Pageable pageable);
 
@@ -34,20 +35,24 @@ public interface ParticipantRepository extends JpaRepository<Participant, Intege
     String getUserNameByEmail(@Param("email") String email);
 
     @Query("select c.username as name, c.email as email, c.team.name as nameTeam, c.website as website, c.affiliation as affiliation, c.country as country from Participant c where c.email = :email")
+
     UserDetailsVM getByEmailUser(@Param("email") String email);
 
     Optional<Participant> findByEmail(String email);
 
     @Query("select c.username as name, c.email as username, c.passwordHash as password, c.role.name as role from Participant c where c.email = :email")
+
     Optional<userr> findByEmailGetEmailAndPassword(@Param("email") String email);
 
     @Query("select c.role.name from Participant c where c.email = :email")
     String getRole(@Param("email") String email);
 
+
     @Query("select c.id as id, c.username as name from Participant c where c.team.name = :name")
     List<UserWithIdAndName> getAllUserByTeamName(String name);
     @Modifying
     @Query("update Participant p set p.role = :role, p.team = :team where p.username = :name")
+
     void update(@Param("name") String name, @Param("role") Role role, @Param("team") Team team);
 
     @Query("select c.role.name from Participant c where c.id = :id")
