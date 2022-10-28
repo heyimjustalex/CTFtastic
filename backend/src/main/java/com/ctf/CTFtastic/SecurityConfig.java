@@ -50,7 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
 
-                .antMatchers("/login","/signup","/signin","/register","/nouser","/registerAdmin", "/set-up", "/contets").permitAll()
+                .antMatchers("/login","/signup","/signin","/register","/nouser","/registerAdmin", "/set-up", "/contests").permitAll()
 
                 .antMatchers("/teams/{id}", "/teams/{page}/{size}").permitAll()
                 .antMatchers("/users/{page}/{size}", "/users/{id}").permitAll()
@@ -89,6 +89,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public CorsFilter corsWebFilter() {
 
         final CorsConfiguration corsConfig = new CorsConfiguration();
+        corsConfig.setAllowCredentials(true);
         corsConfig.setAllowedOrigins(Collections.singletonList("*"));
         corsConfig.setMaxAge(3600L);
         corsConfig.setAllowedMethods(Arrays.asList("GET", "POST", "DELETE", "PUT"));

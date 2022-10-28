@@ -40,8 +40,8 @@ public class UserService implements UserDetailsService {
         return participantRepository.getRole(email);
     }
 
-    public UserDetailsVM getByEmail(String email) {
-        return participantRepository.getByEmailUser(email);
+    public String getByEmail(String email) {
+        return participantRepository.getUserNameByEmail(email);
     }
 
     public Participant saveUser(Participant participant) throws Exception {
@@ -73,7 +73,7 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public void update(Participant p, Role role, Team team){
-        participantRepository.update(p.getName(),role, team);
+        participantRepository.update(p.getUsername(),role, team);
     }
 
     public String getRoleById(int id) {
