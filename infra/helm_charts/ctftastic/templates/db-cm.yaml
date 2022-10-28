@@ -53,8 +53,11 @@ data:
     CREATE TABLE contest(
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
     start_time DATETIME NOT NULL,
-    end_time DATETIME NOT NULL
-
+    end_time DATETIME NOT NULL,
+    start_time_utc DATETIME NOT NULL,
+    end_time_utc DATETIME NOT NULL,
+    title VARCHAR(70) NOT NULL,
+    description VARCHAR(500) NOT NULL
     );
 
     CREATE TABLE challenge(
@@ -95,16 +98,67 @@ data:
     INSERT INTO `team` (`id`, `name`, `password_hash`, `points`, `website`, `affiliation`, `is_verified`, `is_banned`, `is_hidden`) VALUES
     (1, 'Team1', '123', 100, 'url.com', 'idc', 1, 0, 0),
     (2, 'Team2', '123', 100, 'url.com/1', 'idc', 1, 0, 0),
-    (3, 'Team3', '1234', 345, 'url.com/2', 'idc', 1, 0, 1),
-    (4, 'Team4', '1235', 50, 'url.com/3', 'idc', 1, 0, 0);
+    (3, 'Team3', '1234', 345, 'url.com/2', 'idc', 1, 0, 0),
+    (4, 'Team3', '1234', 345, 'url.com/2', 'idc', 1, 0, 0),
+    (5, 'Team3', '1234', 345, 'url.com/2', 'idc', 1, 0, 0),
+    (6, 'Team3', '1234', 345, 'url.com/2', 'idc', 1, 0, 0),
+    (7, 'Team3', '1234', 345, 'url.com/2', 'idc', 1, 0, 0),
+    (8, 'Team3', '1234', 345, 'url.com/2', 'idc', 1, 0, 0),
+    (9, 'Team3', '1234', 345, 'url.com/2', 'idc', 1, 0, 0),
+    (10, 'Team3', '1234', 345, 'url.com/2', 'idc', 1, 0, 0),
+    (11, 'Team3', '1234', 345, 'url.com/2', 'idc', 1, 0, 0),
+    (12, 'Team3', '1234', 345, 'url.com/2', 'idc', 1, 0, 0),
+    (13, 'Team3', '1234', 345, 'url.com/2', 'idc', 1, 0, 0),
+    (14, 'Team3', '1234', 345, 'url.com/2', 'idc', 1, 0, 0),
+    (15, 'Team3', '1234', 345, 'url.com/2', 'idc', 1, 0, 0),
+    (16, 'Team3', '1234', 345, 'url.com/2', 'idc', 1, 0, 0),
+    (17, 'Team3', '1234', 345, 'url.com/2', 'idc', 1, 0, 0),
+    (18, 'Team3', '1234', 345, 'url.com/2', 'idc', 1, 0, 0),
+    (19, 'Team3', '1234', 345, 'url.com/2', 'idc', 1, 0, 0),
+    (20, 'Team3', '1234', 345, 'url.com/2', 'idc', 1, 0, 0),
+    (21, 'Team3', '1234', 345, 'url.com/2', 'idc', 1, 0, 0),
+    (22, 'Team3', '1234', 345, 'url.com/2', 'idc', 1, 0, 0),
+    (23, 'Team3', '1234', 345, 'url.com/2', 'idc', 1, 0, 0),
+    (24, 'Team3', '1234', 345, 'url.com/2', 'idc', 1, 0, 0),
+    (25, 'Team3', '1234', 345, 'url.com/2', 'idc', 1, 0, 0),
+    (26, 'Team3', '1234', 345, 'url.com/2', 'idc', 1, 0, 0),
+    (27, 'Team3', '1234', 345, 'url.com/2', 'idc', 1, 0, 0),
+    (28, 'Team3', '1234', 345, 'url.com/2', 'idc', 1, 0, 0),
+    (29, 'Team3', '1234', 345, 'url.com/2', 'idc', 1, 0, 0),
+    (30, 'Team3', '1234', 345, 'url.com/2', 'idc', 1, 0, 0),
+    (31, 'Team3', '1234', 345, 'url.com/2', 'idc', 1, 0, 0),
+    (32, 'Team3', '1234', 345, 'url.com/2', 'idc', 1, 0, 0),
+    (33, 'Team3', '1234', 345, 'url.com/2', 'idc', 1, 0, 0),
+    (34, 'Team3', '1234', 345, 'url.com/2', 'idc', 1, 0, 0),
+    (35, 'Team3', '1234', 345, 'url.com/2', 'idc', 1, 0, 0),
+    (36, 'Team3', '1234', 345, 'url.com/2', 'idc', 1, 0, 0),
+    (37, 'Team3', '1234', 345, 'url.com/2', 'idc', 1, 0, 0),
+    (38, 'Team3', '1234', 345, 'url.com/2', 'idc', 1, 0, 0),
+    (39, 'Team3', '1234', 345, 'url.com/2', 'idc', 1, 0, 0),
+    (40, 'Team3', '1234', 345, 'url.com/2', 'idc', 1, 0, 0),
+    (41, 'Team3', '1234', 345, 'url.com/2', 'idc', 1, 0, 0),
+    (42, 'Team3', '1234', 345, 'url.com/2', 'idc', 1, 0, 0),
+    (43, 'Team3', '1234', 345, 'url.com/2', 'idc', 1, 0, 0),
+    (44, 'Team3', '1234', 345, 'url.com/2', 'idc', 1, 0, 0),
+    (45, 'Team3', '1234', 345, 'url.com/2', 'idc', 1, 0, 0),
+    (46, 'Team3', '1234', 345, 'url.com/2', 'idc', 1, 0, 0),
+    (47, 'Team3', '1234', 345, 'url.com/2', 'idc', 1, 0, 0),
+    (48, 'Team3', '1234', 345, 'url.com/2', 'idc', 1, 0, 0),
+    (49, 'Team3', '1234', 345, 'url.com/2', 'idc', 1, 0, 0),
+    (50, 'Team3', '1234', 345, 'url.com/2', 'idc', 1, 0, 0),
+    (51, 'Team3', '1234', 345, 'url.com/2', 'idc', 1, 0, 0),
+    (52, 'Team3', '1234', 345, 'url.com/2', 'idc', 1, 0, 0),
+    (53, 'Team3', '1234', 345, 'url.com/2', 'idc', 1, 0, 0),
+    (54, 'Team3', '1234', 345, 'url.com/2', 'idc', 1, 0, 0),
+    (55, 'Team4', '1235', 50, 'url.com/3', 'idc', 1, 0, 0);
 
-    INSERT INTO `contest` (`id`, `start_time`, `end_time`) VALUES
-    (1, '2022-10-06 17:01:08', '2022-10-06 17:01:08'),
-    (2, '2022-10-06 17:02:34', '2022-10-06 17:02:34'),
-    (3, '2022-10-06 17:03:55', '2022-10-06 17:03:55'),
-    (4, '2022-10-06 17:14:05', '2022-10-06 17:14:05'),
-    (5, '2022-10-06 17:18:41', '2022-10-06 17:18:41'),
-    (6, '2022-10-06 17:23:06', '2022-10-06 17:23:06');
+    INSERT INTO `contest` (`id`, `start_time`, `end_time`, `start_time_utc`, `end_time_utc`, `title`, `description`) VALUES
+    (1, '2022-10-06 17:01:08', '2022-10-06 17:01:08', '2022-10-06 17:01:08', '2022-10-06 17:01:08', 'title1', '`description1'),
+    (2, '2022-10-06 17:02:34', '2022-10-06 17:02:34', '2022-10-06 17:02:34', '2022-10-06 17:02:34', 'title2', '`description2'),
+    (3, '2022-10-06 17:03:55', '2022-10-06 17:03:55', '2022-10-06 17:03:55', '2022-10-06 17:03:55', 'title3', '`description3'),
+    (4, '2022-10-06 17:14:05', '2022-10-06 17:14:05', '2022-10-06 17:14:05', '2022-10-06 17:14:05', 'title4', '`description4'),
+    (5, '2022-10-06 17:18:41', '2022-10-06 17:18:41', '2022-10-06 17:18:41', '2022-10-06 17:18:41', 'title5', '`description5'),
+    (6, '2022-10-06 17:23:06', '2022-10-06 17:23:06', '2022-10-06 17:23:06', '2022-10-06 17:23:06', 'title6', '`description6');
 
     INSERT INTO `challenge` (`id`, `id_contest`, `name`, `category`, `message`, `points`, `flag`, `is_case_sensitive`, `is_visible`, `file`, `dockerfile`) VALUES
     (1, 1, 'challenge1', 'category1', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and', 100, 'flag1', 0, 1, NULL, NULL),
