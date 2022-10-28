@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "ctftastic.fullname" . }}-phpmyadmin
+  labels:
+    {{- include "ctftastic.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "ctftastic.selectorLabels" . | nindent 6 }}
+      {{- include "ctftastic.coreSelectorLabels" . | nindent 6 }}
+      ctftastic/type: phpmyadmin
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "ctftastic.selectorLabels" . | nindent 8 }}
+        {{- include "ctftastic.coreSelectorLabels" . | nindent 8 }}
+        ctftastic/type: phpmyadmin
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: ctftastic-phpmyadmin
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.other.phpmyadmin.repository }}:{{ .Values.image.other.phpmyadmin.tag }}"
+          imagePullPolicy: {{ .Values.image.other.phpmyadmin.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          env:
+            - name: PMA_ARBITRARY
+              value: "1"
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
