@@ -73,7 +73,9 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public void update(Participant p, Role role, Team team){
+
         participantRepository.update(p.getUsername(),role, team);
+
     }
 
     public String getRoleById(int id) {
