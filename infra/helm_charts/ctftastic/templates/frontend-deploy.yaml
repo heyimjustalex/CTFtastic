@@ -40,9 +40,9 @@ spec:
               protocol: TCP
           env:
             - name: CHOKIDAR_USEPOLLING
-              value: true
+              value: "true"
             - name: REACT_APP_BACKEND_ADDRESS
-              value: ctftastic-backend-svc
+              value: http://ctftastic/api
             - name: WDS_SOCKET_PORT
               value: "0"
           resources:
