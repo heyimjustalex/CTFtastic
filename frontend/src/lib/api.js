@@ -149,6 +149,28 @@ export async function getChallenges(paginationData) {
 
 }
 
+export async function getChallenge(challengeData) {
+    const response = await fetch(`${BACKEND_ADDRESS}/teams/${challengeData.teamId}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + challengeData.token
+        },
+    });
+    if (!response.ok) {
+        throw new Error('Couldnt fetch team data.');
+    }
+    try {
+        const data = await response.json();
+        console.log(data)
+
+        return data;
+    }
+    catch {
+        throw new Error('Couldnt fetch team data.');
+    }
+}
+
 export async function joinTeam(userData) {
 
     const response = await fetch(`${BACKEND_ADDRESS}/join-team`, {

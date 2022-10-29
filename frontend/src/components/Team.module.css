@@ -137,6 +137,39 @@ thead tr:first-child:hover {
 
 }
 
+
+.button-div {
+    margin-top: 1em;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.form-button {
+    font-family: 'Space Mono', 'Verdana', 'Montserrat Alternates';
+    font-weight: bolder;
+    margin-top: 1rem;
+    font-size: 1.1rem;
+    padding: 0.5rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    border-radius: 0.7rem;
+    color: #FAF9F6;
+    background-color: #0CC6FF;
+    margin-bottom: 2rem;
+}
+
+.form-button[disabled]:hover,
+.form-button[disabled]:focus {
+    color: #FAF9F6;
+    background-color: #0CC6FF;
+}
+
+.form-button:hover,
+.form-button:focus {
+    color: #FAF9F6;
+    background-color: #0aa4dd;
+}
+
 @media screen and (max-width: 768px) {
 
     .main {

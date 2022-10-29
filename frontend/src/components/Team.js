@@ -7,19 +7,21 @@ import LoadingRing from './UI/LoadingRing';
 import { AuthContext } from '../store/auth-context';
 import { useNavigate } from 'react-router-dom';
 import styles from "./Team.module.css"
-import { Container } from "react-bootstrap";
+import { Button, Container } from "react-bootstrap";
 
 
-const Team = (props) => {
+const Team = () => {
     const { sendRequest, data, status, error } = useHttp(getTeam);
     const [output, setOutput] = useState({});
     const authCTX = useContext(AuthContext);
     const { id } = useParams();
-
+    const navigate = useNavigate()
+    const onClickBackToTeamsHandler = () => {
+        navigate('/teams');
+    }
 
     useEffect(() => {
         const token = authCTX.token;
-        console.log("TOKEN", token);
         const teamData = {
             token: token,
             teamId: id
@@ -78,9 +80,6 @@ const Team = (props) => {
     return (
         <Container className={`${styles['main']} d-flex flex-column`}>
 
-
-
-
             {status === 'completed' && !error && output.header}
             {status === 'completed' && !error && output.content}
             {status === 'pending' && <h3 className={styles['blue-header']}>{output.header}</h3>}
@@ -90,11 +89,16 @@ const Team = (props) => {
                 <Container className={`${styles['output-content-container']}`}>
                     <h3 className={styles['red-header']}>{output.content}</h3>
                 </Container>}
+            {status === 'completed' && error && !authCTX.isLoggedIn &&
+                <Container className={`${styles['output-content-container']}`}>
+                    <h3 className={styles['red-header']}>Log in to see details</h3>
+                </Container>}
 
-
-
-
-
+            {status === 'completed' && !error && <div className={styles['button-div']}>
+                <Button onClick={onClickBackToTeamsHandler} aria-label="TeamsBackButton" className={`${styles['form-button']} `} variant="custom" type="submit">
+                    back to teams
+                </Button>
+            </div>}
         </Container >
     )
 }
