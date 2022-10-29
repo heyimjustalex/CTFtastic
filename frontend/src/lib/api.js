@@ -150,7 +150,7 @@ export async function getChallenges(paginationData) {
 }
 
 export async function getChallenge(challengeData) {
-    const response = await fetch(`${BACKEND_ADDRESS}/teams/${challengeData.teamId}`, {
+    const response = await fetch(`${BACKEND_ADDRESS}/challenges/${challengeData.challengeId}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -158,7 +158,7 @@ export async function getChallenge(challengeData) {
         },
     });
     if (!response.ok) {
-        throw new Error('Couldnt fetch team data.');
+        throw new Error('Couldnt fetch challenge data.');
     }
     try {
         const data = await response.json();
@@ -168,6 +168,27 @@ export async function getChallenge(challengeData) {
     }
     catch {
         throw new Error('Couldnt fetch team data.');
+    }
+}
+
+export async function sendFlag(flagData) {
+
+    const response = await fetch(`${BACKEND_ADDRESS}/challenges/${flagData.challengeId}/flag`, {
+        method: 'POST',
+        body: JSON.stringify(flagData),
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+    if (!response.ok) {
+        throw new Error('Adding flag failed');
+    }
+    try {
+        const data = await response.json();
+        return data;
+    }
+    catch {
+        throw new Error('Adding flag failed');
     }
 }
 

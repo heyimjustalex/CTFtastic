@@ -1,14 +1,13 @@
 import React, { useEffect, useState, useCallback } from "react"
-import { useNavigate } from "react-router-dom";
-
 
 let logoutTimer;
 
 export const AuthContext = React.createContext({
+    username: '',
     token: '',
     role: '',
     isLoggedIn: false,
-    login: (token, role, expirationTime) => { },
+    login: (username, token, role, expirationTime) => { },
     logout: () => { },
 
 })
@@ -25,16 +24,18 @@ const retrieveStoredToken = () => {
     const storedToken = localStorage.getItem('token');
     const storedExpirationDate = localStorage.getItem('expirationTime');
     const role = localStorage.getItem('role');
+    const username = localStorage.getItem('username');
     const remaningTime = calculateRemainingTime(storedExpirationDate);
 
     if (remaningTime <= 60000) {
+        localStorage.removeItem('username');
         localStorage.removeItem('token');
         localStorage.removeItem('role');
         localStorage.removeItem('expirationTime');
         return null;
 
     }
-    return { token: storedToken, duration: remaningTime, role: role };
+    return { username: username, token: storedToken, duration: remaningTime, role: role };
 }
 
 export const AuthContextProvider = (props) => {
@@ -42,11 +43,11 @@ export const AuthContextProvider = (props) => {
     const tokenData = retrieveStoredToken();
     let initialToken;
     let role;
+    let username;
     if (tokenData) {
         initialToken = tokenData.token;
         role = tokenData.role;
-
-
+        username = tokenData.username;
     }
     const [token, setToken] = useState(initialToken);
 
@@ -56,14 +57,16 @@ export const AuthContextProvider = (props) => {
         setToken(null);
         localStorage.removeItem('token');
         localStorage.removeItem('expirationTime');
+        localStorage.removeItem('username');
         if (logoutTimer) {
             clearTimeout(logoutTimer);
         }
 
     }, [])
 
-    const loginHandler = (token, role, expireTime) => {
+    const loginHandler = (username, token, role, expireTime) => {
         setToken(token);
+        localStorage.setItem('username', username);
         localStorage.setItem('token', token);
         localStorage.setItem('expirationTime', expireTime);
         localStorage.setItem('role', role);
@@ -80,6 +83,7 @@ export const AuthContextProvider = (props) => {
 
 
     const contextValue = {
+        username: username,
         token: token,
         isLoggedIn: userIsLoggedIn,
         role: role,

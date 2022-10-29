@@ -24,7 +24,7 @@ const Login = (props) => {
 
         else if (status === 'completed' && !error) {
             const expTime = new Date((new Date().getTime() + (+data.expireTime * 1000)));
-            authCTX.login(data.token, data.role, expTime.toISOString());
+            authCTX.login(data.username, data.token, data.role, expTime.toISOString());
 
             setOutput({ header: 'Success!', content: 'you have been logged in' });
 
