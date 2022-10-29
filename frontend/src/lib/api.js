@@ -12,7 +12,7 @@ export async function setUpContest(setupData) {
     });
 
     if (!response.ok) {
-        throw new Error(setupData.error || 'Could not initalize contest data.');
+        throw new Error('Could not initalize contest data.');
     }
 
     var contentType = response.headers.get('content-type')
@@ -29,10 +29,10 @@ export async function getContests() {
             'Content-Type': 'application/json'
         },
     });
-    const data = await response;
+
 
     if (!response.ok) {
-        throw new Error(data.error || 'Couldnt fetch contests data.');
+        throw new Error('Couldnt fetch contests data.');
     }
 
     var contentType = response.headers.get('content-type')
@@ -52,7 +52,9 @@ export async function registerUser(userData) {
             'Content-Type': 'application/json',
         },
     });
-
+    if (!response.ok) {
+        throw new Error('Could not register user');
+    }
     try {
         const data = await response.json();
         return data;
@@ -71,7 +73,9 @@ export async function loginUser(userData) {
             'Content-Type': 'application/json',
         },
     });
-
+    if (!response.ok) {
+        throw new Error('Login failed');
+    }
     try {
         const data = await response.json();
         return data;
@@ -89,6 +93,9 @@ export async function getTeams(paginationData) {
             'Content-Type': 'application/json'
         },
     });
+    if (!response.ok) {
+        throw new Error('Couldnt fetch teams data.');
+    }
     try {
         const data = await response.json();
         return data;
@@ -98,6 +105,29 @@ export async function getTeams(paginationData) {
     }
 }
 
+export async function getTeam(teamData) {
+    const response = await fetch(`${BACKEND_ADDRESS}/teams/${teamData.teamId}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + teamData.token
+        },
+    });
+    if (!response.ok) {
+        throw new Error('Couldnt fetch team data.');
+    }
+    try {
+        const data = await response.json();
+        console.log(data)
+
+        return data;
+    }
+    catch {
+        throw new Error('Couldnt fetch team data.');
+    }
+}
+
+
 
 export async function getChallenges(paginationData) {
     const response = await fetch(`${BACKEND_ADDRESS}/challenges/${paginationData.page}/${paginationData.size}`, {
@@ -106,7 +136,9 @@ export async function getChallenges(paginationData) {
             'Content-Type': 'application/json'
         },
     });
-
+    if (!response.ok) {
+        throw new Error('Couldnt fetch challenges data.');
+    }
     try {
         const data = await response.json();
         return data;
@@ -126,7 +158,9 @@ export async function joinTeam(userData) {
             'Content-Type': 'application/json',
         },
     });
-
+    if (!response.ok) {
+        throw new Error('Joining team failed');
+    }
     try {
         const data = await response.json();
         return data;
@@ -146,7 +180,9 @@ export async function createTeam(userData) {
             'Content-Type': 'application/json',
         },
     });
-
+    if (!response.ok) {
+        throw new Error('Creating team failed');
+    }
     try {
         const data = await response.json();
         return data;
@@ -165,6 +201,9 @@ export async function changeUserCredentials(userData) {
             'Content-Type': 'application/json',
         },
     });
+    if (!response.ok) {
+        throw new Error('Updating credentials failed');
+    }
     try {
         const data = await response.json();
         return data;
