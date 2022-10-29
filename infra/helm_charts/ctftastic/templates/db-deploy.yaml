@@ -50,14 +50,14 @@ spec:
               value: password
             - name: MYSQL_ROOT_PASSWORD
               value: password
-          livenessProbe:
-            exec:
-              command:
-              - mysqladmin ping -u$MYSQL_USER --password=$MYSQL_PASSWORD
-            initialDelaySeconds: 120
-            periodSeconds: 10
-            timeoutSeconds: 30
-            failureThreshold: 20
+          # livenessProbe:
+          #   exec:
+          #     command:
+          #     - mysqladmin ping -u$MYSQL_USER --password=$MYSQL_PASSWORD
+          #   initialDelaySeconds: 120
+          #   periodSeconds: 10
+          #   timeoutSeconds: 30
+          #   failureThreshold: 20
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:
