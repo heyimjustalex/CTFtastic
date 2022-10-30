@@ -40,11 +40,9 @@
 
 }
 
-
 .dropdown-item:last-child {
     margin-bottom: 8px;
 }
-
 
 .nav-dropdown .show {
     background-color: red !important;
@@ -64,8 +62,6 @@
     color: rgba(255, 255, 255, .5) !important;
     font-size: 1.1em;
 }
-
-
 
 .dropdown-item:hover {
     color: #FAF9F6 !important;
@@ -179,8 +175,6 @@
         text-align: center;
     }
 
-
-
     .navbar div a {
         margin-left: 0px;
     }
@@ -189,10 +183,8 @@
         text-align: center;
     }
 
-
     .nav-dropdown {
         background-color: black;
-
     }
 
     .right-menu a {

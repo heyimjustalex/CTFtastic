@@ -135,7 +135,6 @@ const Challenge = () => {
                     {!challengeError && <h2 className={styles['red-header']}>{output.header}</h2>}
                     {!challengeError && output.content}
 
-
                     {challengeError &&
                         <Container className={`${styles['output-content-container']}`}>
                             <h3 className={styles['red-header']}>{output.content}</h3>
@@ -143,7 +142,7 @@ const Challenge = () => {
 
                     {flagStatus === 'pending' && <h3 className={styles['blue-header']}>{output.header}</h3>}
                     {flagStatus === 'pending' && output.content}
-                    {(flagStatus === 'completed' || flagStatus === null) &&
+                    {(flagStatus === 'completed' || flagStatus === null) && !challengeError &&
                         <Form className={`${styles['start-form']}`} onSubmit={flagSubmitHandler}>
                             <Form.Group className="mb-3" controlId="formBasic">
                                 <Form.Label className={styles['form-label']}>Flag</Form.Label>

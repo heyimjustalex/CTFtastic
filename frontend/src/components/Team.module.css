@@ -4,7 +4,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    /* background-color: red; */
     box-sizing: border-box;
     padding: 1em;
     font-size: 1.5em;
@@ -15,14 +14,11 @@
     width: 100%;
     text-align: center;
     color: #FAF9F6;
-    /* background-color: blue; */
     text-align: center;
     display: flex;
     justify-content: center;
     align-items: center;
-
 }
-
 
 .redText {
     color: #FF304E;
@@ -35,29 +31,14 @@
 .team-header {
     color: #0CC6FF;
     display: inline-block;
-    /* background-color: red; */
     margin: 2em;
 }
-
-
 
 h4>p {
     color: #FAF9F6 !important;
 }
 
-.output-container {
-    margin: auto;
-    width: 70%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
 
-.output-container h1 {
-    font-size: 1.5em;
-    text-align: center;
-    margin-bottom: 1em;
-}
 
 table {
     border-collapse: collapse;
@@ -81,7 +62,6 @@ th {
 
 th {
     color: #0CC6FF;
-    /* color: :; */
 }
 
 tr:hover {

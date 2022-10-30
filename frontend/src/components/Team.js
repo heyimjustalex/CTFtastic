@@ -53,7 +53,7 @@ const Team = () => {
                     <div className={`${styles['output-content-container']}`}>
 
                         <h4 className={styles['team-header']}>Points: <p> {data.points} </p></h4>
-                        <h4 className={styles['team-header']}>Website: <p> {data.website}</p></h4>
+                        <h4 className={styles['team-header']}>Website: <p>  {data.website}</p></h4>
                         <h4 className={styles['team-header']}>Affiliation:  <p> {data.affiliation}</p></h4>
 
 
