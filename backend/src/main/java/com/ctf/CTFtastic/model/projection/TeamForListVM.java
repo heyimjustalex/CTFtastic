@@ -9,6 +9,6 @@ public interface TeamForListVM {
     String getName();
 
     String getAffiliation();
-    String getWbsite();
+    String getWebsite();
     Integer getPoints();
 }
