@@ -81,6 +81,7 @@ const Register = (props) => {
         event.preventDefault();
         /// send request
         const requestData = {
+            username: usernameValue,
             email: emailValue,
             password: passwordValue,
             country: "PL",
