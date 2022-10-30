@@ -98,7 +98,7 @@ public class TeamController {
     public ResponseEntity<String> create(@RequestBody JoinTeamRequest joinTeamRequest, Authentication authentication) {
         try {
             Optional<Participant> user = userService.findByEmail(authentication.getName());
-            Optional<Team> team = teamService.findById((joinTeamRequest.getId()));
+            Optional<Team> team = teamService.findByName((joinTeamRequest.getName()));
 
             if (team.isEmpty()) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST);

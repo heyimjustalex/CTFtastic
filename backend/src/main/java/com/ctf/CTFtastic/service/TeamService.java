@@ -42,4 +42,8 @@ public class TeamService {
     public Optional<Team> findById(int id) {
         return teamRepository.findById2(id);
     }
+
+    public Optional<Team> findByName(String name) {
+        return teamRepository.findByName(name);
+    }
 }
