@@ -13,21 +13,23 @@ import AuthContext from '../store/auth-context';
 import { useContext } from 'react';
 
 
-const Register = (props) => {
+const CreateTeam = (props) => {
 
-    const { sendRequest, status, error } = useHttp(createTeam);
+    const { sendRequest, data, status, error } = useHttp(createTeam);
     const [output, setOutput] = useState({});
     const authCTX = useContext(AuthContext);
     useEffect(() => {
 
         if (status === 'pending') {
+
             setOutput({ header: 'Loading...', content: <LoadingRing /> });
         }
 
         else if (status === 'completed' && !error) {
 
             setOutput({ header: 'Success!', content: 'team created' });
-
+            console.log(data);
+            authCTX.updateRole(data.role);
         }
 
         else if (status === 'completed' && error) {
@@ -35,7 +37,7 @@ const Register = (props) => {
 
         }
 
-    }, [status, error, setOutput]);
+    }, [status, error, setOutput, authCTX, data]);
 
     const
         { value: teamNameValue,
@@ -94,18 +96,21 @@ const Register = (props) => {
         event.preventDefault();
         /// send request
         const requestData = {
-            email: teamNameValue,
+            token: authCTX.token,
+            name: teamNameValue,
             password: passwordValue,
             website: websiteValue,
             affiliation: affiliationValue
         }
+        sendRequest(requestData);
+
         repeatedPasswordReset();
         websiteReset();
         affiliationReset();
         teamNameReset();
         passwordReset();
         repeatedPasswordReset();
-        sendRequest(requestData);
+
 
     }
 
@@ -261,4 +266,4 @@ const Register = (props) => {
     );
 }
 
-export default Register;
+export default CreateTeam;

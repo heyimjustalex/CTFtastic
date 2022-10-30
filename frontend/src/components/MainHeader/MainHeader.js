@@ -53,23 +53,47 @@ const MainHeader = (props) => {
           <NavLink onClick={() => setExpanded(false)} className={({ isActive }) => (isActive ? styles['active'] : styles['hover-underline-animation']) + ' ' + styles['navlink']} to="/scoreboard">Scoreboard</NavLink>
 
           {authCTX.isLoggedIn && <NavDropdown className={styles['nav-dropdown']} id={styles['nav-dropdown']} title="User options">
-            <NavDropdown.Item
-              as={NavLink} to={'/join-team'}
-              className={styles['dropdown-item'] + ' ' + styles['hover-underline-animation']}>
-              Join Team
-            </NavDropdown.Item>
-            <NavDropdown.Item
-              as={NavLink}
-              to={'/create-team'}
-              className={styles['dropdown-item'] + ' ' + styles['hover-underline-animation']}>
-              Create Team
-            </NavDropdown.Item>
+
+
+            {(authCTX.role !== 'ROLE_TEAM_CAPITAN' && authCTX.role !== 'ROLE_USER_WITH_TEAM') &&
+              <>
+                <NavDropdown.Item
+                  as={NavLink} to={'/join-team'}
+                  className={styles['dropdown-item'] + ' ' + styles['hover-underline-animation']}>
+                  Join Team
+                </NavDropdown.Item>
+
+                <NavDropdown.Item
+                  as={NavLink}
+                  to={'/create-team'}
+                  className={styles['dropdown-item'] + ' ' + styles['hover-underline-animation']}>
+                  Create Team
+                </NavDropdown.Item>
+              </>}
+
+
+
+            {(authCTX.role === 'ROLE_TEAM_CAPITAN' || authCTX.role === 'ROLE_USER_WITH_TEAM') &&
+              <>
+                <NavDropdown.Item
+                  as={NavLink}
+                  to={'/my-team'}
+                  className={styles['dropdown-item'] + ' ' + styles['hover-underline-animation']}>
+                  {authCTX.role === 'ROLE_TEAM_CAPITAN' ? 'Manage Team' : 'My Team'}
+                </NavDropdown.Item>
+              </>}
+
+
+
+
+
             <NavDropdown.Item
               as={NavLink}
               to={'/change-creds'}
               className={styles['dropdown-item'] + ' ' + styles['hover-underline-animation']}>
               Change Credentials
             </NavDropdown.Item>
+
             {/* <NavDropdown.Divider /> */}
 
           </NavDropdown>}

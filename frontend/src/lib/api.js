@@ -178,6 +178,7 @@ export async function sendFlag(flagData) {
         body: JSON.stringify(flagData),
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + flagData.token
         },
     });
     if (!response.ok) {
@@ -194,11 +195,12 @@ export async function sendFlag(flagData) {
 
 export async function joinTeam(userData) {
 
-    const response = await fetch(`${BACKEND_ADDRESS}/join-team`, {
+    const response = await fetch(`${BACKEND_ADDRESS}/teams/join`, {
         method: 'POST',
         body: JSON.stringify(userData),
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + userData.token
         },
     });
     if (!response.ok) {
@@ -216,11 +218,12 @@ export async function joinTeam(userData) {
 
 
 export async function createTeam(userData) {
-    const response = await fetch(`${BACKEND_ADDRESS}/create-team`, {
+    const response = await fetch(`${BACKEND_ADDRESS}/teams`, {
         method: 'POST',
         body: JSON.stringify(userData),
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + userData.token
         },
     });
     if (!response.ok) {

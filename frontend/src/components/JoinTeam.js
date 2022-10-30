@@ -25,6 +25,7 @@ const JoinTeam = (props) => {
         else if (status === 'completed' && !error) {
 
             setOutput({ header: 'Success!', content: 'you have joined team' });
+            localStorage.setItem('role', data.role);
             // moze tu jakis local storage na team-member wysetowac role w startCTX
             // navigate('/');
         }
@@ -62,10 +63,11 @@ const JoinTeam = (props) => {
     const formSubmitHandler = (event) => {
         event.preventDefault();
 
-
         const dataTemp = {
-            email: teamNameValue,
-            password: passwordValue
+            name: teamNameValue,
+            password: passwordValue,
+            token: authCTX.token
+
         };
 
         sendRequest(dataTemp);

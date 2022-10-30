@@ -9,6 +9,7 @@ export const AuthContext = React.createContext({
     isLoggedIn: false,
     login: (username, token, role, expirationTime) => { },
     logout: () => { },
+    updateRole: (newRole) => { }
 
 })
 
@@ -53,6 +54,11 @@ export const AuthContextProvider = (props) => {
 
     const userIsLoggedIn = !!token;
 
+    const updateRoleHandler = (newRole) => {
+        // localStorage.removeItem('role');
+        localStorage.setItem('role', newRole);
+    }
+
     const logoutHandler = useCallback(() => {
         setToken(null);
         localStorage.removeItem('token');
@@ -89,6 +95,7 @@ export const AuthContextProvider = (props) => {
         role: role,
         login: loginHandler,
         logout: logoutHandler,
+        updateRole: updateRoleHandler
 
     }
     return <AuthContext.Provider value={contextValue}>{props.children}</AuthContext.Provider>
