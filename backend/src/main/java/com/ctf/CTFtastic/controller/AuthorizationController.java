@@ -22,9 +22,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.constraints.Null;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 public class AuthorizationController {
@@ -56,7 +58,7 @@ public class AuthorizationController {
                 //.team(teamRepository.findById(1))
                 .country(signupRequest.getCountry())
                 .affiliation(signupRequest.getAffiliation())
-                .role(new Role(3,"ROLE_USER"))
+                .role(new Role(4,"ROLE_USER_WITH_TEAM"))
                 .email(signupRequest.getEmail())
                 .passwordHash(passwordEncoder.encode(signupRequest.getPassword())).build();
         try{
@@ -108,12 +110,19 @@ public class AuthorizationController {
 
             var token = jwtTokenUntil.generateToken(loginRequest.getEmail());
 
+            Participant user = userService.findByEmail(loginRequest.getEmail()).get();
+
             Map<String, String> elements =  new HashMap<>();
             elements.put("token",token);
-            elements.put("role", userService.getRoleByEmail(loginRequest.getEmail()));
+            elements.put("role", user.getRole().getName());
+            elements.put("idUser", user.getId().toString());
 
-            elements.put("username", userService.getByEmail(loginRequest.getEmail()));
-
+            if(user.getTeam() != null){
+                elements.put("idTeam", user.getTeam().getId().toString());
+            }
+            else{
+                elements.put("idTeam", "null");
+            }
             elements.put("expireTime", "72000"); //potem zmienic żeby brał z prop
 
             ObjectMapper objectMapper = new ObjectMapper();
