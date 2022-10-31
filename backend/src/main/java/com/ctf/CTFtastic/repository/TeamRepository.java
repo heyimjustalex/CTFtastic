@@ -22,8 +22,8 @@ public interface TeamRepository extends JpaRepository<Team, Integer> {
     @Query("select c.id as id, c.name as name, c.points as points, c.website as website, c.affiliation as affiliation from Team c where c.isHidden = false")
     Page<TeamForListVM> getTeams(Pageable pageable);
 
-    @Query("select c.name as name, c.points as points, c.website as website, c.affiliation as affiliation from Team c where c.isHidden = false and c.id = :id")
-    TeamDetailsVM getByIdToView(@Param("id") int id);
+    @Query("select c from Team c where c.isHidden = false and c.id = :id")
+    Team getByIdToView(@Param("id") int id);
 
     @Query("select c from Team c where c.name = :name")
     Optional<Team> findByName(@Param("name") String name);
