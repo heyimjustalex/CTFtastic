@@ -80,9 +80,9 @@ public class TeamController {
 
           Team newTeam = teamService.add(team);
           userService.update(user.get(),new Role(2,"ROLE_TEAM_CAPITAN"), newTeam);
-
           Map<String, String> elements =  new HashMap<>();
           elements.put("role", "ROLE_TEAM_CAPITAN");
+          elements.put("teamId", newTeam.getId().toString());
 
           ObjectMapper objectMapper = new ObjectMapper();
           String returnData = objectMapper.writeValueAsString(elements);
@@ -105,9 +105,10 @@ public class TeamController {
             }
 
             userService.update(user.get(), new Role(4, "ROLE_USER_WITH_TEAM"), team.get());
-
+            //user = userService.findByEmail(authentication.getName());
             Map<String, String> elements =  new HashMap<>();
             elements.put("role", "ROLE_USER_WITH_TEAM");
+            elements.put("teamId", team.get().getId().toString());
 
             ObjectMapper objectMapper = new ObjectMapper();
             String returnData = objectMapper.writeValueAsString(elements);

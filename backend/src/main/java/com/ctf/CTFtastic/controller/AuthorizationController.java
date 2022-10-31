@@ -124,6 +124,7 @@ public class AuthorizationController {
                 elements.put("idTeam", "null");
             }
             elements.put("expireTime", "72000"); //potem zmienic żeby brał z prop
+            elements.put("userName", user.getUsername()); // Tutaj możesz sobie zmienić jaką nazwę chcesz
 
             ObjectMapper objectMapper = new ObjectMapper();
 
