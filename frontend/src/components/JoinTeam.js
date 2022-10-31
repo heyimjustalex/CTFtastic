@@ -134,7 +134,11 @@ const JoinTeam = (props) => {
                     </Form>   </>}
 
 
-            {!authCTX.isLoggedIn && <div className={styles['output-container']}> <h1 className={styles['redText']}>You cannot join team if you're not logged in!</h1></div>}
+            {!authCTX.isLoggedIn &&
+                <div className={styles['output-container']}>
+                    <h1 className={styles['redText']}>You cannot join team if you're not logged in!
+                    </h1>
+                </div>}
         </Container >
 
     );
