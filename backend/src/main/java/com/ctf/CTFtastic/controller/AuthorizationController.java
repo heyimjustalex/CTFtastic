@@ -58,7 +58,7 @@ public class AuthorizationController {
                 //.team(teamRepository.findById(1))
                 .country(signupRequest.getCountry())
                 .affiliation(signupRequest.getAffiliation())
-                .role(new Role(4,"ROLE_USER_WITH_TEAM"))
+                .role(new Role(3,"ROLE_USER"))
                 .email(signupRequest.getEmail())
                 .passwordHash(passwordEncoder.encode(signupRequest.getPassword())).build();
         try{

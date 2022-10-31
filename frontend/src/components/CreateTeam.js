@@ -29,8 +29,8 @@ const CreateTeam = () => {
         else if (status === 'completed' && !error) {
             setOutput({ header: 'Success!', content: 'Team created' });
             authCTX.updateRole(data.role);
-            navigate('/');
-            window.location.reload();
+            // navigate('/');
+            // window.location.reload();
         }
 
         else if (status === 'completed' && error) {

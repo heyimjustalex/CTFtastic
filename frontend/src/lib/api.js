@@ -1,6 +1,5 @@
 const BACKEND_ADDRESS = process.env.REACT_APP_BACKEND_ADDRESS;
 //const BACKEND_ADDRESS = 'http://localhost:8080';
-//const BACKEND_ADDRESS = 'https://react-http-f2a23-default-rtdb.europe-west1.firebasedatabase.app';
 
 export async function setUpContest(setupData) {
     const response = await fetch(`${BACKEND_ADDRESS}/set-up`, {
@@ -118,8 +117,6 @@ export async function getTeam(teamData) {
     }
     try {
         const data = await response.json();
-        console.log(data)
-
         return data;
     }
     catch {
@@ -162,7 +159,27 @@ export async function getChallenge(challengeData) {
     }
     try {
         const data = await response.json();
-        console.log(data)
+        return data;
+    }
+    catch {
+        throw new Error('Couldnt fetch team data.');
+    }
+}
+
+
+export async function getUser(requestData) {
+    const response = await fetch(`${BACKEND_ADDRESS}/users/${requestData.userId}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + requestData.token
+        },
+    });
+    if (!response.ok) {
+        throw new Error('Couldnt fetch challenge data.');
+    }
+    try {
+        const data = await response.json();
 
         return data;
     }
@@ -170,6 +187,7 @@ export async function getChallenge(challengeData) {
         throw new Error('Couldnt fetch team data.');
     }
 }
+
 
 export async function sendFlag(flagData) {
 

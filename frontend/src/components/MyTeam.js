@@ -10,7 +10,7 @@ import styles from "./Team.module.css"
 import { Button, Container } from "react-bootstrap";
 
 
-const Team = () => {
+const MyTeam = () => {
     const { sendRequest, data, status, error } = useHttp(getTeam);
     const [output, setOutput] = useState({});
     const authCTX = useContext(AuthContext);
@@ -78,9 +78,7 @@ const Team = () => {
                         {teamMembers == null && <h4 className={styles['red-header']}>This team has no members yet</h4>}
                         {teamMembers !== null && <h4>Members:</h4>}
                         {teamMembers !== null && <table>
-                            <tbody>
-                                {teamMembers}
-                            </tbody>
+                            {teamMembers}
                         </table>}
                     </div>
                 </>
@@ -120,4 +118,4 @@ const Team = () => {
         </Container >
     )
 }
-export default Team;
+export default MyTeam;
