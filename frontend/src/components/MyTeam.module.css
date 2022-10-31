@@ -105,17 +105,68 @@ thead tr:first-child:hover {
     text-align: center;
 }
 
-.tr-hover-when-loggedin:hover {
+.tr-hover-when-loggedin:hover td:not(:last-child) {
     background-color: #111 !important;
     cursor: pointer !important;
 }
 
+.x-sign-td :hover {
+    background-color: #111;
+}
 
-thead tr:first-child:hover {
+/* 
+.td-hover {
+    background-color: #111 !important;
+    cursor: pointer !important;
+}
+
+.first-td:hover {
+    background-color: red;
+
+} */
+
+/* .first-td:hover~td {
+    background-color: red;
+
+} */
+
+/* .tr-hover-when-loggedin td:nth-child(2):hover {
+    background-color: #111 !important;
+    cursor: pointer !important;
+
+} */
+
+/* .tr-hover-when-loggedin td:nth-child(2):hover {
+    content: "TEST";
+    background-color: red !important;
+    cursor: pointer !important;
+
+} */
+
+/* 
+.tr-hover-when-loggedin td:first-child:hover {
+    background-color: #111 !important;
+    cursor: pointer !important;
+
+}
+
+.tr-hover-when-loggedin td:first-child:hover~td:nth-child(2) {
+    background-color: #111 !important;
+    cursor: pointer !important;
+} */
+
+/* .tr-hover-when-loggedin td:first-child:hover,
+.tr-hover-when-loggedin td:nth-child(2):hover {
+    background-color: #111 !important;
+    cursor: pointer !important;
+} */
+
+
+/* thead tr:first-child:hover {
     background-color: black !important;
     cursor: auto !important;
 
-}
+} */
 
 
 .button-div {

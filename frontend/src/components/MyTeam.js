@@ -1,12 +1,12 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useParams } from 'react-router-dom'
 import { useContext, useEffect, useState, useCallback } from 'react';
 import useHttp from '../hooks/use-http';
-import { getTeam } from '../lib/api';
+import { getTeam, getUser } from '../lib/api';
 import LoadingRing from './UI/LoadingRing';
 import { AuthContext } from '../store/auth-context';
 import { useNavigate } from 'react-router-dom';
-import styles from "./Team.module.css"
+import styles from "./MyTeam.module.css"
 import { Button, Container } from "react-bootstrap";
 
 
@@ -19,6 +19,7 @@ const MyTeam = () => {
     const onClickBackToTeamsHandler = () => {
         navigate('/teams');
     }
+    const [isHovering, setIsHovering] = useState(false);
 
 
     const handleUsersRowClick = useCallback((id) => {
@@ -34,14 +35,18 @@ const MyTeam = () => {
         const token = authCTX.token;
         const teamData = {
             token: token,
-            teamId: id
+            teamId: authCTX.idTeam
         }
 
         sendRequest(teamData);
 
-    }, [sendRequest, id, authCTX.token])
+    }, [sendRequest, id, authCTX.token, authCTX.idTeam])
+
+
+
 
     useEffect(() => {
+
 
         if (status === 'pending') {
             setOutput({ header: 'Loading...', content: <LoadingRing /> });
@@ -54,13 +59,21 @@ const MyTeam = () => {
             if (data.users) {
                 teamMembers = data.users.map((element) => {
                     iterator++;
-                    return <tr
-                        className={authCTX.isLoggedIn ? styles['tr-hover-when-loggedin'] : ''}
+                    return <tr className={styles['tr-hover-when-loggedin']}
                         key={element.id}
-                        onClick={() => handleUsersRowClick(element.id)}>
-                        <td className={styles['element-id']}>{iterator}</td>
-                        <td>{element.name}</td>
+                    >
+                        <td
+                            onClick={() => handleUsersRowClick(element.id)}
+
+                        >{iterator}</td>
+                        <td
+                            onClick={() => handleUsersRowClick(element.id)}
+
+
+                        >{element.name}</td>
+                        <td className={styles['x-sign-td']}>X</td>
                     </tr>
+
 
                 })
             }
@@ -78,7 +91,11 @@ const MyTeam = () => {
                         {teamMembers == null && <h4 className={styles['red-header']}>This team has no members yet</h4>}
                         {teamMembers !== null && <h4>Members:</h4>}
                         {teamMembers !== null && <table>
-                            {teamMembers}
+                            <tbody>
+
+                                {teamMembers}
+
+                            </tbody>
                         </table>}
                     </div>
                 </>
@@ -91,7 +108,7 @@ const MyTeam = () => {
 
         }
 
-    }, [status, error, setOutput, data]);
+    }, [status, error, setOutput, data, authCTX.isLoggedIn, handleUsersRowClick]);
 
     return (
         <Container className={`${styles['main']} d-flex flex-column`}>
