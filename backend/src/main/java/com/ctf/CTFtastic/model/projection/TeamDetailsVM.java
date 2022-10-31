@@ -1,17 +1,23 @@
 package com.ctf.CTFtastic.model.projection;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import lombok.*;
 
 import java.util.List;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@Builder
 @JsonPropertyOrder({ "name", "points", "website", "affiliation", "users"})
-public interface TeamDetailsVM {
-    String getName();
+public class TeamDetailsVM {
+    public String name;
 
-    Integer getPoints();
+    public Integer points;
 
-    String getWebsite();
+    public String website;
 
-    String getAffiliation();
+    public String affiliation;
 
-    List<UserWithIdAndName> getUsers();
+    public List<UserWithIdAndName> users;
 }
