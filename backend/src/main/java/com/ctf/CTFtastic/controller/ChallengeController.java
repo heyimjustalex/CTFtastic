@@ -2,12 +2,14 @@ package com.ctf.CTFtastic.controller;
 import com.ctf.CTFtastic.model.PageableOfT;
 import com.ctf.CTFtastic.model.projection.ChallengeDetailsVM;
 import com.ctf.CTFtastic.model.projection.ChallengeForListVM;
+import com.ctf.CTFtastic.model.request.ChangePasswordRequest;
 import com.ctf.CTFtastic.service.ChallengeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
@@ -37,5 +39,10 @@ public class ChallengeController {
     @RequestMapping(value = {"challenges/{id}"})
     public ChallengeDetailsVM getById(@PathVariable("id") int id){
         return challengeService.getById(id);
+    }
+
+    @RequestMapping(value = {"/add-challenge"})
+    public ChallengeDetailsVM createChallange(@RequestBody ChangePasswordRequest changePasswordRequest){
+
     }
 }

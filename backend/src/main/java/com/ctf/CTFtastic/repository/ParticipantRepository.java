@@ -13,6 +13,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 
@@ -52,8 +53,11 @@ public interface ParticipantRepository extends JpaRepository<Participant, Intege
     List<UserWithIdAndName> getAllUserByTeamName(String name);
     @Modifying
     @Query("update Participant p set p.role = :role, p.team = :team where p.username = :name")
-
     void update(@Param("name") String name, @Param("role") Role role, @Param("team") Team team);
+
+    @Modifying
+    @Query("update Participant p set p.passwordHash = :newPasswordHash where p.username = :name")
+    void updatePassword(@Param("name") String name, @Param("newPasswordHash") String newPasswordHash);
 
     @Query("select c.role.name from Participant c where c.id = :id")
     String getRoleById(int id);
