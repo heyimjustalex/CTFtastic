@@ -15,6 +15,7 @@ const JoinTeam = (props) => {
     const { sendRequest, data, status, error } = useHttp(joinTeam);
     const [output, setOutput] = useState({});
     const authCTX = useContext(AuthContext);
+    const navigate = useNavigate();
 
     useEffect(() => {
 
@@ -25,9 +26,10 @@ const JoinTeam = (props) => {
         else if (status === 'completed' && !error) {
 
             setOutput({ header: 'Success!', content: 'you have joined team' });
-            localStorage.setItem('role', data.role);
-            // moze tu jakis local storage na team-member wysetowac role w startCTX
-            // navigate('/');
+            authCTX.updateRole(data.role);
+            authCTX.updateIdTeam(data.idTeam);
+            navigate('/');
+            window.location.reload();
         }
 
         else if (status === 'completed' && error) {
@@ -35,7 +37,7 @@ const JoinTeam = (props) => {
 
         }
 
-    }, [status, error, setOutput, data, authCTX]);
+    }, [status, error, setOutput, data, authCTX, navigate]);
 
     const
         { value: teamNameValue,

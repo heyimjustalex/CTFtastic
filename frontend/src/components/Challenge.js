@@ -82,7 +82,6 @@ const Challenge = () => {
 
     const flagSubmitHandler = (event) => {
         event.preventDefault();
-        console.log("FLAG HANDLER ")
 
         const dataTemp = {
             challengeId: id,
@@ -96,7 +95,6 @@ const Challenge = () => {
 
     useEffect(() => {
 
-        console.log("FALAGSTATUS ", flagStatus)
         if (flagStatus === 'pending') {
             setflagValidityOutput({ header: 'Checking flag...', content: <LoadingRing /> });
         }

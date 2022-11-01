@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react';
 import useHttp from '../hooks/use-http';
 import { getContests } from '../lib/api';
 import LoadingRing from './UI/LoadingRing';
-import { useNavigate } from 'react-router-dom';
 
 const Home = (props) => {
 

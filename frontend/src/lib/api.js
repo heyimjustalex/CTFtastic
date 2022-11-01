@@ -259,21 +259,35 @@ export async function createTeam(userData) {
 
 export async function changeUserCredentials(userData) {
     const response = await fetch(`${BACKEND_ADDRESS}/change-creds`, {
-        method: 'POST',
+        method: 'PUT',
         body: JSON.stringify(userData),
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + userData.token
         },
     });
     if (!response.ok) {
         throw new Error('Updating credentials failed');
     }
-    try {
-        const data = await response.json();
-        return data;
-    }
-    catch {
 
-        throw new Error('Updating credentials failed');
+    return response;
+
+}
+
+
+export async function deleteUser(userData) {
+    const response = await fetch(`${BACKEND_ADDRESS}/users/${userData.userId}`, {
+        method: 'DELETE',
+        body: JSON.stringify(userData),
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + userData.token
+        },
+    });
+    if (!response.ok) {
+        throw new Error('Delete failed ');
     }
+
+    return response;
+
 }

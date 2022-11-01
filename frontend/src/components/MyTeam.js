@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { useParams } from 'react-router-dom'
 import { useContext, useEffect, useState, useCallback } from 'react';
 import useHttp from '../hooks/use-http';
-import { getTeam, getUser } from '../lib/api';
+import { deleteUser, getTeam, getUser } from '../lib/api';
 import LoadingRing from './UI/LoadingRing';
 import { AuthContext } from '../store/auth-context';
 import { useNavigate } from 'react-router-dom';
@@ -15,11 +15,29 @@ const MyTeam = () => {
     const [output, setOutput] = useState({});
     const authCTX = useContext(AuthContext);
     const { id } = useParams();
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const { sendRequest: sendRequestDeleteFromTeam,
+        data: deleteData,
+        status: deleteStatus,
+        error: deleteError } = useHttp(deleteUser);
+
+
     const onClickBackToTeamsHandler = () => {
         navigate('/teams');
     }
-    const [isHovering, setIsHovering] = useState(false);
+
+    const handleUsersDeleteClick = useCallback((userId) => {
+
+        const dataTemp = {
+            token: authCTX.token,
+            userId: userId
+        };
+        console.log("dataTemp", dataTemp)
+
+        // sendRequestDeleteFromTeam(dataTemp);
+    }, [authCTX.token])
+
+
 
 
     const handleUsersRowClick = useCallback((id) => {
@@ -71,7 +89,9 @@ const MyTeam = () => {
 
 
                         >{element.name}</td>
-                        <td className={styles['x-sign-td']}>X</td>
+                        {(authCTX.role === 'ROLE_TEAM_CAPITAN' || authCTX.role === 'ROLE_CTF_ADMIN') && <td
+                            onClick={() => handleUsersDeleteClick(element.id)}
+                            className={styles['x-sign-td']}>X</td>}
                     </tr>
 
 
@@ -84,8 +104,6 @@ const MyTeam = () => {
                         <h4 className={styles['team-header']}>Points: <p> {data.points} </p></h4>
                         <h4 className={styles['team-header']}>Website: <p>  {data.website}</p></h4>
                         <h4 className={styles['team-header']}>Affiliation:  <p> {data.affiliation}</p></h4>
-
-
                     </div>
                     <div>
                         {teamMembers == null && <h4 className={styles['red-header']}>This team has no members yet</h4>}
@@ -108,7 +126,7 @@ const MyTeam = () => {
 
         }
 
-    }, [status, error, setOutput, data, authCTX.isLoggedIn, handleUsersRowClick]);
+    }, [status, error, setOutput, data, authCTX.isLoggedIn, handleUsersRowClick, handleUsersDeleteClick]);
 
     return (
         <Container className={`${styles['main']} d-flex flex-column`}>

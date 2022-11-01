@@ -61,12 +61,12 @@ export const AuthContextProvider = (props) => {
     const userIsLoggedIn = !!token;
 
     const updateRoleHandler = (newRole) => {
-        // localStorage.removeItem('role');
+        localStorage.removeItem('role');
         localStorage.setItem('role', newRole);
     }
 
     const updateIdTeamHandler = (newId) => {
-
+        localStorage.removeItem('idTeam');
         localStorage.setItem('idTeam', newId);
     }
 

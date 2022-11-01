@@ -23,6 +23,7 @@ const ChangeCredentials = (props) => {
         }
 
         else if (status === 'completed' && !error) {
+            console.log("NO ERROR")
 
             setOutput({ header: 'Success!', content: 'Account credentials updated' });
 
@@ -71,6 +72,7 @@ const ChangeCredentials = (props) => {
     const formSubmitHandler = (event) => {
         event.preventDefault();
         const requestData = {
+            token: authCTX.token,
             oldPassword: oldPasswordValue,
             newPassword: passwordValue,
         }
