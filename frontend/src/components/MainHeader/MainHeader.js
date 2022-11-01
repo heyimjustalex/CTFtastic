@@ -28,7 +28,7 @@ const MainHeader = (props) => {
 
 
   useEffect(() => {
-
+    console.log("IS LOGGED USE EFFECT", authCTX.isLoggedIn);
     if (authCTX.isLoggedIn) {
 
       setloginButtonContentAndUrl({ url: '/', buttonContent: 'Logout' });
@@ -39,8 +39,18 @@ const MainHeader = (props) => {
     }
   }, [setloginButtonContentAndUrl, authCTX.isLoggedIn])
 
+  const [test, setTest] = useState('test');
 
+  useEffect(() => {
+    console.log("ROLED USE EFFECT", authCTX.role);
+    if (authCTX.role === "ROLE_CTF_ADMIN") {
+      setTest("CTFADMIN");
 
+    }
+    else {
+      console.log("ELSE");
+    }
+  }, [test, authCTX.role])
 
   return (
     <Navbar
@@ -64,7 +74,7 @@ const MainHeader = (props) => {
         onClick={() => setExpanded(expanded ? false : "expanded")}
         aria-controls="basic-navbar-nav"
       />
-
+      {test}
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className={styles['nav'] + ' ' + styles['left-menu'] + ' mr-auto '}>
           <NavLink
@@ -124,6 +134,30 @@ const MainHeader = (props) => {
               </NavDropdown.Item>
               {/* <NavDropdown.Divider /> */}
             </NavDropdown>}
+
+          {authCTX.isLoggedIn && authCTX.role === 'ROLE_CTF_ADMIN'
+            && <>
+              <NavDropdown
+                className={styles['nav-dropdown']}
+                id={styles['nav-dropdown']}
+                title="Admin Panel">
+
+                <NavDropdown.Item
+                  as={NavLink} to={'/join-team'}
+                  className={styles['dropdown-item'] + ' ' + styles['hover-underline-animation']}>
+                  Join Team
+                </NavDropdown.Item>
+
+                <NavDropdown.Item
+                  as={NavLink}
+                  to={'/create-team'}
+                  className={styles['dropdown-item'] + ' ' + styles['hover-underline-animation']}>
+                  Create Team
+                </NavDropdown.Item>
+              </NavDropdown></>}
+
+
+
         </Nav>
 
         <Nav className={styles['nav'] + ' ' + styles['right-menu'] + ' mr-right '}>

@@ -17,6 +17,7 @@ const Team = () => {
     const { id } = useParams();
     const navigate = useNavigate()
     const onClickBackToTeamsHandler = () => {
+
         navigate('/teams');
     }
 

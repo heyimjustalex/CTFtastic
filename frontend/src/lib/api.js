@@ -14,12 +14,8 @@ export async function setUpContest(setupData) {
         throw new Error('Could not initalize contest data.');
     }
 
-    var contentType = response.headers.get('content-type')
-    if (contentType && contentType.indexOf('application/json') !== -1) {
-        return response.json();
-    } else {
-        return null;
-    }
+    return response.json();
+
 }
 export async function getContests() {
     const response = await fetch(`${BACKEND_ADDRESS}/contests`, {
