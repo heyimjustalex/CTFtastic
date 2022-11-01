@@ -13,7 +13,7 @@ const Home = (props) => {
 
     useEffect(() => {
         sendRequest();
-    }, []);
+    }, [window.location, sendRequest]);
 
     useEffect(() => {
 
@@ -42,7 +42,7 @@ const Home = (props) => {
         }
 
         else if (status === 'completed' && error) {
-            setOutput({ header: 'Error occured:', content: error });
+            setOutput({ header: 'Error occured:', content: { description: error } });
 
         }
 
@@ -63,9 +63,9 @@ const Home = (props) => {
             <div className={styles['output-container']}>
                 {!(status === 'pending') && <h1 className={styles[textColor]}>{output ? output.header : ''}</h1>}
                 {!(status === 'pending') && <p> {output ? output.content.description : ''}</p>}
-                {!(status === 'pending') && <h2 className={styles[textColor]}>{output ? output.header !== 'No contests found!' ? 'Start Time:' : '' : ''}</h2>}
+                {!(status === 'pending') && <h2 className={styles[textColor]}>{output ? output.header !== 'No contests found!' ? '' : 'Start Time:' : ''}</h2>}
                 {!(status === 'pending') && <p>{output ? output.content.startTime : ''}</p>}
-                {!(status === 'pending') && <h2 className={styles[textColor]}>{output ? output.header !== 'No contests found!' ? 'End Time:' : '' : ''}</h2>}
+                {!(status === 'pending') && <h2 className={styles[textColor]}>{output ? output.header !== 'No contests found!' ? '' : 'End Time:' : ''}</h2>}
                 {!(status === 'pending') && <p>{output ? output.content.endTime : ''}</p>}
                 {status === 'pending' &&
                     <LoadingRing />}

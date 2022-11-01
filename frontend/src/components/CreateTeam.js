@@ -32,7 +32,7 @@ const CreateTeam = () => {
             authCTX.updateRole(data.role);
             authCTX.updateIdTeam(data.idTeam);
             navigate('/');
-            window.location.reload();
+            // window.location.reload();
         }
 
         else if (status === 'completed' && error) {

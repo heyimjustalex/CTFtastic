@@ -24,6 +24,8 @@ const MainHeader = (props) => {
     }
   }
 
+
+
   useEffect(() => {
     if (authCTX.isLoggedIn) {
       setloginButtonContentAndUrl({ url: '/', buttonContent: 'Logout' });
@@ -32,6 +34,8 @@ const MainHeader = (props) => {
       setloginButtonContentAndUrl({ url: '/login', buttonContent: 'Login' });
     }
   }, [setloginButtonContentAndUrl, authCTX.isLoggedIn])
+
+
 
   return (
     <Navbar
