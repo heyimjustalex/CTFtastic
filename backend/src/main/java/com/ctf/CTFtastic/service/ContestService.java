@@ -25,4 +25,8 @@ public class ContestService {
     public Page<ContestForListVM> getAllForListView(Pageable pageable) {
         return contestRepository.getAll(pageable);
     }
+
+    public Contest getById(Integer id){
+        return contestRepository.getById(id);
+    }
 }

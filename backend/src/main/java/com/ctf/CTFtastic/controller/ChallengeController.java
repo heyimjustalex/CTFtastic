@@ -1,23 +1,48 @@
 package com.ctf.CTFtastic.controller;
 import com.ctf.CTFtastic.model.PageableOfT;
+import com.ctf.CTFtastic.model.entity.Challenge;
+import com.ctf.CTFtastic.model.entity.Participant;
 import com.ctf.CTFtastic.model.projection.ChallengeDetailsVM;
 import com.ctf.CTFtastic.model.projection.ChallengeForListVM;
 import com.ctf.CTFtastic.model.request.ChangePasswordRequest;
+import com.ctf.CTFtastic.model.request.CreateChallangeRequest;
 import com.ctf.CTFtastic.service.ChallengeService;
+import com.ctf.CTFtastic.service.ContestService;
+import com.ctf.CTFtastic.service.UserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.tomcat.util.http.parser.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Role;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+
+import javax.annotation.security.RolesAllowed;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
 public class ChallengeController {
     @Autowired
     private ChallengeService challengeService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private ContestService contestService;
 
     @RequestMapping(value = {"/challenges/{page}/{size}"})
     public PageableOfT<ChallengeForListVM> getAll(@PathVariable("page") int page, @PathVariable("size") int size) {
@@ -41,8 +66,44 @@ public class ChallengeController {
         return challengeService.getById(id);
     }
 
-    @RequestMapping(value = {"/add-challenge"})
-    public ChallengeDetailsVM createChallange(@RequestBody ChangePasswordRequest changePasswordRequest){
+    @RequestMapping(value = {"challenges/add-challenge"})
+    //@PreAuthorize("hasAnyRole('ROLE_CTF_ADMIN')")
+    @ResponseBody
+    //@Role(value = "")
+    public ResponseEntity<String> createChallange(@RequestBody CreateChallangeRequest createChallangeRequest, Authentication authentication){
+        try {
+            Optional<Participant> user = userService.findByEmail(authentication.getName());
 
+            if (user.isEmpty() || !user.get().getRole().getName().equals("ROLE_CTF_ADMIN")) {
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+            }
+        }catch (Exception ex){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
+        try{
+            Challenge newChallange = Challenge.builder()
+                    .contest(contestService.getById(1)) //Narazie tak
+                    .name(createChallangeRequest.getName())
+                    .category(createChallangeRequest.getCategory())
+                    .message(createChallangeRequest.getMessage())
+                    .points(createChallangeRequest.getPoints())
+                    .flag(passwordEncoder.encode(createChallangeRequest.getFlag()))
+                    .isCaseSensitive(createChallangeRequest.isCaseSensitive())
+                    //.file(createChallangeRequest.getFile())
+                    //.dockerfile(createChallangeRequest.getDockerfile())
+                    .build();
+
+            Challenge challenge = challengeService.addChallage(newChallange);
+
+            Map<String, String> elements =  new HashMap<>();
+            elements.put("idChallange", challenge.getId().toString());
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            String returnData = objectMapper.writeValueAsString(elements);
+
+            return ResponseEntity.ok().body(returnData);
+        }catch (Exception ex){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
     }
 }

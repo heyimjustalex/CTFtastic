@@ -28,7 +28,7 @@ public interface ParticipantRepository extends JpaRepository<Participant, Intege
     @Query("select c.id as id, c.username as name , c.email as email,c.team.name as nameTeam from Participant c LEFT JOIN Team ht ON ht.id = c.team.id where c.isHidden = false " )
     Page<UserForListVM> getUsers(Pageable pageable);
 
-    @Query("select c.username as name, c.email as email, c.team.name as nameTeam, c.website as website, c.affiliation as affiliation, c.country as country from Participant c where c.id = :id")
+    @Query("select c.username as name, c.team.name as nameTeam, c.website as website, c.affiliation as affiliation, c.country as country from Participant c where c.id = :id")
     UserDetailsVM getByIdToView(@Param("id") int id);
 
 

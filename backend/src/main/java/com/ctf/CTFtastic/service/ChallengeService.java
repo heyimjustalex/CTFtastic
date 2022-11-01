@@ -1,5 +1,7 @@
 package com.ctf.CTFtastic.service;
 
+import com.ctf.CTFtastic.model.entity.Challenge;
+import com.ctf.CTFtastic.model.entity.Team;
 import com.ctf.CTFtastic.model.projection.ChallengeDetailsVM;
 import com.ctf.CTFtastic.model.projection.ChallengeForListVM;
 import com.ctf.CTFtastic.repository.ChallengeRepository;
@@ -27,5 +29,10 @@ public class ChallengeService {
 
     public ChallengeDetailsVM getById(int id) {
         return challengeRepository.getByIdToView(id);
+    }
+
+    public Challenge addChallage(Challenge newChallange) {
+        Challenge challenge = challengeRepository.saveAndFlush(newChallange);
+        return challenge;
     }
 }

@@ -16,4 +16,5 @@ public interface ChallengeRepository extends JpaRepository<Challenge, Integer> {
 
     @Query("select c.name as name, c.category as category, c.message as message, c.points as points, c.file as file from Challenge c where c.id = ?1")
     ChallengeDetailsVM getByIdToView(int id);
+
 }
