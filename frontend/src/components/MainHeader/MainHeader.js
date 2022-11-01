@@ -17,6 +17,7 @@ const MainHeader = (props) => {
   const authCTX = useContext(AuthContext);
   const [loginButtonContentAndUrl, setloginButtonContentAndUrl] = useState({ url: '/login', buttonContent: 'Login' });
 
+
   const logInOutHandler = () => {
     setExpanded(false);
     if (authCTX.isLoggedIn) {
@@ -27,13 +28,17 @@ const MainHeader = (props) => {
 
 
   useEffect(() => {
+
     if (authCTX.isLoggedIn) {
+
       setloginButtonContentAndUrl({ url: '/', buttonContent: 'Logout' });
     }
     else {
+
       setloginButtonContentAndUrl({ url: '/login', buttonContent: 'Login' });
     }
   }, [setloginButtonContentAndUrl, authCTX.isLoggedIn])
+
 
 
 

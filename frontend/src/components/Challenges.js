@@ -45,7 +45,10 @@ const Challenges = () => {
             setTotalPages(data.totalPages);
 
             const dataWithSelector = data.elements.map((element) => {
-                return <tr className={authCTX.isLoggedIn ? styles['tr-hover-when-loggedin'] : ''} key={element.id} onClick={() => handleRowClick(element.id)}>
+                return <tr
+                    className={authCTX.isLoggedIn ? styles['tr-hover-when-loggedin'] : ''}
+                    key={element.id}
+                    onClick={() => handleRowClick(element.id)}>
                     <td className={styles['element-id']}>{element.id}</td>
                     <td>{element.name}</td>
                     <td>{element.category}</td>

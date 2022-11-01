@@ -219,11 +219,9 @@ thead tr:first-child:hover {
 }
 
 
-
 @media screen and (max-width: 768px) {
 
     .main {
-
         font-size: 1.3em;
     }
 
