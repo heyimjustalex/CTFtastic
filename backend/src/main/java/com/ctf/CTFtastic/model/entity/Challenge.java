@@ -59,7 +59,8 @@ public class Challenge {
     @Lob
     private byte[] file;
 
-    private String dockerfile;
+    @Lob
+    private byte[] dockerfile;
 
     @OneToMany(mappedBy = "challenge")
     //bad ale bez tego leci exception przy save, trzeba to poprawic ->

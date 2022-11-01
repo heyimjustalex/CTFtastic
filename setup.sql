@@ -68,7 +68,7 @@ CREATE TABLE challenge(
   is_case_sensitive BOOLEAN,
   is_visible BOOLEAN,
   file blob,
-  dockerfile VARCHAR(200),
+  dockerfile blob,
   
   FOREIGN KEY (id_contest) REFERENCES contest(id) 
   
