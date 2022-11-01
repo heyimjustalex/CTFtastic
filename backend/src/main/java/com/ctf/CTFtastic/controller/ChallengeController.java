@@ -82,6 +82,7 @@ public class ChallengeController {
         }
         try{
             Challenge newChallange = Challenge.builder()
+                    //is visible
                     .contest(contestService.getById(1)) //Narazie tak
                     .name(createChallangeRequest.getName())
                     .category(createChallangeRequest.getCategory())

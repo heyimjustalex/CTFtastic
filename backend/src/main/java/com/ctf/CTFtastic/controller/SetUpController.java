@@ -8,6 +8,8 @@ import com.ctf.CTFtastic.model.request.RegisterAdminAndCreateContestRequest;
 import com.ctf.CTFtastic.model.request.SignupRequest;
 import com.ctf.CTFtastic.service.ContestService;
 import com.ctf.CTFtastic.service.UserService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,6 +26,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 public class SetUpController {
@@ -42,9 +47,10 @@ public class SetUpController {
 
     @PostMapping(value = {"/set-up",})
     @ResponseBody
-    public ResponseEntity setUpAplikation(@RequestBody RegisterAdminAndCreateContestRequest registerAdminAndCreateContestRequest) {
+    public ResponseEntity<String> setUpAplikation(@RequestBody RegisterAdminAndCreateContestRequest registerAdminAndCreateContestRequest) {
         Participant participant = Participant.builder()
                 .isHidden(true)
+                .username(registerAdminAndCreateContestRequest.getUsername())
                 .isCtfAdmin(true)
                 .isVerified(true)
                 .isTeamCapitan(false)
@@ -72,15 +78,22 @@ public class SetUpController {
         }catch (Exception e){
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Not good data");
         }
-
         try{
+            Map<String, String> elements =  new HashMap<>();
+            elements.put("role", participant.getRole().getName());
+            elements.put("token",jwtTokenUtil.generateToken(participant.getEmail()));
+            ObjectMapper objectMapper = new ObjectMapper();
+            String returnData = objectMapper.writeValueAsString(elements);
+
             return ResponseEntity.ok()
-                    .header(
-                            HttpHeaders.AUTHORIZATION,
-                            jwtTokenUtil.generateToken(participant.getEmail())
-                    ).body(null);
+                    //.header(
+                    //        HttpHeaders.AUTHORIZATION,
+                    //        jwtTokenUtil.generateToken(participant.getEmail()))
+                    .body(returnData);
 
         } catch (BadCredentialsException ex) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        } catch (JsonProcessingException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
     }
