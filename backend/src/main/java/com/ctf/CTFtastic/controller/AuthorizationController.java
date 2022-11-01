@@ -2,6 +2,7 @@ package com.ctf.CTFtastic.controller;
 
 import com.ctf.CTFtastic.jwt.JwtTokenUtil;
 import com.ctf.CTFtastic.model.entity.Role;
+import com.ctf.CTFtastic.model.request.ChangePasswordRequest;
 import com.ctf.CTFtastic.model.request.SignupAdminRequest;
 import com.ctf.CTFtastic.model.entity.Participant;
 import com.ctf.CTFtastic.model.request.LoginRequest;
@@ -138,6 +139,37 @@ public class AuthorizationController {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         } catch (JsonProcessingException e){ //poprawić
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+    }
+
+    @PutMapping(value = {"/change-creds"})
+    @ResponseBody
+    public ResponseEntity<String> changePassword(@RequestBody ChangePasswordRequest changePasswordRequest, Authentication authentication){
+        try{
+            Optional<Participant> user = userService.findByEmail(authentication.getName());
+            //String oldPasswordHash = passwordEncoder.encode(changePasswordRequest.getOldPassword());
+            String newPasswordHash = passwordEncoder.encode(changePasswordRequest.getNewPassword());
+
+            if(user.isEmpty()){
+                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+            }
+            Participant userAuthor = user.get();
+            if(passwordEncoder.matches(changePasswordRequest.getOldPassword(),userAuthor.getPasswordHash())){
+                userService.updatePassword(userAuthor.getUsername(),newPasswordHash);
+            }
+            else{
+                throw new ResponseStatusException((HttpStatus.UNAUTHORIZED));
+            }
+            Map<String, String> elements =  new HashMap<>();
+            //elements.put("newPassword", newPasswordHash);
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            String returnData = objectMapper.writeValueAsString(elements);
+
+            return ResponseEntity.ok("OK");
+
+        }catch (Exception ex){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
     }
 }

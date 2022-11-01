@@ -78,6 +78,11 @@ public class UserService implements UserDetailsService {
 
     }
 
+    @Transactional
+    public void updatePassword(String user, String newPasswordHash){
+        participantRepository.updatePassword(user,newPasswordHash);
+    }
+
     public String getRoleById(int id) {
         return participantRepository.getRoleById(id);
     }

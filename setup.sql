@@ -64,11 +64,11 @@ CREATE TABLE challenge(
   category VARCHAR(40),
   message VARCHAR(450),
   points INTEGER,
-  flag VARCHAR(40),
+  flag VARCHAR(256),
   is_case_sensitive BOOLEAN,
   is_visible BOOLEAN,
   file blob,
-  dockerfile VARCHAR(200),
+  dockerfile blob,
   
   FOREIGN KEY (id_contest) REFERENCES contest(id) 
   
