@@ -17,6 +17,7 @@ import CreateTeam from './components/CreateTeam';
 import ChangeCredentials from './components/ChangeCredentials';
 import User from './components/User';
 import MyTeam from './components/MyTeam';
+import AddChallenge from './components/AddChallenge';
 
 function App() {
   const { hasStarted, setFalseStartedLocalStorage, setTrueStartedLocalStorage, askBackendIfContestHasStarted } = useContext(StartContext);
@@ -56,7 +57,7 @@ function App() {
           <Route path='/teams' element={<Teams />} />
           <Route path='/create-team' element={<CreateTeam />} />
           <Route path='/change-creds' element={<ChangeCredentials />} />
-
+          <Route path='/add-challenge' element={<AddChallenge />} />
 
           <Route path='/my-team' element={<MyTeam />} />
           <Route path='/users/:id' element={<User />} />

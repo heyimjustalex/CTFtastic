@@ -139,21 +139,22 @@ const MainHeader = (props) => {
             && <>
               <NavDropdown
                 className={styles['nav-dropdown']}
-                id={styles['nav-dropdown']}
+                id={styles['nav-dropdown-admin-panel']}
                 title="Admin Panel">
 
                 <NavDropdown.Item
-                  as={NavLink} to={'/join-team'}
-                  className={styles['dropdown-item'] + ' ' + styles['hover-underline-animation']}>
-                  Join Team
+                  as={NavLink} to={'/add-challenge'}
+                  className={styles['dropdown-item'] + ' ' + styles['underline-animation-admin-panel']}>
+                  Add challenge
                 </NavDropdown.Item>
 
                 <NavDropdown.Item
-                  as={NavLink}
-                  to={'/create-team'}
-                  className={styles['dropdown-item'] + ' ' + styles['hover-underline-animation']}>
-                  Create Team
+                  as={NavLink} to={'/start-ctf'}
+                  className={styles['dropdown-item'] + ' ' + styles['underline-animation-admin-panel']}>
+                  Start CTF
                 </NavDropdown.Item>
+
+
               </NavDropdown></>}
 
 
