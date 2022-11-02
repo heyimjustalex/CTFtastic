@@ -14,6 +14,10 @@ image:
       repository: ctftastic/frontend
       pullPolicy: Never
       tag: 'latest'
+    challs:
+      repository: ctftastic-challs-operator
+      pullPolicy: Never
+      tag: 'latest'
   other:
     db:
       repository: mysql
@@ -60,6 +64,9 @@ service:
       type: NodePort
       port: 80
       nodePort: 30000
+    challs:
+      type: ClusterIP
+      port: 9090
   other:
     db:
       type: ClusterIP
