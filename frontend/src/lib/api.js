@@ -145,6 +145,7 @@ export async function getChallenges(paginationData) {
 export async function getChallenge(challengeData) {
     const response = await fetch(`${BACKEND_ADDRESS}/challenges/${challengeData.challengeId}`, {
         method: 'GET',
+
         headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + challengeData.token
@@ -159,6 +160,27 @@ export async function getChallenge(challengeData) {
     }
     catch {
         throw new Error('Couldnt fetch team data.');
+    }
+}
+
+export async function addChallenge(challengeData) {
+    const response = await fetch(`${BACKEND_ADDRESS}/challenges/add-challenge`, {
+        method: 'POST',
+        body: JSON.stringify(challengeData),
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + challengeData.token
+        },
+    });
+    if (!response.ok) {
+        throw new Error('Couldnt add new challenge');
+    }
+    try {
+        const data = await response.json();
+        return data;
+    }
+    catch {
+        throw new Error('Couldnt add new challenge');
     }
 }
 

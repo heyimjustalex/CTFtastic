@@ -47,6 +47,10 @@ const MainHeader = (props) => {
       setTest("CTFADMIN");
 
     }
+    else if (authCTX.role === "ROLE_TEAM_CAPITAN") {
+      setTest("CTFCAPITAN");
+
+    }
     else {
       console.log("ELSE");
     }

@@ -13,7 +13,7 @@ const Home = (props) => {
 
     useEffect(() => {
         sendRequest();
-    }, [window.location, sendRequest]);
+    }, [sendRequest]);
 
     useEffect(() => {
 
@@ -30,14 +30,13 @@ const Home = (props) => {
                 const description = data.elements[0].description || 'CTF description';
                 startTimeUTC = startTimeUTC.toLocaleString();
                 endTimeUTC = endTimeUTC.toLocaleString();
-
                 setOutput({ header: title, content: { description: description, startTime: String(startTimeUTC), endTime: String(endTimeUTC) } });
 
             }
             catch {
                 localStorage.removeItem('hasStarted');
-                setOutput({ header: 'No contests found!', content: { description: 'Try reloading page and create contest!' } })
-
+                localStorage.removeItem('isLoggedIn');
+                setOutput({ header: 'No contests found!', content: { description: 'Try reloading page and creating contest!' } })
             }
         }
 
@@ -63,9 +62,9 @@ const Home = (props) => {
             <div className={styles['output-container']}>
                 {!(status === 'pending') && <h1 className={styles[textColor]}>{output ? output.header : ''}</h1>}
                 {!(status === 'pending') && <p> {output ? output.content.description : ''}</p>}
-                {!(status === 'pending') && <h2 className={styles[textColor]}>{output ? output.header !== 'No contests found!' ? '' : 'Start Time:' : ''}</h2>}
+                {!(status === 'pending') && <h2 className={styles[textColor]}>{output ? output.header !== 'No contests found!' ? '' : '' : 'Start Time:'}</h2>}
                 {!(status === 'pending') && <p>{output ? output.content.startTime : ''}</p>}
-                {!(status === 'pending') && <h2 className={styles[textColor]}>{output ? output.header !== 'No contests found!' ? '' : 'End Time:' : ''}</h2>}
+                {!(status === 'pending') && <h2 className={styles[textColor]}>{output ? output.header !== 'No contests found!' ? '' : '' : 'End Time:'}</h2>}
                 {!(status === 'pending') && <p>{output ? output.content.endTime : ''}</p>}
                 {status === 'pending' &&
                     <LoadingRing />}

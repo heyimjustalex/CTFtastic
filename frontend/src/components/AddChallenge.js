@@ -1,21 +1,21 @@
 import React from "react";
-import { useParams } from 'react-router-dom'
 import { useContext, useEffect, useState } from 'react';
 import useHttp from '../hooks/use-http';
-import { getChallenge, sendFlag } from '../lib/api';
+import { addChallenge } from '../lib/api';
 import LoadingRing from './UI/LoadingRing';
 import { AuthContext } from '../store/auth-context';
 import { useNavigate } from 'react-router-dom';
 import styles from "./AddChallenge.module.css"
 import { Button, Container, Form } from "react-bootstrap";
 import useInput from "../hooks/use-input";
-import { descriptionValidator, titleValidator } from "./validators";
+import { descriptionValidator, titleValidator, categoryValidator, flagValidator, pointsValidator } from "./validators";
+import { Checkbox, FormControlLabel, Typography } from "@mui/material";
+
 
 
 const AddChallenge = () => {
-    const { sendRequest: sendRequestGetChallenge, data: challengeData, status: challengeStatus, error: challengeError } = useHttp(getChallenge);
+    const { sendRequest: sendRequestAddChallenge, data: challengeAddData, status: challengeAddStatus, error: challengeAddError } = useHttp(addChallenge);
 
-    const { sendRequest: sendRequestFlag, data: flagData, status: flagStatus, error: flagError } = useHttp(sendFlag);
     const [output, setOutput] = useState({});
     const authCTX = useContext(AuthContext);
     const navigate = useNavigate()
@@ -36,6 +36,17 @@ const AddChallenge = () => {
 
     const
         {
+            value: categoryValue,
+            isTouched: categoryIsTouched,
+            isValid: categoryIsValid,
+            hasError: categoryHasError,
+            valueChangeHandler: categoryChangeHandler,
+            valueBlurHandler: categoryBlurHandler,
+            reset: categoryReset
+        } = useInput(categoryValidator)
+
+    const
+        {
             value: descriptionValue,
             isTouched: descriptionIsTouched,
             isValid: descriptionIsValid,
@@ -45,46 +56,79 @@ const AddChallenge = () => {
             reset: descriptionReset
         } = useInput(descriptionValidator)
 
+    const
+        {
+            value: flagValue,
+            isTouched: flagIsTouched,
+            isValid: flagIsValid,
+            hasError: flagHasError,
+            valueChangeHandler: flagChangeHandler,
+            valueBlurHandler: flagBlurHandler,
+            reset: flagReset
+        } = useInput(flagValidator)
 
+    const
+        {
+            value: pointsValue,
+            isTouched: pointsIsTouched,
+            isValid: pointsIsValid,
+            hasError: pointsHasError,
+            valueChangeHandler: pointsChangeHandler,
+            valueBlurHandler: pointsBlurHandler,
+            reset: pointsReset
+        } = useInput(pointsValidator)
+
+
+    const [isVisibleValue, setIsVisibleValue] = useState(true);
+    const [isFlagCaseSensitiveValue, setIsFlagCaseSensitiveValue] = useState(true);
+
+    const isVisibleChangeHandler = (event) => {
+        setIsVisibleValue((isVisible) => { return !isVisible });
+        // console.log(isVisibleValue)
+    }
+    const isFlagCaseSensitiveChangeHandler = (event) => {
+        setIsFlagCaseSensitiveValue((isFlagCaseSensitiveValue) => { return !isFlagCaseSensitiveValue });
+    }
     useEffect(() => {
 
-        if (challengeStatus === 'pending') {
+        if (challengeAddStatus === 'pending') {
             setOutput({ header: 'Loading...', content: <LoadingRing /> });
         }
 
-        else if (challengeStatus === 'completed' && !challengeError) {
-
-            challengeData.file = "na sztywno file link";
-            challengeData.container = "na sztywno container link"
-
-            const output =
-                <>
-                    <div className={`${styles['output-content-container']}`}>
-                        <h4 className={styles['challenge-header']}>Category: <p> {challengeData.category}</p></h4>
-                        <h4 className={styles['challenge-header']}>Points: <p> {challengeData.points} </p></h4>
-                        {challengeData.file !== null && <h4 className={styles['challenge-header']}>File link:  <p> {challengeData.file}</p></h4>}
-                        {challengeData.container !== null && <h4 className={styles['challenge-header']}>Container link:  <p> {challengeData.file}</p></h4>}
-
-                    </div>
-                </>
-
-            setOutput({ header: challengeData.name, content: output });
+        else if (challengeAddStatus === 'completed' && !challengeAddError) {
+            setOutput({ header: "doopka header", content: "doopka" });
         }
 
-        else if (challengeStatus === 'completed' && challengeError) {
-            setOutput({ header: 'challengeError occured:', content: challengeError });
+        else if (challengeAddStatus === 'completed' && challengeAddError) {
+            setOutput({ header: 'challengeError occured:', content: challengeAddError });
 
         }
 
-    }, [challengeStatus, challengeError, setOutput, challengeData]);
+    }, [challengeAddStatus, challengeAddError, setOutput, challengeAddData]);
 
-    const challengeSubmitHandler = () => {
+    const challengeAddSubmitHandler = (event) => {
+        event.preventDefault();
+        const requestData = {
+            token: authCTX.token,
+            name: challengeNameValue,
+            message: descriptionValue,
+            category: categoryValue,
+            points: pointsValue,
+            flag: flagValue,
+            isCaseSensitive: isFlagCaseSensitiveValue
+            // isVisible:isVisible
+        }
+        console.log(requestData);
+        sendRequestAddChallenge(requestData)
 
     }
 
+
     return (
 
+
         <Container className={`${styles['main']} d-flex flex-column`}>
+
             {(!authCTX.isLoggedIn || authCTX.role !== 'ROLE_CTF_ADMIN') &&
                 <Container className={`${styles['output-content-container']}`}>
                     <h3 className={styles['red-header']}>You have to be logged in as CTF admin</h3>
@@ -98,11 +142,13 @@ const AddChallenge = () => {
                         <h3 className={styles['red-header']}>{output.content}</h3>
                     </Container>
 
-                    <Form className={`${styles['start-form']}`} onSubmit={challengeSubmitHandler}>
+                    <Form className={`${styles['start-form']}`} onSubmit={challengeAddSubmitHandler}>
                         <Form.Group className="mb-3" controlId="formBasic">
                             <Form.Label className={styles['form-label']}>Name</Form.Label>
                             <Form.Control
                                 className={styles['control-input']}
+                                isValid={challengeNameIsValid && challengeNameIsTouched}
+                                isInvalid={(!challengeNameIsValid && challengeNameIsTouched)}
                                 style={{ backgroundColor: "#000", color: "white" }}
                                 onChange={challengeNameChangeHandler}
                                 value={challengeNameValue}
@@ -110,6 +156,24 @@ const AddChallenge = () => {
                                 placeholder="Challenge name"
                             />
                             <Form.Text className={styles["text-info"]}>
+                            </Form.Text>
+                        </Form.Group>
+
+                        <Form.Group className="mb-3" controlId="categoryId">
+                            <Form.Label className={styles['form-label']}>Category</Form.Label>
+                            <Form.Control
+                                className={styles['control-input']}
+                                isValid={categoryIsValid && categoryIsTouched}
+                                isInvalid={(!categoryIsValid && categoryIsTouched)}
+                                onChange={categoryChangeHandler}
+                                onBlur={categoryBlurHandler}
+                                value={categoryValue}
+                                type="text"
+                                placeholder="Enter challenge category"
+
+                            />
+                            <Form.Text className={styles["text-info"]}>
+                                {/* Max 500 chars */}
                             </Form.Text>
                         </Form.Group>
 
@@ -122,7 +186,7 @@ const AddChallenge = () => {
                                 onBlur={descriptionBlurHandler} onChange={descriptionChangeHandler}
                                 as="textarea"
                                 rows={5}
-                                placeholder="Enter CTF description"
+                                placeholder="Enter challenge description"
                                 value={descriptionValue}
 
                             />
@@ -131,10 +195,73 @@ const AddChallenge = () => {
                             </Form.Text>
                         </Form.Group>
 
+                        <Form.Group className="mb-3" controlId="categoryId">
+                            <Form.Label className={styles['form-label']}>Points</Form.Label>
+                            <Form.Control
+                                className={styles['control-input']}
+                                isValid={pointsIsValid && pointsIsTouched}
+                                isInvalid={(!pointsIsValid && pointsIsTouched)}
+                                onChange={pointsChangeHandler}
+                                onBlur={pointsBlurHandler}
+                                value={pointsValue}
+                                type="text"
+                                placeholder="Enter points team gets for this challenge"
+
+                            />
+                            <Form.Text className={styles["text-info"]}>
+                                {/* Max 500 chars */}
+                            </Form.Text>
+                        </Form.Group>
+
+                        <Form.Group className="mb-3" controlId="categoryId">
+                            <Form.Label className={styles['form-label']}>Flag</Form.Label>
+                            <Form.Control
+                                className={styles['control-input']}
+                                isValid={flagIsValid && flagIsTouched}
+                                isInvalid={(!flagIsValid && flagIsTouched)}
+                                onChange={flagChangeHandler}
+                                onBlur={flagBlurHandler}
+                                value={flagValue}
+                                type="text"
+                                placeholder="Enter flag of this challenge"
+
+                            />
+                            <Form.Text className={styles["text-info"]}>
+                                {/* Max 500 chars */}
+                            </Form.Text>
+                        </Form.Group>
+                        <FormControlLabel control={
+                            <Checkbox
+                                onChange={isVisibleChangeHandler}
+                                sx={{
+                                    '& .MuiSvgIcon-root': { fontSize: '1em' }, color: '#FF304E',
+                                    '&.Mui-checked': {
+                                        color: '#FF304E'
+                                    },
+                                }}
+                            />} label={<Typography className={styles['form-label-checkbox']}>isVisible</Typography>}>
+
+                        </FormControlLabel>
+
+
+                        <FormControlLabel control={
+                            <Checkbox
+                                onChange={isFlagCaseSensitiveChangeHandler}
+                                sx={{
+                                    '& .MuiSvgIcon-root': { fontSize: '1em' }, color: '#FF304E',
+                                    '&.Mui-checked': {
+                                        color: '#FF304E'
+                                    },
+                                }}
+                            />} label={<Typography className={styles['form-label-checkbox']}>isFlagCaseSensitive</Typography>}>
+
+                        </FormControlLabel>
+
+
 
                         <div className={styles['button-div']}>
                             <Button aria-label="flagSubmitButton" className={`${styles['form-button-red']} `} variant="custom" type="submit">
-                                Add challenge to database
+                                Add challenge
                             </Button>
                         </div>
                     </Form>

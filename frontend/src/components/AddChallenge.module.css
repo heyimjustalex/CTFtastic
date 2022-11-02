@@ -69,6 +69,11 @@
 
 
 
+.form-label-checkbox {
+    font-family: 'Space Mono', 'Verdana', 'Montserrat Alternates' !important;
+
+}
+
 h4>p {
     color: #FAF9F6 !important;
 }
