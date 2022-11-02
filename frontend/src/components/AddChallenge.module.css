@@ -40,6 +40,20 @@
     color: #999;
 }
 
+.output-container {
+    width: 70%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.output-container h1 {
+    font-size: 1em !important;
+    margin-bottom: 1em;
+}
+
 .redText {
     color: #FF304E;
 }

@@ -15,7 +15,8 @@ import { Checkbox, FormControlLabel, Typography } from "@mui/material";
 
 const AddChallenge = () => {
     const { sendRequest: sendRequestAddChallenge, data: challengeAddData, status: challengeAddStatus, error: challengeAddError } = useHttp(addChallenge);
-
+    const [isVisibleValue, setIsVisibleValue] = useState(false);
+    const [isFlagCaseSensitiveValue, setIsFlagCaseSensitiveValue] = useState(false);
     const [output, setOutput] = useState({});
     const authCTX = useContext(AuthContext);
     const navigate = useNavigate()
@@ -79,16 +80,33 @@ const AddChallenge = () => {
         } = useInput(pointsValidator)
 
 
-    const [isVisibleValue, setIsVisibleValue] = useState(true);
-    const [isFlagCaseSensitiveValue, setIsFlagCaseSensitiveValue] = useState(true);
+
 
     const isVisibleChangeHandler = (event) => {
         setIsVisibleValue((isVisible) => { return !isVisible });
-        // console.log(isVisibleValue)
+        console.log(isVisibleValue)
     }
     const isFlagCaseSensitiveChangeHandler = (event) => {
         setIsFlagCaseSensitiveValue((isFlagCaseSensitiveValue) => { return !isFlagCaseSensitiveValue });
     }
+
+
+
+
+    const formIsValid =
+        challengeNameIsValid &&
+        challengeNameIsTouched &&
+        categoryIsValid &&
+        categoryIsTouched &&
+        descriptionIsValid &&
+        descriptionIsTouched &&
+        flagIsValid &&
+        flagIsTouched &&
+        pointsIsValid &&
+        pointsIsTouched;
+
+
+
     useEffect(() => {
 
         if (challengeAddStatus === 'pending') {
@@ -96,11 +114,14 @@ const AddChallenge = () => {
         }
 
         else if (challengeAddStatus === 'completed' && !challengeAddError) {
-            setOutput({ header: "doopka header", content: "doopka" });
+            flagReset();
+            pointsReset(); categoryReset(); challengeNameReset();
+            descriptionReset();
+            setOutput({ header: "Success!", content: "Challenge Added!" });
         }
 
         else if (challengeAddStatus === 'completed' && challengeAddError) {
-            setOutput({ header: 'challengeError occured:', content: challengeAddError });
+            setOutput({ header: 'Failed!', content: "Error: " + challengeAddError });
 
         }
 
@@ -118,11 +139,18 @@ const AddChallenge = () => {
             isCaseSensitive: isFlagCaseSensitiveValue
             // isVisible:isVisible
         }
-        console.log(requestData);
+        // console.log(requestData);
         sendRequestAddChallenge(requestData)
 
     }
+    let textColor = "";
+    if (challengeAddStatus === 'completed' && !challengeAddError) {
+        textColor = 'blueText';
 
+    }
+    if (challengeAddStatus === 'completed' && challengeAddError) {
+        textColor = 'redText';
+    }
 
     return (
 
@@ -138,9 +166,7 @@ const AddChallenge = () => {
             {(authCTX.isLoggedIn && authCTX.role === 'ROLE_CTF_ADMIN') &&
 
                 <>
-                    <Container className={`${styles['output-content-container']}`}>
-                        <h3 className={styles['red-header']}>{output.content}</h3>
-                    </Container>
+
 
                     <Form className={`${styles['start-form']}`} onSubmit={challengeAddSubmitHandler}>
                         <Form.Group className="mb-3" controlId="formBasic">
@@ -232,6 +258,7 @@ const AddChallenge = () => {
                         </Form.Group>
                         <FormControlLabel control={
                             <Checkbox
+                                defaultChecked
                                 onChange={isVisibleChangeHandler}
                                 sx={{
                                     '& .MuiSvgIcon-root': { fontSize: '1em' }, color: '#FF304E',
@@ -239,13 +266,18 @@ const AddChallenge = () => {
                                         color: '#FF304E'
                                     },
                                 }}
-                            />} label={<Typography className={styles['form-label-checkbox']}>isVisible</Typography>}>
+                            />} label={
+                                <Typography
+                                    className={styles['form-label-checkbox']}>
+                                    isVisible
+                                </Typography>}>
 
                         </FormControlLabel>
 
 
                         <FormControlLabel control={
                             <Checkbox
+                                defaultChecked
                                 onChange={isFlagCaseSensitiveChangeHandler}
                                 sx={{
                                     '& .MuiSvgIcon-root': { fontSize: '1em' }, color: '#FF304E',
@@ -253,18 +285,34 @@ const AddChallenge = () => {
                                         color: '#FF304E'
                                     },
                                 }}
-                            />} label={<Typography className={styles['form-label-checkbox']}>isFlagCaseSensitive</Typography>}>
+                            />} label={
+                                <Typography
+                                    className={styles['form-label-checkbox']}>
+                                    isFlagCaseSensitive
+                                </Typography>}>
 
                         </FormControlLabel>
 
-
-
                         <div className={styles['button-div']}>
-                            <Button aria-label="flagSubmitButton" className={`${styles['form-button-red']} `} variant="custom" type="submit">
+                            <Button aria-label="challengeSubmitButton"
+                                disabled={!formIsValid}
+                                className={`${styles['form-button-red']} `}
+                                variant="custom"
+                                type="submit">
                                 Add challenge
                             </Button>
                         </div>
                     </Form>
+
+                    <div className={styles['output-container']}>
+
+                        {!(challengeAddStatus === 'pending') &&
+                            <h1 className={styles[textColor]}>{output ? output.header : ''}</h1>}
+
+                        {!(challengeAddStatus === 'pending') && <h1> {output ? output.content : ''}</h1>}
+
+                        {challengeAddStatus === 'pending' && <LoadingRing />}
+                    </div>
 
                     <div className={styles['button-div']}>
                         <Button onClick={onClickBackToChallengesHandler} aria-label="ChallengesBackButton" className={`${styles['form-button']} `} variant="custom" type="submit">

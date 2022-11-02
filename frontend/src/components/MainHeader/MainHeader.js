@@ -39,22 +39,26 @@ const MainHeader = (props) => {
     }
   }, [setloginButtonContentAndUrl, authCTX.isLoggedIn])
 
-  const [test, setTest] = useState('test');
+  // const [test, setTest] = useState('test');
 
-  useEffect(() => {
-    console.log("ROLED USE EFFECT", authCTX.role);
-    if (authCTX.role === "ROLE_CTF_ADMIN") {
-      setTest("CTFADMIN");
+  // useEffect(() => {
+  //   console.log("ROLED USE EFFECT", authCTX.role);
+  //   if (authCTX.role === "ROLE_CTF_ADMIN") {
+  //     setTest("CTFADMIN");
 
-    }
-    else if (authCTX.role === "ROLE_TEAM_CAPITAN") {
-      setTest("CTFCAPITAN");
+  //   }
+  //   else if (authCTX.role === "ROLE_TEAM_CAPITAN") {
+  //     setTest("CTFCAPITAN");
 
-    }
-    else {
-      console.log("ELSE");
-    }
-  }, [test, authCTX.role])
+  //   }
+  //   else if (authCTX.role === "ROLE_USER") {
+  //     setTest("USER");
+
+  //   }
+  //   else {
+  //     console.log("ELSE");
+  //   }
+  // }, [test, authCTX.role])
 
   return (
     <Navbar
@@ -78,7 +82,7 @@ const MainHeader = (props) => {
         onClick={() => setExpanded(expanded ? false : "expanded")}
         aria-controls="basic-navbar-nav"
       />
-      {test}
+
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className={styles['nav'] + ' ' + styles['left-menu'] + ' mr-auto '}>
           <NavLink
@@ -103,7 +107,7 @@ const MainHeader = (props) => {
               title="User options">
 
               {(authCTX.role !== 'ROLE_TEAM_CAPITAN'
-                && authCTX.role !== 'ROLE_USER_WITH_TEAM')
+                && authCTX.role !== 'ROLE_USER_WITH_TEAM' && authCTX.role !== 'ROLE_CTF_ADMIN')
                 &&
                 <>
                   <NavDropdown.Item
