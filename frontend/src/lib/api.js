@@ -229,6 +229,28 @@ export async function sendFlag(flagData) {
     }
 }
 
+export async function startCTF(startData) {
+
+    const response = await fetch(`${BACKEND_ADDRESS}/start-ctf`, {
+        method: 'POST',
+        // body: JSON.stringify(startData),
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + startData.token
+        },
+    });
+    if (!response.ok) {
+        throw new Error('Cannot startCTF');
+    }
+    try {
+        const data = await response.json();
+        return data;
+    }
+    catch {
+        throw new Error('Cannot startCTF');
+    }
+}
+
 export async function joinTeam(userData) {
 
     const response = await fetch(`${BACKEND_ADDRESS}/teams/join`, {

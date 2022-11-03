@@ -125,7 +125,7 @@ const AddChallenge = () => {
 
         }
 
-    }, [challengeAddStatus, challengeAddError, setOutput, challengeAddData]);
+    }, [challengeAddStatus, challengeAddError, setOutput, challengeAddData, flagReset, pointsReset, categoryReset, challengeNameReset, descriptionReset]);
 
     const challengeAddSubmitHandler = (event) => {
         event.preventDefault();
@@ -269,7 +269,7 @@ const AddChallenge = () => {
                             />} label={
                                 <Typography
                                     className={styles['form-label-checkbox']}>
-                                    isVisible
+                                    isVisible (after ctf starts)
                                 </Typography>}>
 
                         </FormControlLabel>
@@ -288,7 +288,7 @@ const AddChallenge = () => {
                             />} label={
                                 <Typography
                                     className={styles['form-label-checkbox']}>
-                                    isFlagCaseSensitive
+                                    flagCaseSensitive
                                 </Typography>}>
 
                         </FormControlLabel>
@@ -304,6 +304,12 @@ const AddChallenge = () => {
                         </div>
                     </Form>
 
+
+                    <div className={styles['button-div']}>
+                        <Button onClick={onClickBackToChallengesHandler} aria-label="ChallengesBackButton" className={`${styles['form-button']} `} variant="custom" type="submit">
+                            back to challenges
+                        </Button>
+                    </div>
                     <div className={styles['output-container']}>
 
                         {!(challengeAddStatus === 'pending') &&
@@ -314,11 +320,6 @@ const AddChallenge = () => {
                         {challengeAddStatus === 'pending' && <LoadingRing />}
                     </div>
 
-                    <div className={styles['button-div']}>
-                        <Button onClick={onClickBackToChallengesHandler} aria-label="ChallengesBackButton" className={`${styles['form-button']} `} variant="custom" type="submit">
-                            back to challenges
-                        </Button>
-                    </div>
                 </>}
 
         </Container >

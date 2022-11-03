@@ -195,7 +195,7 @@ thead tr:first-child:hover {
 .form-button {
     font-family: 'Space Mono', 'Verdana', 'Montserrat Alternates';
     font-weight: bolder;
-    margin-top: 1rem;
+    /* margin-top: 1rem; */
     font-size: 1.1rem;
     padding: 0.5rem;
     padding-left: 2rem;
@@ -203,7 +203,7 @@ thead tr:first-child:hover {
     border-radius: 0.7rem;
     color: #FAF9F6;
     background-color: #0CC6FF;
-    margin-bottom: 2rem;
+    margin-bottom: 1em;
 }
 
 .form-button[disabled]:hover,
