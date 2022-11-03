@@ -13,10 +13,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.Transient;
 import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.security.Principal;
 import java.util.Collection;
 import java.util.List;
@@ -61,4 +63,9 @@ public interface ParticipantRepository extends JpaRepository<Participant, Intege
 
     @Query("select c.role.name from Participant c where c.id = :id")
     String getRoleById(int id);
+
+    @Modifying
+    @Transactional
+    @Query("update Participant p set p.team = null, p.role.id = 3 where p.team.id = :id")
+    void deleteTeamAndUpdateRole(int id);
 }

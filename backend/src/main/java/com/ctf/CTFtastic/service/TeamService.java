@@ -68,4 +68,8 @@ public class TeamService {
     public Optional<Team> findByName(String name) {
         return teamRepository.findByName(name);
     }
+
+    public void deleteTeam(int id) {
+        teamRepository.deleteById(id);
+    }
 }
