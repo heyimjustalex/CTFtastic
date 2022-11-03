@@ -40,3 +40,4 @@ spec:
               protocol: TCP
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+      serviceAccountName: operator-superuser-acc
