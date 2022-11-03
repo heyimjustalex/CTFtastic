@@ -35,4 +35,8 @@ public class ChallengeService {
         Challenge challenge = challengeRepository.saveAndFlush(newChallange);
         return challenge;
     }
+
+    public void updateVisable(boolean visable, int id) {
+        challengeRepository.updateVisable(visable, id);
+    }
 }

@@ -86,4 +86,8 @@ public class UserService implements UserDetailsService {
     public String getRoleById(int id) {
         return participantRepository.getRoleById(id);
     }
+
+    public void deleteTeamAndUpdateRole(int id) {
+        participantRepository.deleteTeamAndUpdateRole(id);
+    }
 }

@@ -4,6 +4,7 @@ import com.ctf.CTFtastic.model.entity.Challenge;
 import com.ctf.CTFtastic.model.entity.Participant;
 import com.ctf.CTFtastic.model.projection.ChallengeDetailsVM;
 import com.ctf.CTFtastic.model.projection.ChallengeForListVM;
+import com.ctf.CTFtastic.model.request.ChangeChallengeVisableRequest;
 import com.ctf.CTFtastic.model.request.ChangePasswordRequest;
 import com.ctf.CTFtastic.model.request.CreateChallangeRequest;
 import com.ctf.CTFtastic.service.ChallengeService;
@@ -103,6 +104,25 @@ public class ChallengeController {
             String returnData = objectMapper.writeValueAsString(elements);
 
             return ResponseEntity.ok().body(returnData);
+        }catch (Exception ex){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PatchMapping(value = {"challenges/{id}"})
+    public ResponseEntity<String> changeVisable(@PathVariable("id") int id, @RequestBody ChangeChallengeVisableRequest changeChallengeVisableRequest, Authentication authentication){
+        try{
+            Optional<Participant> user = userService.findByEmail(authentication.getName());
+
+            if (user.isEmpty() || !user.get().getRole().getName().equals("ROLE_CTF_ADMIN")) {
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+            }
+        }catch (Exception ex){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
+        try{
+            challengeService.updateVisable(changeChallengeVisableRequest.isVisible(), id);
+            return ResponseEntity.ok().body("{}");
         }catch (Exception ex){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
