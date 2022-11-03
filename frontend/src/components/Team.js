@@ -29,6 +29,21 @@ const Team = () => {
 
     }, [navigate, authCTX.isLoggedIn])
 
+    const handleUsersDeleteClick = useCallback((userId) => {
+
+        const dataTemp = {
+            token: authCTX.token,
+            userId: userId
+        };
+        console.log("dataTemp", dataTemp)
+
+        // sendRequestDeleteFromTeam(dataTemp);
+    }, [authCTX.token])
+
+    const isItMyTeam = authCTX.idTeam === id;
+    console.log("idTeam", authCTX.idTeam);
+    console.log("id", id);
+    console.log("IS MY TEAM", isItMyTeam);
 
 
     useEffect(() => {
@@ -55,13 +70,24 @@ const Team = () => {
             if (data.users) {
                 teamMembers = data.users.map((element) => {
                     iterator++;
-                    return <tr
-                        className={authCTX.isLoggedIn ? styles['tr-hover-when-loggedin'] : ''}
+                    return <tr className={styles['tr-hover-when-loggedin']}
                         key={element.id}
-                        onClick={() => handleUsersRowClick(element.id)}>
-                        <td className={styles['element-id']}>{iterator}</td>
-                        <td>{element.name}</td>
-                    </tr>
+                    >
+                        <td
+                            onClick={() => handleUsersRowClick(element.id)}
+
+                        >{iterator}</td>
+                        <td
+                            onClick={() => handleUsersRowClick(element.id)}
+
+
+                        >{element.name}</td>
+                        {((authCTX.role === 'ROLE_TEAM_CAPITAN' && isItMyTeam) || authCTX.role === 'ROLE_CTF_ADMIN') && < td
+                            onClick={() => handleUsersDeleteClick(element.id)}
+                            className={styles['x-sign-td']}>X</td>
+                        }
+                    </tr >
+
 
                 })
             }
@@ -94,7 +120,7 @@ const Team = () => {
 
         }
 
-    }, [status, error, setOutput, data]);
+    }, [status, error, setOutput, data, authCTX.isLoggedIn, handleUsersRowClick]);
 
     return (
         <Container className={`${styles['main']} d-flex flex-column`}>

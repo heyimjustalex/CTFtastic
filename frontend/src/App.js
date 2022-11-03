@@ -60,7 +60,7 @@ function App() {
           <Route path='/add-challenge' element={<AddChallenge />} />
           <Route path='/start-ctf' element={<StartCTF />} />
 
-          <Route path='/my-team' element={<MyTeam />} />
+          <Route path='/my-team' element={<Team />} />
           <Route path='/users/:id' element={<User />} />
           <Route path='/teams/:id' element={<Team />} />
           <Route path='/challenges/:id' element={<Challenge />} />

@@ -128,7 +128,7 @@ const MainHeader = (props) => {
                 <>
                   <NavDropdown.Item
                     as={NavLink}
-                    to={'/my-team'}
+                    to={'/teams/' + authCTX.idTeam}
                     className={styles['dropdown-item'] + ' ' + styles['hover-underline-animation']}>
                     {authCTX.role === 'ROLE_TEAM_CAPITAN' ? 'Manage Team' : 'My Team'}
                   </NavDropdown.Item>
