@@ -22,8 +22,8 @@ spec:
     spec:
       containers:
         {{- range .Values.images }}
-        - name: {{ . | quote }}
-          image: "{{ . }}:latest"
+        - name: {{ . }}
+          image: {{ . }}:latest
           imagePullPolicy: {{ $.Values.image.pullPolicy }}
           ports:
             - name: http

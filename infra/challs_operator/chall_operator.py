@@ -14,7 +14,7 @@ def run_team_challenge():
 
     os.system(f"helm template ./teamchallenges > {resources_name}")
 
-    #config.load_kube_config()
+    config.load_incluster_config()
     k8s_client = client.ApiClient()
     utils.create_from_yaml(k8s_client,resources_name,verbose=True)
 
