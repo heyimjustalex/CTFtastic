@@ -82,6 +82,7 @@ public class SetUpController {
             Map<String, String> elements =  new HashMap<>();
             elements.put("role", participant.getRole().getName());
             elements.put("token",jwtTokenUtil.generateToken(participant.getEmail()));
+            elements.put("expireTime", "72000");
             ObjectMapper objectMapper = new ObjectMapper();
             String returnData = objectMapper.writeValueAsString(elements);
 
