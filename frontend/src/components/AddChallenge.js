@@ -125,7 +125,7 @@ const AddChallenge = () => {
 
         }
 
-    }, [challengeAddStatus, challengeAddError, setOutput, challengeAddData, flagReset, pointsReset, categoryReset, challengeNameReset, descriptionReset]);
+    }, [challengeAddStatus, challengeAddError, setOutput, challengeAddData]);
 
     const challengeAddSubmitHandler = (event) => {
         event.preventDefault();

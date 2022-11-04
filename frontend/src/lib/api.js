@@ -123,10 +123,12 @@ export async function getTeam(teamData) {
 
 
 export async function getChallenges(paginationData) {
+    console.log(paginationData);
     const response = await fetch(`${BACKEND_ADDRESS}/challenges/${paginationData.page}/${paginationData.size}`, {
         method: 'GET',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + paginationData.token
         },
     });
     if (!response.ok) {
@@ -160,6 +162,29 @@ export async function getChallenge(challengeData) {
     }
     catch {
         throw new Error('Couldnt fetch team data.');
+    }
+}
+
+export async function updateChallengeVisiblity(challengeData) {
+    console.log("CHALLENGE DATA", challengeData)
+    const response = await fetch(`${BACKEND_ADDRESS}/challenges/${challengeData.id}`, {
+        method: 'PATCH',
+        body: JSON.stringify({ visible: challengeData.isVisible }),
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + challengeData.token
+        },
+    });
+    console.log(response);
+    if (!response.ok) {
+        throw new Error('Couldnt update challenge');
+    }
+    try {
+        const data = await response.json();
+        return data;
+    }
+    catch {
+        throw new Error('Couldnt update challenge');
     }
 }
 

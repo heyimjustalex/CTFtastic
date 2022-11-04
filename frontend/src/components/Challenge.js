@@ -2,27 +2,44 @@ import React from "react";
 import { useParams } from 'react-router-dom'
 import { useContext, useEffect, useState } from 'react';
 import useHttp from '../hooks/use-http';
-import { getChallenge, sendFlag } from '../lib/api';
+import { getChallenge, sendFlag, updateChallengeVisiblity } from '../lib/api';
 import LoadingRing from './UI/LoadingRing';
 import { AuthContext } from '../store/auth-context';
 import { useNavigate } from 'react-router-dom';
 import styles from "./Challenge.module.css"
 import { Button, Container, Form } from "react-bootstrap";
 import useInput from "../hooks/use-input";
+import MySwitch from "./UI/SwitchBox";
 
 
 const Challenge = () => {
     const { sendRequest: sendRequestGetChallenge, data: challengeData, status: challengeStatus, error: challengeError } = useHttp(getChallenge);
-
+    const { sendRequest: sendRequestUpdateVisiblity, data: updateVisiblityflagData, status: updateVisiblityStatus, error: updateVisiblityError } = useHttp(updateChallengeVisiblity);
     const { sendRequest: sendRequestFlag, data: flagData, status: flagStatus, error: flagError } = useHttp(sendFlag);
     const [output, setOutput] = useState({});
     const [flagValidityOutput, setflagValidityOutput] = useState({});
+    const [isVisible, setIsVisible] = useState(false);
+
     const authCTX = useContext(AuthContext);
     const { id } = useParams();
     const navigate = useNavigate()
     const onClickBackToChallengesHandler = () => {
         navigate('/challenges');
     }
+    const challengeUpdateSubmitHandler = (event) => {
+        event.preventDefault();
+        const data = { id: id, token: authCTX.token, isVisible: +isVisible }
+        console.log(data);
+
+        sendRequestUpdateVisiblity(data);
+    }
+
+    const isVisibleSwitchHandler = () => {
+
+        setIsVisible((prev) => { return !prev })
+
+    }
+
 
     useEffect(() => {
         const token = authCTX.token;
@@ -122,6 +139,7 @@ const Challenge = () => {
     return (
 
         <Container className={`${styles['main']} d-flex flex-column`}>
+
             {challengeStatus === 'completed' && challengeError && !authCTX.isLoggedIn &&
                 <Container className={`${styles['output-content-container']}`}>
                     <h3 className={styles['red-header']}>Log in to see details</h3>
@@ -140,7 +158,7 @@ const Challenge = () => {
 
                     {flagStatus === 'pending' && <h3 className={styles['blue-header']}>{output.header}</h3>}
                     {flagStatus === 'pending' && output.content}
-                    {(flagStatus === 'completed' || flagStatus === null) && !challengeError &&
+                    {(flagStatus === 'completed' || flagStatus === null) && !challengeError && authCTX.role !== 'ROLE_CTF_ADMIN' &&
                         <Form className={`${styles['start-form']}`} onSubmit={flagSubmitHandler}>
                             <Form.Group className="mb-3" controlId="formBasic">
                                 <Form.Label className={styles['form-label']}>Flag</Form.Label>
@@ -162,6 +180,16 @@ const Challenge = () => {
                             </div>
 
                         </Form>}
+                    {/* tu powinien być wartunek ze nie jest visible  */}
+                    {!challengeError && authCTX.role === 'ROLE_CTF_ADMIN' && <Form className={`${styles['start-form']}`} onSubmit={challengeUpdateSubmitHandler}>
+                        <MySwitch checked={isVisible} onClick={isVisibleSwitchHandler} label="isVisible" />
+                        <div className={styles['button-div']}>
+                            <Button aria-label="flagSubmitButton" className={`${styles['form-button-red']} `} variant="custom" type="submit">
+                                Update challenge!
+                            </Button>
+                        </div>
+
+                    </Form>}
 
                     {flagStatus === 'completed' && flagError && flagValidityOutput.header}
                     {flagStatus === 'completed' && !flagError && flagValidityOutput.header}
