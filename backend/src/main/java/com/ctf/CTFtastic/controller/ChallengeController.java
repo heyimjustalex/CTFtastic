@@ -141,7 +141,7 @@ public class ChallengeController {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
         try{
-            challengeService.updateVisable(changeChallengeVisableRequest.isVisible(), id);
+            challengeService.updateVisable(changeChallengeVisableRequest.getIsVisible(), id);
             return ResponseEntity.ok().body("{}");
         }catch (Exception ex){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
