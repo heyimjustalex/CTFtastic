@@ -103,14 +103,14 @@ public class ChallengeController {
         }
         try{
             Challenge newChallange = Challenge.builder()
-                    //is visible
                     .contest(contestService.getById(1)) //Narazie tak
                     .name(createChallangeRequest.getName())
                     .category(createChallangeRequest.getCategory())
                     .message(createChallangeRequest.getMessage())
                     .points(createChallangeRequest.getPoints())
                     .flag(passwordEncoder.encode(createChallangeRequest.getFlag()))
-                    .isCaseSensitive(createChallangeRequest.isCaseSensitive())
+                    .isCaseSensitive(createChallangeRequest.getIsCaseSensitive())
+                    .isVisible(createChallangeRequest.getIsVisible())
                     //.file(createChallangeRequest.getFile())
                     //.dockerfile(createChallangeRequest.getDockerfile())
                     .build();

@@ -14,7 +14,8 @@ public class CreateChallangeRequest {
     private String message;
     private Integer points;
     private String flag;
-    private boolean isCaseSensitive;
+    private Boolean isCaseSensitive;
+    private Boolean isVisible;
     private String file;
     private String dockerfile;
 }
