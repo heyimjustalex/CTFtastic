@@ -93,7 +93,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         corsConfig.setAllowCredentials(true);
         corsConfig.addAllowedOriginPattern("*");
         corsConfig.setMaxAge(3600L);
-        corsConfig.setAllowedMethods(Arrays.asList("GET", "POST", "DELETE", "PUT"));
+        corsConfig.setAllowedMethods(Arrays.asList("GET", "POST", "DELETE", "PUT", "PATCH"));
         corsConfig.addAllowedHeader("*");
         corsConfig.addExposedHeader("Access-Control-Expose-Headers");
         corsConfig.addExposedHeader("Location");

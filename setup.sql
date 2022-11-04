@@ -86,6 +86,15 @@ CREATE TABLE submit(
   
 );
 
+CREATE TABLE solution(
+  id INTEGER PRIMARY KEY AUTO_INCREMENT,
+  id_challange INTEGER,
+  id_team INTEGER,
+  link VARCHAR(256),
+  is_solved BOOLEAN,
+  FOREIGN KEY (id_challange) REFERENCES challenge(id),
+  FOREIGN KEY (id_team) REFERENCES team(id)
+);
 
 INSERT INTO `duty` (`id`, `name_role`) VALUES
 (1, 'ROLE_CTF_ADMIN'),
