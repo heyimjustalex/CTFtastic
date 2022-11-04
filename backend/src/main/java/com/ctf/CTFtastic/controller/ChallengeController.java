@@ -106,7 +106,7 @@ public class ChallengeController {
                     .contest(contestService.getById(1)) //Narazie tak
                     .name(createChallangeRequest.getName())
                     .category(createChallangeRequest.getCategory())
-                    .message(createChallangeRequest.getMessage())
+                    .description(createChallangeRequest.getDescription())
                     .points(createChallangeRequest.getPoints())
                     .flag(passwordEncoder.encode(createChallangeRequest.getFlag()))
                     .isCaseSensitive(createChallangeRequest.getIsCaseSensitive())

@@ -62,7 +62,7 @@ CREATE TABLE challenge(
   id_contest INTEGER NOT NULL,
   name VARCHAR(50),
   category VARCHAR(40),
-  message VARCHAR(450),
+  description VARCHAR(450),
   points INTEGER,
   flag VARCHAR(256),
   is_case_sensitive BOOLEAN,
@@ -167,7 +167,7 @@ INSERT INTO `contest` (`id`, `start_time`, `end_time`, `start_time_utc`, `end_ti
 (5, '2022-10-06 17:18:41', '2022-10-06 17:18:41', '2022-10-06 17:18:41', '2022-10-06 17:18:41', 'title5', '`description5'),
 (6, '2022-10-06 17:23:06', '2022-10-06 17:23:06', '2022-10-06 17:23:06', '2022-10-06 17:23:06', 'title6', '`description6');
 
-INSERT INTO `challenge` (`id`, `id_contest`, `name`, `category`, `message`, `points`, `flag`, `is_case_sensitive`, `is_visible`, `file`, `dockerfile`) VALUES
+INSERT INTO `challenge` (`id`, `id_contest`, `name`, `category`, `description`, `points`, `flag`, `is_case_sensitive`, `is_visible`, `file`, `dockerfile`) VALUES
 (1, 1, 'challenge1', 'category1', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and', 100, 'flag1', 0, 1, NULL, NULL),
 (2, 1, 'challenge2', 'category2', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s,', 50, 'flag2', 1, 1, NULL, NULL),
 (3, 1, 'challenge3', 'category3', 'Lorem Ipsum is simply ', 1, 'flag3', 1, 0, NULL, NULL);

@@ -44,7 +44,7 @@ public class Challenge {
 
     private String category;
 
-    private String message;
+    private String description;
 
     private Integer points;
 

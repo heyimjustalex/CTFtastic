@@ -18,7 +18,7 @@ public interface ChallengeRepository extends JpaRepository<Challenge, Integer> {
     @Query("select c.id as id, c.name as name, c.category as category, c.points as points, c.isVisible as isVisible from Challenge c where c.isVisible = :isVisible")
     Page<ChallengeForListVM> getAllChallenges(Pageable pageable,@Param("isVisible") boolean isVisable);
 
-    @Query("select c.name as name, c.category as category, c.message as message, c.points as points, c.file as file from Challenge c where c.id = ?1")
+    @Query("select c.name as name, c.category as category, c.description as description, c.points as points, c.file as file from Challenge c where c.id = ?1")
     ChallengeDetailsVM getByIdToView(int id);
 
     @Modifying

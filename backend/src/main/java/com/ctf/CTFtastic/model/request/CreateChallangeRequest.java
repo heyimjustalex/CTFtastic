@@ -11,7 +11,7 @@ import lombok.*;
 public class CreateChallangeRequest {
     private String name;
     private String category;
-    private String message;
+    private String description;
     private Integer points;
     private String flag;
     private Boolean isCaseSensitive;
