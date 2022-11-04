@@ -10,6 +10,5 @@ public interface ChallengeDetailsVM {
     String getMessage();
 
     Integer getPoints();
-
     byte[] getFile();
 }

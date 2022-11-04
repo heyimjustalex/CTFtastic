@@ -19,8 +19,10 @@ public class ChallengeService {
     private ChallengeRepository challengeRepository;
 
     @Transient
-    public Page<ChallengeForListVM> getAllForListView(Pageable pageable){
-        return challengeRepository.getAllChallenges(pageable);
+    public Page<ChallengeForListVM> getAllForListView(Pageable pageable, boolean isVisiable){
+        if(isVisiable)
+            return challengeRepository.getAllChallenges(pageable, isVisiable);
+        return challengeRepository.getAllChallenges2(pageable);
     }
     @Transient
     public ChallengeDetailsVM getByIdForView(int id) {
