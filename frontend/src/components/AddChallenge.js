@@ -136,8 +136,8 @@ const AddChallenge = () => {
             category: categoryValue,
             points: pointsValue,
             flag: flagValue,
-            isCaseSensitive: isFlagCaseSensitiveValue
-            // isVisible:isVisible
+            isCaseSensitive: isFlagCaseSensitiveValue,
+            visible: isVisibleValue
         }
         // console.log(requestData);
         sendRequestAddChallenge(requestData)
