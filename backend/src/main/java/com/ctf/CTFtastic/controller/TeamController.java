@@ -68,7 +68,11 @@ public class TeamController {
       try {
           Optional<Participant> user = userService.findByEmail(authentication.getName());
 
-         Team team = Team.builder()
+          if (!user.get().getRole().getName().equals("ROLE_USER")){
+              return ResponseEntity.status(HttpStatus.FORBIDDEN).body("{}");
+          }
+
+          Team team = Team.builder()
                  .name(createTeamRequest.getName())
                  .passwordHash(createTeamRequest.getPassword())
                  .affiliation(createTeamRequest.getAffiliation())
@@ -99,6 +103,10 @@ public class TeamController {
         try {
             Optional<Participant> user = userService.findByEmail(authentication.getName());
             Optional<Team> team = teamService.findByName((joinTeamRequest.getName()));
+
+            if (!user.get().getRole().getName().equals("ROLE_USER")){
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("{}");
+            }
 
             if (team.isEmpty()) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
