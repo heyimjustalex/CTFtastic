@@ -2,6 +2,7 @@ package com.ctf.CTFtastic.controller;
 import com.ctf.CTFtastic.model.PageableOfT;
 import com.ctf.CTFtastic.model.entity.Challenge;
 import com.ctf.CTFtastic.model.entity.Participant;
+import com.ctf.CTFtastic.model.entity.Role;
 import com.ctf.CTFtastic.model.projection.ChallengeDetailsVM;
 import com.ctf.CTFtastic.model.projection.ChallengeForListVM;
 import com.ctf.CTFtastic.model.request.ChangeChallengeVisableRequest;
@@ -13,7 +14,6 @@ import com.ctf.CTFtastic.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.tomcat.util.http.parser.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Role;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -26,10 +26,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.annotation.security.RolesAllowed;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 public class ChallengeController {
@@ -46,20 +43,43 @@ public class ChallengeController {
     private ContestService contestService;
 
     @RequestMapping(value = {"/challenges/{page}/{size}"})
-    public PageableOfT<ChallengeForListVM> getAll(@PathVariable("page") int page, @PathVariable("size") int size) {
-        Pageable pageable = PageRequest.of(page,size);
-        Page<ChallengeForListVM> pageChallenges = challengeService.getAllForListView(pageable);
+    public PageableOfT<ChallengeForListVM> getAll(@PathVariable("page") int page, @PathVariable("size") int size, Authentication authentication) {
 
-        List<ChallengeForListVM> challanges = pageChallenges.getContent();
+        try {
+            Role duty = null;
+            if(authentication != null) {
+                Optional<Participant> user = userService.findByEmail(authentication.getName());
+                duty = user.get().getRole();
+            }
+            Pageable pageable = PageRequest.of(page,size);
 
-        PageableOfT<ChallengeForListVM> challangeToView = PageableOfT.<ChallengeForListVM>builder()
-                .elements(challanges)
-                .currentPage(pageChallenges.getNumber())
-                .totalElements(pageChallenges.getTotalElements())
-                .totalPages(pageChallenges.getTotalPages())
-                .build();
+            Page<ChallengeForListVM> pageChallenges;
+            if(duty != null && duty.getName().equals("ROLE_CTF_ADMIN")){
+                pageChallenges = challengeService.getAllForListView(pageable, false);
+            }
+            else{
+                pageChallenges = challengeService.getAllForListView(pageable, true);
+            }
 
-        return challangeToView;
+
+            List<ChallengeForListVM> challanges = pageChallenges.getContent();
+
+            PageableOfT<ChallengeForListVM> challangeToView = PageableOfT.<ChallengeForListVM>builder()
+                    .elements(challanges)
+                    .currentPage(pageChallenges.getNumber())
+                    .totalElements(pageChallenges.getTotalElements())
+                    .totalPages(pageChallenges.getTotalPages())
+                    .build();
+
+            return challangeToView;
+
+
+
+
+
+        }catch (Exception ex){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
     }
 
     @RequestMapping(value = {"challenges/{id}"})
