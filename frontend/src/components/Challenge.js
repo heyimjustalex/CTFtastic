@@ -18,6 +18,7 @@ const Challenge = () => {
     const { sendRequest: sendRequestFlag, data: flagData, status: flagStatus, error: flagError } = useHttp(sendFlag);
     const [output, setOutput] = useState({});
     const [flagValidityOutput, setflagValidityOutput] = useState({});
+    const [updateVisibilityOutput, setUpdateVisibilityOutput] = useState({});
     const [isVisible, setIsVisible] = useState(false);
 
     const authCTX = useContext(AuthContext);
@@ -29,15 +30,11 @@ const Challenge = () => {
     const challengeUpdateSubmitHandler = (event) => {
         event.preventDefault();
         const data = { id: id, token: authCTX.token, isVisible: +isVisible }
-        console.log("PATCH CHALL ID", data);
-
         sendRequestUpdateVisiblity(data);
     }
 
     const isVisibleSwitchHandler = () => {
-
         setIsVisible((prev) => { return !prev })
-
     }
 
 
@@ -73,7 +70,7 @@ const Challenge = () => {
 
                     </div>
                 </>
-
+            setIsVisible(challengeData.isVisible)
             setOutput({ header: challengeData.name, content: output });
         }
 
@@ -108,6 +105,33 @@ const Challenge = () => {
 
         sendRequestFlag(dataTemp);
     }
+
+    useEffect(() => {
+
+        if (updateVisiblityStatus === 'pending') {
+            setUpdateVisibilityOutput({ header: 'Updating challenge...', content: <LoadingRing /> });
+        }
+
+        else if (updateVisiblityStatus === 'completed' && !updateVisiblityError) {
+
+            const output =
+                <>
+                    <div className={`${styles['output-content-container']}`}>
+                        <h4 className={styles['challenge-header']}>Challenge updated!</h4>
+                    </div>
+                </>
+
+            setUpdateVisibilityOutput({ header: "Success!", content: "Challenge updated!" });
+        }
+
+        else if (updateVisiblityStatus === 'completed' && updateVisiblityError) {
+
+
+            setUpdateVisibilityOutput({ header: 'Update failed...', content: updateVisiblityError });
+
+        }
+
+    }, [updateVisiblityError, updateVisiblityStatus]);
 
 
     useEffect(() => {
@@ -191,6 +215,9 @@ const Challenge = () => {
 
                     </Form>}
 
+
+
+
                     {flagStatus === 'completed' && flagError && flagValidityOutput.header}
                     {flagStatus === 'completed' && !flagError && flagValidityOutput.header}
                     {challengeStatus === 'completed' && !challengeError && <div className={styles['button-div']}>
@@ -198,6 +225,28 @@ const Challenge = () => {
                             back to challenges
                         </Button>
                     </div>}
+
+                    <div className={`${styles['output-container']}`}>
+                        {updateVisiblityStatus === 'completed' &&
+                            !updateVisiblityError &&
+                            <>
+                                <h3 className={styles['blue-header']}>{updateVisibilityOutput.header}</h3>
+                                {updateVisibilityOutput.content}
+                            </>}
+                        {updateVisiblityStatus === 'completed' &&
+                            updateVisiblityError &&
+                            <>
+                                <h3 className={styles['red-header']}>{updateVisibilityOutput.header}</h3>
+                                {updateVisibilityOutput.content}
+                            </>}
+                        {updateVisiblityStatus === 'pending' &&
+                            <>
+                                <h3 className={styles['blue-header']}>{updateVisibilityOutput.header}</h3>
+                                {updateVisibilityOutput.content}
+                            </>
+                        }
+
+                    </div>
 
                 </>
             }

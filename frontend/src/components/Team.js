@@ -2,7 +2,7 @@ import React from "react";
 import { useParams } from 'react-router-dom'
 import { useContext, useEffect, useState, useCallback } from 'react';
 import useHttp from '../hooks/use-http';
-import { getTeam, deleteUser } from '../lib/api';
+import { getTeam, deleteUser, deleteTeam } from '../lib/api';
 import LoadingRing from './UI/LoadingRing';
 import { AuthContext } from '../store/auth-context';
 import { useNavigate } from 'react-router-dom';
@@ -12,12 +12,16 @@ import { Button, Container } from "react-bootstrap";
 
 const Team = () => {
     const { sendRequest, data, status, error } = useHttp(getTeam);
+    const { sendRequest: deleteTeamSendRequest, data: deleteTeamData, status: deleteTeamStatus, error: deleteTeamError } = useHttp(deleteTeam);
     const [output, setOutput] = useState({});
+    const [deleteTeamOutput, setDeleteTeamOutput] = useState({});
     const authCTX = useContext(AuthContext);
     const { id } = useParams();
     const navigate = useNavigate()
 
-    const { sendRequest: sendRequestDeleteFromTeam,
+
+    const {
+        sendRequest: sendRequestDeleteFromTeam,
         data: deleteData,
         status: deleteStatus,
         error: deleteError } = useHttp(deleteUser);
@@ -25,6 +29,15 @@ const Team = () => {
     const onClickBackToTeamsHandler = () => {
 
         navigate('/teams');
+    }
+
+    const onClickDeleteTeamHandler = () => {
+        // e.preventDefault();
+        const data = {
+            teamId: id,
+            token: authCTX.token
+        }
+        deleteTeamSendRequest(data);
     }
 
 
@@ -39,12 +52,13 @@ const Team = () => {
 
         const dataTemp = {
             token: authCTX.token,
-            userId: userId
+            userId: userId,
+            teamId: id
         };
         // console.log("dataTemp", dataTemp)
 
         sendRequestDeleteFromTeam(dataTemp);
-    }, [authCTX.token, sendRequestDeleteFromTeam])
+    }, [authCTX.token, sendRequestDeleteFromTeam, id])
 
     const isItMyTeam = authCTX.idTeam === id;
     // console.log("idTeam", authCTX.idTeam);
@@ -128,6 +142,30 @@ const Team = () => {
 
     }, [status, error, setOutput, data, authCTX.isLoggedIn, handleUsersRowClick]);
 
+    useEffect(() => {
+
+        if (deleteTeamStatus === 'pending') {
+            setDeleteTeamOutput({ header: 'Loading...', content: <LoadingRing /> });
+        }
+
+        else if (deleteTeamStatus === 'completed' && !deleteTeamError) {
+
+            if (authCTX.role === 'ROLE_TEAM_CAPITAN') {
+                authCTX.updateRole('ROLE_USER');
+            }
+
+            setDeleteTeamOutput({ header: 'Success deleting team! Reload to see changes!' });
+
+
+        }
+
+        else if (deleteTeamStatus === 'completed' && deleteTeamError) {
+            setDeleteTeamOutput({ header: 'Error occured when deleting team' });
+
+        }
+
+    }, [authCTX, deleteTeamError, deleteTeamStatus]);
+
     return (
         <Container className={`${styles['main']} d-flex flex-column`}>
 
@@ -145,11 +183,35 @@ const Team = () => {
                     <h3 className={styles['red-header']}>Log in to see details</h3>
                 </Container>}
 
+
+
             {status === 'completed' && !error && <div className={styles['button-div']}>
-                <Button onClick={onClickBackToTeamsHandler} aria-label="TeamsBackButton" className={`${styles['form-button']} `} variant="custom" type="submit">
+                <Button
+                    onClick={onClickBackToTeamsHandler}
+                    aria-label="TeamsBackButton" className={`${styles['form-button']} `}
+                    variant="custom"
+                    type="submit">
                     back to teams
                 </Button>
             </div>}
+            {status === 'completed' && !error && (authCTX.role === 'ROLE_CTF_ADMIN' || authCTX.role === 'ROLE_TEAM_CAPITAN') && <div className={styles['button-div']}>
+                <Button
+                    onClick={onClickDeleteTeamHandler}
+                    aria-label="TeamsDelete" className={`${styles['form-button']} `}
+                    variant="custom"
+                    type="submit">
+                    Delete This Team
+                </Button>
+            </div>}
+            {deleteTeamStatus === 'completed' && deleteTeamError && authCTX.isLoggedIn &&
+                <Container className={`${styles['output-content-container']}`}>
+                    <h3 className={styles['red-header']}>{deleteTeamOutput.header}</h3>
+                </Container>}
+            {deleteTeamStatus === 'completed' && !deleteTeamError && authCTX.isLoggedIn &&
+                <Container className={`${styles['output-content-container']}`}>
+                    <h3 className={styles['blue-header']}>{deleteTeamOutput.header}</h3>
+                </Container>}
+
         </Container >
     )
 }

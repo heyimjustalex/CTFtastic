@@ -84,7 +84,7 @@ const AddChallenge = () => {
 
     const isVisibleChangeHandler = (event) => {
         setIsVisibleValue((isVisible) => { return !isVisible });
-        console.log(isVisibleValue)
+        // console.log(isVisibleValue)
     }
     const isFlagCaseSensitiveChangeHandler = (event) => {
         setIsFlagCaseSensitiveValue((isFlagCaseSensitiveValue) => { return !isFlagCaseSensitiveValue });

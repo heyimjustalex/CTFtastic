@@ -123,7 +123,7 @@ export async function getTeam(teamData) {
 
 
 export async function getChallenges(paginationData) {
-    console.log(paginationData);
+    // console.log(paginationData);
     const response = await fetch(`${BACKEND_ADDRESS}/challenges/${paginationData.page}/${paginationData.size}`, {
         method: 'GET',
         headers: {
@@ -167,7 +167,7 @@ export async function getChallenge(challengeData) {
 }
 
 export async function updateChallengeVisiblity(challengeData) {
-    console.log("CHALLENGE DATA", challengeData)
+    // console.log("CHALLENGE DATA", challengeData)
     const response = await fetch(`${BACKEND_ADDRESS}/challenges/${challengeData.id}`, {
         method: 'PATCH',
         body: JSON.stringify({ isVisible: challengeData.isVisible }),
@@ -176,7 +176,7 @@ export async function updateChallengeVisiblity(challengeData) {
             'Authorization': 'Bearer ' + challengeData.token
         },
     });
-    console.log(response);
+    // console.log(response);
     if (!response.ok) {
         throw new Error('Couldnt update challenge');
     }
@@ -342,14 +342,34 @@ export async function changeUserCredentials(userData) {
 
 
 export async function deleteUser(userData) {
-    const response = await fetch(`${BACKEND_ADDRESS}/users/${userData.userId}`, {
+    const response = await fetch(`${BACKEND_ADDRESS}/teams/${userData.teamId}`, {
         method: 'DELETE',
-        body: JSON.stringify(userData),
+        body: JSON.stringify({}),
         headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + userData.token
         },
     });
+    console.log(response);
+    if (!response.ok) {
+        throw new Error('Delete failed ');
+    }
+
+    return response;
+
+}
+
+
+export async function deleteTeam(teamData) {
+    const response = await fetch(`${BACKEND_ADDRESS}/teams/${teamData.teamId}`, {
+        method: 'DELETE',
+        body: JSON.stringify({}),
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + teamData.token
+        },
+    });
+    // console.log(response);
     if (!response.ok) {
         throw new Error('Delete failed ');
     }
