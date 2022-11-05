@@ -190,14 +190,30 @@ export async function updateChallengeVisiblity(challengeData) {
 }
 
 export async function addChallenge(challengeData) {
+
+
+
+    const formData = new FormData();
+
+    formData.append('dockerfile', challengeData.dockerfile);
+    formData.append('name', challengeData.name);
+    formData.append('description', challengeData.description);
+    formData.append('category', challengeData.category);
+    formData.append('points', challengeData.points);
+    formData.append('flag', challengeData.flag);
+    formData.append('isCaseSensitive', challengeData.isCaseSensitive);
+    formData.append('isVisible', challengeData.isVisible);
+
     const response = await fetch(`${BACKEND_ADDRESS}/challenges/add-challenge`, {
         method: 'POST',
-        body: JSON.stringify(challengeData),
+        body: formData,
+
         headers: {
-            'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + challengeData.token
         },
     });
+
+
     if (!response.ok) {
         throw new Error('Couldnt add new challenge');
     }

@@ -141,11 +141,11 @@ const AddChallenge = () => {
             category: categoryValue,
             points: +pointsValue,
             flag: flagValue,
-            isCaseSensitive: +isFlagCaseSensitiveValue,
-            isVisible: +isVisibleValue,
-            dockerfie: dockerfileState
+            isCaseSensitive: isFlagCaseSensitiveValue,
+            isVisible: isVisibleValue,
+            dockerfile: dockerfileState
         }
-        console.log(requestData);
+        // console.log(requestData);
         sendRequestAddChallenge(requestData)
 
     }
