@@ -10,6 +10,7 @@ import com.ctf.CTFtastic.model.request.ChangePasswordRequest;
 import com.ctf.CTFtastic.model.request.CreateChallangeRequest;
 import com.ctf.CTFtastic.service.ChallengeService;
 import com.ctf.CTFtastic.service.ContestService;
+import com.ctf.CTFtastic.service.UploadService;
 import com.ctf.CTFtastic.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.tomcat.util.http.parser.Authorization;
@@ -22,11 +23,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.*;
 
 @RestController
@@ -42,6 +46,9 @@ public class ChallengeController {
 
     @Autowired
     private ContestService contestService;
+
+    @Autowired
+    private UploadService uploadService;
 
     @RequestMapping(value = {"/challenges/{page}/{size}"})
     public PageableOfT<ChallengeForListVM> getAll(@PathVariable("page") int page, @PathVariable("size") int size, Authentication authentication) {
@@ -89,10 +96,10 @@ public class ChallengeController {
     }
 
     @RequestMapping(value = {"challenges/add-challenge"})
-    //@PreAuthorize("hasAnyRole('ROLE_CTF_ADMIN')")
     @ResponseBody
-    //@Role(value = "")
-    public ResponseEntity<String> createChallange(@RequestBody CreateChallangeRequest createChallangeRequest, Authentication authentication){
+    public ResponseEntity<String> createChallange(@ModelAttribute CreateChallangeRequest createChallangeRequest, Authentication authentication)
+    {
+        byte[] filecode = null;
         try {
             Optional<Participant> user = userService.findByEmail(authentication.getName());
 
@@ -102,6 +109,16 @@ public class ChallengeController {
         }catch (Exception ex){
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
+        try{
+            //String fileName = StringUtils.cleanPath(Objects.requireNonNull(createChallangeRequest.getDockerfile().getOriginalFilename()));
+            //long size = createChallangeRequest.getDockerfile().getSize();
+            //filecode = UploadService.saveFile(fileName, createChallangeRequest.getDockerfile());
+            filecode = createChallangeRequest.getDockerfile().getBytes();
+
+        }catch (Exception ex){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+
         try{
             Challenge newChallange = Challenge.builder()
                     .contest(contestService.getById(1)) //Narazie tak
@@ -113,7 +130,7 @@ public class ChallengeController {
                     .isCaseSensitive(createChallangeRequest.getIsCaseSensitive())
                     .isVisible(createChallangeRequest.getIsVisible())
                     //.file(createChallangeRequest.getFile())
-                    //.dockerfile(createChallangeRequest.getDockerfile())
+                    .dockerfile(filecode)
                     .build();
 
             Challenge challenge = challengeService.addChallage(newChallange);
