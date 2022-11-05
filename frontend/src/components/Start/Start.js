@@ -11,13 +11,15 @@ import useTimer from '../../hooks/use-timer';
 import { useNavigate } from "react-router-dom";
 import StartContext from './../../store/start-context';
 import BasicDescription from './BasicDescription';
+import AuthContext from '../../store/auth-context';
 
 const Start = (props) => {
 
     const { hasStarted, setFalseStartedLocalStorage, setTrueStartedLocalStorage } = useContext(StartContext);
     const navigate = useNavigate();
-    const { sendRequest, status, error } = useHttp(setUpContest);
+    const { sendRequest, data, status, error } = useHttp(setUpContest);
     const [output, setOutput] = useState({});
+    const authCTX = useContext(AuthContext);
 
     const {
         time: timeWhenContestCreated,
@@ -37,6 +39,7 @@ const Start = (props) => {
             renderedComponent: 'startPage',
             title: '',
             description: '',
+            adminUsername: '',
             adminEmail: '',
             adminPassword: '',
             contestStartDate: {},
@@ -69,6 +72,7 @@ const Start = (props) => {
             }
 
             const tempData = {
+                username: startingData.adminUsername,
                 email: startingData.adminEmail,
                 password: startingData.adminPassword,
                 startTime: transformDate(startingData.contestStartDate),
@@ -92,9 +96,10 @@ const Start = (props) => {
         }
 
         else if (status === 'completed' && !error) {
-
+            console.log(data);
+            const expTime = new Date((new Date().getTime() + (+7200 * 1000)));
+            authCTX.login(startingData.adminUsername, data.token, data.role, expTime, null)
             setOutput({ header: 'Success!', content: 'contest created' });
-
         }
 
         else if (status === 'completed' && error) {
@@ -102,7 +107,7 @@ const Start = (props) => {
 
         }
 
-    }, [status, error, setOutput]);
+    }, [status, error, setOutput, authCTX, startingData.adminUsername, data]);
 
 
     const onGetStartedClickedHandler = () => {
@@ -121,9 +126,10 @@ const Start = (props) => {
         });
     }
 
-    const onAdminAccFilledHandler = (email, password) => {
+    const onAdminAccFilledHandler = (username, email, password) => {
         setStartingData({
             ...startingData,
+            adminUsername: username,
             adminEmail: email,
             adminPassword: password,
             renderedComponent: 'startDateTime'

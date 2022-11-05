@@ -44,11 +44,12 @@ const Teams = () => {
             setTotalPages(data.totalPages);
 
             const dataWithSelector = data.elements.map((element) => {
+                // console.log("ELEMENT", element)
                 return <tr className={authCTX.isLoggedIn ? styles['tr-hover-when-loggedin'] : ''} key={element.id} onClick={() => handleRowClick(element.id)}>
                     <td className={styles['element-id']}>{element.id}</td>
                     <td>{element.name}</td>
-                    <td>nasztywno.com</td>
-                    <td>nasztywno</td>
+                    <td>{element.website}</td>
+                    {/* <td>{element.country}</td> */}
                     {/* <td> {element.points}</td> */}
                 </tr>
             });
@@ -83,7 +84,7 @@ const Teams = () => {
                             <th>ID</th>
                             <th>Name</th>
                             <th>Website</th>
-                            <th>Country</th>
+                            {/* <th>Country</th> */}
                             {/* <th className={styles["points"]}>Points</th> */}
                         </tr>
                     </thead>

@@ -1,33 +1,30 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useParams } from 'react-router-dom'
 import { useContext, useEffect, useState, useCallback } from 'react';
 import useHttp from '../hooks/use-http';
-import { getTeam } from '../lib/api';
+import { deleteUser, getTeam, getUser } from '../lib/api';
 import LoadingRing from './UI/LoadingRing';
 import { AuthContext } from '../store/auth-context';
 import { useNavigate } from 'react-router-dom';
-import styles from "./Team.module.css"
+import styles from "./MyTeam.module.css"
 import { Button, Container } from "react-bootstrap";
 
 
-const Team = () => {
+const MyTeam = () => {
     const { sendRequest, data, status, error } = useHttp(getTeam);
     const [output, setOutput] = useState({});
     const authCTX = useContext(AuthContext);
     const { id } = useParams();
-    const navigate = useNavigate()
-    const onClickBackToTeamsHandler = () => {
+    const navigate = useNavigate();
+    const { sendRequest: sendRequestDeleteFromTeam,
+        data: deleteData,
+        status: deleteStatus,
+        error: deleteError } = useHttp(deleteUser);
 
+
+    const onClickBackToTeamsHandler = () => {
         navigate('/teams');
     }
-
-
-    const handleUsersRowClick = useCallback((id) => {
-        if (authCTX.isLoggedIn) {
-            navigate(`/users/${id}`);
-        }
-
-    }, [navigate, authCTX.isLoggedIn])
 
     const handleUsersDeleteClick = useCallback((userId) => {
 
@@ -40,24 +37,34 @@ const Team = () => {
         // sendRequestDeleteFromTeam(dataTemp);
     }, [authCTX.token])
 
-    const isItMyTeam = authCTX.idTeam === id;
-    console.log("idTeam", authCTX.idTeam);
-    console.log("id", id);
-    console.log("IS MY TEAM", isItMyTeam);
+
+
+
+    const handleUsersRowClick = useCallback((id) => {
+        if (authCTX.isLoggedIn) {
+            navigate(`/users/${id}`);
+        }
+
+    }, [navigate, authCTX.isLoggedIn])
+
 
 
     useEffect(() => {
         const token = authCTX.token;
         const teamData = {
             token: token,
-            teamId: id
+            teamId: authCTX.idTeam
         }
 
         sendRequest(teamData);
 
-    }, [sendRequest, id, authCTX.token])
+    }, [sendRequest, id, authCTX.token, authCTX.idTeam])
+
+
+
 
     useEffect(() => {
+
 
         if (status === 'pending') {
             setOutput({ header: 'Loading...', content: <LoadingRing /> });
@@ -82,11 +89,10 @@ const Team = () => {
 
 
                         >{element.name}</td>
-                        {((authCTX.role === 'ROLE_TEAM_CAPITAN' && isItMyTeam) || authCTX.role === 'ROLE_CTF_ADMIN') && < td
+                        {(authCTX.role === 'ROLE_TEAM_CAPITAN' || authCTX.role === 'ROLE_CTF_ADMIN') && <td
                             onClick={() => handleUsersDeleteClick(element.id)}
-                            className={styles['x-sign-td']}>X</td>
-                        }
-                    </tr >
+                            className={styles['x-sign-td']}>X</td>}
+                    </tr>
 
 
                 })
@@ -98,15 +104,15 @@ const Team = () => {
                         <h4 className={styles['team-header']}>Points: <p> {data.points} </p></h4>
                         <h4 className={styles['team-header']}>Website: <p>  {data.website}</p></h4>
                         <h4 className={styles['team-header']}>Affiliation:  <p> {data.affiliation}</p></h4>
-
-
                     </div>
                     <div>
                         {teamMembers == null && <h4 className={styles['red-header']}>This team has no members yet</h4>}
                         {teamMembers !== null && <h4>Members:</h4>}
                         {teamMembers !== null && <table>
                             <tbody>
+
                                 {teamMembers}
+
                             </tbody>
                         </table>}
                     </div>
@@ -120,7 +126,7 @@ const Team = () => {
 
         }
 
-    }, [status, error, setOutput, data, authCTX.isLoggedIn, handleUsersRowClick]);
+    }, [status, error, setOutput, data, authCTX.isLoggedIn, handleUsersRowClick, handleUsersDeleteClick]);
 
     return (
         <Container className={`${styles['main']} d-flex flex-column`}>
@@ -147,4 +153,4 @@ const Team = () => {
         </Container >
     )
 }
-export default Team;
+export default MyTeam;

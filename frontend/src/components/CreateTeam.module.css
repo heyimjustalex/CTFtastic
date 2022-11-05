@@ -9,7 +9,7 @@
     padding-top: 40px;
 }
 
-.admin-header {
+.top-header {
     color: #FAF9F6;
     font-size: 1.6em;
     font-weight: bolder;
@@ -91,6 +91,20 @@
     background-color: #0aa4dd;
 }
 
+.output-container {
+    width: 70%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.output-container h1 {
+    font-size: 1.2em;
+    margin-bottom: 1em;
+}
+
 @media screen and (max-width: 700px) {
     .output-container {
         width: 100%;
@@ -115,7 +129,7 @@
 
 @media screen and (max-width: 800px) {
 
-    .admin-header {
+    .top-header {
         font-size: 1.9rem;
         margin-bottom: 1.3em;
         margin-top: 1rem;

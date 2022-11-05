@@ -150,27 +150,6 @@ thead tr:first-child:hover {
     background-color: #0aa4dd;
 }
 
-
-.tr-hover-when-loggedin:hover td:not(.x-sign-td) {
-    background-color: #111;
-    cursor: pointer;
-
-}
-
-
-.tr-hover-when-loggedin:hover td.x-sign-td {
-    background-color: #000;
-    cursor: pointer;
-}
-
-
-.tr-hover-when-loggedin td.x-sign-td:hover {
-    background-color: #FF304E;
-    color: #fff;
-    border-radius: 50px;
-    cursor: pointer;
-}
-
 @media screen and (max-width: 768px) {
 
     .main {

@@ -8,12 +8,9 @@ const ACTIONS = { SET_ENTERED_VALUE: "SET_ENTERED_VALUE", SET_VALUE_IS_TOUCHED: 
 const useInput = (valueValidator) => {
 
     const valueReducer = (state, action) => {
-        // console.log("state enetered val " + state.enteredValue);
-
         switch (action.type) {
             case ACTIONS.SET_ENTERED_VALUE:
                 const newObj = { enteredValue: action.enteredValue, enteredValueIsTouched: true };
-                // console.log(newObj);
                 return newObj;
             case ACTIONS.SET_VALUE_IS_TOUCHED:
                 const newState = { enteredValue: state.enteredValue, enteredValueIsTouched: true }

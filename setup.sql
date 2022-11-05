@@ -159,6 +159,7 @@ INSERT INTO `team` (`id`, `name`, `password_hash`, `points`, `website`, `affilia
 (54, 'Team3', '1234', 345, 'url.com/2', 'idc', 1, 0, 0),
 (55, 'Team4', '1235', 50, 'url.com/3', 'idc', 1, 0, 0);
 
+
 INSERT INTO `contest` (`id`, `start_time`, `end_time`, `start_time_utc`, `end_time_utc`, `title`, `description`) VALUES
 (1, '2022-10-06 17:01:08', '2022-10-06 17:01:08', '2022-10-06 17:01:08', '2022-10-06 17:01:08', 'title1', '`description1'),
 (2, '2022-10-06 17:02:34', '2022-10-06 17:02:34', '2022-10-06 17:02:34', '2022-10-06 17:02:34', 'title2', '`description2'),
@@ -171,6 +172,7 @@ INSERT INTO `challenge` (`id`, `id_contest`, `name`, `category`, `description`, 
 (1, 1, 'challenge1', 'category1', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and', 100, 'flag1', 0, 1, NULL, NULL),
 (2, 1, 'challenge2', 'category2', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s,', 50, 'flag2', 1, 1, NULL, NULL),
 (3, 1, 'challenge3', 'category3', 'Lorem Ipsum is simply ', 1, 'flag3', 1, 0, NULL, NULL);
+
 
 
 

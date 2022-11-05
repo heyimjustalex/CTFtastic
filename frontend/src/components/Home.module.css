@@ -27,7 +27,7 @@
 }
 
 .output-container h1 {
-    font-family: 'Montserrat Alternates', 'Space Mono', 'Verdana';
+    font-family: 'Space Mono', 'Verdana', 'Montserrat Alternates';
     font-size: 1.8em;
     margin-bottom: 1em;
 }
