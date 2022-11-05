@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: docker-registry-svc
+spec:
+  selector:
+    {{- include "ctftastic.selectorLabels" . | nindent 4 }}
+    {{- include "ctftastic.coreSelectorLabels" . | nindent 4 }}
+    ctftastic/type: registry
+  ports:
+  - port: 5001
+    targetPort: 5000
