@@ -8,7 +8,7 @@ public interface ChallengeDetailsVM {
     String getCategory();
 
     String getDescription();
-
+    Boolean getIsVisible();
     Integer getPoints();
     byte[] getFile();
 }
