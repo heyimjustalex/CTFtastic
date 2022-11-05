@@ -10,6 +10,8 @@ import { Button, Container, Form } from "react-bootstrap";
 import useInput from "../hooks/use-input";
 import { descriptionValidator, titleValidator, categoryValidator, flagValidator, pointsValidator } from "./validators";
 import { Checkbox, FormControlLabel, Typography } from "@mui/material";
+import InputButton from "./UI/InputButton";
+import { useRef } from "react";
 
 
 
@@ -129,6 +131,7 @@ const AddChallenge = () => {
 
     }, [challengeAddStatus, challengeAddError, setOutput, challengeAddData]);
 
+    const [dockerfileState, setDockerfileState] = useState(null);
     const challengeAddSubmitHandler = (event) => {
         event.preventDefault();
         const requestData = {
@@ -139,9 +142,10 @@ const AddChallenge = () => {
             points: +pointsValue,
             flag: flagValue,
             isCaseSensitive: +isFlagCaseSensitiveValue,
-            isVisible: +isVisibleValue
+            isVisible: +isVisibleValue,
+            dockerfie: dockerfileState
         }
-        // console.log(requestData);
+        console.log(requestData);
         sendRequestAddChallenge(requestData)
 
     }
@@ -153,6 +157,7 @@ const AddChallenge = () => {
     if (challengeAddStatus === 'completed' && challengeAddError) {
         textColor = 'redText';
     }
+
 
     return (
 
@@ -222,6 +227,8 @@ const AddChallenge = () => {
                                 Max 500 chars
                             </Form.Text>
                         </Form.Group>
+
+                        <InputButton label={"Upload Dockerfile"} setFile={setDockerfileState} />
 
                         <Form.Group className="mb-3" controlId="categoryId">
                             <Form.Label className={styles['form-label']}>Points</Form.Label>

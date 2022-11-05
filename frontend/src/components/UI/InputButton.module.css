@@ -1,0 +1,25 @@
+.upload-button {
+    font-family: 'Space Mono', 'Verdana', 'Montserrat Alternates';
+    font-weight: bolder;
+    margin-top: 1rem;
+    font-size: 1.1rem;
+    padding: 0.5rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    border-radius: 0.7rem;
+    color: #FAF9F6;
+    background-color: #0CC6FF;
+    margin-bottom: 2rem;
+}
+
+.upload-button[disabled]:hover,
+.upload-button[disabled]:focus {
+    color: #FAF9F6;
+    background-color: #0CC6FF;
+}
+
+.upload-button:hover,
+.upload-button:focus {
+    color: #FAF9F6;
+    background-color: #0aa4dd;
+}

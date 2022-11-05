@@ -206,7 +206,7 @@ const Challenge = () => {
                         </Form>}
                     {/* tu powinien być wartunek ze nie jest visible  */}
                     {!challengeError && authCTX.role === 'ROLE_CTF_ADMIN' && <Form className={`${styles['start-form']}`} onSubmit={challengeUpdateSubmitHandler}>
-                        <MySwitch checked={isVisible} onClick={isVisibleSwitchHandler} label="isVisible" />
+                        <MySwitch checked={isVisible} onClick={isVisibleSwitchHandler} label={isVisible ? "isVisible" : "isInvisible"} />
                         <div className={styles['button-div']}>
                             <Button aria-label="flagSubmitButton" className={`${styles['form-button-red']} `} variant="custom" type="submit">
                                 Update challenge!

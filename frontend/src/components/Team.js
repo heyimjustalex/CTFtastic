@@ -197,7 +197,8 @@ const Team = () => {
             {status === 'completed' && !error && (authCTX.role === 'ROLE_CTF_ADMIN' || authCTX.role === 'ROLE_TEAM_CAPITAN') && <div className={styles['button-div']}>
                 <Button
                     onClick={onClickDeleteTeamHandler}
-                    aria-label="TeamsDelete" className={`${styles['form-button']} `}
+                    aria-label="TeamsDelete"
+                    className={`${styles['form-button-red']} `}
                     variant="custom"
                     type="submit">
                     Delete This Team
