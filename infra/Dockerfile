@@ -9,9 +9,10 @@ RUN apk add curl
 RUN apk add openssl
 RUN curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | sh
 
+RUN apk add img
 
 WORKDIR /usr/src/app
-COPY ./helm_charts ./challs_operator/bootstrap.sh ./challs_operator/chall_operator.py ./
+COPY ./helm_charts ./challs_operator/bootstrap.sh ./challs_operator/chall_operator.py ./challs_operator/Dockerfile.test ./
 
 EXPOSE 5000
 ENTRYPOINT ["/usr/src/app/bootstrap.sh"]

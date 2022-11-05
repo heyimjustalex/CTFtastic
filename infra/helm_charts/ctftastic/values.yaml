@@ -4,6 +4,7 @@
 
 replicaCount: 1
 
+registryPath: /home/docker/registry
 
 image:
   ctftastic:
@@ -28,6 +29,10 @@ image:
       repository: phpmyadmin
       pullPolicy: IfNotPresent
       tag: 'latest'
+    registry:
+      repository: registry
+      pullPolicy: IfNotPresent
+      tag: "2"
     
 
 imagePullSecrets: []

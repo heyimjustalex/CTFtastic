@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "ctftastic.fullname" . }}-docker-registry
+  labels:
+    {{- include "ctftastic.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "ctftastic.selectorLabels" . | nindent 6 }}
+      {{- include "ctftastic.coreSelectorLabels" . | nindent 6 }}
+      ctftastic/type: registry
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "ctftastic.selectorLabels" . | nindent 8 }}
+        {{- include "ctftastic.coreSelectorLabels" . | nindent 8 }}
+        ctftastic/type: registry
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: docker-registry
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.other.registry.repository }}:{{ .Values.image.other.registry.tag }}"
+          imagePullPolicy: {{ .Values.image.other.registry.pullPolicy }}
+          volumeMount:
+          - name: registry-vol
+            mountPath: "{{ .Values.registryPath }}"
+          env:
+          - name: REGISTRY_HTTP_TLS_CERTIFICATE
+            value: "{{ .Values.registryPath }}/certs/tls.crt"
+          - name: REGISTRY_HTTP_TLS_KEY
+            value: "{{ .Values.registryPath }}/certs/tls.key"
+          volumes:
+          - name: registry-vol
+            persistentVolumeClaim:
+              claimName: docker-registry-pvc
+          ports:
+            - name: http
+              containerPort: 5000
+              protocol: TCP
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
