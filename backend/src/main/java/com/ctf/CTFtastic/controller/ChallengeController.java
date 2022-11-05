@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.annotation.security.RolesAllowed;
+import javax.validation.Valid;
 import java.util.*;
 
 @RestController
@@ -140,7 +141,7 @@ public class ChallengeController {
         }catch (Exception ex){
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
-        
+
         try{
             challengeService.updateVisable(changeChallengeVisableRequest.getIsVisible(), id);
             return ResponseEntity.ok().body("{}");
