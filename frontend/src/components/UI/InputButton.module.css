@@ -1,25 +1,26 @@
 .upload-button {
-    font-family: 'Space Mono', 'Verdana', 'Montserrat Alternates';
-    font-weight: bolder;
-    margin-top: 1rem;
-    font-size: 1.1rem;
-    padding: 0.5rem;
-    padding-left: 2rem;
-    padding-right: 2rem;
-    border-radius: 0.7rem;
-    color: #FAF9F6;
-    background-color: #0CC6FF;
-    margin-bottom: 2rem;
+
+    font-family: 'Space Mono', 'Verdana', 'Montserrat Alternates' !important;
+    font-weight: bolder !important;
+    margin-top: 1rem !important;
+    font-size: 1.1rem !important;
+    padding: 0.5rem !important;
+    padding-left: 2rem !important;
+    padding-right: 2rem !important;
+    border-radius: 0.7rem !important;
+    color: #FAF9F6 !important;
+    background-color: #0CC6FF !important;
+    margin-bottom: 2rem !important;
 }
 
 .upload-button[disabled]:hover,
 .upload-button[disabled]:focus {
-    color: #FAF9F6;
-    background-color: #0CC6FF;
+    color: #FAF9F6 !important;
+    background-color: #0bb5ee !important;
 }
 
 .upload-button:hover,
 .upload-button:focus {
-    color: #FAF9F6;
-    background-color: #0aa4dd;
+    color: #FAF9F6 !important;
+    background-color: #0bb5ee !important;
 }

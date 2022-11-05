@@ -1,5 +1,6 @@
 .main {
-    overflow: scroll;
+    overflow: hidden;
+    max-height: 70vh;
     background-color: black;
     color: #FAF9F6;
     font-family: 'Montserrat Alternates', 'Space Mono', 'Verdana';
