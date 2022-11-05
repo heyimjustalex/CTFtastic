@@ -1,6 +1,7 @@
 package com.ctf.CTFtastic.model.request;
 
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 
 @AllArgsConstructor
@@ -17,5 +18,5 @@ public class CreateChallangeRequest {
     private Boolean isCaseSensitive;
     private Boolean isVisible;
     private String file;
-    private String dockerfile;
+    private MultipartFile dockerfile;
 }
