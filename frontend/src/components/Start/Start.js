@@ -96,8 +96,8 @@ const Start = (props) => {
         }
 
         else if (status === 'completed' && !error) {
-            console.log(data);
-            const expTime = new Date((new Date().getTime() + (+7200 * 1000)));
+
+            const expTime = new Date((new Date().getTime() + (+data.expireTime * 1000)));
             authCTX.login(startingData.adminUsername, data.token, data.role, expTime, null)
             setOutput({ header: 'Success!', content: 'contest created' });
         }

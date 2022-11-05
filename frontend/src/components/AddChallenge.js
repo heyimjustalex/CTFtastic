@@ -15,8 +15,8 @@ import { Checkbox, FormControlLabel, Typography } from "@mui/material";
 
 const AddChallenge = () => {
     const { sendRequest: sendRequestAddChallenge, data: challengeAddData, status: challengeAddStatus, error: challengeAddError } = useHttp(addChallenge);
-    const [isVisibleValue, setIsVisibleValue] = useState(false);
-    const [isFlagCaseSensitiveValue, setIsFlagCaseSensitiveValue] = useState(false);
+    const [isVisibleValue, setIsVisibleValue] = useState(true);
+    const [isFlagCaseSensitiveValue, setIsFlagCaseSensitiveValue] = useState(true);
     const [output, setOutput] = useState({});
     const authCTX = useContext(AuthContext);
     const navigate = useNavigate()
@@ -114,6 +114,8 @@ const AddChallenge = () => {
         }
 
         else if (challengeAddStatus === 'completed' && !challengeAddError) {
+
+
             flagReset();
             pointsReset(); categoryReset(); challengeNameReset();
             descriptionReset();
@@ -132,12 +134,12 @@ const AddChallenge = () => {
         const requestData = {
             token: authCTX.token,
             name: challengeNameValue,
-            message: descriptionValue,
+            description: descriptionValue,
             category: categoryValue,
-            points: pointsValue,
+            points: +pointsValue,
             flag: flagValue,
-            isCaseSensitive: isFlagCaseSensitiveValue,
-            visible: isVisibleValue
+            isCaseSensitive: +isFlagCaseSensitiveValue,
+            isVisible: +isVisibleValue
         }
         // console.log(requestData);
         sendRequestAddChallenge(requestData)

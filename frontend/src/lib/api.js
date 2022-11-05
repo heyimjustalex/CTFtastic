@@ -158,6 +158,7 @@ export async function getChallenge(challengeData) {
     }
     try {
         const data = await response.json();
+        // console.log("CHALL DATA", data);
         return data;
     }
     catch {
@@ -169,7 +170,7 @@ export async function updateChallengeVisiblity(challengeData) {
     console.log("CHALLENGE DATA", challengeData)
     const response = await fetch(`${BACKEND_ADDRESS}/challenges/${challengeData.id}`, {
         method: 'PATCH',
-        body: JSON.stringify({ visible: challengeData.isVisible }),
+        body: JSON.stringify({ isVisible: challengeData.isVisible }),
         headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + challengeData.token

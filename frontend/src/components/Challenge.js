@@ -29,7 +29,7 @@ const Challenge = () => {
     const challengeUpdateSubmitHandler = (event) => {
         event.preventDefault();
         const data = { id: id, token: authCTX.token, isVisible: +isVisible }
-        console.log(data);
+        console.log("PATCH CHALL ID", data);
 
         sendRequestUpdateVisiblity(data);
     }

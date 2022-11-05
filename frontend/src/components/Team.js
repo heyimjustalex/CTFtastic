@@ -2,7 +2,7 @@ import React from "react";
 import { useParams } from 'react-router-dom'
 import { useContext, useEffect, useState, useCallback } from 'react';
 import useHttp from '../hooks/use-http';
-import { getTeam } from '../lib/api';
+import { getTeam, deleteUser } from '../lib/api';
 import LoadingRing from './UI/LoadingRing';
 import { AuthContext } from '../store/auth-context';
 import { useNavigate } from 'react-router-dom';
@@ -16,6 +16,12 @@ const Team = () => {
     const authCTX = useContext(AuthContext);
     const { id } = useParams();
     const navigate = useNavigate()
+
+    const { sendRequest: sendRequestDeleteFromTeam,
+        data: deleteData,
+        status: deleteStatus,
+        error: deleteError } = useHttp(deleteUser);
+
     const onClickBackToTeamsHandler = () => {
 
         navigate('/teams');
@@ -35,15 +41,15 @@ const Team = () => {
             token: authCTX.token,
             userId: userId
         };
-        console.log("dataTemp", dataTemp)
+        // console.log("dataTemp", dataTemp)
 
-        // sendRequestDeleteFromTeam(dataTemp);
-    }, [authCTX.token])
+        sendRequestDeleteFromTeam(dataTemp);
+    }, [authCTX.token, sendRequestDeleteFromTeam])
 
     const isItMyTeam = authCTX.idTeam === id;
-    console.log("idTeam", authCTX.idTeam);
-    console.log("id", id);
-    console.log("IS MY TEAM", isItMyTeam);
+    // console.log("idTeam", authCTX.idTeam);
+    // console.log("id", id);
+    // console.log("IS MY TEAM", isItMyTeam);
 
 
     useEffect(() => {
