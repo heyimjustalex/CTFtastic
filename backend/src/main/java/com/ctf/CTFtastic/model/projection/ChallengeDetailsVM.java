@@ -7,7 +7,7 @@ public interface ChallengeDetailsVM {
 
     String getCategory();
 
-    String getMessage();
+    String getDescription();
 
     Integer getPoints();
     byte[] getFile();

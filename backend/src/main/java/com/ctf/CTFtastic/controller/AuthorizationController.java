@@ -166,7 +166,7 @@ public class AuthorizationController {
             ObjectMapper objectMapper = new ObjectMapper();
             String returnData = objectMapper.writeValueAsString(elements);
 
-            return ResponseEntity.ok("OK");
+            return ResponseEntity.ok("{}");
 
         }catch (Exception ex){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);

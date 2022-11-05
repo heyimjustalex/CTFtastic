@@ -103,14 +103,14 @@ public class ChallengeController {
         }
         try{
             Challenge newChallange = Challenge.builder()
-                    //is visible
                     .contest(contestService.getById(1)) //Narazie tak
                     .name(createChallangeRequest.getName())
                     .category(createChallangeRequest.getCategory())
-                    .message(createChallangeRequest.getMessage())
+                    .description(createChallangeRequest.getDescription())
                     .points(createChallangeRequest.getPoints())
                     .flag(passwordEncoder.encode(createChallangeRequest.getFlag()))
-                    .isCaseSensitive(createChallangeRequest.isCaseSensitive())
+                    .isCaseSensitive(createChallangeRequest.getIsCaseSensitive())
+                    .isVisible(createChallangeRequest.getIsVisible())
                     //.file(createChallangeRequest.getFile())
                     //.dockerfile(createChallangeRequest.getDockerfile())
                     .build();
@@ -141,7 +141,7 @@ public class ChallengeController {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
         try{
-            challengeService.updateVisable(changeChallengeVisableRequest.isVisible(), id);
+            challengeService.updateVisable(changeChallengeVisableRequest.getIsVisible(), id);
             return ResponseEntity.ok().body("{}");
         }catch (Exception ex){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);

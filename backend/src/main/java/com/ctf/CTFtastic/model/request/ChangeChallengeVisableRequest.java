@@ -9,5 +9,5 @@ import lombok.*;
 @Getter
 @Setter
 public class ChangeChallengeVisableRequest {
-    private boolean visible;
+    private Boolean isVisible;
 }
