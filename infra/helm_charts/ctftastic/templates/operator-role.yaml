@@ -8,7 +8,7 @@ kind: ClusterRole
 metadata:
   name: operator-superuser
 rules:
-- apiGroups: ["apps", "networking.k8s.io", '\']
+- apiGroups: ["apps", "networking.k8s.io", '\', '']
   resources: ["*"]
   verbs: ["*"]
 ---
