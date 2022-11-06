@@ -11,6 +11,7 @@ import com.ctf.CTFtastic.model.request.CreateChallangeRequest;
 import com.ctf.CTFtastic.repository.TeamRepository;
 import com.ctf.CTFtastic.service.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jdk.swing.interop.SwingInterOpUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.tomcat.util.http.parser.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,7 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @RestController
@@ -53,6 +55,9 @@ public class ChallengeController {
     private TeamRepository teamRepository;
     @Autowired
     private SolutionService solutionService;
+
+    @Autowired
+    private SubmitService submitService;
 
     @RequestMapping(value = {"/challenges/{page}/{size}"})
     public PageableOfT<ChallengeForListVM> getAll(@PathVariable("page") int page, @PathVariable("size") int size, Authentication authentication) {
@@ -119,7 +124,7 @@ public class ChallengeController {
         }
     }
 
-    @RequestMapping(value = {"challenges/add-challenge"})
+    @RequestMapping(value = {"challenges"})
     @ResponseBody
     public ResponseEntity<String> createChallange(@ModelAttribute CreateChallangeRequest createChallangeRequest, Authentication authentication)
     {
@@ -207,5 +212,53 @@ public class ChallengeController {
         }
     }
 
+    @RequestMapping(value = {"challenges/{id}/flag"})
+    public ResponseEntity<String> changeVisable(@PathVariable("id") int id, @RequestBody CheckFlagRequest checkFlagRequest, Authentication authentication) {
+        Participant user2 = null;
+        Solution solution = null;
+        Challenge challenge = null;
+        try{
+            Optional<Participant> user = userService.findByEmail(authentication.getName());
+            user2 = user.get();
+            solution = solutionService.findByTeamAndId(id,user.get().getTeam().getId());
+            challenge = challengeService.getById2(solution.getChallenge().getId()).get();
 
+            if (!(user.get().getRole().getName().equals("ROLE_USER_WITH_TEAM") || user.get().getRole().getName().equals("ROLE_TEAM_CAPITAN"))) {
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+            }
+            if(solution.getIsSolved().equals(true)){
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+            }
+
+        }catch (Exception ex){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
+        try{
+            String flagInDataBase = challenge.getFlag();
+            String flagGetByUser = checkFlagRequest.getFlag();
+
+            Boolean isGood = passwordEncoder.matches(flagGetByUser, flagInDataBase);
+            Submit submit = Submit.builder()
+                    .challenge(challenge)
+                    .participant(user2)
+                    .time(LocalDateTime.now())
+                    .isCorrect(isGood)
+                    .build();
+
+            submitService.Add(submit);
+
+            if(!isGood){
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+            }
+            solution.setIsSolved(true);
+            solutionService.update(solution);
+
+            return ResponseEntity.ok().body("{}");
+
+
+        }catch (Exception ex){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+
+    }
 }

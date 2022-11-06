@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.beans.Transient;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ChallengeService {
@@ -31,6 +32,10 @@ public class ChallengeService {
 
     public ChallengeDetailsVM getById(int id) {
         return challengeRepository.getByIdToView(id);
+    }
+
+    public Optional<Challenge> getById2(int id) {
+        return challengeRepository.findById(id);
     }
 
     public Challenge addChallage(Challenge newChallange) {
