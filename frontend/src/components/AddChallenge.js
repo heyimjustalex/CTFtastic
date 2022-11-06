@@ -123,6 +123,7 @@ const AddChallenge = () => {
             challengeNameReset();
             descriptionReset();
             setFilename(null);
+            setDockerfileState(null);
             setOutput({ header: "Success!", content: "Challenge Added!" });
         }
 
@@ -227,7 +228,11 @@ const AddChallenge = () => {
                             </Form.Text>
                         </Form.Group>
 
-                        <InputButton filename={filename} setFilename={setFilename} label={"Upload Dockerfile"} setFile={setDockerfileState} />
+                        <InputButton
+                            filename={filename}
+                            setFilename={setFilename}
+                            label={"Upload Dockerfile"}
+                            setFile={setDockerfileState} />
 
                         <Form.Group className="mb-3" controlId="categoryId">
                             <Form.Label className={styles['form-label']}>Points</Form.Label>

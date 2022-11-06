@@ -67,7 +67,7 @@ const Challenge = () => {
                         <h4 className={styles['challenge-header']}>Category: <p> {challengeData.category}</p></h4>
                         <h4 className={styles['challenge-header']}>Points: <p> {challengeData.points} </p></h4>
                         {/* {challengeData.file !== null && <h4 className={styles['challenge-header']}>File link:  <p> {challengeData.file}</p></h4>} */}
-                        {challengeData.container !== null && <h4 className={styles['challenge-header']}>Container link:  <a className={styles['container-link']} rel="noreferrer" target="_blank" href={"http://www.google.com" + challengeData.link}> {challengeData.link}</a></h4>}
+                        {challengeData.container !== null && <h4 className={styles['challenge-header']}>Container link:  <p><a className={styles['container-link']} rel="noreferrer" target="_blank" href={"http://www.google.com" + challengeData.link}> {challengeData.link}</a></p></h4>}
 
                     </div>
                 </>
@@ -100,7 +100,8 @@ const Challenge = () => {
 
         const dataTemp = {
             challengeId: id,
-            flag: flagValue
+            flag: flagValue,
+            token: authCTX.token
         };
 
 
@@ -150,7 +151,7 @@ const Challenge = () => {
                     </div>
                 </>
 
-            setflagValidityOutput({ header: "ProperFlag", content: output });
+            setflagValidityOutput({ header: "You have submitted proper flag. Congrats!", content: output });
         }
 
         else if (flagStatus === 'completed' && flagError) {
@@ -181,9 +182,11 @@ const Challenge = () => {
                             <h3 className={styles['red-header']}>{output.content}</h3>
                         </Container>}
 
-                    {flagStatus === 'pending' && <h3 className={styles['blue-header']}>{output.header}</h3>}
+                    {/* {flagStatus === 'pending' && <h3 className={styles['blue-header']}>{output.header}</h3>} */}
                     {flagStatus === 'pending' && output.content}
-                    {(flagStatus === 'completed' || flagStatus === null)
+                    {
+
+                        ((flagStatus === 'completed' && flagError) || flagStatus === null)
                         && !challengeError
                         && authCTX.role !== 'ROLE_CTF_ADMIN'
                         && !challengeData.isSolved &&
@@ -192,7 +195,7 @@ const Challenge = () => {
                                 <Form.Label className={styles['form-label']}>Flag</Form.Label>
                                 <Form.Control
                                     className={styles['control-input']}
-                                    style={{ backgroundColor: "#111", color: "white" }}
+                                    style={{ backgroundColor: "#000", color: "white" }}
                                     onChange={flagChangeHandler}
                                     value={flagValue}
                                     type="text"
@@ -202,7 +205,10 @@ const Challenge = () => {
                                 </Form.Text>
                             </Form.Group>
                             <div className={styles['button-div']}>
-                                <Button aria-label="flagSubmitButton" className={`${styles['form-button-red']} `} variant="custom" type="submit">
+                                <Button aria-label="flagSubmitButton"
+                                    className={`${styles['form-button-red']} `}
+                                    variant="custom"
+                                    type="submit">
                                     submit Flag
                                 </Button>
                             </div>
@@ -226,8 +232,10 @@ const Challenge = () => {
 
 
 
-                    {flagStatus === 'completed' && flagError && flagValidityOutput.header}
-                    {flagStatus === 'completed' && !flagError && flagValidityOutput.header}
+                    {flagStatus === 'completed' && <Container style={{ margin: '2em' }} className={`${styles['output-content-container']}`}>
+                        <h3 className={styles[`${flagError ? "red-header" : "blue-header"}`]}>{flagValidityOutput.header}</h3>
+                    </Container>}
+
                     {challengeStatus === 'completed' && !challengeError && <div className={styles['button-div']}>
                         <Button onClick={onClickBackToChallengesHandler} aria-label="ChallengesBackButton" className={`${styles['form-button']} `} variant="custom" type="submit">
                             back to challenges

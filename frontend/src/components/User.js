@@ -45,7 +45,7 @@ const User = () => {
 
                         <h4 className={styles['team-header']}>Team: <p> {data.nameTeam} </p></h4>
                         {data.website ? <h4 className={styles['team-header']}>Website: <p>  {data.website}</p></h4> : ""}
-                        {data.website ? <h4 className={styles['team-header']}>Affiliation:  <p> {data.affiliation}</p></h4> : ""}
+                        {/* {data.website ? <h4 className={styles['team-header']}>Affiliation:  <p> {data.affiliation}</p></h4> : ""} */}
 
                     </div>
 

@@ -194,8 +194,14 @@ export async function addChallenge(challengeData) {
 
 
     const formData = new FormData();
+    if (challengeData.dockerfile) {
+        formData.append('dockerfile', challengeData.dockerfile);
 
-    formData.append('dockerfile', challengeData.dockerfile);
+    }
+    else {
+        // formData.append('dockerfile', null);
+
+    }
     formData.append('name', challengeData.name);
     formData.append('description', challengeData.description);
     formData.append('category', challengeData.category);
@@ -204,7 +210,7 @@ export async function addChallenge(challengeData) {
     formData.append('isCaseSensitive', challengeData.isCaseSensitive);
     formData.append('isVisible', challengeData.isVisible);
 
-    const response = await fetch(`${BACKEND_ADDRESS}/challenges/add-challenge`, {
+    const response = await fetch(`${BACKEND_ADDRESS}/challenges`, {
         method: 'POST',
         body: formData,
 
@@ -253,15 +259,19 @@ export async function sendFlag(flagData) {
 
     const response = await fetch(`${BACKEND_ADDRESS}/challenges/${flagData.challengeId}/flag`, {
         method: 'POST',
-        body: JSON.stringify(flagData),
+        body: JSON.stringify({ flag: flagData.flag }),
         headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + flagData.token
         },
     });
+
+    console.log(response);
+
     if (!response.ok) {
         throw new Error('Adding flag failed');
     }
+
     try {
         const data = await response.json();
         return data;

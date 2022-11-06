@@ -157,7 +157,7 @@ const Team = () => {
 
             setDeleteTeamOutput({ header: 'Success deleting team! Reload to see changes!' });
             navigate('/teams')
-
+            window.location.reload();
 
 
         }
@@ -167,7 +167,7 @@ const Team = () => {
 
         }
 
-    }, [authCTX, deleteTeamError, deleteTeamStatus]);
+    }, [authCTX, deleteTeamError, deleteTeamStatus, navigate]);
 
     return (
         <Container className={`${styles['main']} d-flex flex-column`}>
