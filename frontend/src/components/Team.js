@@ -18,14 +18,14 @@ const Team = () => {
     const authCTX = useContext(AuthContext);
     const { id } = useParams();
     const navigate = useNavigate()
-
-
     const {
         sendRequest: sendRequestDeleteFromTeam,
         data: deleteData,
         status: deleteStatus,
         error: deleteError } = useHttp(deleteUser);
 
+
+    const [deleteUserFromTeamOutput, setDeleteUserFromTeamOutput] = useState({});
     const onClickBackToTeamsHandler = () => {
 
         navigate('/teams');
@@ -142,6 +142,32 @@ const Team = () => {
         }
 
     }, [status, error, setOutput, data, authCTX.isLoggedIn, handleUsersRowClick]);
+
+    useEffect(() => {
+
+        if (deleteTeamStatus === 'pending') {
+            setDeleteTeamOutput({ header: 'Loading...', content: <LoadingRing /> });
+        }
+
+        else if (deleteTeamStatus === 'completed' && !deleteTeamError) {
+
+            if (authCTX.role === 'ROLE_TEAM_CAPITAN') {
+                authCTX.updateRole('ROLE_USER');
+            }
+
+            setDeleteTeamOutput({ header: 'Success deleting team! Reload to see changes!' });
+            navigate('/teams')
+            window.location.reload();
+
+
+        }
+
+        else if (deleteTeamStatus === 'completed' && deleteTeamError) {
+            setDeleteTeamOutput({ header: 'Error occured when deleting team' });
+
+        }
+
+    }, [authCTX, deleteTeamError, deleteTeamStatus, navigate]);
 
     useEffect(() => {
 
