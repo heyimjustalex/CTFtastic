@@ -166,5 +166,30 @@ public class TeamController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
     }
+
+    @DeleteMapping(value = {"/teams/{idTeam}/user/{idUser}"})
+    public ResponseEntity<String> delete(@PathVariable("idTeam") int idTeam,@PathVariable("idUser") int idUser, Authentication authentication){
+        try{
+            Optional<Participant> user = userService.findByEmail(authentication.getName());
+            Optional<Participant> userTeam = userService.findById(idUser);
+            if (user.isEmpty() || userTeam.isEmpty() || !userTeam.get().getTeam().getId().equals(idTeam))
+            {
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+            }
+            if(!((user.get().getRole().getName().equals("ROLE_CTF_ADMIN") || (user.get().getTeam().getId().equals(idTeam) && user.get().getRole().getName().equals("ROLE_TEAM_CAPITAN")))))
+            {
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+            }
+        }catch (Exception ex){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
+        try {
+            userService.deleteTeamUser(idTeam,idUser);
+
+            return ResponseEntity.ok("{}");
+        }catch(Exception ex) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+    }
 }
 

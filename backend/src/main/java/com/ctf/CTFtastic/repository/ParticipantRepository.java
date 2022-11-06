@@ -68,4 +68,9 @@ public interface ParticipantRepository extends JpaRepository<Participant, Intege
     @Transactional
     @Query("update Participant p set p.team = null, p.role.id = 3 where p.team.id = :id")
     void deleteTeamAndUpdateRole(int id);
+
+    @Modifying
+    @Transactional
+    @Query("update Participant p set p.team = null, p.role.id = 3 where p.team.id = :idTeam and p.id = :idUser")
+    void deleteTeamAndUpdateRole(@Param("idTeam") int idTeam, @Param("idUser") int idUser);
 }
