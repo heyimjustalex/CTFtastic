@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 public interface ContestForListVM {
     Integer getId();
     Boolean getHasStarted();
+
     LocalDateTime getStartTime();
     LocalDateTime getEndTime();
     LocalDateTime getStartTimeUtc();

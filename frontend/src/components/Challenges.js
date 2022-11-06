@@ -8,6 +8,8 @@ import { useNavigate } from "react-router-dom";
 import Pagination from "./Pagination";
 import { AuthContext } from '../store/auth-context';
 
+
+
 const Challenges = () => {
     const [output, setOutput] = useState({});
     const { sendRequest, status, error, data } = useHttp(getChallenges);
@@ -19,10 +21,10 @@ const Challenges = () => {
     const [totalPages, setTotalPages] = useState(0);
     useEffect(() => {
 
-        const pagData = { page: currentPageNumber, size: teamsPerPage };
+        const pagData = { page: currentPageNumber, size: teamsPerPage, token: authCTX.token };
         sendRequest(pagData);
 
-    }, [sendRequest, currentPageNumber])
+    }, [sendRequest, currentPageNumber, authCTX.token])
 
     const navigate = useNavigate();
     const handleRowClick = useCallback((id) => {
@@ -43,9 +45,14 @@ const Challenges = () => {
         else if (status === 'completed' && !error) {
             // setTotalElements(data.totalElements);
             setTotalPages(data.totalPages);
+            // console.log(data);
 
+            console.log(data);
             const dataWithSelector = data.elements.map((element) => {
-                return <tr className={authCTX.isLoggedIn ? styles['tr-hover-when-loggedin'] : ''} key={element.id} onClick={() => handleRowClick(element.id)}>
+                return <tr
+                    className={authCTX.isLoggedIn ? styles['tr-hover-when-loggedin'] : ''}
+                    key={element.id}
+                    onClick={() => handleRowClick(element.id)}>
                     <td className={styles['element-id']}>{element.id}</td>
                     <td>{element.name}</td>
                     <td>{element.category}</td>
@@ -53,6 +60,9 @@ const Challenges = () => {
                 </tr>
 
             });
+
+
+
             setOutput({ header: 'Success!', content: dataWithSelector });
         }
 
@@ -92,11 +102,13 @@ const Challenges = () => {
             {status === 'completed' && error && <Container className={`${styles['output-content-container']}`}><h3 className={styles['error-header']}>{output.content}</h3></Container>}
 
 
-            <Pagination pageCount={totalPages} onChangePage={onChangePageHandler}></Pagination>
-            {status === 'completed' &&
+            {status === 'completed' && !error && (Boolean(data.elements.length)) && < Pagination pageCount={totalPages} onChangePage={onChangePageHandler}></Pagination>}
+            {
+                status === 'completed' &&
                 !error &&
                 !data.elements.length &&
-                <div className={styles['output-container']}> <h1 className={styles['redText']}>No challenges added!</h1></div>}
+                <div className={styles['output-container']}> <h1 className={styles['redText']}>No challenges added!</h1></div>
+            }
 
         </Container >
     )
