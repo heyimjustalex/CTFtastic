@@ -14,8 +14,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jdk.swing.interop.SwingInterOpUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.tomcat.util.http.parser.Authorization;
+import org.springframework.aop.scope.ScopedProxyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -70,12 +72,16 @@ public class ChallengeController {
             }
             Pageable pageable = PageRequest.of(page,size);
 
-            Page<ChallengeForListVM> pageChallenges;
+            List<ChallengeForListVM> list = Collections.emptyList();
+            Page<ChallengeForListVM> pageChallenges = new PageImpl<>(list);
+
             if(duty != null && duty.getName().equals("ROLE_CTF_ADMIN")){
                 pageChallenges = challengeService.getAllForListView(pageable, false);
             }
             else{
-                pageChallenges = challengeService.getAllForListView(pageable, true);
+                if(contestService.getById(1).isStart()) {
+                    pageChallenges = challengeService.getAllForListView(pageable, true);
+                }
             }
 
 
@@ -188,6 +194,7 @@ public class ChallengeController {
 
             return ResponseEntity.ok().body(returnData);
         }catch (Exception ex){
+            System.out.println(ex.getMessage());
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
     }

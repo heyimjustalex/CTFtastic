@@ -54,7 +54,8 @@ CREATE TABLE contest(
  start_time_utc DATETIME NOT NULL,
  end_time_utc DATETIME NOT NULL,
  title VARCHAR(70) NOT NULL,
- description VARCHAR(500) NOT NULL
+ description VARCHAR(500) NOT NULL,
+ is_start BOOLEAN NOT NULL
 );
 
 CREATE TABLE challenge(
@@ -160,19 +161,18 @@ INSERT INTO `team` (`id`, `name`, `password_hash`, `points`, `website`, `affilia
 (55, 'Team4', '1235', 50, 'url.com/3', 'idc', 1, 0, 0);
 
 
--- INSERT INTO `contest` (`id`, `start_time`, `end_time`, `start_time_utc`, `end_time_utc`, `title`, `description`) VALUES
--- (1, '2022-10-06 17:01:08', '2022-10-06 17:01:08', '2022-10-06 17:01:08', '2022-10-06 17:01:08', 'title1', '`description1'),
--- (2, '2022-10-06 17:02:34', '2022-10-06 17:02:34', '2022-10-06 17:02:34', '2022-10-06 17:02:34', 'title2', '`description2'),
--- (3, '2022-10-06 17:03:55', '2022-10-06 17:03:55', '2022-10-06 17:03:55', '2022-10-06 17:03:55', 'title3', '`description3'),
--- (4, '2022-10-06 17:14:05', '2022-10-06 17:14:05', '2022-10-06 17:14:05', '2022-10-06 17:14:05', 'title4', '`description4'),
--- (5, '2022-10-06 17:18:41', '2022-10-06 17:18:41', '2022-10-06 17:18:41', '2022-10-06 17:18:41', 'title5', '`description5'),
--- (6, '2022-10-06 17:23:06', '2022-10-06 17:23:06', '2022-10-06 17:23:06', '2022-10-06 17:23:06', 'title6', '`description6');
+INSERT INTO `contest` (`id`, `start_time`, `end_time`, `start_time_utc`, `end_time_utc`, `title`, `description`, `is_start`) VALUES
+(1, '2022-10-06 17:01:08', '2022-10-06 17:01:08', '2022-10-06 17:01:08', '2022-10-06 17:01:08', 'title1', '`description1', 0),
+(2, '2022-10-06 17:02:34', '2022-10-06 17:02:34', '2022-10-06 17:02:34', '2022-10-06 17:02:34', 'title2', '`description2', 0),
+(3, '2022-10-06 17:03:55', '2022-10-06 17:03:55', '2022-10-06 17:03:55', '2022-10-06 17:03:55', 'title3', '`description3', 0),
+(4, '2022-10-06 17:14:05', '2022-10-06 17:14:05', '2022-10-06 17:14:05', '2022-10-06 17:14:05', 'title4', '`description4', 0),
+(5, '2022-10-06 17:18:41', '2022-10-06 17:18:41', '2022-10-06 17:18:41', '2022-10-06 17:18:41', 'title5', '`description5', 0),
+(6, '2022-10-06 17:23:06', '2022-10-06 17:23:06', '2022-10-06 17:23:06', '2022-10-06 17:23:06', 'title6', '`description6', 0);
 
--- INSERT INTO `challenge` (`id`, `id_contest`, `name`, `category`, `description`, `points`, `flag`, `is_case_sensitive`, `is_visible`, `file`, `dockerfile`) VALUES
--- (1, 1, 'challenge1', 'category1', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and', 100, 'flag1', 0, 1, NULL, NULL),
--- (2, 1, 'challenge2', 'category2', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s,', 50, 'flag2', 1, 1, NULL, NULL),
--- (3, 1, 'challenge3', 'category3', 'Lorem Ipsum is simply ', 1, 'flag3', 1, 0, NULL, NULL);
-
+INSERT INTO `challenge` (`id`, `id_contest`, `name`, `category`, `description`, `points`, `flag`, `is_case_sensitive`, `is_visible`, `file`, `dockerfile`) VALUES
+(1, 1, 'challenge1', 'category1', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and', 100, 'flag1', 0, 1, NULL, NULL),
+(2, 1, 'challenge2', 'category2', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s,', 50, 'flag2', 1, 1, NULL, NULL),
+(3, 1, 'challenge3', 'category3', 'Lorem Ipsum is simply ', 1, 'flag3', 1, 0, NULL, NULL);
 
 
 

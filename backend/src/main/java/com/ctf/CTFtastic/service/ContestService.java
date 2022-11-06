@@ -29,4 +29,8 @@ public class ContestService {
     public Contest getById(Integer id){
         return contestRepository.getById(id);
     }
+
+    public void updateStart(boolean flag) {
+        contestRepository.updateStart(flag);
+    }
 }
