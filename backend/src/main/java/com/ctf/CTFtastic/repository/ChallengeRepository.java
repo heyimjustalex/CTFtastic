@@ -12,13 +12,14 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Repository
 public interface ChallengeRepository extends JpaRepository<Challenge, Integer> {
     @Query("select c.id as id, c.name as name, c.category as category, c.points as points, c.isVisible as isVisible from Challenge c where c.isVisible = :isVisible")
     Page<ChallengeForListVM> getAllChallenges(Pageable pageable,@Param("isVisible") boolean isVisable);
 
-    @Query("select c.name as name, c.isVisible as isVisible, c.category as category, c.description as description, c.points as points, c.file as file from Challenge c where c.id = ?1")
+    @Query("select c.name as name, c.isVisible as isVisible, c.category as category, c.description as description, c.points as points from Challenge c where c.id = ?1")
     ChallengeDetailsVM getByIdToView(int id);
 
     @Modifying
@@ -28,4 +29,7 @@ public interface ChallengeRepository extends JpaRepository<Challenge, Integer> {
 
     @Query("select c.id as id, c.name as name, c.category as category, c.points as points, c.isVisible as isVisible from Challenge c")
     Page<ChallengeForListVM> getAllChallenges2(Pageable pageable);
+
+    @Query("select c from Challenge c")
+    List<Challenge> getAllElements();
 }

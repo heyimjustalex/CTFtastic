@@ -1,9 +1,7 @@
 package com.ctf.CTFtastic.controller;
 import com.ctf.CTFtastic.jwt.JwtTokenUtil;
 import com.ctf.CTFtastic.model.PageableOfT;
-import com.ctf.CTFtastic.model.entity.Participant;
-import com.ctf.CTFtastic.model.entity.Role;
-import com.ctf.CTFtastic.model.entity.Team;
+import com.ctf.CTFtastic.model.entity.*;
 import com.ctf.CTFtastic.model.projection.TeamDetailsVM;
 import com.ctf.CTFtastic.model.projection.TeamForListVM;
 import com.ctf.CTFtastic.model.projection.UserDetailsVM;
@@ -11,10 +9,13 @@ import com.ctf.CTFtastic.model.projection.UserForListVM;
 import com.ctf.CTFtastic.model.request.CreateTeamRequest;
 import com.ctf.CTFtastic.model.request.JoinTeamRequest;
 import com.ctf.CTFtastic.model.request.LoginRequest;
+import com.ctf.CTFtastic.repository.ChallengeRepository;
+import com.ctf.CTFtastic.service.SolutionService;
 import com.ctf.CTFtastic.service.TeamService;
 import com.ctf.CTFtastic.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.ExpiredJwtException;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,10 +27,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 public class TeamController {
@@ -40,6 +38,10 @@ public class TeamController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private ChallengeRepository challengeRepository;
+    @Autowired
+    private SolutionService solutionService;
     @RequestMapping(value = {"/teams/{page}/{size}",})
 
     public PageableOfT<TeamForListVM> getAll(@PathVariable("page") int page, @PathVariable("size") int size) {
@@ -91,6 +93,22 @@ public class TeamController {
           ObjectMapper objectMapper = new ObjectMapper();
           String returnData = objectMapper.writeValueAsString(elements);
 
+          //Create all solution
+          List<Challenge> challenges = challengeRepository.getAllElements();
+          List<Solution> solutions = new ArrayList<Solution>();
+          for (Challenge c:challenges) {
+              String link = RandomStringUtils.randomAlphanumeric(20);
+              Solution solution = Solution.builder()
+                      .challenge(c)
+                      .team(newTeam)
+                      .isSolved(false)
+                      .link(link)
+                      .build();
+              solutions.add(solution);
+          }
+
+          solutionService.AddNewSolutionByTeam(solutions);
+
           return ResponseEntity.ok(returnData);
       }catch (Exception ex)
       {
@@ -139,6 +157,7 @@ public class TeamController {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
         try {
+            solutionService.deleteAllSolutionTeam(id);
             userService.deleteTeamAndUpdateRole(id);
             teamService.deleteTeam(id);
 
