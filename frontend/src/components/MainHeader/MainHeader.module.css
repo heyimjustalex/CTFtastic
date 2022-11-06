@@ -29,6 +29,10 @@
     color: #0CC6FF;
 }
 
+#nav-dropdown-admin-panel {
+    color: #FF304E;
+}
+
 
 .nav-dropdown div {
     border: 1px solid #FAF9F6 !important;
@@ -40,11 +44,9 @@
 
 }
 
-
 .dropdown-item:last-child {
     margin-bottom: 8px;
 }
-
 
 .nav-dropdown .show {
     background-color: red !important;
@@ -64,8 +66,6 @@
     color: rgba(255, 255, 255, .5) !important;
     font-size: 1.1em;
 }
-
-
 
 .dropdown-item:hover {
     color: #FAF9F6 !important;
@@ -108,6 +108,33 @@
 .navbar-brand img {
     margin-right: 1em;
 }
+
+.underline-animation-admin-panel {
+    display: inline-block;
+    position: relative;
+    color: #FF304E;
+}
+
+.underline-animation-admin-panel:after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 1.9px;
+    bottom: 0;
+    left: 0;
+    background-color: #FF304E;
+    transform-origin: bottom right;
+    transition: transform 0.25s ease-out;
+}
+
+.underline-animation-admin-panel:hover:after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+    height: 1.9px;
+}
+
+
 
 .hover-underline-animation {
     display: inline-block;
@@ -179,8 +206,6 @@
         text-align: center;
     }
 
-
-
     .navbar div a {
         margin-left: 0px;
     }
@@ -189,10 +214,8 @@
         text-align: center;
     }
 
-
     .nav-dropdown {
         background-color: black;
-
     }
 
     .right-menu a {

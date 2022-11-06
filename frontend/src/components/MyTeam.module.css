@@ -4,7 +4,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    /* background-color: red; */
     box-sizing: border-box;
     padding: 1em;
     font-size: 1.5em;
@@ -15,14 +14,11 @@
     width: 100%;
     text-align: center;
     color: #FAF9F6;
-    /* background-color: blue; */
     text-align: center;
     display: flex;
     justify-content: center;
     align-items: center;
-
 }
-
 
 .redText {
     color: #FF304E;
@@ -32,55 +28,17 @@
     color: #0CC6FF;
 }
 
-.challenge-header {
+.team-header {
     color: #0CC6FF;
     display: inline-block;
-    /* background-color: red; */
-    margin: 1em;
-    margin-left: 2em;
-    margin-right: 2em;
+    margin: 2em;
 }
-
-.container-link {
-    color: #FF304E;
-    text-decoration: none;
-
-}
-
-.container-link:hover {
-    text-decoration: none;
-}
-
-.challenge-header-red {
-    color: #FF304E;
-    display: inline-block;
-    /* background-color: red; */
-    margin: 1em;
-    margin-left: 2em;
-    margin-right: 2em;
-}
-
-
-
 
 h4>p {
     color: #FAF9F6 !important;
 }
 
-.output-container {
 
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-.output-container h3 {
-    font-size: 1em;
-    text-align: center;
-
-}
 
 table {
     border-collapse: collapse;
@@ -104,7 +62,6 @@ th {
 
 th {
     color: #0CC6FF;
-    /* color: :; */
 }
 
 tr:hover {
@@ -148,24 +105,103 @@ thead tr:first-child:hover {
     text-align: center;
 }
 
-.tr-hover-when-loggedin:hover {
+.tr-hover-when-loggedin:hover td:not(.x-sign-td) {
+    background-color: #111;
+    cursor: pointer;
+
+}
+
+
+.tr-hover-when-loggedin:hover td.x-sign-td {
+    background-color: #000;
+    cursor: pointer;
+}
+
+
+.tr-hover-when-loggedin td.x-sign-td:hover {
+    background-color: #FF304E;
+    color: #fff;
+    border-radius: 50px;
+    cursor: pointer;
+}
+
+/* .tr-hover-when-loggedin td:last-child:hover .tr-hover-when-loggedin {
+    background-color: #000;
+    cursor: pointer;
+} */
+
+
+/* .x-sign-td:hover {
+    background-color: #111;
+} */
+
+/* 
+.td-hover {
     background-color: #111 !important;
     cursor: pointer !important;
 }
 
+.first-td:hover {
+    background-color: red;
 
-thead tr:first-child:hover {
+} */
+
+/* .first-td:hover~td {
+    background-color: red;
+
+} */
+
+/* .tr-hover-when-loggedin td:nth-child(2):hover {
+    background-color: #111 !important;
+    cursor: pointer !important;
+
+} */
+
+/* .tr-hover-when-loggedin td:nth-child(2):hover {
+    content: "TEST";
+    background-color: red !important;
+    cursor: pointer !important;
+
+} */
+
+/* 
+.tr-hover-when-loggedin td:first-child:hover {
+    background-color: #111 !important;
+    cursor: pointer !important;
+
+}
+*/
+/* .tr-hover-when-loggedin td:first-child:hover~td:nth-child(2) {
+    background-color: red !important;
+    cursor: pointer !important;
+} */
+
+/* .tr-hover-when-loggedin td:first-child:hover,
+.tr-hover-when-loggedin td:nth-child(2):hover {
+    background-color: #111 !important;
+    cursor: pointer !important;
+} */
+
+/* .tr-hover-when-loggedin td:last-child:hover
+.tr-hover-when-loggedin td:nth-child(3):hover {
+    background-color: #000 !important;
+    cursor: pointer !important;
+} */
+
+
+
+
+/* thead tr:first-child:hover {
     background-color: black !important;
     cursor: auto !important;
 
-}
+} */
 
 
 .button-div {
-
+    margin-top: 1em;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-end;
 }
 
 .form-button {
@@ -194,49 +230,14 @@ thead tr:first-child:hover {
     background-color: #0aa4dd;
 }
 
-.form-button-red {
-    font-family: 'Space Mono', 'Verdana', 'Montserrat Alternates';
-    font-weight: bolder;
-    margin-top: 1rem;
-    font-size: 1.1rem;
-    padding: 0.5rem;
-    padding-left: 2rem;
-    padding-right: 2rem;
-    border-radius: 0.7rem;
-    color: #FAF9F6;
-    background-color: #FF304E;
-    margin-bottom: 2rem;
-}
-
-.form-button-red[disabled]:hover,
-.form-button-red[disabled]:focus {
-    color: #FAF9F6;
-    background-color: #FF304E;
-}
-
-.form-button-red:hover,
-.form-button-red:focus {
-    color: #FAF9F6;
-    background-color: #FF304E;
-}
-
-.start-form {
-    width: 50%;
-    font-size: 1.1em;
-}
-
-.form-label {
-    font-size: 1.1rem;
-}
-
-
 @media screen and (max-width: 768px) {
 
     .main {
+
         font-size: 1.3em;
     }
 
-    .challenge-header {
+    .team-header {
         display: block;
         font-size: 1em;
         margin: 1em;

@@ -23,9 +23,7 @@ const ChangeCredentials = (props) => {
         }
 
         else if (status === 'completed' && !error) {
-
             setOutput({ header: 'Success!', content: 'Account credentials updated' });
-
         }
 
         else if (status === 'completed' && error) {
@@ -71,6 +69,7 @@ const ChangeCredentials = (props) => {
     const formSubmitHandler = (event) => {
         event.preventDefault();
         const requestData = {
+            token: authCTX.token,
             oldPassword: oldPasswordValue,
             newPassword: passwordValue,
         }
@@ -188,7 +187,10 @@ const ChangeCredentials = (props) => {
                             <LoadingRing />}
                     </div>
                 </>}
-            {!authCTX.isLoggedIn && <div className={styles['output-container']}> <h1 className={styles['redText']}>You cannot change credentials if you're not logged in!</h1></div>}
+            {!authCTX.isLoggedIn &&
+                <div className={styles['output-container']}>
+                    <h1 className={styles['redText']}>You cannot change credentials if you're not logged in!</h1>
+                </div>}
         </Container >
     );
 }
