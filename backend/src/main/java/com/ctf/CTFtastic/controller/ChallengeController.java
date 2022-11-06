@@ -126,7 +126,7 @@ public class ChallengeController {
 
     @RequestMapping(value = {"challenges"})
     @ResponseBody
-    public ResponseEntity<String> createChallange(@ModelAttribute CreateChallangeRequest createChallangeRequest, Authentication authentication)
+    public ResponseEntity<String> createChallange(@ModelAttribute CreateChallangeRequest createChallangeRequest, @RequestParam(value ="dockerfile", required=false) MultipartFile dockerfile, Authentication authentication)
     {
         byte[] filecode = null;
         try {
@@ -142,10 +142,10 @@ public class ChallengeController {
             //String fileName = StringUtils.cleanPath(Objects.requireNonNull(createChallangeRequest.getDockerfile().getOriginalFilename()));
             //long size = createChallangeRequest.getDockerfile().getSize();
             //filecode = UploadService.saveFile(fileName, createChallangeRequest.getDockerfile());
-            filecode = createChallangeRequest.getDockerfile().getBytes();
+            filecode = dockerfile.getBytes();
 
         }catch (Exception ex){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+            //throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
 
         try{

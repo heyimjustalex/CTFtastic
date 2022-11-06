@@ -18,5 +18,6 @@ public class CreateChallangeRequest {
     private Boolean isCaseSensitive;
     private Boolean isVisible;
     private String file;
-    private MultipartFile dockerfile;
+
+    //private MultipartFile dockerfile;
 }
