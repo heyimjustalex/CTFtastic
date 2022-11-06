@@ -47,6 +47,7 @@ const Challenges = () => {
             setTotalPages(data.totalPages);
             // console.log(data);
 
+            console.log(data);
             const dataWithSelector = data.elements.map((element) => {
                 return <tr
                     className={authCTX.isLoggedIn ? styles['tr-hover-when-loggedin'] : ''}
@@ -59,6 +60,9 @@ const Challenges = () => {
                 </tr>
 
             });
+
+
+
             setOutput({ header: 'Success!', content: dataWithSelector });
         }
 
@@ -98,11 +102,13 @@ const Challenges = () => {
             {status === 'completed' && error && <Container className={`${styles['output-content-container']}`}><h3 className={styles['error-header']}>{output.content}</h3></Container>}
 
 
-            <Pagination pageCount={totalPages} onChangePage={onChangePageHandler}></Pagination>
-            {status === 'completed' &&
+            {status === 'completed' && !error && (Boolean(data.elements.length)) && < Pagination pageCount={totalPages} onChangePage={onChangePageHandler}></Pagination>}
+            {
+                status === 'completed' &&
                 !error &&
                 !data.elements.length &&
-                <div className={styles['output-container']}> <h1 className={styles['redText']}>No challenges added!</h1></div>}
+                <div className={styles['output-container']}> <h1 className={styles['redText']}>No challenges added!</h1></div>
+            }
 
         </Container >
     )

@@ -98,7 +98,7 @@ const Teams = () => {
             </table>
             {status === 'completed' && error && <Container className={`${styles['output-content-container']}`}><h3 className={styles['error-header']}>{output.content}</h3></Container>}
 
-            <Pagination pageCount={totalPages} onChangePage={onChangePageHandler}></Pagination>
+            {status === 'completed' && !error && (Boolean(data.elements.length)) && <Pagination pageCount={totalPages} onChangePage={onChangePageHandler}></Pagination>}
             {status === 'completed' &&
                 !error &&
                 !data.elements.length &&

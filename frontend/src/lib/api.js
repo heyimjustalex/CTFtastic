@@ -266,7 +266,7 @@ export async function sendFlag(flagData) {
         },
     });
 
-    console.log(response);
+    // console.log(response);
 
     if (!response.ok) {
         throw new Error('Adding flag failed');

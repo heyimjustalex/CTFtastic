@@ -13,7 +13,7 @@ export const AuthContext = React.createContext({
     logout: () => { },
     updateRole: (newRole) => { },
     updateIdTeam: (newId) => { },
-    updateCTFHasStartedHandler: (newStatus) => { }
+
 
 })
 
@@ -32,7 +32,7 @@ const retrieveStoredToken = () => {
     const username = localStorage.getItem('username');
     const remaningTime = calculateRemainingTime(storedExpirationDate);
     const idTeam = localStorage.getItem('idTeam');
-    const ctfHasStarted = localStorage.getItem('ctfHasStarted');
+
 
     if (remaningTime <= 60000) {
         localStorage.removeItem('username');
@@ -43,7 +43,7 @@ const retrieveStoredToken = () => {
         return null;
 
     }
-    return { username: username, token: storedToken, duration: remaningTime, role: role, idTeam: idTeam, ctfHasStarted: ctfHasStarted };
+    return { username: username, token: storedToken, duration: remaningTime, role: role, idTeam: idTeam };
 }
 
 export const AuthContextProvider = (props) => {
@@ -53,13 +53,13 @@ export const AuthContextProvider = (props) => {
     let role;
     let username;
     let idTeam;
-    let ctfHasStarted;
+
     if (tokenData) {
         idTeam = tokenData.idTeam;
         initialToken = tokenData.token;
         role = tokenData.role;
         username = tokenData.username;
-        ctfHasStarted = tokenData.ctfHasStarted;
+
     }
     const [token, setToken] = useState(initialToken);
 
@@ -69,10 +69,7 @@ export const AuthContextProvider = (props) => {
         // localStorage.removeItem('role');
         localStorage.setItem('role', newRole);
     }
-    const updateCTFHasStartedHandler = (newValue) => {
-        // localStorage.removeItem('role');
-        localStorage.setItem('ctfHasStarted', newValue);
-    }
+
 
     const updateIdTeamHandler = (newId) => {
         // localStorage.removeItem('idTeam');
@@ -119,12 +116,11 @@ export const AuthContextProvider = (props) => {
         isLoggedIn: userIsLoggedIn,
         role: role,
         idTeam: idTeam,
-        ctfHasStarted: ctfHasStarted,
         login: loginHandler,
         logout: logoutHandler,
         updateRole: updateRoleHandler,
-        updateIdTeam: updateIdTeamHandler,
-        updateCtfHasStarted: updateCTFHasStartedHandler
+        updateIdTeam: updateIdTeamHandler
+
 
     }
     return <AuthContext.Provider value={contextValue}>{props.children}</AuthContext.Provider>

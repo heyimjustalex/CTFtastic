@@ -23,14 +23,17 @@ const Home = (props) => {
 
         else if (status === 'completed' && !error) {
 
+            console.log("GET CONTESTS DATA", data)
+
             try {
                 let startTimeUTC = new Date(data.elements[0].startTimeUtc);
                 let endTimeUTC = new Date(data.elements[0].endTimeUtc);
                 const title = data.elements[0].title || 'CTF title';
+                const hasStarted = data.elements[0].hasStarted;
                 const description = data.elements[0].description || 'CTF description';
                 startTimeUTC = startTimeUTC.toLocaleString();
                 endTimeUTC = endTimeUTC.toLocaleString();
-                setOutput({ header: title, content: { description: description, startTime: String(startTimeUTC), endTime: String(endTimeUTC) } });
+                setOutput({ header: title, content: { description: description, startTime: String(startTimeUTC), endTime: String(endTimeUTC), hasStarted: hasStarted } });
 
             }
             catch {
@@ -66,6 +69,7 @@ const Home = (props) => {
                 {!(status === 'pending') && <p>{output ? output.content.startTime : ''}</p>}
                 {!(status === 'pending') && <h2 className={styles[textColor]}>{output ? output.header !== 'No contests found!' ? 'End Time:' : '' : ''}</h2>}
                 {!(status === 'pending') && <p>{output ? output.content.endTime : ''}</p>}
+                {!(status === 'pending') && <h2 className={styles['redText']}>{output ? output.content.hasStarted ? 'CTF has Started' : '' : ''}</h2>}
                 {status === 'pending' &&
                     <LoadingRing />}
             </div>

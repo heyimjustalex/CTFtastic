@@ -182,8 +182,9 @@ const Challenge = () => {
                             <h3 className={styles['red-header']}>{output.content}</h3>
                         </Container>}
 
-                    {/* {flagStatus === 'pending' && <h3 className={styles['blue-header']}>{output.header}</h3>} */}
-                    {flagStatus === 'pending' && output.content}
+                    {flagStatus === 'pending' && <h3 className={styles['blue-header']}>{flagValidityOutput.header}</h3>}
+
+                    {flagStatus === 'pending' && flagValidityOutput.content}
                     {
 
                         ((flagStatus === 'completed' && flagError) || flagStatus === null)
