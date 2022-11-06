@@ -25,4 +25,8 @@ public class SolutionService {
     public Solution findByTeamAndId(int id, int team) {
         return solutionRepository.findByTeamAndId(id,team);
     }
+
+    public void update(Solution solution) {
+        solutionRepository.update(solution.getIsSolved(), solution.getId());
+    }
 }
