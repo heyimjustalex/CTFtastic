@@ -79,7 +79,7 @@ public class ChallengeController {
                 pageChallenges = challengeService.getAllForListView(pageable, false);
             }
             else{
-                if(contestService.getById(1).isStart()) {
+                if(contestService.getById(1).isHasStarted()) {
                     pageChallenges = challengeService.getAllForListView(pageable, true);
                 }
             }
