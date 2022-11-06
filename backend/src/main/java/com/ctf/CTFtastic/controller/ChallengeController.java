@@ -124,7 +124,7 @@ public class ChallengeController {
         }
     }
 
-    @RequestMapping(value = {"challenges/add-challenge"})
+    @RequestMapping(value = {"challenges"})
     @ResponseBody
     public ResponseEntity<String> createChallange(@ModelAttribute CreateChallangeRequest createChallangeRequest, Authentication authentication)
     {
