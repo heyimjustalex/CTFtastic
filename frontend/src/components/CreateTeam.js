@@ -31,8 +31,8 @@ const CreateTeam = () => {
             // console.log(data);
             authCTX.updateRole(data.role);
             authCTX.updateIdTeam(data.idTeam);
-            navigate('/');
-            window.location.reload();
+            // navigate('/');
+            // window.location.reload();
         }
 
         else if (status === 'completed' && error) {

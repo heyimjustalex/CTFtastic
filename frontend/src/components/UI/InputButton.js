@@ -5,13 +5,13 @@ import styles from './InputButton.module.css';
 const InputButton = (props) => {
 
     const fileState = useRef(null);
-    const [filename, setFilename] = useState(null);
+
 
     const onChangeHandler = (event) => {
         const file = event.target.files[0];
 
         props.setFile(file);
-        setFilename(file.name);
+        props.setFilename(file.name);
         // console.log(event.target.files[0])
 
         // ref.current = event.target.files[0]
@@ -27,7 +27,7 @@ const InputButton = (props) => {
             >
                 {props.label}
             </Button>
-            <p>Uploaded file: {filename}</p>
+            <p>Uploaded file: {props.filename}</p>
             <input
                 ref={fileState}
                 type="file"

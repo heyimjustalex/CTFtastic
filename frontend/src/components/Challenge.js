@@ -57,16 +57,17 @@ const Challenge = () => {
 
         else if (challengeStatus === 'completed' && !challengeError) {
 
-            challengeData.file = "na sztywno file link";
-            challengeData.container = "na sztywno container link"
+            // challengeData.file = "na sztywno file link";
+            challengeData.container = challengeData.link;
+
 
             const output =
                 <>
                     <div className={`${styles['output-content-container']}`}>
                         <h4 className={styles['challenge-header']}>Category: <p> {challengeData.category}</p></h4>
                         <h4 className={styles['challenge-header']}>Points: <p> {challengeData.points} </p></h4>
-                        {challengeData.file !== null && <h4 className={styles['challenge-header']}>File link:  <p> {challengeData.file}</p></h4>}
-                        {challengeData.container !== null && <h4 className={styles['challenge-header']}>Container link:  <p> {challengeData.file}</p></h4>}
+                        {/* {challengeData.file !== null && <h4 className={styles['challenge-header']}>File link:  <p> {challengeData.file}</p></h4>} */}
+                        {challengeData.container !== null && <h4 className={styles['challenge-header']}>Container link:  <a className={styles['container-link']} rel="noreferrer" target="_blank" href={"http://www.google.com" + challengeData.link}> {challengeData.link}</a></h4>}
 
                     </div>
                 </>
@@ -182,7 +183,10 @@ const Challenge = () => {
 
                     {flagStatus === 'pending' && <h3 className={styles['blue-header']}>{output.header}</h3>}
                     {flagStatus === 'pending' && output.content}
-                    {(flagStatus === 'completed' || flagStatus === null) && !challengeError && authCTX.role !== 'ROLE_CTF_ADMIN' &&
+                    {(flagStatus === 'completed' || flagStatus === null)
+                        && !challengeError
+                        && authCTX.role !== 'ROLE_CTF_ADMIN'
+                        && !challengeData.isSolved &&
                         <Form className={`${styles['start-form']}`} onSubmit={flagSubmitHandler}>
                             <Form.Group className="mb-3" controlId="formBasic">
                                 <Form.Label className={styles['form-label']}>Flag</Form.Label>
@@ -203,7 +207,11 @@ const Challenge = () => {
                                 </Button>
                             </div>
 
-                        </Form>}
+                        </Form>
+                    }
+                    {challengeData.isSolved && <Container style={{ margin: '2em' }} className={`${styles['output-content-container']}`}>
+                        <h3 className={styles['red-header']}>Your team has already solved this challenge</h3>
+                    </Container>}
                     {/* tu powinien być wartunek ze nie jest visible  */}
                     {!challengeError && authCTX.role === 'ROLE_CTF_ADMIN' && <Form className={`${styles['start-form']}`} onSubmit={challengeUpdateSubmitHandler}>
                         <MySwitch checked={isVisible} onClick={isVisibleSwitchHandler} label={isVisible ? "isVisible" : "isInvisible"} />

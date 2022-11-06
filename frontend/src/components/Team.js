@@ -38,6 +38,7 @@ const Team = () => {
             token: authCTX.token
         }
         deleteTeamSendRequest(data);
+
     }
 
 
@@ -155,6 +156,8 @@ const Team = () => {
             }
 
             setDeleteTeamOutput({ header: 'Success deleting team! Reload to see changes!' });
+            navigate('/teams')
+
 
 
         }

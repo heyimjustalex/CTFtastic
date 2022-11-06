@@ -11,8 +11,6 @@ import useInput from "../hooks/use-input";
 import { descriptionValidator, titleValidator, categoryValidator, flagValidator, pointsValidator } from "./validators";
 import { Checkbox, FormControlLabel, Typography } from "@mui/material";
 import InputButton from "./UI/InputButton";
-import { useRef } from "react";
-
 
 
 const AddChallenge = () => {
@@ -22,6 +20,7 @@ const AddChallenge = () => {
     const [output, setOutput] = useState({});
     const authCTX = useContext(AuthContext);
     const navigate = useNavigate()
+    const [filename, setFilename] = useState(null);
 
     const onClickBackToChallengesHandler = () => {
         navigate('/challenges');
@@ -119,8 +118,11 @@ const AddChallenge = () => {
 
 
             flagReset();
-            pointsReset(); categoryReset(); challengeNameReset();
+            pointsReset();
+            categoryReset();
+            challengeNameReset();
             descriptionReset();
+            setFilename(null);
             setOutput({ header: "Success!", content: "Challenge Added!" });
         }
 
@@ -171,10 +173,7 @@ const AddChallenge = () => {
 
 
             {(authCTX.isLoggedIn && authCTX.role === 'ROLE_CTF_ADMIN') &&
-
                 <>
-
-
                     <Form className={`${styles['start-form']}`} onSubmit={challengeAddSubmitHandler}>
                         <Form.Group className="mb-3" controlId="formBasic">
                             <Form.Label className={styles['form-label']}>Name</Form.Label>
@@ -228,7 +227,7 @@ const AddChallenge = () => {
                             </Form.Text>
                         </Form.Group>
 
-                        <InputButton label={"Upload Dockerfile"} setFile={setDockerfileState} />
+                        <InputButton filename={filename} setFilename={setFilename} label={"Upload Dockerfile"} setFile={setDockerfileState} />
 
                         <Form.Group className="mb-3" controlId="categoryId">
                             <Form.Label className={styles['form-label']}>Points</Form.Label>

@@ -41,6 +41,16 @@
     margin-right: 2em;
 }
 
+.container-link {
+    color: #FF304E;
+    text-decoration: none;
+
+}
+
+.container-link:hover {
+    text-decoration: none;
+}
+
 .challenge-header-red {
     color: #FF304E;
     display: inline-block;
