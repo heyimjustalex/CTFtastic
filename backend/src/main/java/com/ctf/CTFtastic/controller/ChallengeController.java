@@ -1,18 +1,17 @@
 package com.ctf.CTFtastic.controller;
 import com.ctf.CTFtastic.model.PageableOfT;
-import com.ctf.CTFtastic.model.entity.Challenge;
-import com.ctf.CTFtastic.model.entity.Participant;
-import com.ctf.CTFtastic.model.entity.Role;
+import com.ctf.CTFtastic.model.entity.*;
+import com.ctf.CTFtastic.model.projection.ChallengeDatailsVM2;
 import com.ctf.CTFtastic.model.projection.ChallengeDetailsVM;
 import com.ctf.CTFtastic.model.projection.ChallengeForListVM;
 import com.ctf.CTFtastic.model.request.ChangeChallengeVisableRequest;
 import com.ctf.CTFtastic.model.request.ChangePasswordRequest;
+import com.ctf.CTFtastic.model.request.CheckFlagRequest;
 import com.ctf.CTFtastic.model.request.CreateChallangeRequest;
-import com.ctf.CTFtastic.service.ChallengeService;
-import com.ctf.CTFtastic.service.ContestService;
-import com.ctf.CTFtastic.service.UploadService;
-import com.ctf.CTFtastic.service.UserService;
+import com.ctf.CTFtastic.repository.TeamRepository;
+import com.ctf.CTFtastic.service.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.tomcat.util.http.parser.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -50,6 +49,11 @@ public class ChallengeController {
     @Autowired
     private UploadService uploadService;
 
+    @Autowired
+    private TeamRepository teamRepository;
+    @Autowired
+    private SolutionService solutionService;
+
     @RequestMapping(value = {"/challenges/{page}/{size}"})
     public PageableOfT<ChallengeForListVM> getAll(@PathVariable("page") int page, @PathVariable("size") int size, Authentication authentication) {
 
@@ -81,18 +85,38 @@ public class ChallengeController {
 
             return challangeToView;
 
-
-
-
-
         }catch (Exception ex){
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
     }
 
     @RequestMapping(value = {"challenges/{id}"})
-    public ChallengeDetailsVM getById(@PathVariable("id") int id){
-        return challengeService.getById(id);
+    public ChallengeDatailsVM2 getById(@PathVariable("id") int id, Authentication authentication){
+        int team = 0;
+        try {
+            if (authentication != null) {
+                Optional<Participant> user = userService.findByEmail(authentication.getName());
+                team = user.get().getTeam().getId();
+            }
+        }catch (Exception ex){}
+        try {
+            ChallengeDetailsVM challengeDetailsVM = challengeService.getById(id);
+            ChallengeDatailsVM2 challengeDatailsVM2 = ChallengeDatailsVM2.builder()
+                    .name(challengeDetailsVM.getName())
+                    .category(challengeDetailsVM.getCategory())
+                    .description(challengeDetailsVM.getDescription())
+                    .isVisible(challengeDetailsVM.getIsVisible())
+                    .points(challengeDetailsVM.getPoints())
+                    .build();
+            if(team != 0){
+                Solution solution = solutionService.findByTeamAndId(id,team);
+                challengeDatailsVM2.setLink("/" + solution.getLink());
+                challengeDatailsVM2.setIsSolved(solution.getIsSolved());
+            }
+            return challengeDatailsVM2;
+        }catch (Exception ex){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @RequestMapping(value = {"challenges/add-challenge"})
@@ -141,6 +165,22 @@ public class ChallengeController {
             ObjectMapper objectMapper = new ObjectMapper();
             String returnData = objectMapper.writeValueAsString(elements);
 
+            //Create all solution
+            List<Team> teams = teamRepository.getAllTeams();
+            List<Solution> solutions = new ArrayList<Solution>();
+            for (Team t:teams) {
+                String link = RandomStringUtils.randomAlphanumeric(20);
+                Solution solution = Solution.builder()
+                        .challenge(challenge)
+                        .team(t)
+                        .isSolved(false)
+                        .link(link)
+                        .build();
+                solutions.add(solution);
+            }
+
+            solutionService.AddNewSolutionByTeam(solutions);
+
             return ResponseEntity.ok().body(returnData);
         }catch (Exception ex){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
@@ -166,4 +206,6 @@ public class ChallengeController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
     }
+
+
 }
