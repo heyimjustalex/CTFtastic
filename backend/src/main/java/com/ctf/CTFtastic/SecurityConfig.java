@@ -7,6 +7,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.converter.ByteArrayHttpMessageConverter;
+import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -15,6 +17,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
@@ -22,6 +25,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 @Configuration
 //@EnableWebSecurity
@@ -50,7 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
 
-                .antMatchers("/login","/signup","/signin","/register","/nouser","/registerAdmin", "/set-up", "/contests").permitAll()
+                .antMatchers("/login","/signup","/signin","/register","/nouser","/registerAdmin", "/set-up").permitAll()
 
 
                 .antMatchers("/teams/{id}", "/teams/{page}/{size}").permitAll()
@@ -103,4 +107,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new CorsFilter((CorsConfigurationSource) source);
     }
 
+    /////////DO WYSŁANIA REQUESTÓW
+    @Bean
+    public RestTemplate restTemplate(List<HttpMessageConverter<?>> messageConverters) {
+        return new RestTemplate(messageConverters);
+    }
+
+    @Bean
+    public ByteArrayHttpMessageConverter byteArrayHttpMessageConverter() {
+        return new ByteArrayHttpMessageConverter();
+    }
 }

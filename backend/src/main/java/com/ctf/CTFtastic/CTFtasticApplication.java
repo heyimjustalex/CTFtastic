@@ -30,6 +30,7 @@ public class CTFtasticApplication {
 
 	@RequestMapping("/nouser")
 	public String test3() {
+		System.out.println("DZIALA");
 		return "nouser";
 	}
 
