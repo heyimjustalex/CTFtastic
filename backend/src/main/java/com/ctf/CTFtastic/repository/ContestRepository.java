@@ -16,7 +16,7 @@ import javax.transaction.Transactional;
 
 @Repository
 public interface ContestRepository extends JpaRepository<Contest, Integer> {
-    @Query("select p.id as id, p.startTime as startTime, p.endTime as endTime, p.endTimeUtc as endTimeUtc, p.startTimeUtc as startTimeUtc, p.description as description, p.title as title from Contest p")
+    @Query("select p.id as id,p.isStart as isStart, p.startTime as startTime, p.endTime as endTime, p.endTimeUtc as endTimeUtc, p.startTimeUtc as startTimeUtc, p.description as description, p.title as title from Contest p")
     Page<ContestForListVM> getAll(Pageable pageable);
 
     @Query("select c from Contest c where c.id = :id")
