@@ -28,27 +28,38 @@ spec:
       {{- end }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      volumes:
+          - name: registry-vol
+            hostPath:
+              path: {{ .Values.registryPath }}
+              type: Directory
+            #persistentVolumeClaim:
+            #  claimName: docker-registry-pvc
       containers:
         - name: docker-registry
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.other.registry.repository }}:{{ .Values.image.other.registry.tag }}"
           imagePullPolicy: {{ .Values.image.other.registry.pullPolicy }}
-          volumeMount:
+          volumeMounts:
           - name: registry-vol
-            mountPath: "{{ .Values.registryPath }}"
+            mountPath: "/var/lib/registry"
           env:
-          - name: REGISTRY_HTTP_TLS_CERTIFICATE
-            value: "{{ .Values.registryPath }}/certs/tls.crt"
-          - name: REGISTRY_HTTP_TLS_KEY
-            value: "{{ .Values.registryPath }}/certs/tls.key"
-          volumes:
-          - name: registry-vol
-            persistentVolumeClaim:
-              claimName: docker-registry-pvc
+          - name: REGISTRY_HTTP_ADDR
+            value: 0.0.0.0:5001
+          #- name: REGISTRY_HTTP_TLS_CERTIFICATE
+          #  value: "/var/lib/registry/certs/domain.crt"
+          #- name: REGISTRY_HTTP_TLS_KEY
+          #  value: "/var/lib/registry/certs/domain.key"
+          # - name: REGISTRY_AUTH
+          #   value: "htpasswd"
+          # - name: REGISTRY_AUTH_HTPASSWD_PATH
+          #   value: "/var/lib/registry/auth/htpasswd"
+          # - name: REGISTRY_AUTH_HTPASSWD_REALM
+          #   value: "Registry Realm"
           ports:
             - name: http
-              containerPort: 5000
+              containerPort: 5001
               protocol: TCP
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
