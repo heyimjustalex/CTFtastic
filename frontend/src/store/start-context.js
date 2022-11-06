@@ -1,5 +1,6 @@
-import React, { useState, useCallback, useEffect } from "react"
-const BACKEND_ADDRESS = 'http://localhost:8080';
+import React, { useState, useCallback } from "react"
+// const BACKEND_ADDRESS = 'http://localhost:8080';
+const BACKEND_ADDRESS = process.env.REACT_APP_BACKEND_ADDRESS;
 
 const StartContext = React.createContext({
     hasStarted: '',
@@ -12,11 +13,8 @@ export const StartContextProvider = (props) => {
 
     const askBackendIfContestHasStarted = async () => {
         if (retrieveHasStartedInfo()) {
-
             return true;
         }
-
-
         async function getContests() {
 
             const response = await fetch(`${BACKEND_ADDRESS}/contests`, {
@@ -81,6 +79,5 @@ export const StartContextProvider = (props) => {
 
     return <StartContext.Provider value={contextValue}>{props.children}</StartContext.Provider>
 }
-
 
 export default StartContext;

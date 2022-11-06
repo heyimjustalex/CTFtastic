@@ -11,31 +11,35 @@ import { useState, useEffect } from 'react';
 import LoadingRing from './UI/LoadingRing';
 import AuthContext from '../store/auth-context';
 import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 
-const Register = (props) => {
+const CreateTeam = () => {
 
-    const { sendRequest, status, error } = useHttp(createTeam);
+    const { sendRequest, data, status, error } = useHttp(createTeam);
     const [output, setOutput] = useState({});
     const authCTX = useContext(AuthContext);
-    useEffect(() => {
+    const navigate = useNavigate();
 
+    useEffect(() => {
         if (status === 'pending') {
             setOutput({ header: 'Loading...', content: <LoadingRing /> });
         }
 
         else if (status === 'completed' && !error) {
-
-            setOutput({ header: 'Success!', content: 'team created' });
-
+            setOutput({ header: 'Success!', content: 'Team created' });
+            // console.log(data);
+            authCTX.updateRole(data.role);
+            authCTX.updateIdTeam(data.idTeam);
+            navigate('/');
+            window.location.reload();
         }
 
         else if (status === 'completed' && error) {
             setOutput({ header: 'Error occured:', content: error });
-
         }
 
-    }, [status, error, setOutput]);
+    }, [status, error, setOutput, authCTX, data, navigate]);
 
     const
         { value: teamNameValue,
@@ -92,23 +96,15 @@ const Register = (props) => {
 
     const formSubmitHandler = (event) => {
         event.preventDefault();
-        /// send request
         const requestData = {
-            email: teamNameValue,
+            token: authCTX.token,
+            name: teamNameValue,
             password: passwordValue,
             website: websiteValue,
             affiliation: affiliationValue
         }
-        repeatedPasswordReset();
-        websiteReset();
-        affiliationReset();
-        teamNameReset();
-        passwordReset();
-        repeatedPasswordReset();
         sendRequest(requestData);
-
     }
-
 
     let passwordsMatch = null;
     if (passwordValue !== "" && repeatedPasswordValue !== "") {
@@ -122,7 +118,6 @@ const Register = (props) => {
     else {
         passwordsMatch = false;
     }
-
 
     const formIsValid =
         teamNameIsValid &&
@@ -148,8 +143,8 @@ const Register = (props) => {
 
     return (
         <Container className={`${styles['main']} d-flex flex-column`} fluid>
-            {authCTX.isLoggedIn && <>
-                <h1 className={styles['admin-header']}>register team</h1>
+            {authCTX.isLoggedIn && authCTX.role !== "ROLE_TEAM_CAPITAN" && <>
+                <h1 className={styles['top-header']}>register team</h1>
                 <Form className={`${styles['start-form']}`} onSubmit={formSubmitHandler}>
 
                     <Form.Group className="mb-3" controlId="formBasicTeamName">
@@ -170,7 +165,7 @@ const Register = (props) => {
                         </Form.Text>
                     </Form.Group>
 
-                    <Form.Group className="mb-3" controlId="formBasicWebsite">
+                    <Form.Group className="mb-3" controlId="formWebsite">
                         <Form.Label className={styles['form-label']}>Website</Form.Label>
                         <Form.Control
                             className={styles['control-input']}
@@ -188,7 +183,7 @@ const Register = (props) => {
                         </Form.Text>
                     </Form.Group>
 
-                    <Form.Group className="mb-3" controlId="formBasicAffiliation">
+                    <Form.Group className="mb-3" controlId="formAffiliation">
                         <Form.Label className={styles['form-label']}>Affiliation</Form.Label>
                         <Form.Control
                             className={styles['control-input']}
@@ -253,12 +248,22 @@ const Register = (props) => {
 
                     {!(status === 'pending') && <h1> {output ? output.content : ''}</h1>}
 
-                    {status === 'pending' &&
-                        <LoadingRing />}
+                    {status === 'pending' && output.content}
+
                 </div></>}
-            {!authCTX.isLoggedIn && <div className={styles['output-container']}> <h1 className={styles['redText']}>You cannot create team if you're not logged in!</h1></div>}
+
+            {!authCTX.isLoggedIn &&
+                <div className={styles['output-container']}>
+                    <h1 className={styles['redText']}>You cannot create team if you're not logged in!</h1>
+                </div>}
+
+            {authCTX.isLoggedIn &&
+                authCTX.role === "ROLE_TEAM_CAPITAN" &&
+                <div className={styles['output-container']}>
+                    <h1 className={styles['redText']}>You are already a team-capitan</h1>
+                </div>}
         </Container >
     );
 }
 
-export default Register;
+export default CreateTeam;

@@ -160,6 +160,7 @@ INSERT INTO `team` (`id`, `name`, `password_hash`, `points`, `website`, `affilia
 (54, 'Team3', '1234', 345, 'url.com/2', 'idc', 1, 0, 0),
 (55, 'Team4', '1235', 50, 'url.com/3', 'idc', 1, 0, 0);
 
+
 INSERT INTO `contest` (`id`, `start_time`, `end_time`, `start_time_utc`, `end_time_utc`, `title`, `description`, `is_start`) VALUES
 (1, '2022-10-06 17:01:08', '2022-10-06 17:01:08', '2022-10-06 17:01:08', '2022-10-06 17:01:08', 'title1', '`description1', 0),
 (2, '2022-10-06 17:02:34', '2022-10-06 17:02:34', '2022-10-06 17:02:34', '2022-10-06 17:02:34', 'title2', '`description2', 0),

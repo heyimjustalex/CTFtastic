@@ -11,6 +11,17 @@
     min-height: 90vh;
 }
 
+.control-input {
+    background-color: #000;
+    color: #FAF9F6;
+}
+
+.control-input:hover,
+.control-input:focus {
+    background-color: #000;
+    color: #FAF9F6;
+}
+
 .output-content-container {
     width: 100%;
     text-align: center;
@@ -23,6 +34,25 @@
 
 }
 
+.text-info {
+    font-size: 0.7em;
+
+    color: #999;
+}
+
+.output-container {
+    width: 70%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.output-container h1 {
+    font-size: 1em !important;
+    margin-bottom: 1em;
+}
 
 .redText {
     color: #FF304E;
@@ -41,16 +71,6 @@
     margin-right: 2em;
 }
 
-.container-link {
-    color: #FF304E;
-    text-decoration: none;
-
-}
-
-.container-link:hover {
-    text-decoration: none;
-}
-
 .challenge-header-red {
     color: #FF304E;
     display: inline-block;
@@ -63,23 +83,28 @@
 
 
 
+.form-label-checkbox {
+    font-family: 'Space Mono', 'Verdana', 'Montserrat Alternates' !important;
+
+}
+
 h4>p {
     color: #FAF9F6 !important;
 }
 
 .output-container {
 
-
+    margin: auto;
+    width: 70%;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
-.output-container h3 {
-    font-size: 1em;
+.output-container h1 {
+    font-size: 1.5em;
     text-align: center;
-
+    margin-bottom: 1em;
 }
 
 table {
@@ -171,7 +196,7 @@ thead tr:first-child:hover {
 .form-button {
     font-family: 'Space Mono', 'Verdana', 'Montserrat Alternates';
     font-weight: bolder;
-    margin-top: 1rem;
+    /* margin-top: 1rem; */
     font-size: 1.1rem;
     padding: 0.5rem;
     padding-left: 2rem;
@@ -179,7 +204,7 @@ thead tr:first-child:hover {
     border-radius: 0.7rem;
     color: #FAF9F6;
     background-color: #0CC6FF;
-    margin-bottom: 2rem;
+    margin-bottom: 1em;
 }
 
 .form-button[disabled]:hover,
