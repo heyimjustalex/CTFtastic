@@ -45,7 +45,7 @@ const Challenges = () => {
         else if (status === 'completed' && !error) {
             // setTotalElements(data.totalElements);
             setTotalPages(data.totalPages);
-            console.log(data);
+            // console.log(data);
 
             const dataWithSelector = data.elements.map((element) => {
                 return <tr

@@ -19,10 +19,10 @@ const Team = () => {
     const { id } = useParams();
     const navigate = useNavigate()
     const {
-        sendRequest: sendRequestDeleteFromTeam,
-        data: deleteData,
-        status: deleteStatus,
-        error: deleteError } = useHttp(deleteUser);
+        sendRequest: sendRequestDeleteUserFromTeam,
+        data: deleteUserFromTeamData,
+        status: deleteUserFromTeamStatus,
+        error: deleteUserFromTeamError } = useHttp(deleteUser);
 
 
     const [deleteUserFromTeamOutput, setDeleteUserFromTeamOutput] = useState({});
@@ -56,10 +56,10 @@ const Team = () => {
             userId: userId,
             teamId: id
         };
-        // console.log("dataTemp", dataTemp)
+        console.log("dataTemp", dataTemp)
 
-        sendRequestDeleteFromTeam(dataTemp);
-    }, [authCTX.token, sendRequestDeleteFromTeam, id])
+        sendRequestDeleteUserFromTeam(dataTemp);
+    }, [authCTX.token, sendRequestDeleteUserFromTeam, id])
 
     const isItMyTeam = authCTX.idTeam === id;
     // console.log("idTeam", authCTX.idTeam);
@@ -124,7 +124,7 @@ const Team = () => {
                     </div>
                     <div>
                         {teamMembers == null && <h4 className={styles['red-header']}>This team has no members yet</h4>}
-                        {teamMembers !== null && <h4>Members:</h4>}
+                        {teamMembers !== null && (!teamMembers.length ? <h4>No Members</h4> : <h4>Members:</h4>)}
                         {teamMembers !== null && <table>
                             <tbody>
                                 {teamMembers}
@@ -141,7 +141,7 @@ const Team = () => {
 
         }
 
-    }, [status, error, setOutput, data, authCTX.isLoggedIn, handleUsersRowClick]);
+    }, [status, error, setOutput, data, authCTX.isLoggedIn, handleUsersRowClick, deleteUserFromTeamOutput, authCTX.role, isItMyTeam, handleUsersDeleteClick]);
 
     useEffect(() => {
 
@@ -171,29 +171,33 @@ const Team = () => {
 
     useEffect(() => {
 
-        if (deleteTeamStatus === 'pending') {
-            setDeleteTeamOutput({ header: 'Loading...', content: <LoadingRing /> });
+        if (deleteUserFromTeamStatus === 'pending') {
+            setDeleteUserFromTeamOutput({ header: 'Loading...', content: <LoadingRing /> });
         }
 
-        else if (deleteTeamStatus === 'completed' && !deleteTeamError) {
+        else if (deleteUserFromTeamStatus === 'completed' && !deleteUserFromTeamError) {
 
-            if (authCTX.role === 'ROLE_TEAM_CAPITAN') {
-                authCTX.updateRole('ROLE_USER');
+
+
+            setDeleteUserFromTeamOutput({ header: 'User has been deleted' });
+            const token = authCTX.token;
+            const teamData = {
+                token: token,
+                teamId: id
             }
+            sendRequest(teamData)
+            // navigate('/teams')
+            // window.location.reload();
 
-            setDeleteTeamOutput({ header: 'Success deleting team! Reload to see changes!' });
-            navigate('/teams')
-            window.location.reload();
-
-
-        }
-
-        else if (deleteTeamStatus === 'completed' && deleteTeamError) {
-            setDeleteTeamOutput({ header: 'Error occured when deleting team' });
 
         }
 
-    }, [authCTX, deleteTeamError, deleteTeamStatus, navigate]);
+        else if (deleteUserFromTeamStatus === 'completed' && deleteUserFromTeamError) {
+            setDeleteUserFromTeamOutput({ header: 'Error deleting user' });
+
+        }
+
+    }, [authCTX, deleteUserFromTeamError, deleteUserFromTeamStatus, navigate]);
 
     return (
         <Container className={`${styles['main']} d-flex flex-column`}>
@@ -237,6 +241,17 @@ const Team = () => {
                 <Container className={`${styles['output-content-container']}`}>
                     <h3 className={styles['red-header']}>{deleteTeamOutput.header}</h3>
                 </Container>}
+
+            {deleteUserFromTeamStatus === 'completed' && deleteUserFromTeamError && authCTX.isLoggedIn &&
+                <Container className={`${styles['output-content-container']}`}>
+                    <h3 className={styles['red-header']}>{deleteUserFromTeamOutput.header}</h3>
+                </Container>}
+
+            {deleteUserFromTeamStatus === 'completed' && !deleteUserFromTeamError && authCTX.isLoggedIn &&
+                <Container className={`${styles['output-content-container']}`}>
+                    <h3 className={styles['blue-header']}>{deleteUserFromTeamOutput.header}</h3>
+                </Container>}
+
             {deleteTeamStatus === 'completed' && !deleteTeamError && authCTX.isLoggedIn &&
                 <Container className={`${styles['output-content-container']}`}>
                     <h3 className={styles['blue-header']}>{deleteTeamOutput.header}</h3>

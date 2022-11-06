@@ -368,7 +368,7 @@ export async function changeUserCredentials(userData) {
 
 
 export async function deleteUser(userData) {
-    const response = await fetch(`${BACKEND_ADDRESS}/teams/${userData.teamId}`, {
+    const response = await fetch(`${BACKEND_ADDRESS}/teams/${userData.teamId}/user/${userData.userId}`, {
         method: 'DELETE',
         body: JSON.stringify({}),
         headers: {
