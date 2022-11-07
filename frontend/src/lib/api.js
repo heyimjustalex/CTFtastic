@@ -281,6 +281,32 @@ export async function sendFlag(flagData) {
     }
 }
 
+export async function updateStartStopChallengeContainer(challengeData) {
+
+    const response = await fetch(`${BACKEND_ADDRESS}/challenges/${challengeData.challengeId}/start`, {
+        method: 'POST',
+        body: JSON.stringify({ isContainerStarted: challengeData.isContainerStarted }),
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + challengeData.token
+        },
+    });
+
+    // console.log(response);
+
+    if (!response.ok) {
+        throw new Error('Starting/Stopping container failed');
+    }
+
+    try {
+        const data = await response.json();
+        return data;
+    }
+    catch {
+        throw new Error('Starting/Stopping container failed');
+    }
+}
+
 export async function startCTF(startData) {
 
     const response = await fetch(`${BACKEND_ADDRESS}/start-ctf`, {

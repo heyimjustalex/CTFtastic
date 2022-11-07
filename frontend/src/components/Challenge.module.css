@@ -220,6 +220,62 @@ thead tr:first-child:hover {
     background-color: #FF304E;
 }
 
+
+.form-button-red-small {
+    font-family: 'Space Mono', 'Verdana', 'Montserrat Alternates';
+    font-weight: bolder;
+    margin-top: 0.8rem;
+    font-size: 0.8rem;
+    padding: 0.3rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    border-radius: 0.7rem;
+    color: #FAF9F6;
+    background-color: #FF304E;
+    margin-bottom: 0.8rem;
+}
+
+.form-button-red-small[disabled]:hover,
+.form-button-red-small[disabled]:focus {
+    color: #FAF9F6;
+    background-color: #FF304E;
+}
+
+.form-button-red-small:hover,
+.form-button-red-small:focus {
+    color: #FAF9F6;
+    background-color: #FF304E;
+}
+
+.form-button-blue-small {
+    font-family: 'Space Mono', 'Verdana', 'Montserrat Alternates';
+    font-weight: bolder;
+    margin-top: 0.8rem;
+    margin: 0.8rem;
+    font-size: 0.8rem;
+    padding: 0.3rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    border-radius: 0.7rem;
+    color: #FAF9F6;
+    background-color: #0CC6FF;
+    margin-bottom: 0.8rem;
+}
+
+.form-button-blue-small[disabled]:hover,
+.form-button-blue-small[disabled]:focus {
+    color: #FAF9F6;
+    background-color: #0CC6FF;
+}
+
+.form-button-blue-small:hover,
+.form-button-blue-small:focus {
+    color: #FAF9F6;
+    background-color: #0CC6FF;
+}
+
+
+
 .start-form {
     width: 50%;
     font-size: 1.1em;
