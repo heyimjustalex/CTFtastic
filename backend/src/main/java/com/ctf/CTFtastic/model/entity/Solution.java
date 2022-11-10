@@ -29,4 +29,7 @@ public class Solution {
 
     @Column(name = "is_solved")
     private Boolean isSolved;
+
+    @Column(name = "is_container_started")
+    private Boolean isContainerStarted;
 }

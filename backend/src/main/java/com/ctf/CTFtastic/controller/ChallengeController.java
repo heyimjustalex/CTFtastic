@@ -4,10 +4,7 @@ import com.ctf.CTFtastic.model.entity.*;
 import com.ctf.CTFtastic.model.projection.ChallengeDatailsVM2;
 import com.ctf.CTFtastic.model.projection.ChallengeDetailsVM;
 import com.ctf.CTFtastic.model.projection.ChallengeForListVM;
-import com.ctf.CTFtastic.model.request.ChangeChallengeVisableRequest;
-import com.ctf.CTFtastic.model.request.ChangePasswordRequest;
-import com.ctf.CTFtastic.model.request.CheckFlagRequest;
-import com.ctf.CTFtastic.model.request.CreateChallangeRequest;
+import com.ctf.CTFtastic.model.request.*;
 import com.ctf.CTFtastic.repository.TeamRepository;
 import com.ctf.CTFtastic.service.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -123,6 +120,7 @@ public class ChallengeController {
                 Solution solution = solutionService.findByTeamAndId(id,team);
                 challengeDatailsVM2.setLink("/" + solution.getLink());
                 challengeDatailsVM2.setIsSolved(solution.getIsSolved());
+                challengeDatailsVM2.setIsContainerStarted(solution.getIsContainerStarted());
             }
             return challengeDatailsVM2;
         }catch (Exception ex){
@@ -185,8 +183,14 @@ public class ChallengeController {
                         .challenge(challenge)
                         .team(t)
                         .isSolved(false)
+                        //.isContainerStarted(challenge.getDockerfile() == null ? null : false)
                         .link(link)
                         .build();
+
+                if(challenge.getDockerfile() != null){
+                    solution.setIsContainerStarted(false);
+                }
+
                 solutions.add(solution);
             }
 
@@ -267,5 +271,56 @@ public class ChallengeController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
 
+    }
+
+    @PostMapping(value = {"challenges/{id}/start"})
+    public ResponseEntity<String> postStartContainer(@PathVariable("id") int id, @RequestBody ChangeStartContenerRequest changeStartContenerRequest, Authentication authentication){
+        int team = 0;
+        try {
+            if (authentication != null) {
+                Optional<Participant> user = userService.findByEmail(authentication.getName());
+                team = user.get().getTeam().getId();
+            }
+        }catch (Exception ex){}
+        try {
+
+            if(team != 0){
+                Solution solution = solutionService.findByTeamAndId(id,team);
+                if(solution.getIsContainerStarted() != null){
+                    solution.setIsContainerStarted(changeStartContenerRequest.getIsContainerStarted());
+                    solutionService.update(solution);
+                    return ResponseEntity.ok("{}");
+                }
+            }
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }catch (Exception ex){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping(value = {"challenges/{id}/start"})
+    public ResponseEntity<String> getStartContainer(@PathVariable("id") int id, Authentication authentication){
+        int team = 0;
+        try {
+            if (authentication != null) {
+                Optional<Participant> user = userService.findByEmail(authentication.getName());
+                team = user.get().getTeam().getId();
+            }
+        }catch (Exception ex){}
+        try {
+
+            if(team != 0){
+                Solution solution = solutionService.findByTeamAndId(id,team);
+                Map<String, String> elements =  new HashMap<>();
+                elements.put("isContainerStarted",solution.getIsContainerStarted() == null ? null : solution.getIsContainerStarted().toString());
+                ObjectMapper objectMapper = new ObjectMapper();
+                String returnData = objectMapper.writeValueAsString(elements);
+
+                return ResponseEntity.ok(returnData);
+            }
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }catch (Exception ex){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
     }
 }

@@ -1,7 +1,10 @@
 package com.ctf.CTFtastic.controller;
 import com.ctf.CTFtastic.model.PageableOfT;
 import com.ctf.CTFtastic.model.entity.Participant;
+import com.ctf.CTFtastic.model.entity.Solution;
 import com.ctf.CTFtastic.model.entity.Team;
+import com.ctf.CTFtastic.model.projection.ChallengeDatailsVM2;
+import com.ctf.CTFtastic.model.projection.ChallengeDetailsVM;
 import com.ctf.CTFtastic.model.projection.ContestForListVM;
 import com.ctf.CTFtastic.model.request.StartChallengeRequest;
 import com.ctf.CTFtastic.service.ContestService;
@@ -69,7 +72,7 @@ public class ContestController {
         }
     }
 
-    @GetMapping(value = "/contests/strat")
+    @GetMapping(value = "/contests/strat2")
     public String startContestForTeam(Authentication authentication)
     {
         Team team = null;
