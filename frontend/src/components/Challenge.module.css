@@ -24,6 +24,8 @@
 }
 
 
+
+
 .redText {
     color: #FF304E;
 }
@@ -75,6 +77,7 @@ h4>p {
     align-items: center;
     justify-content: center;
 }
+
 
 .output-container h3 {
     font-size: 1em;

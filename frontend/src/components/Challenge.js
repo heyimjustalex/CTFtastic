@@ -21,7 +21,6 @@ const Challenge = () => {
     const [flagValidityOutput, setflagValidityOutput] = useState({});
     const [updateVisibilityOutput, setUpdateVisibilityOutput] = useState({});
     const [isVisible, setIsVisible] = useState(false);
-    const [isContainerStarted, setIsContainerStarted] = useState(null);
     const [isChallengeBuildOutput, setIsChallengeBuildOutput] = useState({});
 
 
@@ -40,21 +39,14 @@ const Challenge = () => {
     const isVisibleSwitchHandler = () => {
         setIsVisible((prev) => { return !prev })
     }
-    const challengeBuildHandler = () => {
+    const challengeBuildHandler = (event) => {
+        event.preventDefault()
         const data = {
             token: authCTX.token,
             challengeId: id
         }
         sendRequestBuildChallenge(data)
-        // setIsContainerStarted((prev) => { return !prev })
     }
-
-
-    // const containerStateUpdateSubmitHandler = (event) => {
-    //     event.preventDefault();
-    //     const data = { challId: id, token: authCTX.token, isContainerStarted: isContainerStarted }
-    //     // sendRequestUpdateContainerStartStop(data)
-    // }
 
 
 
@@ -112,11 +104,11 @@ const Challenge = () => {
 
         else if (buildChallengeStatus === 'completed' && !buildChallengeError) {
             const buildState = buildChallengeData.dockerfileBuildState;
-            setIsChallengeBuildOutput({ header: "Building request send successfully!", content: "Image build state: " + buildState });
+            setIsChallengeBuildOutput({ header: "Building request send successfully!", content: <p>Image build state:  + {buildState}</p> });
         }
 
         else if (buildChallengeStatus === 'completed' && buildChallengeError) {
-            setIsChallengeBuildOutput({ header: 'Request image building failed', content: buildChallengeError });
+            setIsChallengeBuildOutput({ header: 'Request image building failed', content: <p>buildChallengeError</p> });
         }
 
     }, [buildChallengeData, buildChallengeError, buildChallengeStatus]);
@@ -154,21 +146,11 @@ const Challenge = () => {
 
         else if (updateVisiblityStatus === 'completed' && !updateVisiblityError) {
 
-            const output =
-                <>
-                    <div className={`${styles['output-content-container']}`}>
-                        <h4 className={styles['challenge-header']}>Challenge updated!</h4>
-                    </div>
-                </>
-
-            setUpdateVisibilityOutput({ header: "Success!", content: "Challenge updated!" });
+            setUpdateVisibilityOutput({ header: "Success!", content: <p>Challenge updated!</p> });
         }
 
         else if (updateVisiblityStatus === 'completed' && updateVisiblityError) {
-
-
-            setUpdateVisibilityOutput({ header: 'Update failed...', content: updateVisiblityError });
-
+            setUpdateVisibilityOutput({ header: 'Update failed...', content: <p> {updateVisiblityError}</p> });
         }
 
     }, [updateVisiblityError, updateVisiblityStatus]);
@@ -272,7 +254,6 @@ const Challenge = () => {
                         && authCTX.role === 'ROLE_CTF_ADMIN' && challengeData.hasDockerfile &&
                         <Form className={`${styles['start-form']}`} onSubmit={challengeBuildHandler}>
                             <div className={styles['button-div']}>
-                                {/* <MySwitch checked={isContainerStarted} onClick={isContainerStartedSwitchHandler} label={isContainerStarted ? "Disable Container" : "Enable Container"} /> */}
 
                                 <Button aria-label="containerStateSubmitButton" className={`${styles['form-button']} `} variant="custom" type="submit">
                                     Build Image
@@ -282,17 +263,25 @@ const Challenge = () => {
                         </Form>
                     }
 
+                    {challengeStatus === 'completed' && !challengeError && <div className={styles['button-div']}>
+                        <Button onClick={onClickBackToChallengesHandler} aria-label="ChallengesBackButton" className={`${styles['form-button']} `} variant="custom" type="submit">
+                            back to challenges
+                        </Button>
+                    </div>}
 
 
                     {flagStatus === 'completed' && <Container style={{ margin: '2em' }} className={`${styles['output-content-container']}`}>
                         <h3 className={styles[`${flagError ? "red-header" : "blue-header"}`]}>{flagValidityOutput.header}</h3>
                     </Container>}
 
-                    {challengeStatus === 'completed' && !challengeError && <div className={styles['button-div']}>
-                        <Button onClick={onClickBackToChallengesHandler} aria-label="ChallengesBackButton" className={`${styles['form-button']} `} variant="custom" type="submit">
-                            back to challenges
-                        </Button>
-                    </div>}
+                    {buildChallengeStatus !== null && <Container style={{ margin: '1em' }} className={`${styles['output-content-container']}`}>
+                        <h3 className={styles[`${buildChallengeError ? "red-header" : "blue-header"}`]}>{isChallengeBuildOutput.header}</h3>
+                    </Container>}
+                    {(buildChallengeStatus !== null) && < Container style={{ margin: '1em' }}
+                        className={`${styles['output-content-container']}`}>
+                        {isChallengeBuildOutput.content}
+                    </Container>}
+
 
                     <div className={`${styles['output-container']}`}>
                         {updateVisiblityStatus === 'completed' &&
