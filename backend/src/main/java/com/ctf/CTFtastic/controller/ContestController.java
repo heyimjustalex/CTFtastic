@@ -207,6 +207,8 @@ public class ContestController {
             //200
             //201
             //202
+            
+            challengeService.updateBuild("done", id);
             Challenge challenge = challengeService.getChallange(id);
             Map<String, String> elements =  new HashMap<>();
             elements.put("dockerfileBuildState", challenge.getDockerfileBuildState());
