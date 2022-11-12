@@ -1,7 +1,9 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: buildkit
+  name: {{ include "ctftastic.fullname" . }}
+  labels:
+    {{- include "ctftastic.labels" . | nindent 4 }}
 spec:
   template:
     spec:
@@ -12,7 +14,7 @@ spec:
           command:
             - sh
             - -c
-            - "echo '{{.Values.dockerfile}}' > /workspace/Dockerfile"
+            - 'echo -e "{{.Values.dockerfile}}" > /workspace/Dockerfile'
           volumeMounts:
             - name: workspace
               mountPath: /workspace
@@ -20,9 +22,9 @@ spec:
         - name: buildkit
           image: moby/buildkit:master
           command:
-            #- sh
-            #- -c
-            #- "sleep 3600"
+          #  - sh
+          #  - -c
+          #  - "sleep 3600"
             - buildctl-daemonless.sh
           args:
             - build
@@ -55,3 +57,4 @@ spec:
           hostPath:
               path: {{.Values.certsHostPath}}
               type: Directory
+  backoffLimit: 2

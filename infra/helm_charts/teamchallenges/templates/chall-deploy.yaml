@@ -28,7 +28,7 @@ spec:
     spec:
       containers:
         - name: {{ .chall }}
-          image: {{ .chall }}:latest
+          image: docker-registry-svc:5001/{{ .chall }}:latest
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
