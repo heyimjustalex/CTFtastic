@@ -1,11 +1,20 @@
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import useInput from '../../hooks/use-input';
-import { emailValidator, passwordValidator } from './../validators'
+import { emailValidator, passwordValidator, usernameValidator } from './../validators'
 import styles from './StartForm.module.css';
 import Container from 'react-bootstrap/Container';
 
 const StartForm = (props) => {
+    const
+        { value: usernameValue,
+            isTouched: usernameIsTouched,
+            isValid: usernameIsValid,
+            hasError: usernameHasError,
+            valueChangeHandler: usernameChangeHandler,
+            valueBlurHandler: usernameBlurHandler,
+            reset: usernameReset
+        } = useInput(usernameValidator)
 
     const
         { value: emailValue,
@@ -42,7 +51,7 @@ const StartForm = (props) => {
 
     const formSubmitHandler = (event) => {
         event.preventDefault();
-        props.onAdminAccFilled(emailValue, passwordValue);
+        props.onAdminAccFilled(usernameValue, emailValue, passwordValue);
     }
 
     let passwordsMatch = null;
@@ -60,6 +69,8 @@ const StartForm = (props) => {
 
 
     const formIsValid =
+        usernameIsValid &&
+        usernameIsTouched &&
         emailIsValid &&
         emailIsTouched &&
         passwordIsValid &&
@@ -75,6 +86,24 @@ const StartForm = (props) => {
         <Container className={`${styles['main']} min-vh-100 d-flex flex-column`} fluid>
             <h1 className={styles['admin-header']}>create admin account</h1>
             <Form className={`${styles['start-form']}`} onSubmit={formSubmitHandler}>
+
+                <Form.Group className="mb-3" controlId="formBasicEmail">
+                    <Form.Label className={styles['form-label']}>Username</Form.Label>
+                    <Form.Control
+                        className={styles['control-input']}
+                        isValid={usernameIsValid && usernameIsTouched}
+                        isInvalid={!usernameIsValid && usernameIsTouched}
+                        onBlur={usernameBlurHandler}
+                        onChange={usernameChangeHandler}
+                        value={usernameValue}
+                        type="username"
+                        placeholder="Enter username"
+
+                    />
+                    <Form.Text className="text-muted">
+                        6 to 20 characters, _ . might be not allowed at the beginning/end
+                    </Form.Text>
+                </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label className={styles['form-label']}>Email address</Form.Label>
