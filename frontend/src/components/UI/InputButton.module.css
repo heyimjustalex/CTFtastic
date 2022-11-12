@@ -1,0 +1,26 @@
+.upload-button {
+
+    font-family: 'Space Mono', 'Verdana', 'Montserrat Alternates' !important;
+    font-weight: bolder !important;
+    margin-top: 1rem !important;
+    font-size: 1.1rem !important;
+    padding: 0.5rem !important;
+    padding-left: 2rem !important;
+    padding-right: 2rem !important;
+    border-radius: 0.7rem !important;
+    color: #FAF9F6 !important;
+    background-color: #0CC6FF !important;
+    margin-bottom: 2rem !important;
+}
+
+.upload-button[disabled]:hover,
+.upload-button[disabled]:focus {
+    color: #FAF9F6 !important;
+    background-color: #0bb5ee !important;
+}
+
+.upload-button:hover,
+.upload-button:focus {
+    color: #FAF9F6 !important;
+    background-color: #0bb5ee !important;
+}

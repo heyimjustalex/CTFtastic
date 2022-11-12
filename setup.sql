@@ -161,6 +161,7 @@ INSERT INTO `team` (`id`, `name`, `password_hash`, `points`, `website`, `affilia
 (55, 'Team4', '1235', 50, 'url.com/3', 'idc', 1, 0, 0);
 
 
+
 INSERT INTO participant (id, username, id_team, id_role, email, password_hash, website, affiliation, country, is_verified, is_banned, is_hidden, is_ctf_admin, is_team_capitan) VALUES
 
 (1, 'Test2', 1, 1, 'Test2@gmail.com', '$2a$10$YRBdKiJytZT3vL5CPrQ4tOzgw7GXU2e44wt1yfdzUg5wg9lHd1yWC', 'example1.com', 'PL', NULL, 0, 0, 0, 0, 0),
