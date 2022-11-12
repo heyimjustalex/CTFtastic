@@ -17,7 +17,7 @@ const Teams = () => {
     const teamsPerPage = 6;
     // const [totalElements, setTotalElements] = useState(0);
     const authCTX = useContext(AuthContext);
-    const [totalPages, setTotalPages] = useState(0);
+    const [totalPages, setTotalPages] = useState(2);
     useEffect(() => {
 
         const pagData = { page: currentPageNumber, size: teamsPerPage };
@@ -98,7 +98,8 @@ const Teams = () => {
             </table>
             {status === 'completed' && error && <Container className={`${styles['output-content-container']}`}><h3 className={styles['error-header']}>{output.content}</h3></Container>}
 
-            {status === 'completed' && !error && (Boolean(data.elements.length)) && <Pagination pageCount={totalPages} onChangePage={onChangePageHandler}></Pagination>}
+            {status === 'completed' && !error && (Boolean(data.elements.length))
+                && (Boolean(totalPages > 1)) && < Pagination pageCount={totalPages} currentPage={currentPageNumber} onChangePage={onChangePageHandler}></Pagination>}
             {status === 'completed' &&
                 !error &&
                 !data.elements.length &&

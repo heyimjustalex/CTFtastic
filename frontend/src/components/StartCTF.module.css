@@ -28,6 +28,11 @@
     flex-direction: column;
 }
 
+.output-container p {
+    text-align: center;
+}
+
+
 .output-container h1 {
 
     font-size: 1.2em;
@@ -37,8 +42,7 @@
 }
 
 .admin-header {
-    color: #FAF9F6;
-
+    color: #FF304E;
     font-size: 2em;
     font-weight: bolder;
     font-family: 'Space Mono', 'Verdana', 'Montserrat Alternates';

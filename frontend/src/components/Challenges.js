@@ -49,6 +49,7 @@ const Challenges = () => {
 
             console.log(data);
             const dataWithSelector = data.elements.map((element) => {
+
                 return <tr
                     className={authCTX.isLoggedIn ? styles['tr-hover-when-loggedin'] : ''}
                     key={element.id}
@@ -56,8 +57,10 @@ const Challenges = () => {
                     <td className={styles['element-id']}>{element.id}</td>
                     <td>{element.name}</td>
                     <td>{element.category}</td>
-                    <td> {element.points}</td>
+                    <td>{element.points}</td>
                 </tr>
+
+
 
             });
 
@@ -102,7 +105,8 @@ const Challenges = () => {
             {status === 'completed' && error && <Container className={`${styles['output-content-container']}`}><h3 className={styles['error-header']}>{output.content}</h3></Container>}
 
 
-            {status === 'completed' && !error && (Boolean(data.elements.length)) && < Pagination pageCount={totalPages} onChangePage={onChangePageHandler}></Pagination>}
+            {status === 'completed' && !error && (Boolean(data.elements.length))
+                && (Boolean(totalPages > 1)) && < Pagination pageCount={totalPages} currentPage={currentPageNumber} onChangePage={onChangePageHandler}></Pagination>}
             {
                 status === 'completed' &&
                 !error &&

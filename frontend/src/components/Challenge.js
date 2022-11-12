@@ -1,8 +1,8 @@
 import React from "react";
-import { useParams } from 'react-router-dom'
+import { Outlet, useParams } from 'react-router-dom'
 import { useContext, useEffect, useState } from 'react';
 import useHttp from '../hooks/use-http';
-import { getChallenge, sendFlag, updateChallengeVisiblity, updateStartStopChallengeContainer } from '../lib/api';
+import { getChallenge, sendFlag, updateChallengeVisiblity, updateStartStopChallengeContainer, buildChallenge } from '../lib/api';
 import LoadingRing from './UI/LoadingRing';
 import { AuthContext } from '../store/auth-context';
 import { useNavigate } from 'react-router-dom';
@@ -16,13 +16,13 @@ const Challenge = () => {
     const { sendRequest: sendRequestGetChallenge, data: challengeData, status: challengeStatus, error: challengeError } = useHttp(getChallenge);
     const { sendRequest: sendRequestUpdateVisiblity, data: updateVisiblityflagData, status: updateVisiblityStatus, error: updateVisiblityError } = useHttp(updateChallengeVisiblity);
     const { sendRequest: sendRequestFlag, data: flagData, status: flagStatus, error: flagError } = useHttp(sendFlag);
-    const { sendRequest: sendRequestUpdateContainerStartStop, data: updateContainerStartStopData, status: updateContainerStartStopStatus, error: updateContainerStartStopError } = useHttp(updateStartStopChallengeContainer);
+    const { sendRequest: sendRequestBuildChallenge, data: buildChallengeData, status: buildChallengeStatus, error: buildChallengeError } = useHttp(buildChallenge);
     const [output, setOutput] = useState({});
     const [flagValidityOutput, setflagValidityOutput] = useState({});
     const [updateVisibilityOutput, setUpdateVisibilityOutput] = useState({});
     const [isVisible, setIsVisible] = useState(false);
     const [isContainerStarted, setIsContainerStarted] = useState(null);
-    const [isContainerStartedOutput, setIsContainerStartedOutput] = useState({});
+    const [isChallengeBuildOutput, setIsChallengeBuildOutput] = useState({});
 
 
     const authCTX = useContext(AuthContext);
@@ -40,8 +40,13 @@ const Challenge = () => {
     const isVisibleSwitchHandler = () => {
         setIsVisible((prev) => { return !prev })
     }
-    const isContainerStartedSwitchHandler = () => {
-        setIsContainerStarted((prev) => { return !prev })
+    const challengeBuildHandler = () => {
+        const data = {
+            token: authCTX.token,
+            challengeId: id
+        }
+        sendRequestBuildChallenge(data)
+        // setIsContainerStarted((prev) => { return !prev })
     }
 
 
@@ -51,11 +56,7 @@ const Challenge = () => {
     //     // sendRequestUpdateContainerStartStop(data)
     // }
 
-    const containerStartStopSubmitHandler = () => {
 
-        const data = { challId: id, token: authCTX.token, isContainerStarted: isContainerStarted }
-        // sendRequestUpdateContainerStartStop(data);
-    }
 
 
     useEffect(() => {
@@ -105,33 +106,20 @@ const Challenge = () => {
 
     useEffect(() => {
 
-        if (updateContainerStartStopStatus === 'pending') {
-            setIsContainerStartedOutput({ header: 'Loading...', content: <LoadingRing /> });
+        if (buildChallengeStatus === 'pending') {
+            setIsChallengeBuildOutput({ header: 'Loading...', content: <LoadingRing /> });
         }
 
-        else if (updateContainerStartStopStatus === 'completed' && !updateContainerStartStopError) {
-
-            let output = "No container required for this challenge"
-            const temp = updateStartStopChallengeContainer.isContainerStarted;
-            if (temp !== null) {
-                if (temp) {
-                    output = "Container is started."
-                }
-                else {
-                    output = "Container is shut down"
-                }
-            }
-
-            setIsContainerStarted(updateStartStopChallengeContainer.isContainerStarted)
-            setIsContainerStartedOutput({ header: "Success!", content: "Container state: " + output });
+        else if (buildChallengeStatus === 'completed' && !buildChallengeError) {
+            const buildState = buildChallengeData.dockerfileBuildState;
+            setIsChallengeBuildOutput({ header: "Building request send successfully!", content: "Image build state: " + buildState });
         }
 
-        else if (updateContainerStartStopStatus === 'completed' && updateContainerStartStopError) {
-            setIsContainerStartedOutput({ header: 'Updating container state error', content: updateContainerStartStopError });
-
+        else if (buildChallengeStatus === 'completed' && buildChallengeError) {
+            setIsChallengeBuildOutput({ header: 'Request image building failed', content: buildChallengeError });
         }
 
-    }, [updateContainerStartStopError, updateContainerStartStopStatus]);
+    }, [buildChallengeData, buildChallengeError, buildChallengeStatus]);
 
 
 
@@ -280,16 +268,18 @@ const Challenge = () => {
 
                     </Form>}
                     {/* Tu powinny byc warutnki not ctf admin i isContaineSTarted not null (jesli nie ma wgle container w challengu) */}
-                    {!challengeError && <Form className={`${styles['start-form']}`} onSubmit={containerStartStopSubmitHandler}>
-                        <div className={styles['button-div']}>
-                            <MySwitch checked={isContainerStarted} onClick={isContainerStartedSwitchHandler} label={isContainerStarted ? "Disable Container" : "Enable Container"} />
+                    {!challengeError
+                        && authCTX.role === 'ROLE_CTF_ADMIN' && challengeData.hasDockerfile &&
+                        <Form className={`${styles['start-form']}`} onSubmit={challengeBuildHandler}>
+                            <div className={styles['button-div']}>
+                                {/* <MySwitch checked={isContainerStarted} onClick={isContainerStartedSwitchHandler} label={isContainerStarted ? "Disable Container" : "Enable Container"} /> */}
 
-                            <Button aria-label="containerStateSubmitButton" className={`${styles['form-button-blue-small']} `} variant="custom" type="submit">
-                                Update container state!
-                            </Button>
+                                <Button aria-label="containerStateSubmitButton" className={`${styles['form-button']} `} variant="custom" type="submit">
+                                    Build Image
+                                </Button>
 
-                        </div>
-                    </Form>
+                            </div>
+                        </Form>
                     }
 
 

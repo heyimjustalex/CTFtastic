@@ -307,6 +307,31 @@ export async function updateStartStopChallengeContainer(challengeData) {
     }
 }
 
+export async function buildChallenge(challengeData) {
+
+    const response = await fetch(`${BACKEND_ADDRESS}/challenges/${challengeData.challengeId}/build`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + challengeData.token
+        },
+    });
+
+    if (!response.ok) {
+        throw new Error('Starting/Stopping container failed');
+    }
+
+    try {
+        console.log("CONTAINER GOOD BUILD BEFORE JSON")
+        const data = await response.json();
+        return data;
+    }
+    catch {
+        throw new Error('Starting/Stopping container failed');
+    }
+}
+
+
 export async function startCTF(startData) {
 
     const response = await fetch(`${BACKEND_ADDRESS}/start-ctf`, {
