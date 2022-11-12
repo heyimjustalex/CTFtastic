@@ -8,7 +8,7 @@ import LoadingRing from './UI/LoadingRing';
 import { AuthContext } from '../store/auth-context';
 import { useNavigate } from 'react-router-dom';
 
-const Login = (props) => {
+const StartCTF = (props) => {
     const { sendRequest, data, status, error } = useHttp(startCTF);
 
     const { sendRequest: sendRequestGetContestStarted, data: contestData, status: contestStatus, error: contestError } = useHttp(getContests);
@@ -18,6 +18,7 @@ const Login = (props) => {
     const [hasStarted, setHasStarted] = useState(null);
 
     useEffect(() => {
+        console.log("SENDING")
 
         sendRequestGetContestStarted();
     }, [])
@@ -25,10 +26,16 @@ const Login = (props) => {
     useEffect(() => {
 
         if (contestStatus === 'completed' && !contestError) {
-            setHasStarted(true)
+            try {
+                const hasStartedFromResponse = contestData.elements[0].hasStarted
+                setHasStarted(hasStartedFromResponse)
+            }
+            catch {
+                setHasStarted(null)
+            }
         }
 
-    }, [contestError, contestStatus]);
+    }, [contestData, contestError, contestStatus]);
 
 
     useEffect(() => {
@@ -109,15 +116,17 @@ const Login = (props) => {
                 </div>
             }
             {
-                (authCTX.isLoggedIn && authCTX.role === 'ROLE_CTF_ADMIN' && authCTX.ctfHasStarted) &&
+                (authCTX.isLoggedIn && authCTX.role === 'ROLE_CTF_ADMIN' && hasStarted && hasStarted !== null) &&
                 <div className={styles['output-container']}>
                     <h1 className={styles['redText']}>You have already started CTF!
                     </h1>
                 </div>
             }
+
+
         </Container >
     );
 
 }
 
-export default Login;
+export default StartCTF;
