@@ -56,7 +56,7 @@ function useHttp(requestFunction, startWithPending = false) {
         [requestFunction]
     );
     return {
-        sendRequest,
+        sendRequest: sendRequest,
         ...httpState,
     };
 

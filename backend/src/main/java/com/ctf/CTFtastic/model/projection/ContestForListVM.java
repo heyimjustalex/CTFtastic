@@ -4,10 +4,12 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import java.time.LocalDateTime;
 
+
 @JsonPropertyOrder({"id","hasStarted","startTime", "endTime", "startTimeUtc", "endTimeUtc", "title", "description"})
 public interface ContestForListVM {
     Integer getId();
     Boolean getHasStarted();
+
     LocalDateTime getStartTime();
     LocalDateTime getEndTime();
     LocalDateTime getStartTimeUtc();

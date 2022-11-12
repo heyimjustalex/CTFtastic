@@ -105,17 +105,97 @@ thead tr:first-child:hover {
     text-align: center;
 }
 
-.tr-hover-when-loggedin:hover {
+.tr-hover-when-loggedin:hover td:not(.x-sign-td) {
+    background-color: #111;
+    cursor: pointer;
+
+}
+
+
+.tr-hover-when-loggedin:hover td.x-sign-td {
+    background-color: #000;
+    cursor: pointer;
+}
+
+
+.tr-hover-when-loggedin td.x-sign-td:hover {
+    background-color: #FF304E;
+    color: #fff;
+    border-radius: 50px;
+    cursor: pointer;
+}
+
+/* .tr-hover-when-loggedin td:last-child:hover .tr-hover-when-loggedin {
+    background-color: #000;
+    cursor: pointer;
+} */
+
+
+/* .x-sign-td:hover {
+    background-color: #111;
+} */
+
+/* 
+.td-hover {
     background-color: #111 !important;
     cursor: pointer !important;
 }
 
+.first-td:hover {
+    background-color: red;
 
-thead tr:first-child:hover {
+} */
+
+/* .first-td:hover~td {
+    background-color: red;
+
+} */
+
+/* .tr-hover-when-loggedin td:nth-child(2):hover {
+    background-color: #111 !important;
+    cursor: pointer !important;
+
+} */
+
+/* .tr-hover-when-loggedin td:nth-child(2):hover {
+    content: "TEST";
+    background-color: red !important;
+    cursor: pointer !important;
+
+} */
+
+/* 
+.tr-hover-when-loggedin td:first-child:hover {
+    background-color: #111 !important;
+    cursor: pointer !important;
+
+}
+*/
+/* .tr-hover-when-loggedin td:first-child:hover~td:nth-child(2) {
+    background-color: red !important;
+    cursor: pointer !important;
+} */
+
+/* .tr-hover-when-loggedin td:first-child:hover,
+.tr-hover-when-loggedin td:nth-child(2):hover {
+    background-color: #111 !important;
+    cursor: pointer !important;
+} */
+
+/* .tr-hover-when-loggedin td:last-child:hover
+.tr-hover-when-loggedin td:nth-child(3):hover {
+    background-color: #000 !important;
+    cursor: pointer !important;
+} */
+
+
+
+
+/* thead tr:first-child:hover {
     background-color: black !important;
     cursor: auto !important;
 
-}
+} */
 
 
 .button-div {
@@ -138,7 +218,6 @@ thead tr:first-child:hover {
     margin-bottom: 2rem;
 }
 
-
 .form-button[disabled]:hover,
 .form-button[disabled]:focus {
     color: #FAF9F6;
@@ -149,52 +228,6 @@ thead tr:first-child:hover {
 .form-button:focus {
     color: #FAF9F6;
     background-color: #0aa4dd;
-}
-
-.form-button-red {
-    font-family: 'Space Mono', 'Verdana', 'Montserrat Alternates';
-    font-weight: bolder;
-    margin-top: 1rem;
-    font-size: 1.1rem;
-    padding: 0.5rem;
-    padding-left: 2rem;
-    padding-right: 2rem;
-    border-radius: 0.7rem;
-    color: #FAF9F6;
-    background-color: #FF304E;
-    margin-bottom: 2rem;
-}
-
-.form-button-red[disabled]:hover,
-.form-button-red[disabled]:focus {
-    color: #FAF9F6;
-    background-color: #ee303d;
-}
-
-.form-button-red:hover,
-.form-button-red:focus {
-    color: #FAF9F6;
-    background-color: #ee303d;
-}
-
-.tr-hover-when-loggedin:hover td:not(.x-sign-td) {
-    background-color: #111;
-    cursor: pointer;
-
-}
-
-
-.tr-hover-when-loggedin:hover td.x-sign-td {
-    background-color: #000;
-    cursor: pointer;
-}
-
-
-.tr-hover-when-loggedin td.x-sign-td:hover {
-    background-color: #FF304E;
-    color: #fff;
-    border-radius: 50px;
-    cursor: pointer;
 }
 
 @media screen and (max-width: 768px) {

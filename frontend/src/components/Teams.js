@@ -17,7 +17,7 @@ const Teams = () => {
     const teamsPerPage = 6;
     // const [totalElements, setTotalElements] = useState(0);
     const authCTX = useContext(AuthContext);
-    const [totalPages, setTotalPages] = useState(0);
+    const [totalPages, setTotalPages] = useState(2);
     useEffect(() => {
 
         const pagData = { page: currentPageNumber, size: teamsPerPage };
@@ -44,11 +44,12 @@ const Teams = () => {
             setTotalPages(data.totalPages);
 
             const dataWithSelector = data.elements.map((element) => {
+                // console.log("ELEMENT", element)
                 return <tr className={authCTX.isLoggedIn ? styles['tr-hover-when-loggedin'] : ''} key={element.id} onClick={() => handleRowClick(element.id)}>
                     <td className={styles['element-id']}>{element.id}</td>
                     <td>{element.name}</td>
-                    <td>nasztywno.com</td>
-                    <td>nasztywno</td>
+                    <td>{element.website}</td>
+                    {/* <td>{element.country}</td> */}
                     {/* <td> {element.points}</td> */}
                 </tr>
             });
@@ -83,7 +84,7 @@ const Teams = () => {
                             <th>ID</th>
                             <th>Name</th>
                             <th>Website</th>
-                            <th>Country</th>
+                            {/* <th>Country</th> */}
                             {/* <th className={styles["points"]}>Points</th> */}
                         </tr>
                     </thead>
@@ -97,7 +98,8 @@ const Teams = () => {
             </table>
             {status === 'completed' && error && <Container className={`${styles['output-content-container']}`}><h3 className={styles['error-header']}>{output.content}</h3></Container>}
 
-            <Pagination pageCount={totalPages} onChangePage={onChangePageHandler}></Pagination>
+            {status === 'completed' && !error && (Boolean(data.elements.length))
+                && (Boolean(totalPages > 1)) && < Pagination pageCount={totalPages} currentPage={currentPageNumber} onChangePage={onChangePageHandler}></Pagination>}
             {status === 'completed' &&
                 !error &&
                 !data.elements.length &&

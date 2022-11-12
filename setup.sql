@@ -102,3 +102,4 @@ INSERT INTO `duty` (`id`, `name_role`) VALUES
 (2, 'ROLE_TEAM_CAPITAN'),
 (3, 'ROLE_USER'),
 (4, 'ROLE_USER_WITH_TEAM');
+

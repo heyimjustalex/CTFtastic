@@ -83,7 +83,6 @@ const Description = (props) => {
                     </Form.Text>
                 </Form.Group>
 
-
                 <div className={styles['button-div']}>
                     <Button aria-label="Next" onSubmit={formSubmitHandler} disabled={!formIsValid} className={`${styles['form-button']} ${buttonDisabledClass}`} variant="custom" type="submit">
                         Next!

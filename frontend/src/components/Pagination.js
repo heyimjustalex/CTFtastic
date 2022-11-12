@@ -8,6 +8,7 @@ const Pagination = (props) => {
         <div className={styles['pagination']}>
 
             <ReactPaginate
+                forcePage={props.currentPage}
                 previousLabel="prev"
                 nextLabel="next"
                 pageCount={props.pageCount}
