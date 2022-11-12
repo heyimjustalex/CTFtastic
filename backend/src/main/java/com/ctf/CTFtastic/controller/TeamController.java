@@ -102,8 +102,13 @@ public class TeamController {
                       .challenge(c)
                       .team(newTeam)
                       .isSolved(false)
+                      //.isContainerStarted(c.getDockerfile() == null ? null : false)
                       .link(link)
                       .build();
+              if(c.getDockerfile() != null){
+                  solution.setIsContainerStarted(false);
+              }
+
               solutions.add(solution);
           }
 

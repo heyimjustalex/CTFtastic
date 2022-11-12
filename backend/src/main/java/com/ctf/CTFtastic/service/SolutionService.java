@@ -29,4 +29,8 @@ public class SolutionService {
     public void update(Solution solution) {
         solutionRepository.update(solution.getIsSolved(), solution.getId());
     }
+
+    public void updateIsContenerStart(Solution solution){
+        solutionRepository.updateIsStart(solution.getIsContainerStarted(),solution.getId());
+    }
 }

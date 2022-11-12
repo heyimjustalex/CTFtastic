@@ -24,4 +24,9 @@ public interface SolutionRepository extends JpaRepository<Solution, Integer> {
     @Transactional
     @Query("update Solution c set c.isSolved = :isSolved where c.id = :id")
     void update(@Param("isSolved") Boolean isSolved, @Param("id") Integer id);
+
+    @Modifying
+    @Transactional
+    @Query("update Solution c set c.isContainerStarted = :isContenierStarted where c.id = :id")
+    void updateIsStart(@Param("isContenierStarted") Boolean isContenierStarted, @Param("id") Integer id);
 }

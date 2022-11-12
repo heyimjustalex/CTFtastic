@@ -7,7 +7,7 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-@JsonPropertyOrder({"name", "category","isVisible", "points", "description", "file", "isSolved", "link"})
+@JsonPropertyOrder({"name", "category","isVisible", "points", "description", "file", "isSolved", "link", "isContainerStarted"})
 public class ChallengeDatailsVM2 {
     public String name;
     public String category;
@@ -16,5 +16,6 @@ public class ChallengeDatailsVM2 {
     public Integer points;
 
     public Boolean isSolved;
+    public Boolean isContainerStarted;
     public String link;
 }

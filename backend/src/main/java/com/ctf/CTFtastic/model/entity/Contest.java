@@ -52,8 +52,8 @@ public class Contest {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @Column(name = "is_start", nullable = false)
-    private boolean isStart;
+    @Column(name = "has_started", nullable = false)
+    private boolean hasStarted;
 
     @OneToMany(mappedBy = "contest")
     //bad ale bez tego leci exception przy save, trzeba to poprawic ->

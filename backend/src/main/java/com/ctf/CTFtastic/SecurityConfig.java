@@ -54,7 +54,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
 
-                .antMatchers("/login","/signup","/signin","/register","/nouser","/registerAdmin", "/set-up","/contests").permitAll()
+
+                .antMatchers("/login","/signup","/signin","/register","/nouser","/registerAdmin", "/set-up", "/contests").permitAll()
+
 
 
                 .antMatchers("/teams/{id}", "/teams/{page}/{size}").permitAll()
@@ -113,8 +115,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new RestTemplate(messageConverters);
     }
 
-    @Bean
-    public ByteArrayHttpMessageConverter byteArrayHttpMessageConverter() {
-        return new ByteArrayHttpMessageConverter();
-    }
 }
