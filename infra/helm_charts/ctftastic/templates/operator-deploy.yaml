@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "ctftastic.fullname" . }}-frontend
+  name: {{ include "ctftastic.fullname" . }}-challs-operator
   labels:
     {{- include "ctftastic.labels" . | nindent 4 }}
 spec:
@@ -10,7 +10,7 @@ spec:
     matchLabels:
       {{- include "ctftastic.selectorLabels" . | nindent 6 }}
       {{- include "ctftastic.coreSelectorLabels" . | nindent 6 }}
-      ctftastic/type: frontend
+      ctftastic/type: challs-operator
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -20,7 +20,7 @@ spec:
       labels:
         {{- include "ctftastic.selectorLabels" . | nindent 8 }}
         {{- include "ctftastic.coreSelectorLabels" . | nindent 8 }}
-        ctftastic/type: frontend
+        ctftastic/type: challs-operator
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -29,21 +29,15 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: ctftastic-frontend
+        - name: ctftastic-challs-operator
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.ctftastic.frontend.repository }}:{{ .Values.image.ctftastic.frontend.tag }}"
-          imagePullPolicy: {{ .Values.image.ctftastic.frontend.pullPolicy }}
+          image: "{{ .Values.image.ctftastic.challs.repository }}:{{ .Values.image.ctftastic.challs.tag }}"
+          imagePullPolicy: {{ .Values.image.ctftastic.challs.pullPolicy }}
           ports:
             - name: http
-              containerPort: 3000
+              containerPort: 5000
               protocol: TCP
-          env:
-            - name: CHOKIDAR_USEPOLLING
-              value: "true"
-            - name: REACT_APP_BACKEND_ADDRESS
-              value: http://ctftastic/api
-            - name: WDS_SOCKET_PORT
-              value: "0"
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+      serviceAccountName: operator-superuser-acc
