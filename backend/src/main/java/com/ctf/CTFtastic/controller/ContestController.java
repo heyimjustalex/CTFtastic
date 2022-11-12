@@ -205,6 +205,9 @@ public class ContestController {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
         try {
+            //200
+            //201
+            //202
             Challenge challenge = challengeService.getChallange(id);
             Map<String, String> elements =  new HashMap<>();
             elements.put("dockerfileBuildState", challenge.getDockerfileBuildState());
