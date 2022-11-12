@@ -11,4 +11,6 @@ public interface ChallengeDetailsVM {
     Boolean getIsVisible();
     Integer getPoints();
     byte[] getFile();
+    byte[] getDockerfile();
+    String getDockerfileBuildState();
 }

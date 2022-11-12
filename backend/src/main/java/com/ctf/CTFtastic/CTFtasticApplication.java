@@ -26,8 +26,14 @@ public class CTFtasticApplication {
 		return "ROLE_CTF_ADMIN";
 	}
 
+
 	@RequestMapping("/user")
-	public String test2(@RequestBody FileGet dockerfile) {
+	public String test2(@RequestBody FileGet dockerfile) throws Exception{
+		try {
+			Thread.sleep(20000);
+		}catch (Exception ex)
+		{}
+		//wait(); //Trzeba zakomentować jesli nie chcesz exepiona
 		System.out.println("//////////////////////////////////////////////");
 		System.out.println(dockerfile.getDockerfile());
 		System.out.println("//////////////////////////////////////////////");

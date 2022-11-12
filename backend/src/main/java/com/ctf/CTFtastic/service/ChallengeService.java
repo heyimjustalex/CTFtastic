@@ -54,4 +54,8 @@ public class ChallengeService {
     public Challenge getChallange(int id){
         return challengeRepository.getChallengeAllValueById(id);
     }
+
+    public void updateBuild(String started, int id) {
+        challengeRepository.updateBuild(started,id);
+    }
 }
