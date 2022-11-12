@@ -101,7 +101,7 @@ const StartCTF = (props) => {
                             <LoadingRing />}
                     </div>
                 </>}
-                    {hasStarted && <>
+                    {hasStarted && hasStarted !== null && <>
                         <h1 className={styles['admin-header']}>You have already started CTF!</h1>
 
                     </>}
@@ -115,13 +115,7 @@ const StartCTF = (props) => {
                     </h1>
                 </div>
             }
-            {
-                (authCTX.isLoggedIn && authCTX.role === 'ROLE_CTF_ADMIN' && hasStarted && hasStarted !== null) &&
-                <div className={styles['output-container']}>
-                    <h1 className={styles['redText']}>You have already started CTF!
-                    </h1>
-                </div>
-            }
+
 
 
         </Container >
