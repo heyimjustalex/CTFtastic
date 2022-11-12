@@ -46,4 +46,16 @@ public class ChallengeService {
     public void updateVisable(boolean visable, int id) {
         challengeRepository.updateVisable(visable, id);
     }
+
+    public List<String> getAllChallanges(boolean isVisable) {
+        return challengeRepository.getAllChallengesNames(isVisable);
+    }
+
+    public Challenge getChallange(int id){
+        return challengeRepository.getChallengeAllValueById(id);
+    }
+
+    public void updateBuild(String started, int id) {
+        challengeRepository.updateBuild(started,id);
+    }
 }

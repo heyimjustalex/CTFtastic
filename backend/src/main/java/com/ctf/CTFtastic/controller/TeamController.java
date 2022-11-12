@@ -11,6 +11,7 @@ import com.ctf.CTFtastic.model.request.JoinTeamRequest;
 import com.ctf.CTFtastic.model.request.LoginRequest;
 import com.ctf.CTFtastic.repository.ChallengeRepository;
 import com.ctf.CTFtastic.service.SolutionService;
+import com.ctf.CTFtastic.service.TeamEncoder;
 import com.ctf.CTFtastic.service.TeamService;
 import com.ctf.CTFtastic.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -96,8 +97,9 @@ public class TeamController {
           //Create all solution
           List<Challenge> challenges = challengeRepository.getAllElements();
           List<Solution> solutions = new ArrayList<Solution>();
+          String link = TeamEncoder.getSHA(newTeam.getName());
           for (Challenge c:challenges) {
-              String link = RandomStringUtils.randomAlphanumeric(20);
+
               Solution solution = Solution.builder()
                       .challenge(c)
                       .team(newTeam)

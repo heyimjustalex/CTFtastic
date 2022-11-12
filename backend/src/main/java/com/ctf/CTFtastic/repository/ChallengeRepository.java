@@ -19,7 +19,7 @@ public interface ChallengeRepository extends JpaRepository<Challenge, Integer> {
     @Query("select c.id as id, c.name as name, c.category as category, c.points as points, c.isVisible as isVisible from Challenge c where c.isVisible = :isVisible")
     Page<ChallengeForListVM> getAllChallenges(Pageable pageable,@Param("isVisible") boolean isVisable);
 
-    @Query("select c.name as name, c.isVisible as isVisible, c.category as category, c.description as description, c.points as points from Challenge c where c.id = ?1")
+    @Query("select c.name as name, c.dockerfileBuildState as dockerfileBuildState, c.dockerfile as dockerfile, c.isVisible as isVisible, c.category as category, c.description as description, c.points as points from Challenge c where c.id = ?1")
     ChallengeDetailsVM getByIdToView(int id);
 
     @Modifying
@@ -32,4 +32,15 @@ public interface ChallengeRepository extends JpaRepository<Challenge, Integer> {
 
     @Query("select c from Challenge c")
     List<Challenge> getAllElements();
+
+    @Query("select c.name from Challenge c where c.isVisible = :isVisable")
+    List<String> getAllChallengesNames(@Param("isVisable") boolean isVisable);
+
+    @Query("select c from Challenge c where c.id = :id")
+    Challenge getChallengeAllValueById(@Param("id") int id);
+
+    @Modifying
+    @Transactional
+    @Query("update Challenge c set c.dockerfileBuildState = :state where c.id = :id")
+    void updateBuild(@Param("state") String state, @Param("id") int id);
 }

@@ -10,4 +10,5 @@ import lombok.*;
 @Builder
 public class StartChallengeRequest {
     private String teamName;
+    private String chall;
 }

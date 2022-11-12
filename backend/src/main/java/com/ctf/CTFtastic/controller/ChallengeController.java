@@ -115,6 +115,8 @@ public class ChallengeController {
                     .description(challengeDetailsVM.getDescription())
                     .isVisible(challengeDetailsVM.getIsVisible())
                     .points(challengeDetailsVM.getPoints())
+                    .dockerfileBuildState(challengeDetailsVM.getDockerfileBuildState())
+                    .hasDockerfile(challengeDetailsVM.getDockerfile() != null)
                     .build();
             if(team != 0){
                 Solution solution = solutionService.findByTeamAndId(id,team);
@@ -162,6 +164,7 @@ public class ChallengeController {
                     .flag(passwordEncoder.encode(createChallangeRequest.getFlag()))
                     .isCaseSensitive(createChallangeRequest.getIsCaseSensitive())
                     .isVisible(createChallangeRequest.getIsVisible())
+                    .dockerfileBuildState(filecode == null ? null : "notStarted")
                     //.file(createChallangeRequest.getFile())
                     .dockerfile(filecode)
                     .build();
@@ -178,7 +181,7 @@ public class ChallengeController {
             List<Team> teams = teamRepository.getAllTeams();
             List<Solution> solutions = new ArrayList<Solution>();
             for (Team t:teams) {
-                String link = RandomStringUtils.randomAlphanumeric(20);
+                String link = TeamEncoder.getSHA(t.getName());
                 Solution solution = Solution.builder()
                         .challenge(challenge)
                         .team(t)

@@ -1,17 +1,19 @@
 package com.ctf.CTFtastic.controller;
 import com.ctf.CTFtastic.model.PageableOfT;
+import com.ctf.CTFtastic.model.entity.Challenge;
 import com.ctf.CTFtastic.model.entity.Participant;
 import com.ctf.CTFtastic.model.entity.Solution;
 import com.ctf.CTFtastic.model.entity.Team;
-import com.ctf.CTFtastic.model.projection.ChallengeDatailsVM2;
-import com.ctf.CTFtastic.model.projection.ChallengeDetailsVM;
-import com.ctf.CTFtastic.model.projection.ContestForListVM;
+import com.ctf.CTFtastic.model.projection.*;
 import com.ctf.CTFtastic.model.request.StartChallengeRequest;
+import com.ctf.CTFtastic.service.ChallengeService;
 import com.ctf.CTFtastic.service.ContestService;
+import com.ctf.CTFtastic.service.TeamEncoder;
 import com.ctf.CTFtastic.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.aop.scope.ScopedProxyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +24,9 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.print.DocFlavor;
+import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
+import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 @RestController
@@ -31,6 +36,15 @@ public class ContestController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ChallengeService challengeService;
+
+    @Value("${link.start.team}")
+    private String linkStart;
+
+    @Value("${link.senddocker.file}")
+    private String linkSendDockerFile;
 
     @RequestMapping(value = "/contests", method = RequestMethod.GET)
     public PageableOfT<ContestForListVM> getAll() {
@@ -72,50 +86,135 @@ public class ContestController {
         }
     }
 
-    @GetMapping(value = "/contests/strat2")
-    public String startContestForTeam(Authentication authentication)
-    {
+    @GetMapping(value = "/contests/start")
+    public String startContestForTeam(Authentication authentication) throws NoSuchAlgorithmException {
         Team team = null;
-        System.out.println("Test");
         //try{
+        Optional<Participant> user = userService.findByEmail(authentication.getName());
+
+        if (user.isEmpty() || user.get().getRole().getName().equals("ROLE_USER")) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
+        team = user.get().getTeam();
+
+        List<String> challanges = challengeService.getAllChallanges(true);
+        List<ChallangeToStart> chall = new ArrayList<>();
+        int i = 0;
+        for (String challange:challanges) {
+            i++;
+            chall.add(ChallangeToStart.builder()
+                            .chall(challange)
+                            .challNum(i)
+                            .containerPort(80)
+                    .build());
+        }
+
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        String uri = linkStart; // or any other uri
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.add("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36");
+
+        String returnChall = "";
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            returnChall = objectMapper.writeValueAsString(chall);
+        }catch (Exception ex){}
+
+        Map<String, String> elements =  new HashMap<>();
+        elements.put("teamName", team.getName());
+        elements.put("teamHash", TeamEncoder.getSHA(team.getName()));
+        elements.put("chall", returnChall);
+
+        String returnData = "";
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            returnData = objectMapper.writeValueAsString(elements);
+        }catch (Exception ex){}
+        System.out.println(returnData);
+
+        StartChallengeRequest str = StartChallengeRequest.builder()
+                .teamName("TEST")
+                .build();
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        HttpEntity<String> entity = new HttpEntity<>(returnData, headers);
+        HttpResponse answer =
+                restTemplate.postForObject(uri, entity, HttpResponse.class);
+        //Dodać errory wrazie wyrzuci 400 albo cos innego
+        return "{}";
+    }
+
+    @PutMapping(value = "/challenges/{id}/build")
+    public ResponseEntity<String> challangeBuild(@PathVariable("id") int id,Authentication authentication)
+    {
+        try{
             Optional<Participant> user = userService.findByEmail(authentication.getName());
 
-            if (user.isEmpty() || !user.get().getRole().getName().equals("ROLE_TEAM_CAPITAN")) {
+            if (user.isEmpty() || !user.get().getRole().getName().equals("ROLE_CTF_ADMIN")) {
                 throw new ResponseStatusException(HttpStatus.FORBIDDEN);
             }
-            team = user.get().getTeam();
+        }catch (Exception ex){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
+        RestTemplate restTemplate = new RestTemplate();
+        String uri = "";
+        HttpEntity<String> entity = null;
+        try {
+            Challenge challenge = challengeService.getChallange(id);
+            Map<String, String> elements =  new HashMap<>();
+            elements.put("dockerfile", new String(challenge.getDockerfile(), StandardCharsets.UTF_8));
+            ObjectMapper objectMapper = new ObjectMapper();
+            String returnData = objectMapper.writeValueAsString(elements);
 
-            RestTemplate restTemplate = new RestTemplate();
-
-            String uri = "http://localhost:8080/nouser"; // or any other uri
+            uri = linkSendDockerFile; // or any other uri
 
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
             headers.add("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36");
-
-            Map<String, String> elements =  new HashMap<>();
-            elements.put("teamName", "test");
-            String returnData = "";
-            try {
-                ObjectMapper objectMapper = new ObjectMapper();
-                returnData = objectMapper.writeValueAsString(elements);
-            }catch (Exception ex){}
-            System.out.println(returnData);
-
-            StartChallengeRequest str = StartChallengeRequest.builder()
-                    .teamName("TEST")
-                    .build();
-
-            ObjectMapper objectMapper = new ObjectMapper();
-            HttpEntity<String> entity = new HttpEntity<>(returnData, headers);
+            entity = new HttpEntity<>(returnData, headers);
+        }catch (Exception ex){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+        try{
+            challengeService.updateBuild("started", id);
             String answer =
                     restTemplate.postForObject(uri, entity, String.class);
 
-            return "";
+            challengeService.updateBuild("done", id);
+            return ResponseEntity.ok().body("{\"dockerfileBuildState\":\"done\"}");
+        }catch (Exception ex){
+            challengeService.updateBuild("notStarted", id);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"dockerfileBuildState\":\"notStarted\"}");
+        }
+    }
 
-        //}catch (Exception ex){
-        //    throw new ResponseStatusException(HttpStatus.FORBIDDEN);
-        //}
+    @GetMapping(value = "/challenges/{id}/build-state")
+    public ResponseEntity<String> getBuildState(@PathVariable("id") int id,Authentication authentication)
+    {
+        try{
+            Optional<Participant> user = userService.findByEmail(authentication.getName());
+
+            if (user.isEmpty() || !user.get().getRole().getName().equals("ROLE_CTF_ADMIN")) {
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+            }
+        }catch (Exception ex){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
+        try {
+            Challenge challenge = challengeService.getChallange(id);
+            Map<String, String> elements =  new HashMap<>();
+            elements.put("dockerfileBuildState", challenge.getDockerfileBuildState());
+            ObjectMapper objectMapper = new ObjectMapper();
+            String returnData = objectMapper.writeValueAsString(elements);
+
+            return ResponseEntity.ok().body(returnData);
+        }catch (Exception ex){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
     }
 }
 
