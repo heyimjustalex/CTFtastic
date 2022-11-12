@@ -178,7 +178,7 @@ public class ChallengeController {
             List<Team> teams = teamRepository.getAllTeams();
             List<Solution> solutions = new ArrayList<Solution>();
             for (Team t:teams) {
-                String link = RandomStringUtils.randomAlphanumeric(20);
+                String link = TeamEncoder.getSHA(t.getName());
                 Solution solution = Solution.builder()
                         .challenge(challenge)
                         .team(t)

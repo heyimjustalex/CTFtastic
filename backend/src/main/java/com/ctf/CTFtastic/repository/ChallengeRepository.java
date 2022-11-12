@@ -32,4 +32,10 @@ public interface ChallengeRepository extends JpaRepository<Challenge, Integer> {
 
     @Query("select c from Challenge c")
     List<Challenge> getAllElements();
+
+    @Query("select c.name from Challenge c where c.isVisible = :isVisable")
+    List<String> getAllChallengesNames(@Param("isVisable") boolean isVisable);
+
+    @Query("select c from Challenge c where c.id = :id")
+    Challenge getChallengeAllValueById(@Param("id") int id);
 }

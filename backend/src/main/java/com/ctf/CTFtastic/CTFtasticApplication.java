@@ -1,5 +1,6 @@
 package com.ctf.CTFtastic;
 
+import com.ctf.CTFtastic.model.projection.FileGet;
 import com.ctf.CTFtastic.model.request.StartChallengeRequest;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -26,9 +27,11 @@ public class CTFtasticApplication {
 	}
 
 	@RequestMapping("/user")
-	@PreAuthorize("hasAnyRole('USER')")
-	public String test2() {
-		return "USER";
+	public String test2(@RequestBody FileGet dockerfile) {
+		System.out.println("//////////////////////////////////////////////");
+		System.out.println(dockerfile.getDockerfile());
+		System.out.println("//////////////////////////////////////////////");
+		return dockerfile.getDockerfile();
 	}
 
 	@RequestMapping("/nouser")
