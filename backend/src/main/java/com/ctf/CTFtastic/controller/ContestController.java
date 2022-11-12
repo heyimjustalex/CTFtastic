@@ -184,7 +184,9 @@ public class ContestController {
             String answer =
                     restTemplate.postForObject(uri, entity, String.class);
 
+
             return ResponseEntity.ok().body("{\"dockerfileBuildState\":\"started\"}");
+
         }catch (Exception ex){
             challengeService.updateBuild("notStarted", id);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"dockerfileBuildState\":\"notStarted\"}");
@@ -204,11 +206,13 @@ public class ContestController {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
         try {
+
             //200
             //201
             //202
 
             challengeService.updateBuild("done", id);
+
             Challenge challenge = challengeService.getChallange(id);
             Map<String, String> elements =  new HashMap<>();
             elements.put("dockerfileBuildState", challenge.getDockerfileBuildState());

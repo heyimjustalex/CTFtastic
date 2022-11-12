@@ -30,7 +30,8 @@ public class CTFtasticApplication {
 	@RequestMapping("/user")
 	public String test2(@RequestBody FileGet dockerfile) throws Exception{
 		try {
-			Thread.sleep(10);
+
+		Thread.sleep(10);
 		}catch (Exception ex)
 		{}
 		//wait(); //Trzeba zakomentować jesli nie chcesz exepiona
