@@ -184,8 +184,7 @@ public class ContestController {
             String answer =
                     restTemplate.postForObject(uri, entity, String.class);
 
-            challengeService.updateBuild("done", id);
-            return ResponseEntity.ok().body("{\"dockerfileBuildState\":\"done\"}");
+            return ResponseEntity.ok().body("{\"dockerfileBuildState\":\"started\"}");
         }catch (Exception ex){
             challengeService.updateBuild("notStarted", id);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"dockerfileBuildState\":\"notStarted\"}");
