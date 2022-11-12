@@ -56,6 +56,9 @@ public class Challenge {
     @Column(name = "is_visible")
     private boolean isVisible;
 
+    @Column(name = "dockerfile_build_state")
+    private String dockerfileBuildState;
+
     @Lob
     private byte[] file;
 

@@ -16,7 +16,7 @@ public class TeamEncoder {
                     hexString.append('0');
                 hexString.append(hex);
             }
-            return hexString.toString().;
+            return hexString.toString();
         } catch(Exception ex){
             throw new RuntimeException(ex);
         }

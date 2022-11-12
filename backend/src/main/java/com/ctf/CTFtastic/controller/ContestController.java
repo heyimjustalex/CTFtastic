@@ -148,8 +148,8 @@ public class ContestController {
         return "{}";
     }
 
-    @GetMapping(value = "/sendfile/{id}")
-    public ResponseEntity<String> sendFile(@PathVariable("id") int id,Authentication authentication)
+    @PutMapping(value = "/challenges/{id}/build")
+    public ResponseEntity<String> challangeBuild(@PathVariable("id") int id,Authentication authentication)
     {
         try{
             Optional<Participant> user = userService.findByEmail(authentication.getName());
@@ -160,7 +160,9 @@ public class ContestController {
         }catch (Exception ex){
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
-
+        RestTemplate restTemplate = new RestTemplate();
+        String uri = "";
+        HttpEntity<String> entity = null;
         try {
             Challenge challenge = challengeService.getChallange(id);
             Map<String, String> elements =  new HashMap<>();
@@ -168,20 +170,48 @@ public class ContestController {
             ObjectMapper objectMapper = new ObjectMapper();
             String returnData = objectMapper.writeValueAsString(elements);
 
-
-            RestTemplate restTemplate = new RestTemplate();
-
-            String uri = linkSendDockerFile; // or any other uri
+            uri = linkSendDockerFile; // or any other uri
 
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
             headers.add("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36");
-            HttpEntity<String> entity = new HttpEntity<>(returnData, headers);
+            entity = new HttpEntity<>(returnData, headers);
+        }catch (Exception ex){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+        try{
+            challengeService.updateBuild("started", id);
             String answer =
                     restTemplate.postForObject(uri, entity, String.class);
 
+            challengeService.updateBuild("done", id);
+            return ResponseEntity.ok().body("{\"dockerfileBuildState\":\"done\"}");
+        }catch (Exception ex){
+            challengeService.updateBuild("notStarted", id);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"dockerfileBuildState\":\"notStarted\"}");
+        }
+    }
 
-            return ResponseEntity.ok().body(new String(challenge.getDockerfile(), StandardCharsets.UTF_8));
+    @GetMapping(value = "/challenges/{id}/build-state")
+    public ResponseEntity<String> getBuildState(@PathVariable("id") int id,Authentication authentication)
+    {
+        try{
+            Optional<Participant> user = userService.findByEmail(authentication.getName());
+
+            if (user.isEmpty() || !user.get().getRole().getName().equals("ROLE_CTF_ADMIN")) {
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+            }
+        }catch (Exception ex){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
+        try {
+            Challenge challenge = challengeService.getChallange(id);
+            Map<String, String> elements =  new HashMap<>();
+            elements.put("dockerfileBuildState", challenge.getDockerfileBuildState());
+            ObjectMapper objectMapper = new ObjectMapper();
+            String returnData = objectMapper.writeValueAsString(elements);
+
+            return ResponseEntity.ok().body(returnData);
         }catch (Exception ex){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
