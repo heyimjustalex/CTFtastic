@@ -30,6 +30,10 @@ spec:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: ctftastic-challs-operator
+          #command:
+          #  - sh
+          #  - -c
+          #  - "sleep 3600"
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.ctftastic.challs.repository }}:{{ .Values.image.ctftastic.challs.tag }}"

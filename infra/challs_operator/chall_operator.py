@@ -80,6 +80,7 @@ def build_challenge():
         app.logger.error(f'dockerfile_str: {dockerfile_str}')
         return make_response(f'Something went wrong creating buildkit with Helm Release - check flask logs', 400)
 
+    app.logger.info(dockerfile_str)
     return make_response('Build has started', 200)
 
 @app.route('/buildstatus/<output_image>', methods=['GET'])
