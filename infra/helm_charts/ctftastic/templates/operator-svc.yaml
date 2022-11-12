@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "ctftastic.fullname" . }}-challs-operator-svc
+  labels:
+    {{- include "ctftastic.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.ctftastic.challs.type }}
+  ports:
+    - port: {{ .Values.service.ctftastic.challs.port }}
+      targetPort: 5000
+      protocol: TCP
+      name: http
+  selector:
+    ctftastic/type: challs-operator

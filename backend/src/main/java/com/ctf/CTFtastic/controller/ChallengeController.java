@@ -276,8 +276,9 @@ public class ChallengeController {
 
     }
 
-    @PostMapping(value = {"challenges/{id}/start"})
-    public ResponseEntity<String> postStartContainer(@PathVariable("id") int id, @RequestBody ChangeStartContenerRequest changeStartContenerRequest, Authentication authentication){
+    @PostMapping(value = {"challenges/{id}/start-containers"})
+    // @RequestBody ChangeStartContenerRequest changeStartContenerRequest
+    public ResponseEntity<String> postStartContainer(@PathVariable("id") int id,Authentication authentication){
         int team = 0;
         try {
             if (authentication != null) {
@@ -290,7 +291,7 @@ public class ChallengeController {
             if(team != 0){
                 Solution solution = solutionService.findByTeamAndId(id,team);
                 if(solution.getIsContainerStarted() != null){
-                    solution.setIsContainerStarted(changeStartContenerRequest.getIsContainerStarted());
+                    solution.setIsContainerStarted(true);
                     solutionService.update(solution);
                     return ResponseEntity.ok("{}");
                 }

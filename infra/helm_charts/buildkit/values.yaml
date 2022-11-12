@@ -1,0 +1,5 @@
+workspaceHostPath: /home/docker/workspace
+certsHostPath: /home/docker/registry/certs
+outputImage: examplename
+insecureRegistry: true
+dockerfile: FROM hello-world

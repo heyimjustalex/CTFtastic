@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "ctftastic.fullname" . }}-docker-registry
+  labels:
+    {{- include "ctftastic.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "ctftastic.selectorLabels" . | nindent 6 }}
+      {{- include "ctftastic.coreSelectorLabels" . | nindent 6 }}
+      ctftastic/type: registry
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "ctftastic.selectorLabels" . | nindent 8 }}
+        {{- include "ctftastic.coreSelectorLabels" . | nindent 8 }}
+        ctftastic/type: registry
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      volumes:
+          - name: registry-vol
+            hostPath:
+              path: {{ .Values.registryPath }}
+              type: Directory
+            #persistentVolumeClaim:
+            #  claimName: docker-registry-pvc
+      containers:
+        - name: docker-registry
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.other.registry.repository }}:{{ .Values.image.other.registry.tag }}"
+          imagePullPolicy: {{ .Values.image.other.registry.pullPolicy }}
+          volumeMounts:
+          - name: registry-vol
+            mountPath: "/var/lib/registry"
+          env:
+          - name: REGISTRY_HTTP_ADDR
+            value: 0.0.0.0:5001
+          #- name: REGISTRY_HTTP_TLS_CERTIFICATE
+          #  value: "/var/lib/registry/certs/domain.crt"
+          #- name: REGISTRY_HTTP_TLS_KEY
+          #  value: "/var/lib/registry/certs/domain.key"
+          # - name: REGISTRY_AUTH
+          #   value: "htpasswd"
+          # - name: REGISTRY_AUTH_HTPASSWD_PATH
+          #   value: "/var/lib/registry/auth/htpasswd"
+          # - name: REGISTRY_AUTH_HTPASSWD_REALM
+          #   value: "Registry Realm"
+          ports:
+            - name: http
+              containerPort: 5001
+              protocol: TCP
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
