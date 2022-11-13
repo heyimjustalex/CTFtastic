@@ -89,8 +89,6 @@ const Start = (props) => {
     }, [startingData, sendRequest]);
 
     useEffect(() => {
-        //handle different status states
-
         if (status === 'pending') {
             setOutput({ header: 'Loading...', content: <LoadingRing /> });
         }

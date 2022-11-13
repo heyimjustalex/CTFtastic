@@ -3,7 +3,6 @@ import Form from 'react-bootstrap/Form';
 import useInput from '../hooks/use-input';
 import { teamNameValidator, passwordValidator } from './validators'
 import styles from './CreateTeam.module.css';
-
 import Container from 'react-bootstrap/Container';
 import { createTeam } from './../lib/api'
 import useHttp from './../hooks/use-http'
@@ -12,7 +11,7 @@ import LoadingRing from './UI/LoadingRing';
 import AuthContext from '../store/auth-context';
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { StyledEngineProvider } from '@mui/material';
+
 
 
 const CreateTeam = () => {
@@ -33,7 +32,7 @@ const CreateTeam = () => {
             authCTX.updateRole(data.role);
             authCTX.updateIdTeam(data.idTeam);
             navigate(`/teams/${data.idTeam}`);
-            // window.location.reload();
+
         }
 
         else if (status === 'completed' && error) {

@@ -29,7 +29,6 @@ const JoinTeam = (props) => {
             authCTX.updateRole(data.role);
             authCTX.updateIdTeam(data.idTeam);
             navigate(`/teams/${data.idTeam}`);
-            // window.location.reload();
         }
 
         else if (status === 'completed' && error) {

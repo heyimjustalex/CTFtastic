@@ -17,15 +17,12 @@ const MainHeader = (props) => {
   const authCTX = useContext(AuthContext);
   const [loginButtonContentAndUrl, setloginButtonContentAndUrl] = useState({ url: '/login', buttonContent: 'Login' });
 
-
   const logInOutHandler = () => {
     setExpanded(false);
     if (authCTX.isLoggedIn) {
       authCTX.logout();
     }
   }
-
-
 
   useEffect(() => {
     console.log("IS LOGGED USE EFFECT", authCTX.isLoggedIn);
@@ -38,28 +35,6 @@ const MainHeader = (props) => {
       setloginButtonContentAndUrl({ url: '/login', buttonContent: 'Login' });
     }
   }, [setloginButtonContentAndUrl, authCTX.isLoggedIn])
-
-  // const [localRole, setlLocalRole] = useState(authCTX.role);
-
-  // useEffect(() => {
-  //   console.log("ROLED USE EFFECT", authCTX.role);
-  //   if (authCTX.role === "ROLE_CTF_ADMIN") {
-  //     setlLocalRole("ROLE_CTF_ADMIN");
-
-  //   }
-  //   else if (authCTX.role === "ROLE_TEAM_CAPITAN") {
-  //     setlLocalRole("ROLE_TEAM_CAPITAN");
-
-  //   }
-  //   else if (authCTX.role === "ROLE_USER_WITH_TEAM") {
-  //     setlLocalRole("ROLE_USER_WITH_TEAM");
-
-  //   }
-  //   else {
-  //     setlLocalRole("ROLE_USER")
-
-  //   }
-  // }, [authCTX.role, authCTX.isLoggedIn])
 
   return (
     <Navbar
@@ -161,12 +136,7 @@ const MainHeader = (props) => {
                   className={styles['dropdown-item'] + ' ' + styles['underline-animation-admin-panel']}>
                   Start CTF
                 </NavDropdown.Item>
-
-
               </NavDropdown></>}
-
-
-
         </Nav>
 
         <Nav className={styles['nav'] + ' ' + styles['right-menu'] + ' mr-right '}>
@@ -185,7 +155,6 @@ const MainHeader = (props) => {
             ) + ' ' + styles['navlink']} to={loginButtonContentAndUrl.url}>{loginButtonContentAndUrl.buttonContent}</NavLink>
         </Nav>
       </Navbar.Collapse>
-
     </Navbar>
 
   );

@@ -62,9 +62,7 @@ const Team = () => {
     }, [authCTX.token, sendRequestDeleteUserFromTeam, id])
 
     const isItMyTeam = authCTX.idTeam === id;
-    // console.log("idTeam", authCTX.idTeam);
-    // console.log("id", id);
-    // console.log("IS MY TEAM", isItMyTeam);
+
 
 
     useEffect(() => {
@@ -177,9 +175,6 @@ const Team = () => {
         }
 
         else if (deleteUserFromTeamStatus === 'completed' && !deleteUserFromTeamError) {
-
-
-
             setDeleteUserFromTeamOutput({ header: 'User has been deleted' });
             const token = authCTX.token;
             const teamData = {
@@ -187,8 +182,6 @@ const Team = () => {
                 teamId: id
             }
             sendRequest(teamData)
-            // navigate('/teams')
-            // window.location.reload();
 
 
         }

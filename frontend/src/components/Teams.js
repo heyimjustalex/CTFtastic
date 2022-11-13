@@ -15,7 +15,6 @@ const Teams = () => {
     const { sendRequest, status, error, data } = useHttp(getTeams);
     const [currentPageNumber, setCurrentPageNumber] = useState(0);
     const teamsPerPage = 6;
-    // const [totalElements, setTotalElements] = useState(0);
     const authCTX = useContext(AuthContext);
     const [totalPages, setTotalPages] = useState(2);
     useEffect(() => {
@@ -40,11 +39,10 @@ const Teams = () => {
         }
 
         else if (status === 'completed' && !error) {
-            // setTotalElements(data.totalElements);
             setTotalPages(data.totalPages);
 
             const dataWithSelector = data.elements.map((element) => {
-                // console.log("ELEMENT", element)
+
                 return <tr className={authCTX.isLoggedIn ? styles['tr-hover-when-loggedin'] : ''} key={element.id} onClick={() => handleRowClick(element.id)}>
                     <td className={styles['element-id']}>{element.id}</td>
                     <td>{element.name}</td>

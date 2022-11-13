@@ -4,7 +4,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    /* background-color: red; */
     box-sizing: border-box;
     padding: 1em;
     font-size: 1.5em;
@@ -15,7 +14,6 @@
     width: 100%;
     text-align: center;
     color: #FAF9F6;
-    /* background-color: blue; */
     text-align: center;
     display: flex;
     justify-content: center;
@@ -37,7 +35,6 @@
 .challenge-header {
     color: #0CC6FF;
     display: inline-block;
-    /* background-color: red; */
     margin: 1em;
     margin-left: 2em;
     margin-right: 2em;
@@ -56,7 +53,6 @@
 .challenge-header-red {
     color: #FF304E;
     display: inline-block;
-    /* background-color: red; */
     margin: 1em;
     margin-left: 2em;
     margin-right: 2em;
@@ -107,7 +103,6 @@ th {
 
 th {
     color: #0CC6FF;
-    /* color: :; */
 }
 
 tr:hover {
@@ -196,6 +191,33 @@ thead tr:first-child:hover {
     color: #FAF9F6;
     background-color: #0aa4dd;
 }
+
+.form-button-green {
+    font-family: 'Space Mono', 'Verdana', 'Montserrat Alternates';
+    font-weight: bolder;
+    margin-top: 1rem;
+    font-size: 1.1rem;
+    padding: 0.5rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    border-radius: 0.7rem;
+    color: #FAF9F6;
+    background-color: #62da62;
+    margin-bottom: 2rem;
+}
+
+.form-button-green[disabled]:hover,
+.form-button-green[disabled]:focus {
+    color: #FAF9F6;
+    background-color: #62da62;
+}
+
+.form-button-green:hover,
+.form-button-green:focus {
+    color: #FAF9F6;
+    background-color: #41ca51;
+}
+
 
 .form-button-red {
     font-family: 'Space Mono', 'Verdana', 'Montserrat Alternates';
@@ -304,7 +326,6 @@ thead tr:first-child:hover {
     .output-content-container {
         flex-direction: column;
     }
-
 
     .table-header th:first-child {
         display: none;

@@ -2,9 +2,6 @@ import { useReducer } from "react";
 
 const ACTIONS = { SET_ENTERED_VALUE: "SET_ENTERED_VALUE", SET_VALUE_IS_TOUCHED: "SET_VALUE_IS_TOUCHED", RESET: "RESET" };
 
-
-
-
 const useInput = (valueValidator) => {
 
     const valueReducer = (state, action) => {
@@ -27,13 +24,12 @@ const useInput = (valueValidator) => {
     }
 
     const [state, dispatch] = useReducer(valueReducer, { enteredValue: '', enteredValueIsTouched: false })
-    // console.log("state enetered val " + state.enteredValue);
     const valueIsValid = valueValidator(state.enteredValue);
     const hasError = (!valueIsValid && state.enteredValueIsTouched)
-    // console.log("state is touched ", state.enteredValueIsTouched);
+
 
     const enteredValueChangeHandler = (event) => {
-        // console.log(event.target.value);
+
         dispatch({ type: "SET_ENTERED_VALUE", enteredValue: event.target.value });
 
     }
@@ -45,15 +41,6 @@ const useInput = (valueValidator) => {
     const reset = () => {
         dispatch({ type: "RESET" })
     }
-
-
-
-
-    // console.log("Haserror " + hasError);
-    // console.log("valueIsValid " + valueIsValid);
-    // console.log("istouched " + enteredValueIsTouched);
-
-
 
 
     return {

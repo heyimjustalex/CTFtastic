@@ -16,9 +16,9 @@ import JoinTeam from './components/JoinTeam';
 import CreateTeam from './components/CreateTeam';
 import ChangeCredentials from './components/ChangeCredentials';
 import User from './components/User';
-import MyTeam from './components/MyTeam';
 import AddChallenge from './components/AddChallenge';
 import StartCTF from './components/StartCTF';
+
 function App() {
   const { hasStarted, setFalseStartedLocalStorage, setTrueStartedLocalStorage, askBackendIfContestHasStarted } = useContext(StartContext);
   useEffect(() => {

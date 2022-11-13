@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
-
 import Switch from '@mui/material/Switch';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -68,12 +67,9 @@ const MySwitch = (props) => {
                             className={styles['label']}>
                             {props.label}
                         </Typography>}
-
                     labelPlacement="end"
                 >
-
                 </FormControlLabel>
-
             </FormGroup></FormControl>
 
     )

@@ -1,8 +1,8 @@
 import React from "react";
-import { Outlet, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { useContext, useEffect, useState } from 'react';
 import useHttp from '../hooks/use-http';
-import { getChallenge, sendFlag, updateChallengeVisiblity, updateStartStopChallengeContainer, buildChallenge } from '../lib/api';
+import { getChallenge, sendFlag, updateChallengeVisiblity, buildChallenge } from '../lib/api';
 import LoadingRing from './UI/LoadingRing';
 import { AuthContext } from '../store/auth-context';
 import { useNavigate } from 'react-router-dom';
@@ -70,10 +70,7 @@ const Challenge = () => {
 
         else if (challengeStatus === 'completed' && !challengeError) {
 
-            // challengeData.file = "na sztywno file link";
             challengeData.container = challengeData.link;
-
-
             const output =
                 <>
                     <div className={`${styles['output-content-container']}`}>
@@ -85,7 +82,6 @@ const Challenge = () => {
                     </div>
                 </>
             setIsVisible(challengeData.isVisible)
-            // setIsContainerStarted(challengeData.hasContainerStarted!==null?true:null)
             setOutput({ header: challengeData.name, content: output });
         }
 
@@ -249,13 +245,13 @@ const Challenge = () => {
                         </div>
 
                     </Form>}
-                    {/* Tu powinny byc warutnki not ctf admin i isContaineSTarted not null (jesli nie ma wgle container w challengu) */}
+
                     {!challengeError
                         && authCTX.role === 'ROLE_CTF_ADMIN' && challengeData.hasDockerfile &&
                         <Form className={`${styles['start-form']}`} onSubmit={challengeBuildHandler}>
                             <div className={styles['button-div']}>
 
-                                <Button aria-label="containerStateSubmitButton" className={`${styles['form-button']} `} variant="custom" type="submit">
+                                <Button aria-label="containerStateSubmitButton" className={`${styles['form-button-green']} `} variant="custom" type="submit">
                                     Build Image
                                 </Button>
 
@@ -270,14 +266,14 @@ const Challenge = () => {
                     </div>}
 
 
-                    {flagStatus === 'completed' && <Container style={{ margin: '2em' }} className={`${styles['output-content-container']}`}>
+                    {flagStatus === 'completed' && <Container style={{ margin: '1em' }} className={`${styles['output-content-container']}`}>
                         <h3 className={styles[`${flagError ? "red-header" : "blue-header"}`]}>{flagValidityOutput.header}</h3>
                     </Container>}
 
-                    {buildChallengeStatus !== null && <Container style={{ margin: '1em' }} className={`${styles['output-content-container']}`}>
+                    {buildChallengeStatus !== null && <Container style={{ margin: '0.2em' }} className={`${styles['output-content-container']}`}>
                         <h3 className={styles[`${buildChallengeError ? "red-header" : "blue-header"}`]}>{isChallengeBuildOutput.header}</h3>
                     </Container>}
-                    {(buildChallengeStatus !== null) && < Container style={{ margin: '1em' }}
+                    {(buildChallengeStatus !== null) && < Container style={{ margin: '0.2em' }}
                         className={`${styles['output-content-container']}`}>
                         {isChallengeBuildOutput.content}
                     </Container>}

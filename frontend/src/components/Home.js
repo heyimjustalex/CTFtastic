@@ -59,7 +59,7 @@ const Home = (props) => {
     if (status === 'completed' && error) {
         textColor = 'redText';
     }
-    // console.log("OUTTTTTTTTTTTTTPUTT HOME", output)
+
     return (
 
         <Container className={`${styles['main']} d-flex flex-column`} fluid>

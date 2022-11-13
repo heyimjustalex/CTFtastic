@@ -45,7 +45,6 @@ const StartCTF = (props) => {
         }
 
         else if (status === 'completed' && !error) {
-            // authCTX.updateCTFHasStartedHandler(true);
             setOutput({ header: 'Success!', content: 'You have started CTF!' });
         }
 

@@ -28,7 +28,7 @@ const Scoreboard = () => {
         }
 
         else if (status === 'completed' && !error) {
-            // setTotalElements(data.totalElements);
+
             setTotalPages(data.totalPages);
 
             const dataWithSelector = data.elements.map((element) => {

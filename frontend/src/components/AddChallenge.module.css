@@ -4,7 +4,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    /* background-color: red; */
     box-sizing: border-box;
     padding: 1em;
     font-size: 1.5em;
@@ -26,17 +25,14 @@
     width: 100%;
     text-align: center;
     color: #FAF9F6;
-    /* background-color: blue; */
     text-align: center;
     display: flex;
     justify-content: center;
     align-items: center;
-
 }
 
 .text-info {
     font-size: 0.7em;
-
     color: #999;
 }
 
@@ -65,7 +61,6 @@
 .challenge-header {
     color: #0CC6FF;
     display: inline-block;
-    /* background-color: red; */
     margin: 1em;
     margin-left: 2em;
     margin-right: 2em;
@@ -74,18 +69,13 @@
 .challenge-header-red {
     color: #FF304E;
     display: inline-block;
-    /* background-color: red; */
     margin: 1em;
     margin-left: 2em;
     margin-right: 2em;
 }
 
-
-
-
 .form-label-checkbox {
     font-family: 'Space Mono', 'Verdana', 'Montserrat Alternates' !important;
-
 }
 
 h4>p {
@@ -93,7 +83,6 @@ h4>p {
 }
 
 .output-container {
-
     margin: auto;
     width: 70%;
     display: flex;
@@ -129,7 +118,7 @@ th {
 
 th {
     color: #0CC6FF;
-    /* color: :; */
+
 }
 
 tr:hover {
@@ -164,7 +153,6 @@ thead tr:first-child:hover {
     margin-bottom: 2em;
     color: #0CC6FF;
     text-align: center;
-
 }
 
 
@@ -187,7 +175,6 @@ thead tr:first-child:hover {
 
 
 .button-div {
-
     display: flex;
     justify-content: center;
     align-items: center;
