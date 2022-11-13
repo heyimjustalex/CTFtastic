@@ -14,12 +14,12 @@ const Teams = () => {
     const [output, setOutput] = useState({});
     const { sendRequest, status, error, data } = useHttp(getTeams);
     const [currentPageNumber, setCurrentPageNumber] = useState(0);
-    const teamsPerPage = 6;
+    const elementsPerPage = 6;
     const authCTX = useContext(AuthContext);
     const [totalPages, setTotalPages] = useState(2);
     useEffect(() => {
 
-        const pagData = { page: currentPageNumber, size: teamsPerPage };
+        const pagData = { page: currentPageNumber, size: elementsPerPage };
         sendRequest(pagData);
 
     }, [sendRequest, currentPageNumber])
@@ -41,10 +41,11 @@ const Teams = () => {
         else if (status === 'completed' && !error) {
             setTotalPages(data.totalPages);
 
+            let iterator = currentPageNumber * elementsPerPage;
             const dataWithSelector = data.elements.map((element) => {
-
+                iterator += 1
                 return <tr className={authCTX.isLoggedIn ? styles['tr-hover-when-loggedin'] : ''} key={element.id} onClick={() => handleRowClick(element.id)}>
-                    <td className={styles['element-id']}>{element.id}</td>
+                    <td className={styles['element-id']}>{iterator}</td>
                     <td>{element.name}</td>
                     <td>{element.website}</td>
                     {/* <td>{element.country}</td> */}

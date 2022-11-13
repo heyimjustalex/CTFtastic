@@ -114,6 +114,34 @@
     background-color: #0aa4dd;
 }
 
+
+
+.form-button-red {
+    font-family: 'Space Mono', 'Verdana', 'Montserrat Alternates';
+    font-weight: bolder;
+    margin-top: 1rem;
+    font-size: 1.1rem;
+    padding: 0.5rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    border-radius: 0.7rem;
+    color: #FAF9F6;
+    background-color: #FF304E;
+    margin-bottom: 2rem;
+}
+
+.form-button-red[disabled]:hover,
+.form-button-red[disabled]:focus {
+    color: #FAF9F6;
+    background-color: #FF304E;
+}
+
+.form-button-red:hover,
+.form-button-red:focus {
+    color: #FAF9F6;
+    background-color: #ee203d;
+}
+
 @media screen and (max-width: 1200px) {
     .start-form {
         width: 60%;

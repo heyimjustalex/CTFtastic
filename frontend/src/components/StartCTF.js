@@ -88,7 +88,7 @@ const StartCTF = (props) => {
                         <p>Starting CTF makes all challenges marked as isVisible visible to the participants</p>
                     </div>
                     <div className={styles['button-div']}>
-                        <Button onClick={startCtfHandler} aria-label="Next" className={styles['form-button']} variant="custom" type="submit">
+                        <Button onClick={startCtfHandler} aria-label="Next" className={styles['form-button-red']} variant="custom" type="submit">
                             Start CTF!
                         </Button>
                     </div>

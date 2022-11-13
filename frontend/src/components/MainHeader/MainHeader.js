@@ -25,7 +25,7 @@ const MainHeader = (props) => {
   }
 
   useEffect(() => {
-    console.log("IS LOGGED USE EFFECT", authCTX.isLoggedIn);
+
     if (authCTX.isLoggedIn) {
 
       setloginButtonContentAndUrl({ url: '/', buttonContent: 'Logout' });

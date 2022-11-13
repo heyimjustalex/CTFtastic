@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import useHttp from "../hooks/use-http";
 import { getTeams } from "../lib/api";
 import Container from 'react-bootstrap/Container';
@@ -10,11 +10,11 @@ const Scoreboard = () => {
     const [output, setOutput] = useState({});
     const { sendRequest, status, error, data } = useHttp(getTeams);
     const [currentPageNumber, setCurrentPageNumber] = useState(0);
-    const teamsPerPage = 6;
+    const elementsPerPage = 6;
     const [totalPages, setTotalPages] = useState(0);
     useEffect(() => {
 
-        const pagData = { page: currentPageNumber, size: teamsPerPage };
+        const pagData = { page: currentPageNumber, size: elementsPerPage };
         sendRequest(pagData);
 
     }, [sendRequest, currentPageNumber])
@@ -31,9 +31,11 @@ const Scoreboard = () => {
 
             setTotalPages(data.totalPages);
 
+            let iterator = currentPageNumber * elementsPerPage;
             const dataWithSelector = data.elements.map((element) => {
+                iterator += 1
                 return <tr key={element.id}>
-                    <td className={styles['element-id']}>{element.id}</td>
+                    <td className={styles['element-id']}>{iterator}</td>
                     <td>{element.name}</td>
                     <td> {element.points}</td>
                 </tr>

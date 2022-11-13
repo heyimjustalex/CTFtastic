@@ -156,9 +156,6 @@ const Team = () => {
 
             setDeleteTeamOutput({ header: 'Success deleting team! Reload to see changes!' });
             navigate(`/teams`)
-
-
-
         }
 
         else if (deleteTeamStatus === 'completed' && deleteTeamError) {
@@ -182,8 +179,6 @@ const Team = () => {
                 teamId: id
             }
             sendRequest(teamData)
-
-
         }
 
         else if (deleteUserFromTeamStatus === 'completed' && deleteUserFromTeamError) {

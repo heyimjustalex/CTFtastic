@@ -2,7 +2,7 @@ import React from "react";
 import { useParams } from 'react-router-dom'
 import { useContext, useEffect, useState } from 'react';
 import useHttp from '../hooks/use-http';
-import { getChallenge, sendFlag, updateChallengeVisiblity, buildChallenge } from '../lib/api';
+import { getChallenge, sendFlag, updateChallengeVisiblity, buildChallenge, getBuildState } from '../lib/api';
 import LoadingRing from './UI/LoadingRing';
 import { AuthContext } from '../store/auth-context';
 import { useNavigate } from 'react-router-dom';
@@ -17,12 +17,14 @@ const Challenge = () => {
     const { sendRequest: sendRequestUpdateVisiblity, data: updateVisiblityflagData, status: updateVisiblityStatus, error: updateVisiblityError } = useHttp(updateChallengeVisiblity);
     const { sendRequest: sendRequestFlag, data: flagData, status: flagStatus, error: flagError } = useHttp(sendFlag);
     const { sendRequest: sendRequestBuildChallenge, data: buildChallengeData, status: buildChallengeStatus, error: buildChallengeError } = useHttp(buildChallenge);
+    const { sendRequest: sendRequestGetBuildChange, data: getBuildChangeData, status: getBuildChangeStatus, error: getBuildChangeError } = useHttp(getBuildState);
     const [output, setOutput] = useState({});
     const [flagValidityOutput, setflagValidityOutput] = useState({});
     const [updateVisibilityOutput, setUpdateVisibilityOutput] = useState({});
     const [isVisible, setIsVisible] = useState(false);
     const [isChallengeBuildOutput, setIsChallengeBuildOutput] = useState({});
-
+    const [dockerfileBuildState, setDockerfileBuildState] = useState(null);
+    const [buildStateOutput, setBuildStateOutput] = useState({});
 
     const authCTX = useContext(AuthContext);
     const { id } = useParams();
@@ -48,8 +50,34 @@ const Challenge = () => {
         sendRequestBuildChallenge(data)
     }
 
+    useEffect(() => {
+        if (dockerfileBuildState !== 'done') {
 
+            const data = {
+                challId: id,
+                token: authCTX.token
+            }
 
+            const intervalId = setInterval(() => {
+                sendRequestGetBuildChange(data)
+            }, [4000])
+
+            return () => {
+                clearInterval(intervalId)
+            }
+        }
+    }, [authCTX.token, dockerfileBuildState, id, sendRequestGetBuildChange, setDockerfileBuildState])
+    useEffect(() => {
+        if (dockerfileBuildState !== 'done') {
+
+            const data = {
+                challId: id,
+                token: authCTX.token
+            }
+            sendRequestGetBuildChange(data)
+
+        }
+    }, [])
 
     useEffect(() => {
         const token = authCTX.token;
@@ -61,6 +89,25 @@ const Challenge = () => {
         sendRequestGetChallenge(challengeData);
 
     }, [sendRequestGetChallenge, id, authCTX.token])
+
+    useEffect(() => {
+
+        if (getBuildChangeStatus === 'pending') {
+            setBuildStateOutput({ header: 'Loading...', content: <LoadingRing /> });
+        }
+
+        else if (getBuildChangeStatus === 'completed' && !getBuildChangeError) {
+            const dState = getBuildChangeData.dockerfileBuildState
+            const content = dState !== 'done' ? <><p>Retrying:</p> <div><LoadingRing /></div></> : ""
+            setDockerfileBuildState(dState)
+            setBuildStateOutput({ header: `Building state: ${dState} `, content: content });
+        }
+
+        else if (getBuildChangeStatus === 'completed' && getBuildChangeError) {
+            setBuildStateOutput({ header: 'Checking build state failed', content: <p>{getBuildChangeError}</p> });
+        }
+
+    }, [getBuildChangeData, getBuildChangeError, getBuildChangeStatus]);
 
     useEffect(() => {
 
@@ -99,12 +146,13 @@ const Challenge = () => {
         }
 
         else if (buildChallengeStatus === 'completed' && !buildChallengeError) {
-            const buildState = buildChallengeData.dockerfileBuildState;
-            setIsChallengeBuildOutput({ header: "Building request send successfully!", content: <p>Image build state:  + {buildState}</p> });
+
+            setDockerfileBuildState(buildChallengeData.dockerfileBuildState)
+            setIsChallengeBuildOutput({ header: "Building request send successfully!", content: "Wait until building done..." });
         }
 
         else if (buildChallengeStatus === 'completed' && buildChallengeError) {
-            setIsChallengeBuildOutput({ header: 'Request image building failed', content: <p>buildChallengeError</p> });
+            setIsChallengeBuildOutput({ header: 'Request image building failed', content: <p>{buildChallengeError}</p> });
         }
 
     }, [buildChallengeData, buildChallengeError, buildChallengeStatus]);
@@ -235,7 +283,7 @@ const Challenge = () => {
                     {challengeData.isSolved && <Container style={{ margin: '2em' }} className={`${styles['output-content-container']}`}>
                         <h3 className={styles['red-header']}>Your team has already solved this challenge</h3>
                     </Container>}
-                    {/* tu powinien być wartunek ze nie jest visible  */}
+
                     {!challengeError && authCTX.role === 'ROLE_CTF_ADMIN' && <Form className={`${styles['start-form']}`} onSubmit={challengeUpdateSubmitHandler}>
                         <MySwitch checked={isVisible} onClick={isVisibleSwitchHandler} label={isVisible ? "isVisible" : "isInvisible"} />
                         <div className={styles['button-div']}>
@@ -248,10 +296,10 @@ const Challenge = () => {
 
                     {!challengeError
                         && authCTX.role === 'ROLE_CTF_ADMIN' && challengeData.hasDockerfile &&
-                        <Form className={`${styles['start-form']}`} onSubmit={challengeBuildHandler}>
+                        <Form className={`${styles['start-form']}`} onSubmit={challengeBuildHandler} >
                             <div className={styles['button-div']}>
 
-                                <Button aria-label="containerStateSubmitButton" className={`${styles['form-button-green']} `} variant="custom" type="submit">
+                                <Button aria-label="containerStateSubmitButton" disabled={dockerfileBuildState !== 'done' ? false : true} className={`${styles['form-button-green']} `} variant="custom" type="submit">
                                     Build Image
                                 </Button>
 
@@ -273,7 +321,7 @@ const Challenge = () => {
                     {buildChallengeStatus !== null && <Container style={{ margin: '0.2em' }} className={`${styles['output-content-container']}`}>
                         <h3 className={styles[`${buildChallengeError ? "red-header" : "blue-header"}`]}>{isChallengeBuildOutput.header}</h3>
                     </Container>}
-                    {(buildChallengeStatus !== null) && < Container style={{ margin: '0.2em' }}
+                    {(buildChallengeStatus !== null) && <Container style={{ margin: '0.2em' }}
                         className={`${styles['output-content-container']}`}>
                         {isChallengeBuildOutput.content}
                     </Container>}
@@ -298,6 +346,11 @@ const Challenge = () => {
                                 {updateVisibilityOutput.content}
                             </>
                         }
+
+                        {!challengeError
+                            && authCTX.role === 'ROLE_CTF_ADMIN' && challengeData.hasDockerfile && buildStateOutput.header}
+                        {!challengeError
+                            && authCTX.role === 'ROLE_CTF_ADMIN' && challengeData.hasDockerfile && buildStateOutput.content}
 
                     </div>
 

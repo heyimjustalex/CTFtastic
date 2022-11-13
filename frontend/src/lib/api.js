@@ -123,7 +123,7 @@ export async function getTeam(teamData) {
 
 
 export async function getChallenges(paginationData) {
-    // console.log(paginationData);
+
     const response = await fetch(`${BACKEND_ADDRESS}/challenges/${paginationData.page}/${paginationData.size}`, {
         method: 'GET',
         headers: {
@@ -266,8 +266,6 @@ export async function sendFlag(flagData) {
         },
     });
 
-    // console.log(response);
-
     if (!response.ok) {
         throw new Error('Adding flag failed');
     }
@@ -291,8 +289,6 @@ export async function updateStartStopChallengeContainer(challengeData) {
             'Authorization': 'Bearer ' + challengeData.token
         },
     });
-
-    // console.log(response);
 
     if (!response.ok) {
         throw new Error('Starting/Stopping container failed');
@@ -318,11 +314,33 @@ export async function buildChallenge(challengeData) {
     });
 
     if (!response.ok) {
+        throw new Error('Building container failed');
+    }
+
+    try {
+        const data = await response.json();
+        return data;
+    }
+    catch {
+        throw new Error('Building container failed');
+    }
+}
+
+export async function getBuildState(challengeData) {
+
+    const response = await fetch(`${BACKEND_ADDRESS}/challenges/${challengeData.challId}/build-state`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + challengeData.token
+        },
+    });
+
+    if (!response.ok) {
         throw new Error('Starting/Stopping container failed');
     }
 
     try {
-        console.log("CONTAINER GOOD BUILD BEFORE JSON")
         const data = await response.json();
         return data;
     }
@@ -336,7 +354,7 @@ export async function startCTF(startData) {
 
     const response = await fetch(`${BACKEND_ADDRESS}/start-ctf`, {
         method: 'POST',
-        // body: JSON.stringify(startData),
+
         headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + startData.token
