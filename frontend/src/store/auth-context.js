@@ -50,30 +50,34 @@ export const AuthContextProvider = (props) => {
 
     const tokenData = retrieveStoredToken();
     let initialToken;
-    let role;
+    let initialRole;
+    let initialIdTeam;
     let username;
-    let idTeam;
 
     if (tokenData) {
-        idTeam = tokenData.idTeam;
+        initialIdTeam = tokenData.idTeam;
         initialToken = tokenData.token;
-        role = tokenData.role;
+        initialRole = tokenData.role;
         username = tokenData.username;
 
     }
     const [token, setToken] = useState(initialToken);
+    const [role, setRole] = useState(initialRole);
+    const [idTeam, setIdTeam] = useState(initialIdTeam);
 
     const userIsLoggedIn = !!token;
 
     const updateRoleHandler = (newRole) => {
-        // localStorage.removeItem('role');
+        localStorage.removeItem('role')
         localStorage.setItem('role', newRole);
+        setRole(newRole)
     }
 
 
     const updateIdTeamHandler = (newId) => {
-        // localStorage.removeItem('idTeam');
+        localStorage.removeItem('idTeam')
         localStorage.setItem('idTeam', newId);
+        setIdTeam(newId)
     }
 
     const logoutHandler = useCallback(() => {
@@ -92,6 +96,8 @@ export const AuthContextProvider = (props) => {
 
     const loginHandler = (username, token, role, expireTime, idTeam) => {
         setToken(token);
+        setRole(role)
+        setIdTeam(idTeam)
         localStorage.setItem('username', username);
         localStorage.setItem('idTeam', idTeam);
         localStorage.setItem('token', token);

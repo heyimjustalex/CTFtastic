@@ -153,11 +153,12 @@ const Team = () => {
 
             if (authCTX.role === 'ROLE_TEAM_CAPITAN') {
                 authCTX.updateRole('ROLE_USER');
+                authCTX.updateIdTeam(null)
             }
 
             setDeleteTeamOutput({ header: 'Success deleting team! Reload to see changes!' });
-            navigate('/teams')
-            window.location.reload();
+            navigate(`/teams`)
+
 
 
         }

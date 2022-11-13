@@ -12,6 +12,7 @@ import LoadingRing from './UI/LoadingRing';
 import AuthContext from '../store/auth-context';
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { StyledEngineProvider } from '@mui/material';
 
 
 const CreateTeam = () => {
@@ -28,11 +29,11 @@ const CreateTeam = () => {
 
         else if (status === 'completed' && !error) {
             setOutput({ header: 'Success!', content: 'Team created' });
-            // console.log(data);
+
             authCTX.updateRole(data.role);
             authCTX.updateIdTeam(data.idTeam);
-            navigate('/');
-            window.location.reload();
+            navigate(`/teams/${data.idTeam}`);
+            // window.location.reload();
         }
 
         else if (status === 'completed' && error) {

@@ -28,8 +28,8 @@ const JoinTeam = (props) => {
             setOutput({ header: 'Success!', content: 'you have joined team' });
             authCTX.updateRole(data.role);
             authCTX.updateIdTeam(data.idTeam);
-            navigate('/');
-            window.location.reload();
+            navigate(`/teams/${data.idTeam}`);
+            // window.location.reload();
         }
 
         else if (status === 'completed' && error) {

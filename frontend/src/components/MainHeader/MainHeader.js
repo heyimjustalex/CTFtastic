@@ -39,26 +39,27 @@ const MainHeader = (props) => {
     }
   }, [setloginButtonContentAndUrl, authCTX.isLoggedIn])
 
-  // const [test, setTest] = useState('test');
+  // const [localRole, setlLocalRole] = useState(authCTX.role);
 
   // useEffect(() => {
   //   console.log("ROLED USE EFFECT", authCTX.role);
   //   if (authCTX.role === "ROLE_CTF_ADMIN") {
-  //     setTest("CTFADMIN");
+  //     setlLocalRole("ROLE_CTF_ADMIN");
 
   //   }
   //   else if (authCTX.role === "ROLE_TEAM_CAPITAN") {
-  //     setTest("CTFCAPITAN");
+  //     setlLocalRole("ROLE_TEAM_CAPITAN");
 
   //   }
-  //   else if (authCTX.role === "ROLE_USER") {
-  //     setTest("USER");
+  //   else if (authCTX.role === "ROLE_USER_WITH_TEAM") {
+  //     setlLocalRole("ROLE_USER_WITH_TEAM");
 
   //   }
   //   else {
-  //     console.log("ELSE");
+  //     setlLocalRole("ROLE_USER")
+
   //   }
-  // }, [test, authCTX.role])
+  // }, [authCTX.role, authCTX.isLoggedIn])
 
   return (
     <Navbar
@@ -106,10 +107,9 @@ const MainHeader = (props) => {
               id={styles['nav-dropdown']}
               title="User options">
 
-              {(authCTX.role !== 'ROLE_TEAM_CAPITAN'
-                && authCTX.role !== 'ROLE_USER_WITH_TEAM' && authCTX.role !== 'ROLE_CTF_ADMIN')
-                &&
+              {authCTX.role === 'ROLE_USER' &&
                 <>
+
                   <NavDropdown.Item
                     as={NavLink} to={'/join-team'}
                     className={styles['dropdown-item'] + ' ' + styles['hover-underline-animation']}>

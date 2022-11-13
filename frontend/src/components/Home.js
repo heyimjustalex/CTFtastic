@@ -9,7 +9,8 @@ import LoadingRing from './UI/LoadingRing';
 const Home = (props) => {
 
     const { sendRequest, data, status, error } = useHttp(getContests);
-    const [output, setOutput] = useState();
+    const [output, setOutput] = useState(null);
+
 
     useEffect(() => {
         sendRequest();
@@ -58,7 +59,7 @@ const Home = (props) => {
     if (status === 'completed' && error) {
         textColor = 'redText';
     }
-
+    // console.log("OUTTTTTTTTTTTTTPUTT HOME", output)
     return (
 
         <Container className={`${styles['main']} d-flex flex-column`} fluid>
