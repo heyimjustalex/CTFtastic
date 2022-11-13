@@ -42,7 +42,7 @@ spec:
             - name: spring.datasource.url
               value: jdbc:mysql://{{ include "ctftastic.fullname" . }}-db-svc:{{ .Values.service.other.db.port }}/db?enabledTLSProtocols=TLSv1.2
             - name: link.senddocker.file
-              value: http://{{- .Values.ingress.hosts.host }}/challsoperator/buildchall
+              value: http://ctftastic-challs-operator-svc:9090/buildchall
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       initContainers:

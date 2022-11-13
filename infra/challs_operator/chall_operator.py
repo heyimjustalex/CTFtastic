@@ -60,9 +60,11 @@ def build_challenge():
     try:
         request_json = request.get_json()
     except RuntimeError:
+        app.logger.error("BAD JSON")
         return make_response('failed to parse json', 400)
 
     if not keys_validation_build.issubset(request_json.keys()):
+        app.logger.error("WRONG KEYS IN JSON")
         return make_response('No dockerfile string or outputImage string', 400)
     
     output_image = request_json['outputImage']
