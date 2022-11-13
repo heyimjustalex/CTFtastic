@@ -32,7 +32,7 @@ const Team = () => {
     }
 
     const onClickDeleteTeamHandler = () => {
-        // e.preventDefault();
+
         const data = {
             teamId: id,
             token: authCTX.token

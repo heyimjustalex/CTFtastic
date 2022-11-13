@@ -105,11 +105,94 @@ thead tr:first-child:hover {
     color: #FF304E;
 }
 
+.start-form {
+    width: 50%;
+    font-size: 1.1em;
+}
+
+.button-div {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-button-green {
+    font-family: 'Space Mono', 'Verdana', 'Montserrat Alternates';
+    font-weight: bolder;
+    margin-top: 2rem;
+    font-size: 1.4rem;
+    padding: 1rem;
+    padding-left: 4rem;
+    padding-right: 4rem;
+    border-radius: 2rem;
+    color: #FAF9F6;
+    background-color: #62da62;
+
+}
+
+.form-button-green[disabled]:hover,
+.form-button-green[disabled]:focus {
+    color: #FAF9F6;
+    background-color: #62da62;
+}
+
+.form-button-green:hover,
+.form-button-green:focus {
+    color: #FAF9F6;
+    background-color: #41ca51;
+}
+
+.form-button-red {
+    font-family: 'Space Mono', 'Verdana', 'Montserrat Alternates';
+    font-weight: bolder;
+    margin-top: 2rem;
+    font-size: 1.4rem;
+    padding: 1rem;
+    padding-left: 4rem;
+    padding-right: 4rem;
+    border-radius: 2rem;
+    color: #FAF9F6;
+    background-color: #FF304E;
+
+}
+
+.form-button-red[disabled]:hover,
+.form-button-red[disabled]:focus {
+    color: #FAF9F6;
+    background-color: #FF304E;
+}
+
+.form-button-red:hover,
+.form-button-red:focus {
+    color: #FAF9F6;
+    background-color: #ee203d;
+}
+
 @media screen and (max-width: 992px) {
 
     .main {
 
         font-size: 1em;
+    }
+
+
+    .form-button-green {
+        margin-top: 2rem;
+        font-size: 1rem;
+        padding: 1rem;
+        padding-left: 2rem;
+        padding-right: 2rem;
+        border-radius: 2rem;
+    }
+
+    .form-button-red {
+        margin-top: 2rem;
+        font-size: 1rem;
+        padding: 1rem;
+        padding-left: 2rem;
+        padding-right: 2rem;
+        border-radius: 2rem;
     }
 
 }
@@ -127,6 +210,24 @@ thead tr:first-child:hover {
 
     .element-id {
         display: none;
+    }
+
+    .form-button-green {
+        margin-top: 2rem;
+        font-size: 0.8rem;
+        padding: 1rem;
+        padding-left: 2rem;
+        padding-right: 2rem;
+        border-radius: 2rem;
+    }
+
+    .form-button-red {
+        margin-top: 2rem;
+        font-size: 0.8rem;
+        padding: 1rem;
+        padding-left: 2rem;
+        padding-right: 2rem;
+        border-radius: 2rem;
     }
 
 }

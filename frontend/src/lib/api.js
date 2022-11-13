@@ -143,6 +143,50 @@ export async function getChallenges(paginationData) {
     }
 
 }
+export async function startStopContainers(startStopData) {
+
+    const response = await fetch(`${BACKEND_ADDRESS}/challenges/1/start-containers`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + startStopData.token
+        },
+    });
+    if (!response.ok) {
+        throw new Error('Couldnt fetch containers start info');
+    }
+    try {
+        const data = await response.json();
+        return data;
+    }
+    catch {
+        throw new Error('Couldnt fetch containers start info');
+    }
+
+}
+
+export async function getContainersState(challengeData) {
+
+    const response = await fetch(`${BACKEND_ADDRESS}/challenges/start-state`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + challengeData.token
+        },
+    });
+
+    if (!response.ok) {
+        throw new Error('Getting state failed');
+    }
+
+    try {
+        const data = await response.json();
+        return data;
+    }
+    catch {
+        throw new Error('Getting state failed');
+    }
+}
 
 export async function getChallenge(challengeData) {
     const response = await fetch(`${BACKEND_ADDRESS}/challenges/${challengeData.challengeId}`, {

@@ -284,6 +284,7 @@ const Challenge = () => {
                         <h3 className={styles['red-header']}>Your team has already solved this challenge</h3>
                     </Container>}
 
+
                     {!challengeError && authCTX.role === 'ROLE_CTF_ADMIN' && <Form className={`${styles['start-form']}`} onSubmit={challengeUpdateSubmitHandler}>
                         <MySwitch checked={isVisible} onClick={isVisibleSwitchHandler} label={isVisible ? "isVisible" : "isInvisible"} />
                         <div className={styles['button-div']}>

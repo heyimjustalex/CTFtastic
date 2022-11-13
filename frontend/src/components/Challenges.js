@@ -1,19 +1,24 @@
 import { useCallback, useContext, useEffect, useState } from "react";
 import useHttp from "../hooks/use-http";
-import { getChallenges } from "../lib/api";
+import { getChallenges, startStopContainers, getContainersState } from "../lib/api";
 import Container from 'react-bootstrap/Container';
 import styles from './Challenges.module.css';
 import LoadingRingTable from "./UI/LoadingRingTable";
 import { useNavigate } from "react-router-dom";
 import Pagination from "./Pagination";
 import { AuthContext } from '../store/auth-context';
+import { Button, Form } from "react-bootstrap";
+import LoadingRing from "./UI/LoadingRing";
 
 const Challenges = () => {
     const [output, setOutput] = useState({});
     const { sendRequest, status, error, data } = useHttp(getChallenges);
+    const { sendRequest: sendRequestStartContainers, status: startContainersStatus, error: startContainersError, data: startContainersData } = useHttp(startStopContainers);
+    const { sendRequest: sendRequestGetContainersStatus, status: getContainersStatusStatus, error: getContainersStatusError, data: getContainersStatusData } = useHttp(getContainersState);
     const [currentPageNumber, setCurrentPageNumber] = useState(0);
     const authCTX = useContext(AuthContext);
-
+    const [startedContainersState, setStartedContainersState] = useState(null)
+    const [startedContainersStateOutput, setStartedContainersStateOutput] = useState({})
     const elementsPerPage = 6;
     const [totalPages, setTotalPages] = useState(0);
     useEffect(() => {
@@ -31,7 +36,14 @@ const Challenges = () => {
 
     }, [navigate, authCTX.isLoggedIn])
 
+    const startStopContainerHandler = (e) => {
+        e.preventDefault();
+        const data = {
+            token: authCTX.token
+        }
+        sendRequestStartContainers(data)
 
+    }
 
     useEffect(() => {
 
@@ -64,8 +76,74 @@ const Challenges = () => {
 
         }
 
-    }, [status, error, setOutput, data, handleRowClick, authCTX.isLoggedIn]);
+    }, [status, error, setOutput, data, handleRowClick, authCTX.isLoggedIn, currentPageNumber]);
 
+
+    useEffect(() => {
+        if (startedContainersState !== 'done') {
+
+            const data = {
+                token: authCTX.token
+            }
+
+            const intervalId = setInterval(() => {
+                sendRequestGetContainersStatus(data)
+            }, [4000])
+
+            return () => {
+                clearInterval(intervalId)
+            }
+        }
+    }, [authCTX.token, sendRequestGetContainersStatus, startedContainersState])
+
+    useEffect(() => {
+        if (startedContainersState !== 'done') {
+
+            const data = {
+
+                token: authCTX.token
+            }
+            sendRequestGetContainersStatus(data)
+
+        }
+    }, [])
+
+    useEffect(() => {
+
+        if (getContainersStatusStatus === 'pending') {
+            setStartedContainersStateOutput({ header: 'Loading...', content: <LoadingRing /> });
+        }
+
+        else if (getContainersStatusStatus === 'completed' && !getContainersStatusError) {
+            const dState = startContainersData.containerState
+            const content = dState !== 'done' ? <><p>Retrying:</p> <div><LoadingRing /></div></> : ""
+            setStartedContainersState(dState)
+            setStartedContainersStateOutput({ header: `Building state: ${dState} `, content: content });
+        }
+
+        else if (getContainersStatusStatus === 'completed' && getContainersStatusError) {
+            setStartedContainersStateOutput({ header: 'Checking build state failed', content: <p>{getContainersStatusError}</p> });
+        }
+
+    }, [getContainersStatusError, getContainersStatusStatus, startContainersData]);
+
+    useEffect(() => {
+
+        if (startContainersStatus === 'pending') {
+            setStartedContainersStateOutput({ header: 'Loading...', content: <LoadingRing /> });
+        }
+
+        else if (startContainersStatus === 'completed' && !startContainersError) {
+
+            setStartedContainersState(startContainersData.dockerfileBuildState)
+            setStartedContainersStateOutput({ header: "Building request send successfully!", content: "Wait until building done..." });
+        }
+
+        else if (startContainersStatus === 'completed' && startContainersError) {
+            setStartedContainersStateOutput({ header: 'Request image building failed', content: <p>{startContainersError}</p> });
+        }
+
+    }, [startContainersData, startContainersError, startContainersStatus]);
 
     const onChangePageHandler = ({ selected }) => {
         setCurrentPageNumber(selected);
@@ -94,6 +172,17 @@ const Challenges = () => {
             </table>
             {status === 'completed' && error && <Container className={`${styles['output-content-container']}`}><h3 className={styles['error-header']}>{output.content}</h3></Container>}
 
+            {(authCTX.role === 'ROLE_TEAM_CAPITAN' || authCTX.role === 'ROLE_USER_WITH_TEAM') &&
+                <Form className={`${styles['start-form']}`} onSubmit={startStopContainerHandler} >
+                    <div className={styles['button-div']}>
+
+                        <Button aria-label="containerStateSubmitButton" className={startedContainersState !== 'done' ? styles['form-button-green'] : styles['form-button-red']} variant="custom" type="submit">
+                            {startedContainersState !== 'done' ? "Start containers!" : "Stop containers!"}
+                        </Button>
+
+                    </div>
+                </Form>
+            }
 
             {status === 'completed' && !error && (Boolean(data.elements.length))
                 && (Boolean(totalPages > 1)) && < Pagination pageCount={totalPages} currentPage={currentPageNumber} onChangePage={onChangePageHandler}></Pagination>}
@@ -103,6 +192,13 @@ const Challenges = () => {
                 !data.elements.length &&
                 <div className={styles['output-container']}> <h1 className={styles['redText']}>No challenges added!</h1></div>
             }
+
+
+            {!error
+                && authCTX.role === 'ROLE_CTF_ADMIN' && (Boolean(data.hasContainers)) && startedContainersStateOutput.header}
+            {!error
+                && authCTX.role === 'ROLE_CTF_ADMIN' && (Boolean(data.hasContainers)) && startedContainersStateOutput.content}
+
 
         </Container >
     )
