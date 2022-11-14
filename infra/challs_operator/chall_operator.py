@@ -120,9 +120,15 @@ def chall_status():
     try:
         api_response = apps_v1.read_namespaced_deployment(name=f'team-{team_name}-{chall_name}', namespace='default')
     except RuntimeError:
-        return make_response('Chall not found', 404)
+        return jsonify(
+            containerState='error'
+        )
 
     if api_response.status.ready_replicas is None:
-        return make_response('Container has not started', 400)
+        return jsonify(
+            containerState='notStarted'
+        )
 
-    return make_response('Container has started', 200)
+    return jsonify(
+        containerState='started'
+    )
