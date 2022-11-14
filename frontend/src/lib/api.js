@@ -89,7 +89,7 @@ export async function getTeams(paginationData) {
         },
     });
     if (!response.ok) {
-        throw new Error('Couldnt fetch teams data.');
+        throw new Error('No teams found!');
     }
     try {
         const data = await response.json();

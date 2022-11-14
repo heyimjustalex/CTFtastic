@@ -73,19 +73,23 @@ const Scoreboard = () => {
                 }
 
                 <tbody>
-                    {status === 'completed' && !error && output.content}
+                    {status === 'completed' && !error && (data ? data.elements ? data.elements.length > 0 ? true : false : false : false) && output.content}
+
                     {status === 'pending' && <tr><td style={{ border: 'none' }}><h3 className={styles['loading-header']}>{output.header}</h3></td></tr>}
                     {status === 'pending' && output.content}
+                    {status === 'completed' && error && <tr><td style={{ border: 'none' }}><h3 className={styles['redText']}>No scoreboard data found! Error!</h3></td></tr>}
                 </tbody>
             </table>
-            {status === 'completed' && error && <Container className={`${styles['output-content-container']}`}><h3 className={styles['error-header']}>{output.content}</h3></Container>}
+
+
+            {/* {status === 'completed' && error && <Container className={`${styles['output-content-container']}`}><h3 className={styles['error-header']}>{output.content}</h3></Container>} */}
 
             {status === 'completed' && !error && (Boolean(data.elements.length))
                 && (Boolean(totalPages > 1)) && < Pagination pageCount={totalPages} currentPage={currentPageNumber} onChangePage={onChangePageHandler}></Pagination>}
             {status === 'completed' &&
                 !error &&
                 !data.elements.length &&
-                <div className={styles['output-container']}> <h1 className={styles['redText']}>Scoreboard is empty!</h1></div>}
+                <div className={styles['output-container']}> <h3 className={styles['redText']}>Scoreboard is empty!</h3></div>}
         </Container >
     )
 }
