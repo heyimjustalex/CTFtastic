@@ -18,6 +18,7 @@ import ChangeCredentials from './components/ChangeCredentials';
 import User from './components/User';
 import AddChallenge from './components/AddChallenge';
 import StartCTF from './components/StartCTF';
+import NotFound from './components/NotFound';
 
 function App() {
   const { hasStarted, setFalseStartedLocalStorage, setTrueStartedLocalStorage, askBackendIfContestHasStarted } = useContext(StartContext);
@@ -26,12 +27,15 @@ function App() {
     const setupSetupViewIfItWasNotSet = async () => {
 
       let backendResponseIfStarted = await askBackendIfContestHasStarted();
+
       if (backendResponseIfStarted) {
+
+        console.log("TRUEstarted")
 
         setTrueStartedLocalStorage();
       }
       else {
-
+        console.log("Falsestarted")
         setFalseStartedLocalStorage();
       }
 
@@ -47,23 +51,28 @@ function App() {
         {hasStarted && <MainHeader />}
         <Routes>
           <Route path="/" element={hasStarted ? <Home /> : <Start />} />
-          {/* <Route path="*" element={<Navigate to='/' />} /> */}
-          <Route path='/login' element={hasStarted ? <Login /> : <p>404</p>} />
-          <Route path='/start' element={<Navigate to='/' />} />
-          <Route path='/register' element={<Register />} />
-          <Route path='/scoreboard' element={<Scoreboard />} />
-          <Route path='/challenges' element={<Challenges />} />
-          <Route path='/join-team' element={<JoinTeam />} />
-          <Route path='/teams' element={<Teams />} />
-          <Route path='/create-team' element={<CreateTeam />} />
-          <Route path='/change-creds' element={<ChangeCredentials />} />
-          <Route path='/add-challenge' element={<AddChallenge />} />
-          <Route path='/start-ctf' element={<StartCTF />} />
 
-          <Route path='/my-team' element={<Team />} />
-          <Route path='/users/:id' element={<User />} />
-          <Route path='/teams/:id' element={<Team />} />
-          <Route path='/challenges/:id' element={<Challenge />} />
+
+          {hasStarted && <>
+            <Route path='/login' element={<Login />} />
+            <Route path='/start' element={<Navigate to='/' />} />
+            <Route path='/register' element={<Register />} />
+            <Route path='/scoreboard' element={<Scoreboard />} />
+            <Route path='/challenges' element={<Challenges />} />
+            <Route path='/join-team' element={<JoinTeam />} />
+            <Route path='/teams' element={<Teams />} />
+            <Route path='/create-team' element={<CreateTeam />} />
+            <Route path='/change-creds' element={<ChangeCredentials />} />
+            <Route path='/add-challenge' element={<AddChallenge />} />
+            <Route path='/start-ctf' element={<StartCTF />} />
+
+            <Route path='/my-team' element={<Team />} />
+            <Route path='/users/:id' element={<User />} />
+            <Route path='/teams/:id' element={<Team />} />
+            <Route path='/challenges/:id' element={<Challenge />} />
+          </>}
+
+          <Route path="*" element={!hasStarted ? <Navigate to='/' /> : <NotFound />} />
         </Routes>
 
       </BrowserRouter>
