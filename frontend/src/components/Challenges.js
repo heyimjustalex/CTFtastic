@@ -80,7 +80,7 @@ const Challenges = () => {
 
 
     useEffect(() => {
-        if (startedContainersState !== 'done') {
+        if (startedContainersState !== 'done' && authCTX.role !== "ROLE_CTF_ADMIN") {
 
             const data = {
                 token: authCTX.token
@@ -94,10 +94,10 @@ const Challenges = () => {
                 clearInterval(intervalId)
             }
         }
-    }, [authCTX.token, sendRequestGetContainersStatus, startedContainersState])
+    }, [authCTX.role, authCTX.token, sendRequestGetContainersStatus, startedContainersState])
 
     useEffect(() => {
-        if (startedContainersState !== 'done') {
+        if (startedContainersState !== 'done' && authCTX.role !== "ROLE_CTF_ADMIN") {
 
             const data = {
 
@@ -165,12 +165,14 @@ const Challenges = () => {
                     </thead>
                 }
                 <tbody>
-                    {status === 'completed' && !error && data.elements.length !== 0 && output.content}
+                    {status === 'completed' && !error && (data ? (data.elements ? (data.elements.length ? true : false) : false) : false) !== 0 && output.content}
                     {status === 'pending' && <tr><td style={{ border: 'none' }}><h3 className={styles['loading-header']}>{output.header}</h3></td></tr>}
                     {status === 'pending' && output.content}
+                    {status === 'completed' && error && <tr><td style={{ border: 'none' }}><h3 className={styles['loading-header']}>Couldnt fetch challenges!</h3></td></tr>}
+
                 </tbody>
             </table>
-            {status === 'completed' && error && <Container className={`${styles['output-content-container']}`}><h3 className={styles['error-header']}>{output.content}</h3></Container>}
+
 
             {(authCTX.role === 'ROLE_TEAM_CAPITAN' || authCTX.role === 'ROLE_USER_WITH_TEAM') &&
                 <Form className={`${styles['start-form']}`} onSubmit={startStopContainerHandler} >
@@ -184,6 +186,7 @@ const Challenges = () => {
                 </Form>
             }
 
+
             {status === 'completed' && !error && (Boolean(data.elements.length))
                 && (Boolean(totalPages > 1)) && < Pagination pageCount={totalPages} currentPage={currentPageNumber} onChangePage={onChangePageHandler}></Pagination>}
             {
@@ -192,12 +195,12 @@ const Challenges = () => {
                 !data.elements.length &&
                 <div className={styles['output-container']}> <h1 className={styles['redText']}>No challenges added!</h1></div>
             }
-
-
+            {/* rzuca tu exception i tak samo bedzie w challenge */}
+            {/* 
             {!error
                 && authCTX.role === 'ROLE_CTF_ADMIN' && (Boolean(data.hasContainers)) && startedContainersStateOutput.header}
             {!error
-                && authCTX.role === 'ROLE_CTF_ADMIN' && (Boolean(data.hasContainers)) && startedContainersStateOutput.content}
+                && authCTX.role === 'ROLE_CTF_ADMIN' && (Boolean(data.hasContainers)) && startedContainersStateOutput.content} */}
 
 
         </Container >

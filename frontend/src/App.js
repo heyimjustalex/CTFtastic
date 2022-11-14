@@ -48,7 +48,7 @@ function App() {
         <Routes>
           <Route path="/" element={hasStarted ? <Home /> : <Start />} />
           {/* <Route path="*" element={<Navigate to='/' />} /> */}
-          <Route path='/login' element={<Login />} />
+          <Route path='/login' element={hasStarted ? <Login /> : <p>404</p>} />
           <Route path='/start' element={<Navigate to='/' />} />
           <Route path='/register' element={<Register />} />
           <Route path='/scoreboard' element={<Scoreboard />} />
