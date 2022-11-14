@@ -168,7 +168,7 @@ const Challenges = () => {
                     {status === 'completed' && !error && (data ? (data.elements ? (data.elements.length ? true : false) : false) : false) !== 0 && output.content}
                     {status === 'pending' && <tr><td style={{ border: 'none' }}><h3 className={styles['loading-header']}>{output.header}</h3></td></tr>}
                     {status === 'pending' && output.content}
-                    {status === 'completed' && error && <tr><td style={{ border: 'none' }}><h3 className={styles['loading-header']}>Couldnt fetch challenges!</h3></td></tr>}
+                    {status === 'completed' && error && <tr><td style={{ border: 'none' }}><h3 className={styles['loading-header']}>No challenges found!</h3></td></tr>}
 
                 </tbody>
             </table>

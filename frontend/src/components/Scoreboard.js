@@ -46,7 +46,7 @@ const Scoreboard = () => {
         }
 
         else if (status === 'completed' && error) {
-            setOutput({ header: 'Error occured:', content: error });
+            setOutput({ header: 'Error occured:', content: "No scoreboard found!" });
 
         }
 

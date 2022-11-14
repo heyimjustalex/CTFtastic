@@ -102,7 +102,7 @@ const Teams = () => {
             {status === 'completed' &&
                 !error &&
                 !data.elements.length &&
-                <div className={styles['output-container']}> <h1 className={styles['redText']}>No teams added!</h1></div>}
+                <div className={styles['output-container']}> <h1 className={styles['redText']}>No teams found!</h1></div>}
         </Container >
     )
 }

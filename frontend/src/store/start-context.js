@@ -37,12 +37,17 @@ export const StartContextProvider = (props) => {
             }
         }
 
-        let data = await getContests();
+        try {
+            let data = await getContests();
+            if (data.elements.length) {
+                return true;
 
-        if (data.elements.length) {
-            return true;
-
+            }
         }
+        catch {
+            console.log("Network error! Backend does not work!")
+        }
+
         return false;
     }
 
