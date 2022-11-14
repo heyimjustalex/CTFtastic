@@ -104,3 +104,25 @@ def build_status(output_image):
         return make_response('Job failed', 201)
 
     return make_response('Job running', 202)
+
+@app.route('/challstatus', methods=['GET'])
+def chall_status():
+    config.load_incluster_config()
+    apps_v1 = client.AppsV1Api()
+
+    args = request.args
+    team_name = args.get('team')
+    chall_name = args.get('chall')
+
+    #if team_name or chall_name is None:
+    #    return make_response('Missing queries', 400)
+
+    try:
+        api_response = apps_v1.read_namespaced_deployment(name=f'team-{team_name}-{chall_name}', namespace='default')
+    except RuntimeError:
+        return make_response('Chall not found', 404)
+
+    if api_response.status.ready_replicas is None:
+        return make_response('Container has not started', 400)
+
+    return make_response('Container has started', 200)

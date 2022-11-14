@@ -38,3 +38,10 @@ spec:
                 name: ctftastic-challs-operator-svc
                 port:
                   number: 9090
+          - path: /registry/(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: docker-registry-svc
+                port:
+                  number: 5001
