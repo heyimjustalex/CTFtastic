@@ -184,7 +184,7 @@ public class TeamController {
             {
                 throw new ResponseStatusException(HttpStatus.FORBIDDEN);
             }
-            if(userTeam.get().getRole().equals("ROLE_TEAM_CAPITAN")){
+            if(userTeam.get().getRole().getName().equals("ROLE_TEAM_CAPITAN")){
                 throw new ResponseStatusException(HttpStatus.FORBIDDEN);
             }
             if(!((user.get().getRole().getName().equals("ROLE_CTF_ADMIN") || (user.get().getTeam().getId().equals(idTeam) && user.get().getRole().getName().equals("ROLE_TEAM_CAPITAN")))))

@@ -88,7 +88,7 @@ public class ContestController {
         }
     }
 
-    @GetMapping(value = "/challenges/stop")
+    @GetMapping(value = "/challenges/stop-containers")
     public String stopContestForTeam(Authentication authentication) throws NoSuchAlgorithmException {
         Team team = null;
         //try{
@@ -125,7 +125,7 @@ public class ContestController {
         }
     }
 
-    @GetMapping(value = "/challenges/start")
+    @GetMapping(value = "/challenges/start-containers")
     public String startContestForTeam(Authentication authentication) throws NoSuchAlgorithmException {
         Team team = null;
         //try{
