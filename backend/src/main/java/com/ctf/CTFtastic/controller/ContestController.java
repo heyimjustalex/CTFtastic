@@ -89,7 +89,7 @@ public class ContestController {
     }
 
     @GetMapping(value = "/challenges/stop-containers")
-    public String stopContestForTeam(Authentication authentication) throws NoSuchAlgorithmException {
+    public ResponseEntity<String> stopContestForTeam(Authentication authentication) throws NoSuchAlgorithmException {
         Team team = null;
         //try{
         Optional<Participant> user = userService.findByEmail(authentication.getName());
@@ -118,15 +118,15 @@ public class ContestController {
             HttpResponse answer =
                     restTemplate.postForObject(uri, entity, HttpResponse.class);
             //Dodać errory wrazie wyrzuci 400 albo cos innego
-            return "{\"stop\":\"stopped\"}”";
+            return ResponseEntity.ok().body("{\"stop\":\"stopped\"}");
         }
         catch (Exception ex){
-            return "{\"stop\":\"notStopped\"}”";
+            return ResponseEntity.ok().body("{\"stop\":\"notStopped\"}");
         }
     }
 
     @GetMapping(value = "/challenges/start-containers")
-    public String startContestForTeam(Authentication authentication) throws NoSuchAlgorithmException {
+    public ResponseEntity<String> startContestForTeam(Authentication authentication) throws NoSuchAlgorithmException {
         Team team = null;
         //try{
         Optional<Participant> user = userService.findByEmail(authentication.getName());
@@ -184,10 +184,10 @@ public class ContestController {
             HttpResponse answer =
                     restTemplate.postForObject(uri, entity, HttpResponse.class);
             //Dodać errory wrazie wyrzuci 400 albo cos innego
-            return "{\"containerState\":\"started\"}”";
+            return ResponseEntity.ok().body("{\"containerState\":\"started\"}");
         }
         catch (Exception ex){
-            return "{\"containerState\":\"notStarted\"}”";
+            return ResponseEntity.ok().body("{\"containerState\":\"notStarted\"}");
         }
     }
 
