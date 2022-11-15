@@ -1,5 +1,5 @@
 const BACKEND_ADDRESS = process.env.REACT_APP_BACKEND_ADDRESS;
-//const BACKEND_ADDRESS = 'http://localhost:8080';
+const OPERATOR_ADDRESS = process.env.REACT_APP_OPERATOR_ADDRESS;
 
 export async function setUpContest(setupData) {
     const response = await fetch(`${BACKEND_ADDRESS}/set-up`, {
