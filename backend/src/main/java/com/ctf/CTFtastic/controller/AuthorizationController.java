@@ -120,9 +120,11 @@ public class AuthorizationController {
 
             if(user.getTeam() != null){
                 elements.put("idTeam", user.getTeam().getId().toString());
+                elements.put("teamName", user.getTeam().getName());
             }
             else{
                 elements.put("idTeam", "null");
+                elements.put("teamName", "null");
             }
             elements.put("expireTime", "72000"); //potem zmienic żeby brał z prop
             elements.put("userName", user.getUsername()); // Tutaj możesz sobie zmienić jaką nazwę chcesz
