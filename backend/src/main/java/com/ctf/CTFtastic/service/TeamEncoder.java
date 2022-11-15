@@ -16,7 +16,8 @@ public class TeamEncoder {
                     hexString.append('0');
                 hexString.append(hex);
             }
-            return hexString.toString();
+            String result = "a" + hexString.substring(0, 10);
+            return result;
         } catch(Exception ex){
             throw new RuntimeException(ex);
         }
