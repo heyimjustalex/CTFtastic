@@ -42,6 +42,8 @@ public class ContestController {
 
     @Value("${link.start.team}")
     private String linkStart;
+    @Value("${link.stop.team}")
+    private String linkStop;
 
     @Value("${link.senddocker.file}")
     private String linkSendDockerFile;
@@ -83,6 +85,43 @@ public class ContestController {
             return ResponseEntity.ok().body("{}");
         }catch (Exception ex){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping(value = "/contests/stop")
+    public String stopContestForTeam(Authentication authentication) throws NoSuchAlgorithmException {
+        Team team = null;
+        //try{
+        Optional<Participant> user = userService.findByEmail(authentication.getName());
+        if (user.isEmpty() || user.get().getRole().getName().equals("ROLE_USER") ) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
+        team = user.get().getTeam();
+        RestTemplate restTemplate = new RestTemplate();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.add("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36");
+
+        Map<String, String> elements =  new HashMap<>();
+        elements.put("teamName", team.getName());
+        String data = "";
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            data = objectMapper.writeValueAsString(elements);
+        }catch (Exception ex){}
+
+        try {
+            String uri = linkStop;
+            ObjectMapper objectMapper = new ObjectMapper();
+            HttpEntity<String> entity = new HttpEntity<>(data, headers);
+            HttpResponse answer =
+                    restTemplate.postForObject(uri, entity, HttpResponse.class);
+            //Dodać errory wrazie wyrzuci 400 albo cos innego
+            return "{\"stop\":\"stopped\"}”";
+        }
+        catch (Exception ex){
+            return "{\"stop\":\"notStopped\"}”";
         }
     }
 
@@ -139,13 +178,17 @@ public class ContestController {
         StartChallengeRequest str = StartChallengeRequest.builder()
                 .teamName("TEST")
                 .build();
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        HttpEntity<String> entity = new HttpEntity<>(returnData, headers);
-        HttpResponse answer =
-                restTemplate.postForObject(uri, entity, HttpResponse.class);
-        //Dodać errory wrazie wyrzuci 400 albo cos innego
-        return "{}";
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            HttpEntity<String> entity = new HttpEntity<>(returnData, headers);
+            HttpResponse answer =
+                    restTemplate.postForObject(uri, entity, HttpResponse.class);
+            //Dodać errory wrazie wyrzuci 400 albo cos innego
+            return "{\"containerState\":\"started\"}”";
+        }
+        catch (Exception ex){
+            return "{\"containerState\":\"notStarted\"}”";
+        }
     }
 
     @PutMapping(value = "/challenges/{id}/build")

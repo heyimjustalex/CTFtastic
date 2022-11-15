@@ -187,7 +187,7 @@ public class ChallengeController {
                         .team(t)
                         .isSolved(false)
                         //.isContainerStarted(challenge.getDockerfile() == null ? null : false)
-                        .link(link)
+                        .link(link+"/"+challenge.getId())
                         .build();
 
                 if(challenge.getDockerfile() != null){
