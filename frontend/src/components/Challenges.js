@@ -83,7 +83,7 @@ const Challenges = () => {
 
 
     useEffect(() => {
-        if (startedContainersState !== 'done' && authCTX.role !== "ROLE_CTF_ADMIN" && data.hasContainers) {
+        if (startedContainersState !== 'done' && authCTX.role !== "ROLE_CTF_ADMIN" && (data ? data.hasContainers ? true : false : false)) {
 
             const data = {
                 token: authCTX.token
@@ -97,7 +97,7 @@ const Challenges = () => {
                 clearInterval(intervalId)
             }
         }
-    }, [authCTX.role, authCTX.token, sendRequestGetContainersStatus, startedContainersState, data.hasContainers])
+    }, [authCTX.role, authCTX.token, sendRequestGetContainersStatus, startedContainersState, data])
 
     useEffect(() => {
         if (startedContainersState !== 'done' && authCTX.role !== "ROLE_CTF_ADMIN") {
@@ -207,9 +207,9 @@ const Challenges = () => {
             }
 
             {!error
-                && authCTX.role === 'ROLE_CTF_ADMIN' && (Boolean(data.hasContainers)) && startedContainersStateOutput.header}
+                && authCTX.role === 'ROLE_CTF_ADMIN' && (Boolean(data ? data.hasContainers ? true : false : false)) && startedContainersStateOutput.header}
             {!error
-                && authCTX.role === 'ROLE_CTF_ADMIN' && (Boolean(data.hasContainers)) && startedContainersStateOutput.content}
+                && authCTX.role === 'ROLE_CTF_ADMIN' && (Boolean(data ? data.hasContainers ? true : false : false)) && startedContainersStateOutput.content}
 
 
         </Container >
