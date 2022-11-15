@@ -15,7 +15,7 @@ const Challenges = () => {
     const [output, setOutput] = useState({});
     const { sendRequest, status, error, data } = useHttp(getChallenges);
     const { sendRequest: sendRequestStartContainers, status: startContainersStatus, error: startContainersError, data: startContainersData } = useHttp(startStopContainers);
-    const { sendRequest: sendRequestGetContainersStatus, status: getContainersStatusStatus, error: getContainersStatusError, data: getContainersStatusData } = useHttp(getContainersState);
+
     const [currentPageNumber, setCurrentPageNumber] = useState(0);
     const authCTX = useContext(AuthContext);
     const [startedContainersState, setStartedContainersState] = useState(null)
@@ -82,72 +82,45 @@ const Challenges = () => {
     }, [status, error, setOutput, data, handleRowClick, authCTX.isLoggedIn, currentPageNumber]);
 
 
-    useEffect(() => {
-        if (startedContainersState !== 'done' && authCTX.role !== "ROLE_CTF_ADMIN" && (data ? data.hasContainers ? true : false : false)) {
+    // useEffect(() => {
+    //     if (startedContainersState !== 'done' && authCTX.role !== "ROLE_CTF_ADMIN" && (data ? data.hasContainers ? true : false : false)) {
 
-            const data = {
-                token: authCTX.token
-            }
+    //         const data = {
+    //             token: authCTX.token
+    //         }
 
-            const intervalId = setInterval(() => {
-                sendRequestGetContainersStatus(data)
-            }, [4000])
+    //         const intervalId = setInterval(() => {
+    //             sendRequestGetContainersStatus(data)
+    //         }, [4000])
 
-            return () => {
-                clearInterval(intervalId)
-            }
-        }
-    }, [authCTX.role, authCTX.token, sendRequestGetContainersStatus, startedContainersState, data])
+    //         return () => {
+    //             clearInterval(intervalId)
+    //         }
+    //     }
+    // }, [authCTX.role, authCTX.token, sendRequestGetContainersStatus, startedContainersState, data])
 
-    useEffect(() => {
-        if (startedContainersState !== 'done' && authCTX.role !== "ROLE_CTF_ADMIN") {
 
-            const data = {
 
-                token: authCTX.token
-            }
-            sendRequestGetContainersStatus(data)
 
-        }
-    }, [])
-
-    useEffect(() => {
-
-        if (getContainersStatusStatus === 'pending') {
-            setStartedContainersStateOutput({ header: 'Loading...', content: <LoadingRing /> });
-        }
-
-        else if (getContainersStatusStatus === 'completed' && !getContainersStatusError) {
-            const dState = startContainersData.containerState
-            const content = dState !== 'done' ? <><p>Retrying:</p> <div><LoadingRing /></div></> : ""
-            setStartedContainersState(dState)
-            setStartedContainersStateOutput({ header: `Building state: ${dState} `, content: content });
-        }
-
-        else if (getContainersStatusStatus === 'completed' && getContainersStatusError) {
-            setStartedContainersStateOutput({ header: 'Checking build state failed', content: <p>{getContainersStatusError}</p> });
-        }
-
-    }, [getContainersStatusError, getContainersStatusStatus, startContainersData]);
 
     useEffect(() => {
 
         if (startContainersStatus === 'pending') {
             setStartedContainersStateOutput({ header: 'Loading...', content: <LoadingRing /> });
-            console.log("HERE1")
+
         }
 
         else if (startContainersStatus === 'completed' && !startContainersError) {
-            console.log("HERE2")
+
 
             setStartedContainersState(startContainersData.containerState)
-            console.log(startContainersData.containerState)
-            setStartedContainersStateOutput({ header: "Building request send successfully!", content: "Wait until building done..." });
+            // console.log(startContainersData.containerState)
+            setStartedContainersStateOutput({ header: "Starting request send successfully!", content: "" });
         }
 
         else if (startContainersStatus === 'completed' && startContainersError) {
-            console.log("HERE3")
-            setStartedContainersStateOutput({ header: 'Request image building failed', content: <p>{startContainersError}</p> });
+
+            setStartedContainersStateOutput({ header: 'Request container starting failed', content: <p>{startContainersError}</p> });
         }
 
     }, [startContainersData, startContainersError, startContainersStatus]);
@@ -210,10 +183,20 @@ const Challenges = () => {
                 <div className={styles['output-container']}> <h3 className={styles['redText']}>No challenges added!</h3></div>
             }
 
-            {!error
-                && authCTX.role === 'ROLE_CTF_ADMIN' && (Boolean(data ? data.hasContainers ? true : false : false)) && startedContainersStateOutput.header}
-            {!error
-                && authCTX.role === 'ROLE_CTF_ADMIN' && (Boolean(data ? data.hasContainers ? true : false : false)) && startedContainersStateOutput.content}
+            {startContainersStatus === 'completed' &&
+                authCTX.role !== 'ROLE_CTF_ADMIN' && startContainersStatus !== null && <Container style={{ margin: '0.2em' }} className={`${styles['output-content-container']}`}>
+                    <h3 className={styles[`${startContainersError ? "red-header" : "blue-header"}`]}>{startedContainersStateOutput.header}</h3>
+                </Container>}
+
+            {startContainersStatus === 'pending' &&
+                authCTX.role !== 'ROLE_CTF_ADMIN' && startContainersStatus !== null && <Container style={{ margin: '0.2em' }} className={`${styles['output-content-container']}`}>
+                    <h3 className={styles[`${startContainersError ? "red-header" : "blue-header"}`]}>{startedContainersStateOutput.header}</h3>
+
+                </Container>}
+            {startContainersStatus === 'pending' &&
+                authCTX.role !== 'ROLE_CTF_ADMIN' && startContainersStatus !== null && <Container style={{ margin: '0.2em' }} className={`${styles['output-content-container']}`}>  {startedContainersStateOutput.content} </Container>}
+
+
 
 
         </Container >

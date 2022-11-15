@@ -2,7 +2,7 @@ import React from "react";
 import { useParams } from 'react-router-dom'
 import { useContext, useEffect, useState } from 'react';
 import useHttp from '../hooks/use-http';
-import { getChallenge, sendFlag, updateChallengeVisiblity, buildChallenge, getBuildState } from '../lib/api';
+import { getChallenge, sendFlag, updateChallengeVisiblity, buildChallenge, getBuildState, getContainerState } from '../lib/api';
 import LoadingRing from './UI/LoadingRing';
 import { AuthContext } from '../store/auth-context';
 import { useNavigate } from 'react-router-dom';
@@ -11,6 +11,7 @@ import { Button, Container, Form } from "react-bootstrap";
 import useInput from "../hooks/use-input";
 import MySwitch from "./UI/SwitchBox";
 
+const OPERATOR_ADDRESS = process.env.REACT_APP_OPERATOR_ADDRESS;
 
 const Challenge = () => {
     const { sendRequest: sendRequestGetChallenge, data: challengeData, status: challengeStatus, error: challengeError } = useHttp(getChallenge);
@@ -18,6 +19,7 @@ const Challenge = () => {
     const { sendRequest: sendRequestFlag, data: flagData, status: flagStatus, error: flagError } = useHttp(sendFlag);
     const { sendRequest: sendRequestBuildChallenge, data: buildChallengeData, status: buildChallengeStatus, error: buildChallengeError } = useHttp(buildChallenge);
     const { sendRequest: sendRequestGetBuildChange, data: getBuildChangeData, status: getBuildChangeStatus, error: getBuildChangeError } = useHttp(getBuildState);
+    const { sendRequest: sendRequestGetContainersStatus, status: getContainersStatusStatus, error: getContainersStatusError, data: getContainersStatusData } = useHttp(getContainerState);
     const [output, setOutput] = useState({});
     const [flagValidityOutput, setflagValidityOutput] = useState({});
     const [updateVisibilityOutput, setUpdateVisibilityOutput] = useState({});
@@ -25,7 +27,7 @@ const Challenge = () => {
     const [isChallengeBuildOutput, setIsChallengeBuildOutput] = useState({});
     const [dockerfileBuildState, setDockerfileBuildState] = useState(null);
     const [buildStateOutput, setBuildStateOutput] = useState({});
-
+    const [startedContainersStateOutput, setStartedContainersStateOutput] = useState({})
     const authCTX = useContext(AuthContext);
     const { id } = useParams();
     const navigate = useNavigate()
@@ -51,7 +53,7 @@ const Challenge = () => {
     }
 
     useEffect(() => {
-        if (dockerfileBuildState !== 'done') {
+        if (dockerfileBuildState !== 'done' && authCTX.role === 'ROLE_CTF_ADMIN') {
 
             const data = {
                 challId: id,
@@ -60,15 +62,16 @@ const Challenge = () => {
 
             const intervalId = setInterval(() => {
                 sendRequestGetBuildChange(data)
-            }, [4000])
+            }, [5000])
 
             return () => {
                 clearInterval(intervalId)
             }
         }
-    }, [authCTX.token, dockerfileBuildState, id, sendRequestGetBuildChange, setDockerfileBuildState])
+    }, [authCTX.token, dockerfileBuildState, id, sendRequestGetBuildChange, setDockerfileBuildState, authCTX.role])
+
     useEffect(() => {
-        if (dockerfileBuildState !== 'done') {
+        if (dockerfileBuildState !== 'done' && authCTX.role === 'ROLE_CTF_ADMIN') {
 
             const data = {
                 challId: id,
@@ -77,7 +80,20 @@ const Challenge = () => {
             sendRequestGetBuildChange(data)
 
         }
-    }, [])
+    }, [authCTX.role, authCTX.token, dockerfileBuildState, id, sendRequestGetBuildChange])
+
+    useEffect(() => {
+        if (authCTX.role !== "ROLE_CTF_ADMIN" && challengeData ? challengeData ? true : false : false) {
+
+            const data = {
+                challName: challengeData.name,
+                token: authCTX.token,
+                teamName: authCTX.teamName
+            }
+            sendRequestGetContainersStatus(data)
+
+        }
+    }, [authCTX.role, authCTX.teamName, authCTX.token, challengeData, sendRequestGetContainersStatus])
 
     useEffect(() => {
         const token = authCTX.token;
@@ -108,7 +124,23 @@ const Challenge = () => {
         }
 
     }, [getBuildChangeData, getBuildChangeError, getBuildChangeStatus]);
+    useEffect(() => {
 
+        if (getContainersStatusStatus === 'pending') {
+            setStartedContainersStateOutput({ header: 'Loading...', content: <LoadingRing /> });
+        }
+
+        else if (getContainersStatusStatus === 'completed' && !getContainersStatusError) {
+
+            const containerState = getContainersStatusData !== null ? getContainersStatusData.containerState ? true : false : false;
+            setStartedContainersStateOutput({ header: `Starting state: ${containerState} `, content: "" });
+        }
+
+        else if (getContainersStatusStatus === 'completed' && getContainersStatusError) {
+            setStartedContainersStateOutput({ header: 'Checking start state failed', content: <p>{getContainersStatusError}</p> });
+        }
+
+    }, [getContainersStatusData, getContainersStatusError, getContainersStatusStatus]);
     useEffect(() => {
 
         if (challengeStatus === 'pending') {
@@ -124,7 +156,7 @@ const Challenge = () => {
                         <h4 className={styles['challenge-header']}>Category: <p> {challengeData.category}</p></h4>
                         <h4 className={styles['challenge-header']}>Points: <p> {challengeData.points} </p></h4>
                         {/* {challengeData.file !== null && <h4 className={styles['challenge-header']}>File link:  <p> {challengeData.file}</p></h4>} */}
-                        {challengeData.container !== null && <h4 className={styles['challenge-header']}>Container link:  <p><a className={styles['container-link']} rel="noreferrer" target="_blank" href={"http://www.google.com" + challengeData.link}> {challengeData.link}</a></p></h4>}
+                        {challengeData.container !== null && <h4 className={styles['challenge-header']}>Container link:  <p><a className={styles['container-link']} rel="noreferrer" target="_blank" href={String(OPERATOR_ADDRESS) + challengeData.link}> {challengeData.link}</a></p></h4>}
 
                     </div>
                 </>
@@ -352,6 +384,13 @@ const Challenge = () => {
                             && authCTX.role === 'ROLE_CTF_ADMIN' && challengeData.hasDockerfile && buildStateOutput.header}
                         {!challengeError
                             && authCTX.role === 'ROLE_CTF_ADMIN' && challengeData.hasDockerfile && buildStateOutput.content}
+
+                        {authCTX.role !== 'ROLE_CTF_ADMIN'
+                            && (Boolean(challengeData ? challengeData.hasDockerfile ? true : false : false))
+                            && <Container style={{ margin: '0.2em' }}
+                                className={`${styles['output-content-container']}`}>
+                                <h3 className={styles[`${getContainersStatusError ? "red-header" : "blue-header"}`]}>{startedContainersStateOutput.header}</h3>
+                            </Container>}
 
                     </div>
 

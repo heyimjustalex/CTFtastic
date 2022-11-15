@@ -165,9 +165,9 @@ export async function startStopContainers(startStopData) {
 
 }
 
-export async function getContainersState(challengeData) {
+export async function getContainerState(challengeData) {
 
-    const response = await fetch(`${BACKEND_ADDRESS}/challenges/start-state`, {
+    const response = await fetch(`${OPERATOR_ADDRESS}/challstatus?team=${challengeData.teamName}&${challengeData.challName}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -235,17 +235,12 @@ export async function updateChallengeVisiblity(challengeData) {
 
 export async function addChallenge(challengeData) {
 
-
-
     const formData = new FormData();
     if (challengeData.dockerfile) {
         formData.append('dockerfile', challengeData.dockerfile);
 
     }
-    else {
-        // formData.append('dockerfile', null);
 
-    }
     formData.append('name', challengeData.name);
     formData.append('description', challengeData.description);
     formData.append('category', challengeData.category);
@@ -372,7 +367,7 @@ export async function buildChallenge(challengeData) {
 
 export async function getBuildState(challengeData) {
 
-    const response = await fetch(`${BACKEND_ADDRESS}/challenges/${challengeData.challId}/build-state`, {
+    const response = await fetch(`${OPERATOR_ADDRESS}/challsoperator/${challengeData.challId}/build-state`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
