@@ -13,4 +13,5 @@ public class PageableOfT<T> {
     int currentPage;
     long totalElements;
     int totalPages;
+    Boolean hasContainers;
 }

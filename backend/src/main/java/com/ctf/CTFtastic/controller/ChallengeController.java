@@ -80,15 +80,22 @@ public class ChallengeController {
                     pageChallenges = challengeService.getAllForListView(pageable, true);
                 }
             }
-
+            List<Challenge> chall = challengeService.getAllChallanges2(true);
+            Boolean flag = false;
+            for (Challenge ch:chall) {
+                if(ch.getDockerfile() != null){
+                    flag = true;
+                    break;
+                }
+            }
 
             List<ChallengeForListVM> challanges = pageChallenges.getContent();
-
             PageableOfT<ChallengeForListVM> challangeToView = PageableOfT.<ChallengeForListVM>builder()
                     .elements(challanges)
                     .currentPage(pageChallenges.getNumber())
                     .totalElements(pageChallenges.getTotalElements())
                     .totalPages(pageChallenges.getTotalPages())
+                    .hasContainers(flag)
                     .build();
 
             return challangeToView;

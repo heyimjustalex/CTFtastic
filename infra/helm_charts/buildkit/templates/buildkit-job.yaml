@@ -20,23 +20,16 @@ spec:
               mountPath: /workspace
       containers:
         - name: buildkit
-          image: moby/buildkit:master
+          image: ctftastic-buildkit
+          imagePullPolicy: Never
           command:
-          #  - sh
-          #  - -c
+            - sh
+            - -c
           #  - "sleep 3600"
-            - buildctl-daemonless.sh
-          args:
-            - build
-            - --frontend
-            - dockerfile.v0
-            - --local
-            - context=/workspace
-            - --local
-            - dockerfile=/workspace
-          # To push the image to a registry, add
-            - --output 
-            - type=image,name=kube-registry:5002/{{.Values.outputImage}}:latest,push=true,registry.insecure={{.Values.insecureRegistry}}
+            - |
+             kubectl port-forward $(kubectl get pod | grep kube-registry-v0 | \awk '{print $1;}') 5002:5002 &
+             #sleep 7000;
+             source buildctl-daemonless.sh build --frontend dockerfile.v0 --local context=/workspace --local dockerfile=/workspace --output type=image,name=localhost:5002/{{.Values.outputImage}}:latest,push=true,registry.insecure={{.Values.insecureRegistry}};
           securityContext:
             privileged: true
           volumeMounts:
@@ -46,8 +39,7 @@ spec:
             - name: registry-vol
               readOnly: true
               mountPath: /certs
-      # To push the image, you also need to create `~/.docker/config.json` secret
-      # and set $DOCKER_CONFIG to `/path/to/.docker` directory.
+      serviceAccountName: operator-superuser-acc
       volumes:
         - name: workspace
           hostPath:

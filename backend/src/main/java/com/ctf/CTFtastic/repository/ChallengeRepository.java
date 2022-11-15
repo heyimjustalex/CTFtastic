@@ -43,4 +43,7 @@ public interface ChallengeRepository extends JpaRepository<Challenge, Integer> {
     @Transactional
     @Query("update Challenge c set c.dockerfileBuildState = :state where c.id = :id")
     void updateBuild(@Param("state") String state, @Param("id") int id);
+
+    @Query("select c from Challenge c where c.isVisible = :b")
+    List<Challenge> getAllChallenges3(@Param("b") boolean b);
 }

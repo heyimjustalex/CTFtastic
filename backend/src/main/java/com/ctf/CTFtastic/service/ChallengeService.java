@@ -58,4 +58,8 @@ public class ChallengeService {
     public void updateBuild(String started, int id) {
         challengeRepository.updateBuild(started,id);
     }
+
+    public List<Challenge> getAllChallanges2(boolean b) {
+        return challengeRepository.getAllChallenges3(b);
+    }
 }
