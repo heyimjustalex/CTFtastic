@@ -88,7 +88,7 @@ public class ContestController {
         }
     }
 
-    @GetMapping(value = "/contests/stop")
+    @GetMapping(value = "/challenges/stop")
     public String stopContestForTeam(Authentication authentication) throws NoSuchAlgorithmException {
         Team team = null;
         //try{
@@ -125,7 +125,7 @@ public class ContestController {
         }
     }
 
-    @GetMapping(value = "/contests/start")
+    @GetMapping(value = "/challenges/start")
     public String startContestForTeam(Authentication authentication) throws NoSuchAlgorithmException {
         Team team = null;
         //try{
@@ -209,7 +209,8 @@ public class ContestController {
         try {
             Challenge challenge = challengeService.getChallange(id);
             Map<String, String> elements =  new HashMap<>();
-            elements.put("dockerfile", new String(challenge.getDockerfile(), StandardCharsets.UTF_8));
+            elements.put("outputImage", challenge.getName());
+            elements.put("dockerfile", Base64.getEncoder().encodeToString(challenge.getDockerfile()));
             ObjectMapper objectMapper = new ObjectMapper();
             String returnData = objectMapper.writeValueAsString(elements);
 
