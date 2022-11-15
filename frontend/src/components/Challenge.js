@@ -300,7 +300,7 @@ const Challenge = () => {
                         <Form className={`${styles['start-form']}`} onSubmit={challengeBuildHandler} >
                             <div className={styles['button-div']}>
 
-                                <Button aria-label="containerStateSubmitButton" disabled={dockerfileBuildState !== 'done' ? false : true} className={`${styles['form-button-green']} `} variant="custom" type="submit">
+                                <Button aria-label="containerStateSubmitButton" disabled={dockerfileBuildState !== 'done' ? false : false} className={`${styles['form-button-green']} `} variant="custom" type="submit">
                                     Build Image
                                 </Button>
 

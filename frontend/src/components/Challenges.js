@@ -134,15 +134,19 @@ const Challenges = () => {
 
         if (startContainersStatus === 'pending') {
             setStartedContainersStateOutput({ header: 'Loading...', content: <LoadingRing /> });
+            console.log("HERE1")
         }
 
         else if (startContainersStatus === 'completed' && !startContainersError) {
+            console.log("HERE2")
 
-            setStartedContainersState(startContainersData.dockerfileBuildState)
+            setStartedContainersState(startContainersData.containerState)
+            console.log(startContainersData.containerState)
             setStartedContainersStateOutput({ header: "Building request send successfully!", content: "Wait until building done..." });
         }
 
         else if (startContainersStatus === 'completed' && startContainersError) {
+            console.log("HERE3")
             setStartedContainersStateOutput({ header: 'Request image building failed', content: <p>{startContainersError}</p> });
         }
 

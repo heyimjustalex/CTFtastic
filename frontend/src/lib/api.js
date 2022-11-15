@@ -146,7 +146,7 @@ export async function getChallenges(paginationData) {
 export async function startStopContainers(startStopData) {
 
     const response = await fetch(`${BACKEND_ADDRESS}/challenges/${String(startStopData.startOrStopValue)}-containers`, {
-        method: 'POST',
+        method: 'GET',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + startStopData.token
