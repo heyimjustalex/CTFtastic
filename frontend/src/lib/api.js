@@ -145,7 +145,7 @@ export async function getChallenges(paginationData) {
 }
 export async function startStopContainers(startStopData) {
 
-    const response = await fetch(`${BACKEND_ADDRESS}/challenges/1/start-containers`, {
+    const response = await fetch(`${BACKEND_ADDRESS}/challenges/${String(startStopData.startOrStopValue)}-containers`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -153,14 +153,14 @@ export async function startStopContainers(startStopData) {
         },
     });
     if (!response.ok) {
-        throw new Error('Couldnt fetch containers start info');
+        throw new Error('Couldnt start/stop containers');
     }
     try {
         const data = await response.json();
         return data;
     }
     catch {
-        throw new Error('Couldnt fetch containers start info');
+        throw new Error('Couldnt start/stop containers');
     }
 
 }

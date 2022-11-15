@@ -39,8 +39,10 @@ const Challenges = () => {
 
     const startStopContainerHandler = (e) => {
         e.preventDefault();
+        const startOrStopValue = startedContainersState !== 'done' ? 'start' : 'stop';
         const data = {
-            token: authCTX.token
+            token: authCTX.token,
+            startOrStopValue: startOrStopValue
         }
         sendRequestStartContainers(data)
 
@@ -81,7 +83,7 @@ const Challenges = () => {
 
 
     useEffect(() => {
-        if (startedContainersState !== 'done' && authCTX.role !== "ROLE_CTF_ADMIN") {
+        if (startedContainersState !== 'done' && authCTX.role !== "ROLE_CTF_ADMIN" && data.hasContainers) {
 
             const data = {
                 token: authCTX.token
@@ -95,7 +97,7 @@ const Challenges = () => {
                 clearInterval(intervalId)
             }
         }
-    }, [authCTX.role, authCTX.token, sendRequestGetContainersStatus, startedContainersState])
+    }, [authCTX.role, authCTX.token, sendRequestGetContainersStatus, startedContainersState, data.hasContainers])
 
     useEffect(() => {
         if (startedContainersState !== 'done' && authCTX.role !== "ROLE_CTF_ADMIN") {
@@ -180,7 +182,7 @@ const Challenges = () => {
                 &&
                 status === 'completed' && !error
                 && (data ? data.elements ? data.elements.length > 0 ? true : false : false : false)
-                &&
+                && data.hasContainers &&
                 <Form className={`${styles['start-form']}`} onSubmit={startStopContainerHandler} >
                     <div className={styles['button-div']}>
 
@@ -203,12 +205,11 @@ const Challenges = () => {
                 !data.elements.length &&
                 <div className={styles['output-container']}> <h3 className={styles['redText']}>No challenges added!</h3></div>
             }
-            {/* rzuca tu exception i tak samo bedzie w challenge */}
-            {/* 
+
             {!error
                 && authCTX.role === 'ROLE_CTF_ADMIN' && (Boolean(data.hasContainers)) && startedContainersStateOutput.header}
             {!error
-                && authCTX.role === 'ROLE_CTF_ADMIN' && (Boolean(data.hasContainers)) && startedContainersStateOutput.content} */}
+                && authCTX.role === 'ROLE_CTF_ADMIN' && (Boolean(data.hasContainers)) && startedContainersStateOutput.content}
 
 
         </Container >
