@@ -30,12 +30,10 @@ function App() {
 
       if (backendResponseIfStarted) {
 
-        console.log("TRUEstarted")
-
         setTrueStartedLocalStorage();
       }
       else {
-        console.log("Falsestarted")
+
         setFalseStartedLocalStorage();
       }
 

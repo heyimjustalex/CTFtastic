@@ -43,12 +43,13 @@ export const StartContextProvider = (props) => {
                 return true;
 
             }
+            return false;
         }
         catch {
             console.log("Network error! Backend does not work!")
         }
 
-        return false;
+        return true;
     }
 
     const retrieveHasStartedInfo = () => {
