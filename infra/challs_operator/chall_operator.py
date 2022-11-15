@@ -114,9 +114,6 @@ def chall_status():
     team_name = args.get('team')
     chall_name = args.get('chall')
 
-    #if team_name or chall_name is None:
-    #    return make_response('Missing queries', 400)
-
     try:
         api_response = apps_v1.read_namespaced_deployment(name=f'team-{team_name}-{chall_name}', namespace='default')
     except RuntimeError:
