@@ -9,11 +9,11 @@ registryPath: /home/docker/registry
 image:
   ctftastic:
     backend:
-      repository: ctftastic/backend
+      repository: ctftastic-backend
       pullPolicy: Never
       tag: 'latest'
     frontend:
-      repository: ctftastic/frontend
+      repository: ctftastic-frontend
       pullPolicy: Never
       tag: 'latest'
     challs:

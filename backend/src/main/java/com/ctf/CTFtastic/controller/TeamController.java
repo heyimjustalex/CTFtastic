@@ -105,7 +105,7 @@ public class TeamController {
                       .team(newTeam)
                       .isSolved(false)
                       //.isContainerStarted(c.getDockerfile() == null ? null : false)
-                      .link(link)
+                      .link(link + "/" + c.getId())
                       .build();
               if(c.getDockerfile() != null){
                   solution.setIsContainerStarted(false);
@@ -156,9 +156,10 @@ public class TeamController {
     public ResponseEntity<String> delete(@PathVariable("id") int id, Authentication authentication){
         try{
             Optional<Participant> user = userService.findByEmail(authentication.getName());
-
-            if (user.isEmpty() || !user.get().getRole().getName().equals("ROLE_TEAM_CAPITAN") || !user.get().getTeam().getId().equals(id)) {
-                throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+            if(user.isEmpty() || !user.get().getRole().getName().equals("ROLE_CTF_ADMIN")) {
+                if (user.isEmpty() || !user.get().getRole().getName().equals("ROLE_TEAM_CAPITAN") || !user.get().getTeam().getId().equals(id)) {
+                    throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+                }
             }
         }catch (Exception ex){
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
@@ -181,6 +182,9 @@ public class TeamController {
             Optional<Participant> userTeam = userService.findById(idUser);
             if (user.isEmpty() || userTeam.isEmpty() || !userTeam.get().getTeam().getId().equals(idTeam))
             {
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+            }
+            if(userTeam.get().getRole().equals("ROLE_TEAM_CAPITAN")){
                 throw new ResponseStatusException(HttpStatus.FORBIDDEN);
             }
             if(!((user.get().getRole().getName().equals("ROLE_CTF_ADMIN") || (user.get().getTeam().getId().equals(idTeam) && user.get().getRole().getName().equals("ROLE_TEAM_CAPITAN")))))

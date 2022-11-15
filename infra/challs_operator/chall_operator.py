@@ -60,9 +60,11 @@ def build_challenge():
     try:
         request_json = request.get_json()
     except RuntimeError:
+        app.logger.error("BAD JSON")
         return make_response('failed to parse json', 400)
 
     if not keys_validation_build.issubset(request_json.keys()):
+        app.logger.error("WRONG KEYS IN JSON")
         return make_response('No dockerfile string or outputImage string', 400)
     
     output_image = request_json['outputImage']
@@ -80,6 +82,7 @@ def build_challenge():
         app.logger.error(f'dockerfile_str: {dockerfile_str}')
         return make_response(f'Something went wrong creating buildkit with Helm Release - check flask logs', 400)
 
+    app.logger.info(dockerfile_str)
     return make_response('Build has started', 200)
 
 @app.route('/buildstatus/<output_image>', methods=['GET'])
@@ -101,3 +104,31 @@ def build_status(output_image):
         return make_response('Job failed', 201)
 
     return make_response('Job running', 202)
+
+@app.route('/challstatus', methods=['GET'])
+def chall_status():
+    config.load_incluster_config()
+    apps_v1 = client.AppsV1Api()
+
+    args = request.args
+    team_name = args.get('team')
+    chall_name = args.get('chall')
+
+    #if team_name or chall_name is None:
+    #    return make_response('Missing queries', 400)
+
+    try:
+        api_response = apps_v1.read_namespaced_deployment(name=f'team-{team_name}-{chall_name}', namespace='default')
+    except RuntimeError:
+        return jsonify(
+            containerState='error'
+        )
+
+    if api_response.status.ready_replicas is None:
+        return jsonify(
+            containerState='notStarted'
+        )
+
+    return jsonify(
+        containerState='started'
+    )

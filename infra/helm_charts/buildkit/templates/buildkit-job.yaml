@@ -14,7 +14,7 @@ spec:
           command:
             - sh
             - -c
-            - 'echo -e "{{.Values.dockerfile}}" > /workspace/Dockerfile'
+            - 'echo "{{.Values.dockerfile}}" | base64 -d > /workspace/Dockerfile'
           volumeMounts:
             - name: workspace
               mountPath: /workspace
@@ -36,7 +36,7 @@ spec:
             - dockerfile=/workspace
           # To push the image to a registry, add
             - --output 
-            - type=image,name=docker-registry-svc:5001/{{.Values.outputImage}}:latest,push=true,registry.insecure={{.Values.insecureRegistry}}
+            - type=image,name=kube-registry:5002/{{.Values.outputImage}}:latest,push=true,registry.insecure={{.Values.insecureRegistry}}
           securityContext:
             privileged: true
           volumeMounts:
