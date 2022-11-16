@@ -79,8 +79,8 @@ export const AuthContextProvider = (props) => {
     }
     const updateTeamNameHandler = (newTeamName) => {
         localStorage.removeItem('teamName')
-        localStorage.setItem('teamName', teamName);
-        setTeamName(teamName)
+        localStorage.setItem('teamName', newTeamName);
+        setTeamName(newTeamName)
     }
 
     const updateIdTeamHandler = (newId) => {
