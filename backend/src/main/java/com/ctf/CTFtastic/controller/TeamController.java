@@ -90,6 +90,7 @@ public class TeamController {
           Map<String, String> elements =  new HashMap<>();
           elements.put("role", "ROLE_TEAM_CAPITAN");
           elements.put("idTeam", newTeam.getId().toString());
+          elements.put("teamName", team.getName());
 
           ObjectMapper objectMapper = new ObjectMapper();
           String returnData = objectMapper.writeValueAsString(elements);
@@ -142,6 +143,7 @@ public class TeamController {
             Map<String, String> elements =  new HashMap<>();
             elements.put("role", "ROLE_USER_WITH_TEAM");
             elements.put("idTeam", team.get().getId().toString());
+            elements.put("teamName", team.get().getName());
 
             ObjectMapper objectMapper = new ObjectMapper();
             String returnData = objectMapper.writeValueAsString(elements);
