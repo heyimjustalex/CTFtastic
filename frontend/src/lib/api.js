@@ -171,7 +171,7 @@ export async function getContainerState(challengeData) {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + challengeData.token
+            // 'Authorization': 'Bearer ' + challengeData.token
         },
     });
 
@@ -367,16 +367,15 @@ export async function buildChallenge(challengeData) {
 
 export async function getBuildState(challengeData) {
 
-    const response = await fetch(`${OPERATOR_ADDRESS}/challsoperator/${challengeData.challId}/build-state`, {
+    const response = await fetch(`${OPERATOR_ADDRESS}/challsoperator/buildstatus/${challengeData.image_link}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + challengeData.token
         },
     });
 
     if (!response.ok) {
-        throw new Error('Starting/Stopping container failed');
+        throw new Error('Getting image build state failed');
     }
 
     try {
@@ -384,7 +383,7 @@ export async function getBuildState(challengeData) {
         return data;
     }
     catch {
-        throw new Error('Starting/Stopping container failed');
+        throw new Error('Getting image build state failed');
     }
 }
 

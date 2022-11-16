@@ -56,8 +56,8 @@ const Challenge = () => {
         if (dockerfileBuildState !== 'done' && authCTX.role === 'ROLE_CTF_ADMIN') {
 
             const data = {
-                challId: id,
-                token: authCTX.token
+                image_link: "NIE_WIEM_CO_TU",
+
             }
 
             const intervalId = setInterval(() => {
@@ -74,8 +74,7 @@ const Challenge = () => {
         if (dockerfileBuildState !== 'done' && authCTX.role === 'ROLE_CTF_ADMIN') {
 
             const data = {
-                challId: id,
-                token: authCTX.token
+                image_link: "NIE_WIEM_CO_TU",
             }
             sendRequestGetBuildChange(data)
 
@@ -120,7 +119,7 @@ const Challenge = () => {
         }
 
         else if (getBuildChangeStatus === 'completed' && getBuildChangeError) {
-            setBuildStateOutput({ header: 'Checking build state failed', content: <p>{getBuildChangeError}</p> });
+            setBuildStateOutput({ header: 'Checking build state failed! Retrying!', content: <p></p> });
         }
 
     }, [getBuildChangeData, getBuildChangeError, getBuildChangeStatus]);
@@ -332,7 +331,7 @@ const Challenge = () => {
                         <Form className={`${styles['start-form']}`} onSubmit={challengeBuildHandler} >
                             <div className={styles['button-div']}>
 
-                                <Button aria-label="containerStateSubmitButton" disabled={dockerfileBuildState !== 'done' ? false : false} className={`${styles['form-button-green']} `} variant="custom" type="submit">
+                                <Button aria-label="containerStateSubmitButton" disabled={dockerfileBuildState !== 'done' ? false : true} className={`${styles['form-button-green']} `} variant="custom" type="submit">
                                     Build Image
                                 </Button>
 
@@ -381,7 +380,11 @@ const Challenge = () => {
                         }
 
                         {!challengeError
-                            && authCTX.role === 'ROLE_CTF_ADMIN' && challengeData.hasDockerfile && buildStateOutput.header}
+                            && authCTX.role === 'ROLE_CTF_ADMIN' && challengeData.hasDockerfile && <Container style={{ margin: '0.2em' }}
+                                className={`${styles['output-content-container']}`}>
+                                <h3 className={styles[`${getBuildChangeError ? "red-header" : "blue-header"}`]}>{buildStateOutput.header}</h3>
+                            </Container>}
+
                         {!challengeError
                             && authCTX.role === 'ROLE_CTF_ADMIN' && challengeData.hasDockerfile && buildStateOutput.content}
 
