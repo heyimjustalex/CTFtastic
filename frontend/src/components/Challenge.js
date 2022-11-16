@@ -53,10 +53,10 @@ const Challenge = () => {
     }
 
     useEffect(() => {
-        if (dockerfileBuildState !== 'done' && authCTX.role === 'ROLE_CTF_ADMIN') {
+        if (dockerfileBuildState !== 'done' && authCTX.role === 'ROLE_CTF_ADMIN' && challengeData !== null && challengeStatus === 'completed' && !challengeError) {
 
             const data = {
-                image_link: "NIE_WIEM_CO_TU",
+                challName: challengeData.name
 
             }
 
@@ -68,21 +68,21 @@ const Challenge = () => {
                 clearInterval(intervalId)
             }
         }
-    }, [authCTX.token, dockerfileBuildState, id, sendRequestGetBuildChange, setDockerfileBuildState, authCTX.role])
+    }, [authCTX.token, dockerfileBuildState, id, sendRequestGetBuildChange, setDockerfileBuildState, authCTX.role, challengeData, challengeStatus, challengeError])
 
     useEffect(() => {
-        if (dockerfileBuildState !== 'done' && authCTX.role === 'ROLE_CTF_ADMIN') {
+        if (dockerfileBuildState !== 'done' && authCTX.role === 'ROLE_CTF_ADMIN' && challengeData !== null && challengeStatus === 'completed' && !challengeError) {
 
             const data = {
-                image_link: "NIE_WIEM_CO_TU",
+                challName: challengeData.name
             }
             sendRequestGetBuildChange(data)
 
         }
-    }, [authCTX.role, authCTX.token, dockerfileBuildState, id, sendRequestGetBuildChange])
+    }, [authCTX.role, authCTX.token, challengeData, challengeError, challengeStatus, dockerfileBuildState, id, sendRequestGetBuildChange])
 
     useEffect(() => {
-        if (authCTX.role !== "ROLE_CTF_ADMIN" && challengeData ? challengeData ? true : false : false) {
+        if (authCTX.role !== "ROLE_CTF_ADMIN" && challengeData !== null) {
 
             const data = {
                 challName: challengeData.name,

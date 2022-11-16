@@ -41,6 +41,7 @@ const Challenges = () => {
         e.preventDefault();
         const startOrStopValue = startedContainersState !== 'done' ? 'start' : 'stop';
         const data = {
+            teamName: authCTX.teamName,
             token: authCTX.token,
             startOrStopValue: startOrStopValue
         }

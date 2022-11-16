@@ -31,6 +31,7 @@ const CreateTeam = () => {
 
             authCTX.updateRole(data.role);
             authCTX.updateIdTeam(data.idTeam);
+            authCTX.updateTeamName(data.teamName);
             navigate(`/teams/${data.idTeam}`);
 
         }

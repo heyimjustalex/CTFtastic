@@ -24,8 +24,6 @@ const Home = (props) => {
 
         else if (status === 'completed' && !error) {
 
-            console.log("GET CONTESTS DATA", data)
-
             try {
                 let startTimeUTC = new Date(data.elements[0].startTimeUtc);
                 let endTimeUTC = new Date(data.elements[0].endTimeUtc);

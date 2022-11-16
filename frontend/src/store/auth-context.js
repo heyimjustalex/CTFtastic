@@ -9,10 +9,12 @@ export const AuthContext = React.createContext({
     isLoggedIn: false,
     ctfHasStarted: false,
     idTeam: '',
-    login: (username, token, role, expirationTime, idTeam) => { },
+    teamName: '',
+    login: (username, token, role, expirationTime, idTeam, teamName) => { },
     logout: () => { },
     updateRole: (newRole) => { },
     updateIdTeam: (newId) => { },
+    updateTeamName: (newTeamName) => { }
 
 
 })
@@ -32,7 +34,7 @@ const retrieveStoredToken = () => {
     const username = localStorage.getItem('username');
     const remaningTime = calculateRemainingTime(storedExpirationDate);
     const idTeam = localStorage.getItem('idTeam');
-
+    const teamName = localStorage.getItem('teamName');
 
     if (remaningTime <= 60000) {
         localStorage.removeItem('username');
@@ -40,10 +42,11 @@ const retrieveStoredToken = () => {
         localStorage.removeItem('role');
         localStorage.removeItem('expirationTime');
         localStorage.removeItem('idTeam')
+        localStorage.removeItem('teamName')
         return null;
 
     }
-    return { username: username, token: storedToken, duration: remaningTime, role: role, idTeam: idTeam };
+    return { username: username, token: storedToken, duration: remaningTime, role: role, idTeam: idTeam, teamName: teamName };
 }
 
 export const AuthContextProvider = (props) => {
@@ -53,17 +56,19 @@ export const AuthContextProvider = (props) => {
     let initialRole;
     let initialIdTeam;
     let username;
+    let initialTeamName;
 
     if (tokenData) {
         initialIdTeam = tokenData.idTeam;
         initialToken = tokenData.token;
         initialRole = tokenData.role;
         username = tokenData.username;
-
+        initialTeamName = tokenData.teamName;
     }
     const [token, setToken] = useState(initialToken);
     const [role, setRole] = useState(initialRole);
     const [idTeam, setIdTeam] = useState(initialIdTeam);
+    const [teamName, setTeamName] = useState(initialTeamName);
 
     const userIsLoggedIn = !!token;
 
@@ -72,7 +77,11 @@ export const AuthContextProvider = (props) => {
         localStorage.setItem('role', newRole);
         setRole(newRole)
     }
-
+    const updateTeamNameHandler = (newTeamName) => {
+        localStorage.removeItem('teamName')
+        localStorage.setItem('teamName', teamName);
+        setTeamName(teamName)
+    }
 
     const updateIdTeamHandler = (newId) => {
         localStorage.removeItem('idTeam')
@@ -85,7 +94,9 @@ export const AuthContextProvider = (props) => {
         localStorage.removeItem('token');
         localStorage.removeItem('expirationTime');
         localStorage.removeItem('username');
-        localStorage.removeItem('idTeam')
+        localStorage.removeItem('idTeam');
+        localStorage.removeItem('teamName');
+
         if (logoutTimer) {
             clearTimeout(logoutTimer);
         }
@@ -94,15 +105,17 @@ export const AuthContextProvider = (props) => {
 
 
 
-    const loginHandler = (username, token, role, expireTime, idTeam) => {
+    const loginHandler = (username, token, role, expireTime, idTeam, teamName) => {
         setToken(token);
         setRole(role)
         setIdTeam(idTeam)
+        setTeamName(teamName)
         localStorage.setItem('username', username);
         localStorage.setItem('idTeam', idTeam);
         localStorage.setItem('token', token);
         localStorage.setItem('expirationTime', expireTime);
         localStorage.setItem('role', role);
+        localStorage.setItem('teamName', teamName);
         const remainingTime = calculateRemainingTime(expireTime);
         logoutTimer = setTimeout(logoutHandler, remainingTime);
 
@@ -122,11 +135,12 @@ export const AuthContextProvider = (props) => {
         isLoggedIn: userIsLoggedIn,
         role: role,
         idTeam: idTeam,
+        teamName: teamName,
         login: loginHandler,
         logout: logoutHandler,
         updateRole: updateRoleHandler,
-        updateIdTeam: updateIdTeamHandler
-
+        updateIdTeam: updateIdTeamHandler,
+        updateTeamName: updateTeamNameHandler
 
     }
     return <AuthContext.Provider value={contextValue}>{props.children}</AuthContext.Provider>
