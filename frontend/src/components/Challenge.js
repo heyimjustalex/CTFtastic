@@ -136,7 +136,7 @@ const Challenge = () => {
         }
 
         else if (getContainersStatusStatus === 'completed' && getContainersStatusError) {
-            setStartedContainersStateOutput({ header: 'Checking start state failed', content: <p>{getContainersStatusError}</p> });
+            setStartedContainersStateOutput({ header: 'Container healthcheck failed!', content: <p>{getContainersStatusError}</p> });
         }
 
     }, [getContainersStatusData, getContainersStatusError, getContainersStatusStatus]);
