@@ -25,6 +25,7 @@ def run_team_challenge():
         return make_response('No required fields in json request body', 400)
 
     request_json['host'] = 'ctftastic'
+    #popraw tutaj tworzenie pliku XD
     team_name = request_json['teamName']
     with open('./teamchallenges/values.yaml', 'w') as f:
         yaml.dump(request_json, f, allow_unicode=True)

@@ -42,9 +42,9 @@ spec:
             - name: CHOKIDAR_USEPOLLING
               value: "true"
             - name: REACT_APP_BACKEND_ADDRESS
-              value: http://{{ .Values.ingress.hosts.host }}/api
+              value: http://{{ .Values.ingress.hosts.host }}:{{ .Values.ingress.hosts.port}}/api
             - name: REACT_APP_OPERATOR_ADDRESS
-              value: http://{{ .Values.ingress.hosts.host }}
+              value: http://{{ .Values.ingress.hosts.host }}:{{ .Values.ingress.hosts.port}}/challsoperator
             - name: WDS_SOCKET_PORT
               value: "0"
           resources:
