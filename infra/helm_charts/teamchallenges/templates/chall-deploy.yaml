@@ -1,0 +1,40 @@
+{{- range .Values.challenges }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: team-{{- $.Values.teamName }}-{{- .chall}}
+  labels:
+    {{- include "teamchallenges.labels" $ | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "teamchallenges.selectorLabels" $ | nindent 6 }}
+      {{- include "teamchallenges.teamSelectorLabels" $ | nindent 6 }}
+      teamName: {{ $.Values.teamName }}
+      teamHash: {{ $.Values.teamHash }}
+      challenge: {{ .chall }}
+  template:
+    metadata:
+      {{- with $.Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "teamchallenges.selectorLabels" $ | nindent 8 }}
+        {{- include "teamchallenges.teamSelectorLabels" $ | nindent 8 }}
+        teamName: {{ $.Values.teamName }}
+        teamHash: {{ $.Values.teamHash }}
+        challenge: {{ .chall }}
+    spec:
+      containers:
+        - name: {{ .chall }}
+          image: localhost:5002/{{ .chall }}:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: {{ .containerPort }}
+              protocol: TCP
+          resources:
+            {{- toYaml $.Values.resources | nindent 12 }}
+---
+{{- end }}

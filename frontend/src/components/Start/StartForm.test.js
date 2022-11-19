@@ -205,21 +205,6 @@ describe('StartForm componenet', () => {
         expect(screen.queryByText('Passwords do not match!')).not.toBeInTheDocument();
 
     });
-
-
-    // test('Calls function on button click', () => {
-    //     //Arrange
-    //     const onAdminAccFilledHandler = jest.fn();
-    //     <StartForm onAdminAccFilled={onAdminAccFilledHandler} />
-    //     //  Act
-    //     const buttonElement = screen.getByRole('button', {
-    //         name: /Next/i, hidden: true
-    //     })
-    //     fireEvent.click(buttonElement);
-    //     // Assert
-    //     expect(onAdminAccFilledHandler).toHaveBeenCalledTimes(1);
-
-    // })
 }
 )
 

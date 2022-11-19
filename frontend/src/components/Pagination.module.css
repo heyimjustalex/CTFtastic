@@ -1,9 +1,6 @@
 .pagination {
-
     width: 100%;
     margin-top: 1em;
-    /* background-color: red; */
-    /* margin-top: 1em; */
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
@@ -14,8 +11,6 @@
     margin-right: 0 !important;
     padding-left: 0 !important;
     padding-right: 0 !important;
-
-    /* background-color: blue; */
     width: 100%;
 
 }
@@ -33,9 +28,6 @@
 
 .page-item {
     background-color: #000;
-
-    /* border: 1px solid white; */
-
 }
 
 .page-link {
@@ -115,7 +107,6 @@ li.page-item:last-child {
     }
 
     .page-link {
-
         margin-left: 0.1em;
         margin-right: 0.1em;
     }

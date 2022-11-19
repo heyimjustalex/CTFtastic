@@ -20,12 +20,23 @@ function titleValidator(input) {
     return String(input).match(/^[\S\s]{1,70}$/);
 }
 
+function flagValidator(input) {
+    return String(input).match(/^[\S\s]{1,70}$/);
+}
+
+function categoryValidator(input) {
+    return String(input).match(/^[\S\s]{1,70}$/);
+}
 function oldPasswordValidator(input) {
     return String(input).match(/^[\S\s]{1,70}$/);
 }
 
 function descriptionValidator(input) {
     return String(input).match(/^[\S\s]{1,500}$/);
+}
+
+function pointsValidator(input) {
+    return String(input).match(/^[1-9]\d{0,2}(?:\,\d{1,3})?$/);
 }
 
 
@@ -66,4 +77,4 @@ function passwordValidator(p) {
     return obj.result;
 }
 
-export { emailValidator, passwordValidator, usernameValidator, titleValidator, descriptionValidator, teamNameValidator, oldPasswordValidator };
+export { emailValidator, passwordValidator, usernameValidator, titleValidator, descriptionValidator, teamNameValidator, oldPasswordValidator, categoryValidator, flagValidator, pointsValidator };

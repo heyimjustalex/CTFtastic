@@ -52,6 +52,9 @@ public class Contest {
     @Column(name = "description", nullable = false)
     private String description;
 
+    @Column(name = "has_started", nullable = false)
+    private boolean hasStarted;
+
     @OneToMany(mappedBy = "contest")
     //bad ale bez tego leci exception przy save, trzeba to poprawic ->
     // https://javarevisited.blogspot.com/2017/01/how-to-create-localdatetime-in-java-8.html

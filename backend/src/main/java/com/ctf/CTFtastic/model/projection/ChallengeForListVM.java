@@ -11,4 +11,6 @@ public interface ChallengeForListVM {
     String getCategory();
 
     Integer getPoints();
+
+    Boolean getIsVisible();
 }

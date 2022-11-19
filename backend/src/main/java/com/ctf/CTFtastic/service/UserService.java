@@ -78,7 +78,24 @@ public class UserService implements UserDetailsService {
 
     }
 
+    @Transactional
+    public void updatePassword(String user, String newPasswordHash){
+        participantRepository.updatePassword(user,newPasswordHash);
+    }
+
     public String getRoleById(int id) {
         return participantRepository.getRoleById(id);
+    }
+
+    public void deleteTeamAndUpdateRole(int id) {
+        participantRepository.deleteTeamAndUpdateRole(id);
+    }
+
+    public void deleteTeamUser(int idTeam, int idUser){
+        participantRepository.deleteTeamAndUpdateRole(idTeam,idUser);
+    }
+
+    public Optional<Participant> findById(int idUser) {
+        return participantRepository.findById(idUser);
     }
 }

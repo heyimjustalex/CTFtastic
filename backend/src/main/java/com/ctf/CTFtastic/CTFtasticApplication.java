@@ -1,8 +1,12 @@
 package com.ctf.CTFtastic;
 
+import com.ctf.CTFtastic.model.projection.FileGet;
+import com.ctf.CTFtastic.model.request.StartChallengeRequest;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,15 +26,25 @@ public class CTFtasticApplication {
 		return "ROLE_CTF_ADMIN";
 	}
 
+
 	@RequestMapping("/user")
-	@PreAuthorize("hasAnyRole('USER')")
-	public String test2() {
-		return "USER";
+	public String test2(@RequestBody FileGet dockerfile) throws Exception{
+		try {
+
+		Thread.sleep(10);
+		}catch (Exception ex)
+		{}
+		//wait(); //Trzeba zakomentować jesli nie chcesz exepiona
+		System.out.println("//////////////////////////////////////////////");
+		System.out.println(dockerfile.getDockerfile());
+		System.out.println("//////////////////////////////////////////////");
+		return dockerfile.getDockerfile();
 	}
 
 	@RequestMapping("/nouser")
-	public String test3() {
-		return "nouser";
+	public ResponseEntity<String> test3(@RequestBody StartChallengeRequest str) {
+		System.out.println("DZIALA +" + str.getTeamName());
+		return ResponseEntity.ok("nouser");
 	}
 
 	public static void main(String[] args) {

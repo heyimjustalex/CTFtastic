@@ -44,7 +44,7 @@ public class Challenge {
 
     private String category;
 
-    private String message;
+    private String description;
 
     private Integer points;
 
@@ -56,10 +56,14 @@ public class Challenge {
     @Column(name = "is_visible")
     private boolean isVisible;
 
+    @Column(name = "dockerfile_build_state")
+    private String dockerfileBuildState;
+
     @Lob
     private byte[] file;
 
-    private String dockerfile;
+    @Lob
+    private byte[] dockerfile;
 
     @OneToMany(mappedBy = "challenge")
     //bad ale bez tego leci exception przy save, trzeba to poprawic ->

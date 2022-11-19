@@ -33,8 +33,6 @@ const StartTime = (props) => {
         const timeEnd = endDate_TMP.getTime();
 
         if (timeEnd - timeStart > 0) {
-            // console.log("startdate earlier");
-            // console.log('UTC', startDate_TMP.toUTCString())
             const dates = {
                 startDate: startDate_TMP,
                 startDateUTC: startDate_TMP.toUTCString(),
@@ -44,7 +42,6 @@ const StartTime = (props) => {
             return dates;
         }
         else {
-            // console.log("starting date must be earlier");
             return null;
         }
     }
@@ -77,22 +74,16 @@ const StartTime = (props) => {
 
     }
 
-    // const handleClickAway = () => {
-    //console.log("handleclickaway");
-    // }
-
 
     const submitButtonClickHandler = () => {
 
         const dates = datesValidator();
         if (dates) {
-            // console.log('validated');
             setErrorDate(false);
             props.onDateTimeFilled(dates)
 
         }
         else {
-            // console.log('notvalidated');
             setErrorDate(true);
         }
     }
@@ -252,7 +243,7 @@ const StartTime = (props) => {
                 </LocalizationProvider>
                 <div className={styles['button-div']}>
                     <Button
-                       
+
                         disabled={errorDate || errorDate === null}
                         onClick={submitButtonClickHandler}
                         className={`${styles['submit-button']}`}

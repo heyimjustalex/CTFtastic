@@ -2,6 +2,7 @@ package com.ctf.CTFtastic.controller;
 
 import com.ctf.CTFtastic.jwt.JwtTokenUtil;
 import com.ctf.CTFtastic.model.entity.Role;
+import com.ctf.CTFtastic.model.request.ChangePasswordRequest;
 import com.ctf.CTFtastic.model.request.SignupAdminRequest;
 import com.ctf.CTFtastic.model.entity.Participant;
 import com.ctf.CTFtastic.model.request.LoginRequest;
@@ -22,9 +23,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.constraints.Null;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 public class AuthorizationController {
@@ -108,13 +111,23 @@ public class AuthorizationController {
 
             var token = jwtTokenUntil.generateToken(loginRequest.getEmail());
 
+            Participant user = userService.findByEmail(loginRequest.getEmail()).get();
+
             Map<String, String> elements =  new HashMap<>();
             elements.put("token",token);
-            elements.put("role", userService.getRoleByEmail(loginRequest.getEmail()));
+            elements.put("role", user.getRole().getName());
+            elements.put("idUser", user.getId().toString());
 
-            elements.put("username", userService.getByEmail(loginRequest.getEmail()));
-
+            if(user.getTeam() != null){
+                elements.put("idTeam", user.getTeam().getId().toString());
+                elements.put("teamName", user.getTeam().getName());
+            }
+            else{
+                elements.put("idTeam", "null");
+                elements.put("teamName", "null");
+            }
             elements.put("expireTime", "72000"); //potem zmienic żeby brał z prop
+            elements.put("userName", user.getUsername()); // Tutaj możesz sobie zmienić jaką nazwę chcesz
 
             ObjectMapper objectMapper = new ObjectMapper();
 
@@ -128,6 +141,37 @@ public class AuthorizationController {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         } catch (JsonProcessingException e){ //poprawić
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+    }
+
+    @PutMapping(value = {"/change-creds"})
+    @ResponseBody
+    public ResponseEntity<String> changePassword(@RequestBody ChangePasswordRequest changePasswordRequest, Authentication authentication){
+        try{
+            Optional<Participant> user = userService.findByEmail(authentication.getName());
+            //String oldPasswordHash = passwordEncoder.encode(changePasswordRequest.getOldPassword());
+            String newPasswordHash = passwordEncoder.encode(changePasswordRequest.getNewPassword());
+
+            if(user.isEmpty()){
+                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+            }
+            Participant userAuthor = user.get();
+            if(passwordEncoder.matches(changePasswordRequest.getOldPassword(),userAuthor.getPasswordHash())){
+                userService.updatePassword(userAuthor.getUsername(),newPasswordHash);
+            }
+            else{
+                throw new ResponseStatusException((HttpStatus.UNAUTHORIZED));
+            }
+            Map<String, String> elements =  new HashMap<>();
+            //elements.put("newPassword", newPasswordHash);
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            String returnData = objectMapper.writeValueAsString(elements);
+
+            return ResponseEntity.ok("{}");
+
+        }catch (Exception ex){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
     }
 }

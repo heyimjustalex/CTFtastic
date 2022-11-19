@@ -9,11 +9,10 @@
 
 .admin-header {
     color: #FAF9F6;
-
-    font-size: 2.5em;
+    font-size: 2em;
     font-weight: bolder;
     font-family: 'Space Mono', 'Verdana', 'Montserrat Alternates';
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
 
     text-align: center;
 }
@@ -67,6 +66,22 @@
 .form-button:focus {
     color: #FAF9F6;
     background-color: #0aa4dd;
+}
+
+.control-input:not(active) {
+    background-color: #000 !important;
+
+    color: #FAF9F6;
+}
+
+.control-input:active {
+    background-color: #000 !important;
+
+    color: #FAF9F6;
+}
+
+.control-input:focus {
+    background-color: #000 !important;
 }
 
 @media screen and (max-width: 1200px) {

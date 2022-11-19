@@ -38,5 +38,14 @@ spec:
             - name: http
               containerPort: 3000
               protocol: TCP
+          env:
+            - name: CHOKIDAR_USEPOLLING
+              value: "true"
+            - name: REACT_APP_BACKEND_ADDRESS
+              value: http://{{ .Values.ingress.hosts.host }}/api
+            - name: REACT_APP_OPERATOR_ADDRESS
+              value: http://{{ .Values.ingress.hosts.host }}
+            - name: WDS_SOCKET_PORT
+              value: "0"
           resources:
             {{- toYaml .Values.resources | nindent 12 }}

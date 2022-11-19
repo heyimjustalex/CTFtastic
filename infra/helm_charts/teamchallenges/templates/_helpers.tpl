@@ -2,7 +2,7 @@
 Expand the name of the chart.
 */}}
 {{- define "teamchallenges.name" -}}
-{{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
+{{- default $.Chart.Name $.Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
@@ -11,10 +11,10 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 If release name contains chart name it will be used as a full name.
 */}}
 {{- define "teamchallenges.fullname" -}}
-{{- if .Values.fullnameOverride }}
-{{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
+{{- if $.Values.fullnameOverride }}
+{{- $.Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
-{{- $name := default .Chart.Name .Values.nameOverride }}
+{{- $name := default $.Chart.Name $.Values.nameOverride }}
 {{- if contains $name .Release.Name }}
 {{- .Release.Name | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -27,7 +27,7 @@ If release name contains chart name it will be used as a full name.
 Create chart name and version as used by the chart label.
 */}}
 {{- define "teamchallenges.chart" -}}
-{{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
+{{- printf "%s-%s" $.Chart.Name $.Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
@@ -36,8 +36,8 @@ Common labels
 {{- define "teamchallenges.labels" -}}
 helm.sh/chart: {{ include "teamchallenges.chart" . }}
 {{ include "teamchallenges.selectorLabels" . }}
-{{- if .Chart.AppVersion }}
-app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- if $.Chart.AppVersion }}
+app.kubernetes.io/version: {{ $.Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
@@ -51,12 +51,19 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
+Team pods selectors
+*/}}
+{{- define "teamchallenges.teamSelectorLabels" -}}
+ctftastic/class: team-pod
+{{- end}}
+
+{{/*
 Create the name of the service account to use
 */}}
 {{- define "teamchallenges.serviceAccountName" -}}
-{{- if .Values.serviceAccount.create }}
-{{- default (include "teamchallenges.fullname" .) .Values.serviceAccount.name }}
+{{- if $.Values.serviceAccount.create }}
+{{- default (include "teamchallenges.fullname" .) $.Values.serviceAccount.name }}
 {{- else }}
-{{- default "default" .Values.serviceAccount.name }}
+{{- default "default" $.Values.serviceAccount.name }}
 {{- end }}
 {{- end }}

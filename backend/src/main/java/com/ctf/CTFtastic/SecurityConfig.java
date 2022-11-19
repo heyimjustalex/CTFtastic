@@ -7,6 +7,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.converter.ByteArrayHttpMessageConverter;
+import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -15,6 +17,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
@@ -22,6 +25,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 @Configuration
 //@EnableWebSecurity
@@ -51,7 +55,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
 
 
-                .antMatchers("/login","/signup","/signin","/register","/nouser","/registerAdmin", "/set-up", "/contests").permitAll()
+                .antMatchers("/login","/signup","/signin","/register","/nouser", "/user","/registerAdmin", "/set-up", "/contests").permitAll()
+
+
 
 
                 .antMatchers("/teams/{id}", "/teams/{page}/{size}").permitAll()
@@ -94,7 +100,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         corsConfig.setAllowCredentials(true);
         corsConfig.addAllowedOriginPattern("*");
         corsConfig.setMaxAge(3600L);
-        corsConfig.setAllowedMethods(Arrays.asList("GET", "POST", "DELETE", "PUT"));
+        corsConfig.setAllowedMethods(Arrays.asList("GET", "POST", "DELETE", "PUT", "PATCH"));
         corsConfig.addAllowedHeader("*");
         corsConfig.addExposedHeader("Access-Control-Expose-Headers");
         corsConfig.addExposedHeader("Location");
@@ -102,6 +108,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         source.registerCorsConfiguration("/**", corsConfig);
 
         return new CorsFilter((CorsConfigurationSource) source);
+    }
+
+    /////////DO WYSŁANIA REQUESTÓW
+    @Bean
+    public RestTemplate restTemplate(List<HttpMessageConverter<?>> messageConverters) {
+        return new RestTemplate(messageConverters);
     }
 
 }

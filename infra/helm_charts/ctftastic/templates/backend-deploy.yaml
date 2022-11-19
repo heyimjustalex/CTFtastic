@@ -41,5 +41,15 @@ spec:
           env:
             - name: spring.datasource.url
               value: jdbc:mysql://{{ include "ctftastic.fullname" . }}-db-svc:{{ .Values.service.other.db.port }}/db?enabledTLSProtocols=TLSv1.2
+            - name: link.senddocker.file
+              value: http://ctftastic-challs-operator-svc:9090/buildchall
+            - name: link.start.team
+              value: http://ctftastic-challs-operator-svc:9090/startchall
+            - name: link.stop.team
+              value: http://ctftastic-challs-operator-svc:9090/stopchall
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+      initContainers:
+        - name: ctftastic-backend-waiter
+          image: busybox:1.28
+          command: ['sh', '-c', 'sleep 30']
