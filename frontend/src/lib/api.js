@@ -286,7 +286,7 @@ export async function getUser(requestData) {
     try {
         const data = await response.json();
 
-        return data;starting
+        return data;
     }
     catch {
         throw new Error('Couldnt fetch team data.');
