@@ -10,6 +10,7 @@ challenges:
     challNum: 2
 
 host: ctftastic
+port: 8000
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious

@@ -367,7 +367,7 @@ export async function buildChallenge(challengeData) {
 
 export async function getBuildState(challengeData) {
 
-    const response = await fetch(`${OPERATOR_ADDRESS}/challsoperator/buildstatus/${challengeData.challName}`, {
+    const response = await fetch(`${OPERATOR_ADDRESS}/buildstatus/${challengeData.challName}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
