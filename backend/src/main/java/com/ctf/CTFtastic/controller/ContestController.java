@@ -157,16 +157,16 @@ public class ContestController {
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.add("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36");
 
-        String returnChall = "";
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            returnChall = objectMapper.writeValueAsString(chall);
-        }catch (Exception ex){}
+        //String returnChall = "";
+        //try {
+        //    ObjectMapper objectMapper = new ObjectMapper();
+        //    returnChall = objectMapper.writeValueAsString(chall);
+        //}catch (Exception ex){}
 
-        Map<String, String> elements =  new HashMap<>();
+        Map<String, Object> elements =  new HashMap<>();
         elements.put("teamName", team.getName());
         elements.put("teamHash", TeamEncoder.getSHA(team.getName()));
-        elements.put("chall", returnChall);
+        elements.put("challenges", chall);
 
         String returnData = "";
         try {

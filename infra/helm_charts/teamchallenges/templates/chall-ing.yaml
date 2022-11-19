@@ -6,6 +6,7 @@ metadata:
   labels:
     {{- include "teamchallenges.labels" $ | nindent 4 }}
   annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
     nginx.ingress.kubernetes.io/enable-cors: "true"
     nginx.ingress.kubernetes.io/cors-allow-origin: "http://{{- $.Values.host }}"
@@ -17,7 +18,7 @@ spec:
     - host: {{ $.Values.host }}
       http:
         paths:
-          - path: /{{ $.Values.teamHash }}/{{ .challNum }}
+          - path: /{{ $.Values.teamHash }}/{{ .challNum }}/(.*)
             pathType: Prefix
             backend:
               service:

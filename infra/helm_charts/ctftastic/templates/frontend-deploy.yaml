@@ -42,7 +42,9 @@ spec:
             - name: CHOKIDAR_USEPOLLING
               value: "true"
             - name: REACT_APP_BACKEND_ADDRESS
-              value: http://ctftastic/api
+              value: http://{{ .Values.ingress.hosts.host }}/api
+            - name: REACT_APP_OPERATOR_ADDRESS
+              value: http://{{ .Values.ingress.hosts.host }}
             - name: WDS_SOCKET_PORT
               value: "0"
           resources:

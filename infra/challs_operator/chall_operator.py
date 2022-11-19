@@ -17,9 +17,11 @@ def run_team_challenge():
     try:
         request_json = request.get_json()
     except RuntimeError:
+        app.logger.error('failed to parse json')
         return make_response('failed to parse json', 400)
 
-    if not keys_validation_start.issubset(request_json.keys()):
+    if not keys_validation_stop.issubset(request_json.keys()):
+        app.logger.error('no required fields in json request body')
         return make_response('No required fields in json request body', 400)
 
     request_json['host'] = 'ctftastic'
@@ -31,6 +33,7 @@ def run_team_challenge():
     result = subprocess.run(['helm', 'install', f'{team_name}', './teamchallenges'], capture_output=True)
 
     if result.returncode != 0:
+        app.logger.error(f'Something went wrong when createing teamchallenges Helm Release: {result.stderr}\n')
         return make_response(f'Something went wrong when creating teamchallenges Helm Release: {result.stderr}\n', 400)
 
     return make_response(f'Challenges created for {team_name}\n', 200)
@@ -40,9 +43,11 @@ def stop_team_challenge():
     try:
         request_json = request.get_json()
     except RuntimeError:
+        app.logger.error('failed to parse json')
         return make_response('failed to parse json', 400)
 
     if not keys_validation_stop.issubset(request_json.keys()):
+        app.logger.error('no required fields in json request body')
         return make_response('No required fields in json request body', 400)
 
     team_name = request_json['teamName']
@@ -93,17 +98,26 @@ def build_status(output_image):
     try:
         api_response = batch_client.read_namespaced_job_status(name=f'buildkit-{output_image}', namespace="default")
     except RuntimeError:
-        return make_response('Job not found', 404)
+        app.logger.error(f'Job buildkit-{output_image} not found')
+        return jsonify(
+            dockerfileBuildState='error'
+        ), 404
 
-    app.logger.info(api_response)
     
     if api_response.status.succeeded is not None:
-        return make_response('Job succeded', 200)
+        return jsonify(
+            dockerfileBuildState='done'
+        ), 200
     
     if api_response.status.failed is not None:
-        return make_response('Job failed', 201)
+        return jsonify(
+            dockerfileBuildState='error'
+        ), 201
 
-    return make_response('Job running', 202)
+    app.logger.info(f'Health check for - {output_image} is running')
+    return jsonify(
+        dockerfileBuildState='started'
+    ), 202
 
 @app.route('/challstatus', methods=['GET'])
 def chall_status():
@@ -119,13 +133,13 @@ def chall_status():
     except RuntimeError:
         return jsonify(
             containerState='error'
-        )
+        ), 400
 
     if api_response.status.ready_replicas is None:
         return jsonify(
             containerState='notStarted'
-        )
+        ), 200
 
     return jsonify(
         containerState='started'
-    )
+    ), 200
