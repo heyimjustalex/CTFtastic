@@ -53,7 +53,7 @@ const Challenge = () => {
     }
 
     useEffect(() => {
-        if (dockerfileBuildState !== 'done' && authCTX.role === 'ROLE_CTF_ADMIN' && challengeData !== null && challengeStatus === 'completed' && !challengeError) {
+        if (dockerfileBuildState !== 'done' && authCTX.role === 'ROLE_CTF_ADMIN' && challengeData !== null && challengeStatus === 'completed' && !challengeError && challengeData.hasDockerfile) {
 
             const data = {
                 challName: challengeData.name
@@ -155,9 +155,13 @@ const Challenge = () => {
                         <h4 className={styles['challenge-header']}>Category: <p> {challengeData.category}</p></h4>
                         <h4 className={styles['challenge-header']}>Points: <p> {challengeData.points} </p></h4>
                         {/* {challengeData.file !== null && <h4 className={styles['challenge-header']}>File link:  <p> {challengeData.file}</p></h4>} */}
-                        {challengeData.container !== null && <h4 className={styles['challenge-header']}>Container link:  <p><a className={styles['container-link']} rel="noreferrer" target="_blank" href={String(OPERATOR_ADDRESS) + challengeData.link}> {challengeData.link}</a></p></h4>}
+                        {challengeData.hasDockerfile && <h4 className={styles['challenge-header']}>Container link:  <p><a className={styles['container-link']} rel="noreferrer" target="_blank" href={String(OPERATOR_ADDRESS) + challengeData.link}> {challengeData.link}</a></p></h4>}
 
                     </div>
+                    <div className={`${styles['output-description-container']}`}>
+                        <h4 className={styles['challenge-header']}>Description:</h4>
+                        <p>{challengeData.description} </p></div>
+
                 </>
             setIsVisible(challengeData.isVisible)
             setOutput({ header: challengeData.name, content: output });

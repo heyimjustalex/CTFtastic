@@ -134,7 +134,7 @@ const MainHeader = (props) => {
                 <NavDropdown.Item
                   as={NavLink} to={'/start-ctf'}
                   className={styles['dropdown-item'] + ' ' + styles['underline-animation-admin-panel']}>
-                  Start CTF
+                  Start/Stop CTF
                 </NavDropdown.Item>
               </NavDropdown></>}
         </Nav>

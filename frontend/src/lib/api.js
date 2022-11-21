@@ -390,7 +390,7 @@ export async function getBuildState(challengeData) {
 
 export async function startCTF(startData) {
 
-    const response = await fetch(`${BACKEND_ADDRESS}/start-ctf`, {
+    const response = await fetch(`${BACKEND_ADDRESS}/${startData.startOrStopValue}-ctf`, {
         method: 'POST',
 
         headers: {
@@ -409,6 +409,8 @@ export async function startCTF(startData) {
         throw new Error('Cannot startCTF');
     }
 }
+
+
 
 export async function joinTeam(userData) {
 
