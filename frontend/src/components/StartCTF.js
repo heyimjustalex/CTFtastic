@@ -99,23 +99,23 @@ const StartCTF = (props) => {
                             <LoadingRing />}
                     </div>
                 </>}
+                    {hasStarted && hasStarted !== null &&
+                        <>
+                            <h1 className={styles['admin-header']}>Click button to stop CTF!</h1>
 
+                            <div className={styles['button-div']}>
+                                <Button onClick={startCtfHandler} aria-label="Next" className={styles['form-button-red']} variant="custom" type="submit">
+                                    Stop CTF!
+                                </Button>
+                            </div>
+
+                        </>
+
+                    }
 
                 </>
             }
-            {hasStarted && hasStarted !== null &&
-                <>
-                    <h1 className={styles['admin-header']}>Click button to stop CTF!</h1>
 
-                    <div className={styles['button-div']}>
-                        <Button onClick={startCtfHandler} aria-label="Next" className={styles['form-button-red']} variant="custom" type="submit">
-                            Stop CTF!
-                        </Button>
-                    </div>
-
-                </>
-
-            }
             {
                 (!authCTX.isLoggedIn || authCTX.role !== 'ROLE_CTF_ADMIN') &&
                 <div className={styles['output-container']}>
