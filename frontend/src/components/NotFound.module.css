@@ -1,0 +1,33 @@
+.output-container {
+    width: 100%;
+    display: flex;
+    text-align: center;
+    height: 90vh;
+    font-family: 'Space Mono', 'Verdana', 'Montserrat Alternates';
+    color: #FAF9F6;
+    text-align: center;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1em;
+
+}
+
+
+.redText {
+    color: #FF304E;
+
+}
+
+.blueText {
+    color: #0CC6FF;
+}
+
+.challenge-header {
+    color: #0CC6FF;
+    display: inline-block;
+    margin: 1em;
+    margin-left: 2em;
+    margin-right: 2em;
+}
