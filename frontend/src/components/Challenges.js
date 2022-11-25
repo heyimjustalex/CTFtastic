@@ -181,7 +181,7 @@ const Challenges = () => {
                 status === 'completed' &&
                 !error &&
                 !data.elements.length &&
-                <div className={styles['output-container']}> <h3 className={styles['redText']}>No challenges added!</h3></div>
+                <div className={styles['output-container']}> <h3 className={styles['redText']}>No challenges added or YOU DONT HAVE A TEAM! Join/Create team first!</h3></div>
             }
 
             {startContainersStatus === 'completed' &&
