@@ -88,28 +88,6 @@ public class ContestController {
         }
     }
 
-    @PostMapping(value = "/stop-ctf")
-    public ResponseEntity<String> stopCTF(Authentication authentication)
-    {
-        try{
-            Optional<Participant> user = userService.findByEmail(authentication.getName());
-
-            if (user.isEmpty() || !user.get().getRole().getName().equals("ROLE_CTF_ADMIN")) {
-                throw new ResponseStatusException(HttpStatus.FORBIDDEN);
-            }
-        }catch (Exception ex){
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
-        }
-
-        try {
-            boolean flag = false;
-            contestService.updateStart(flag);
-            return ResponseEntity.ok().body("{}");
-        }catch (Exception ex){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-        }
-    }
-
     @GetMapping(value = "/challenges/stop-containers")
     public ResponseEntity<String> stopContestForTeam(Authentication authentication) throws NoSuchAlgorithmException {
         Team team = null;
