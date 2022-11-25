@@ -21,7 +21,20 @@
 
 }
 
+.output-description-container {
+    width: 100%;
+    display: flex;
+    text-align: center;
 
+    color: #FAF9F6;
+    text-align: center;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1em;
+
+}
 
 
 .redText {

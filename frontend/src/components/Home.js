@@ -64,11 +64,11 @@ const Home = (props) => {
             <div className={styles['output-container']}>
                 {!(status === 'pending') && output !== null && <h1 className={styles[textColor]}>{output ? output.header : ''}</h1>}
                 {!(status === 'pending') && output !== null && <p> {output ? output.content.description : ''}</p>}
-                {!(status === 'pending') && output !== null && <h2 className={styles[textColor]}>{output ? output.header !== 'No contests found!' ? '' : '' : 'Start Time:'}</h2>}
+                {!(status === 'pending') && output !== null && <h2 className={styles[textColor]}>{output ? output.header !== 'No contests found!' ? 'Start Time:' : '' : ''}</h2>}
                 {!(status === 'pending') && output !== null && <p>{output ? output.content.startTime : ''}</p>}
-                {!(status === 'pending') && output !== null && <h2 className={styles[textColor]}>{output ? output.header !== 'No contests found!' ? '' : '' : 'End Time:'}</h2>}
+                {!(status === 'pending') && output !== null && <h2 className={styles[textColor]}>{output ? output.header !== 'No contests found!' ? 'End Time:' : '' : ''}</h2>}
                 {!(status === 'pending') && output !== null && <p>{output ? output.content.endTime : ''}</p>}
-                {!(status === 'pending') && <h2 className={styles['redText']}>{output ? output.content.hasStarted ? 'CTF has Started' : '' : ''}</h2>}
+                {!(status === 'pending') && <h2 className={styles['redText']}>{output ? output.content.hasStarted ? 'CTF has started' : 'CTF has ended' : ''}</h2>}
                 {status === 'pending' &&
                     <LoadingRing />}
             </div>

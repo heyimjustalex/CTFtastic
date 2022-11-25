@@ -1,8 +1,9 @@
+import styles from './NotFound.module.css';
 
 const NotFound = () => {
 
-    return <div>
-        <h1>Page not found</h1>
+    return <div className={styles['output-container']}>
+        <h1 className={styles['redText']}>Page not found 404</h1>
     </div>
 }
 

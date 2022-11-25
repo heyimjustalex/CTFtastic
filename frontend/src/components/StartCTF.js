@@ -18,8 +18,6 @@ const StartCTF = (props) => {
     const [hasStarted, setHasStarted] = useState(null);
 
     useEffect(() => {
-        console.log("SENDING")
-
         sendRequestGetContestStarted();
     }, [])
 
@@ -62,7 +60,8 @@ const StartCTF = (props) => {
 
 
         const dataTemp = {
-            token: authCTX.token
+            token: authCTX.token,
+            startOrStopValue: hasStarted ? "stop" : "start"
         };
 
         sendRequest(dataTemp);
@@ -100,10 +99,20 @@ const StartCTF = (props) => {
                             <LoadingRing />}
                     </div>
                 </>}
-                    {hasStarted && hasStarted !== null && <>
-                        <h1 className={styles['admin-header']}>You have already started CTF!</h1>
+                    {hasStarted && hasStarted !== null &&
+                        <>
+                            <h1 className={styles['admin-header']}>Click button to stop CTF!</h1>
 
-                    </>}
+                            <div className={styles['button-div']}>
+                                <Button onClick={startCtfHandler} aria-label="Next" className={styles['form-button-red']} variant="custom" type="submit">
+                                    Stop CTF!
+                                </Button>
+                            </div>
+
+                        </>
+
+                    }
+
                 </>
             }
 
