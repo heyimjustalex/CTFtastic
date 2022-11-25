@@ -238,6 +238,7 @@ public class ChallengeController {
         Participant user2 = null;
         Solution solution = null;
         Challenge challenge = null;
+        Contest contest = null;
         try{
             Optional<Participant> user = userService.findByEmail(authentication.getName());
             user2 = user.get();
@@ -248,6 +249,12 @@ public class ChallengeController {
                 throw new ResponseStatusException(HttpStatus.FORBIDDEN);
             }
             if(solution.getIsSolved().equals(true)){
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+            }
+
+            contest = contestService.getById(1);
+
+            if(contest.isHasStarted() == false){
                 throw new ResponseStatusException(HttpStatus.FORBIDDEN);
             }
 
