@@ -4,6 +4,7 @@ const BACKEND_ADDRESS = process.env.REACT_APP_BACKEND_ADDRESS;
 
 const StartContext = React.createContext({
     hasStarted: '',
+    containersStartedState: null,
     setFalseStartedLocalStorage: () => { },
     setTrueStartedLocalStorage: () => { },
     askBackendIfContestHasStarted: () => { }
@@ -62,6 +63,7 @@ export const StartContextProvider = (props) => {
         return false;
     }
     const [hasStarted, setHasStarted] = useState(true);
+    const [containersStartedState, setContainersStartedState] = useState(null);
     // useEffect(() => {
     //     const initalState = retrieveHasStartedInfo();
     //     setHasStarted(initalState);
@@ -78,6 +80,8 @@ export const StartContextProvider = (props) => {
 
     const contextValue = {
         hasStarted: hasStarted,
+        containersStartedState: containersStartedState,
+        setContainersStartedState: setContainersStartedState,
         setFalseStartedLocalStorage: setFalseStartedLocalStorage,
         setTrueStartedLocalStorage: setTrueStartedLocalStorage,
         askBackendIfContestHasStarted: askBackendIfContestHasStarted
