@@ -6,9 +6,11 @@ import com.ctf.CTFtastic.model.projection.TeamForListVM;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,4 +32,9 @@ public interface TeamRepository extends JpaRepository<Team, Integer> {
 
     @Query("select c from Team c")
     List<Team> getAllTeams();
+
+    @Modifying
+    @Transactional
+    @Query("update Team t set t.points = :point where t.id = :idTeam")
+    void updatePointsTeam(@Param("idTeam")int id, @Param("point") int i);
 }

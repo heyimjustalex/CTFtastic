@@ -278,6 +278,7 @@ public class ChallengeController {
             }
             solution.setIsSolved(true);
             solutionService.update(solution);
+            teamRepository.updatePointsTeam((int)user2.getTeam().getId(),(int)(user2.getTeam().getPoints() + challenge.getPoints()));
 
             return ResponseEntity.ok().body("{}");
 
