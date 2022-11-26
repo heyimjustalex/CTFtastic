@@ -109,7 +109,7 @@ public class ContestController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
     }
-    
+
     @GetMapping(value = "/challenges/stop-containers")
     public ResponseEntity<String> stopContestForTeam(Authentication authentication) throws NoSuchAlgorithmException {
         Team team = null;

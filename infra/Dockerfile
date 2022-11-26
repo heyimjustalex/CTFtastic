@@ -13,6 +13,7 @@ RUN apk add img
 
 WORKDIR /usr/src/app
 COPY ./helm_charts ./challs_operator/bootstrap.sh ./challs_operator/chall_operator.py ./challs_operator/Dockerfile.test ./
+RUN chmod 700 ./bootstrap.sh
 
 EXPOSE 5000
 ENTRYPOINT ["/usr/src/app/bootstrap.sh"]

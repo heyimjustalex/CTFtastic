@@ -90,6 +90,7 @@ ingress:
     # kubernetes.io/tls-acme: "true"
   hosts:
     host: ctftastic
+    port: 8000
     #- host: chart-example.local
     #  paths:
     #    - path: /
