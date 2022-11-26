@@ -43,7 +43,7 @@ const StartCTF = (props) => {
         }
 
         else if (status === 'completed' && !error) {
-            setOutput({ header: 'Success!', content: 'You have started CTF!' });
+            setOutput({ header: 'Success!', content: 'You have started/stopped CTF!' });
         }
 
         else if (status === 'completed' && error) {
@@ -108,7 +108,13 @@ const StartCTF = (props) => {
                                     Stop CTF!
                                 </Button>
                             </div>
-
+                            <div className={styles['output-container']}>
+                                {!(status === 'pending') &&
+                                    <h1 className={styles[textColor]}>{output ? output.header : ''}</h1>}
+                                {!(status === 'pending') && <h1> {output ? output.content : ''}</h1>}
+                                {status === 'pending' &&
+                                    <LoadingRing />}
+                            </div>
                         </>
 
                     }
