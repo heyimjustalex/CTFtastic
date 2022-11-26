@@ -25,6 +25,7 @@ def run_team_challenge():
         return make_response('No required fields in json request body', 400)
 
     request_json['host'] = os.environ.get('PUBLIC_HOST')
+    request_json['port'] = 8000
     #popraw tutaj tworzenie pliku XD
     team_name = request_json['teamName']
     with open('./teamchallenges/values.yaml', 'w') as f:

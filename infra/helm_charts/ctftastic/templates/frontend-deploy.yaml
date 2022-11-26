@@ -45,6 +45,8 @@ spec:
               value: http://{{ .Values.ingress.hosts.host }}:{{ .Values.ingress.hosts.port}}/api
             - name: REACT_APP_OPERATOR_ADDRESS
               value: http://{{ .Values.ingress.hosts.host }}:{{ .Values.ingress.hosts.port}}/challsoperator
+            - name: REACT_APP_HOST_ADDRESS
+              value: http://{{ .Values.ingress.hosts.host }}:{{ .Values.ingress.hosts.port}}
             - name: WDS_SOCKET_PORT
               value: "0"
           resources:

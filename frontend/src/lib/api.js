@@ -167,7 +167,7 @@ export async function startStopContainers(startStopData) {
 
 export async function getContainerState(challengeData) {
 
-    const response = await fetch(`${OPERATOR_ADDRESS}/challstatus?team=${challengeData.teamName}&${challengeData.challName}`, {
+    const response = await fetch(`${OPERATOR_ADDRESS}/challstatus?team=${challengeData.teamName}&chall=${challengeData.challName}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',

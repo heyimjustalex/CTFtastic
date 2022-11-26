@@ -21,7 +21,7 @@ function titleValidator(input) {
 }
 
 function flagValidator(input) {
-    return String(input).match(/^[\S\s]{1,70}$/);
+    return String(input).match(/^[\S\s]{1,250}$/);
 }
 
 function categoryValidator(input) {

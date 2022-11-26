@@ -12,6 +12,7 @@ import useInput from "../hooks/use-input";
 import MySwitch from "./UI/SwitchBox";
 
 const OPERATOR_ADDRESS = process.env.REACT_APP_OPERATOR_ADDRESS;
+const HOST_ADDRESS = process.env.REACT_APP_HOST_ADDRESS;
 
 const Challenge = () => {
     const { sendRequest: sendRequestGetChallenge, data: challengeData, status: challengeStatus, error: challengeError } = useHttp(getChallenge);
@@ -155,7 +156,7 @@ const Challenge = () => {
                         <h4 className={styles['challenge-header']}>Category: <p> {challengeData.category}</p></h4>
                         <h4 className={styles['challenge-header']}>Points: <p> {challengeData.points} </p></h4>
                         {/* {challengeData.file !== null && <h4 className={styles['challenge-header']}>File link:  <p> {challengeData.file}</p></h4>} */}
-                        {challengeData.hasDockerfile && <h4 className={styles['challenge-header']}>Container link:  <p><a className={styles['container-link']} rel="noreferrer" target="_blank" href={String(OPERATOR_ADDRESS) + challengeData.link}> {challengeData.link}</a></p></h4>}
+                        {challengeData.hasDockerfile && <h4 className={styles['challenge-header']}>Container link:  <p><a className={styles['container-link']} rel="noreferrer" target="_blank" href={String(HOST_ADDRESS) + challengeData.link + '/'}> {challengeData.link}</a></p></h4>}
 
                     </div>
                     <div className={`${styles['output-description-container']}`}>
