@@ -9,6 +9,7 @@ import Pagination from "./Pagination";
 import { AuthContext } from '../store/auth-context';
 import { Button, Form } from "react-bootstrap";
 import LoadingRing from "./UI/LoadingRing";
+import StartContext from "../store/start-context";
 
 const Challenges = () => {
 
@@ -18,7 +19,8 @@ const Challenges = () => {
 
     const [currentPageNumber, setCurrentPageNumber] = useState(0);
     const authCTX = useContext(AuthContext);
-    const [startedContainersState, setStartedContainersState] = useState(null)
+    const startCTX = useContext(StartContext);
+
     const [startedContainersStateOutput, setStartedContainersStateOutput] = useState({})
     const elementsPerPage = 6;
     const [totalPages, setTotalPages] = useState(0);
@@ -39,7 +41,7 @@ const Challenges = () => {
 
     const startStopContainerHandler = (e) => {
         e.preventDefault();
-        const startOrStopValue = startedContainersState !== 'done' ? 'start' : 'stop';
+        const startOrStopValue = !startCTX.containersStartedState ? 'start' : 'stop';
         const data = {
             teamName: authCTX.teamName,
             token: authCTX.token,
@@ -114,14 +116,14 @@ const Challenges = () => {
         else if (startContainersStatus === 'completed' && !startContainersError) {
 
 
-            setStartedContainersState(startContainersData.containerState)
+            startCTX.setContainersStartedState((prev) => !prev)
             // console.log(startContainersData.containerState)
-            setStartedContainersStateOutput({ header: "Starting request send successfully!", content: "" });
+            setStartedContainersStateOutput({ header: "Request start/stop send successfully!", content: "" });
         }
 
         else if (startContainersStatus === 'completed' && startContainersError) {
 
-            setStartedContainersStateOutput({ header: 'Request container starting failed', content: <p>{startContainersError}</p> });
+            setStartedContainersStateOutput({ header: 'Container start/stop failed', content: <p>{startContainersError}</p> });
         }
 
     }, [startContainersData, startContainersError, startContainersStatus]);
@@ -135,7 +137,7 @@ const Challenges = () => {
         <Container className={`${styles['main']} d-flex flex-column`}>
 
             <table className={styles['table-elements']}>
-                {status === 'completed' && !error && data.elements.length !== 0 &&
+                {status === 'completed' && !error && data.elements.length !== 0 && authCTX.role !== "ROLE_USER" &&
                     <thead>
                         <tr className={styles['table-header']}>
                             <th>ID</th>
@@ -148,7 +150,7 @@ const Challenges = () => {
                 <tbody>
                     {status === 'pending' && <tr><td style={{ border: 'none' }}><h3 className={styles['loading-header']}>{output.header}</h3></td></tr>}
                     {status === 'pending' && output.content}
-                    {status === 'completed' && !error && (data ? data.elements ? data.elements.length > 0 ? true : false : false : false) && output.content}
+                    {status === 'completed' && authCTX.role !== "ROLE_USER" && !error && (data ? data.elements ? data.elements.length > 0 ? true : false : false : false) && output.content}
                     {status === 'completed' && error && <tr><td style={{ border: 'none' }}><h3 className={styles['redText']}>No challenges found! </h3></td></tr>}
 
                 </tbody>
@@ -164,8 +166,8 @@ const Challenges = () => {
                 <Form className={`${styles['start-form']}`} onSubmit={startStopContainerHandler} >
                     <div className={styles['button-div']}>
 
-                        <Button aria-label="containerStateSubmitButton" className={startedContainersState !== 'done' ? styles['form-button-green'] : styles['form-button-red']} variant="custom" type="submit">
-                            {startedContainersState !== 'done' ? "Start containers!" : "Stop containers!"}
+                        <Button aria-label="containerStateSubmitButton" className={!startCTX.containersStartedState ? styles['form-button-green'] : styles['form-button-red']} variant="custom" type="submit">
+                            {!startCTX.containersStartedState ? "Start containers!" : "Stop containers!"}
                         </Button>
 
                     </div>
@@ -177,12 +179,21 @@ const Challenges = () => {
                 status === 'completed' && !error && (Boolean(data.elements.length))
                 && (Boolean(totalPages > 1)) && < Pagination pageCount={totalPages} currentPage={currentPageNumber} onChangePage={onChangePageHandler}></Pagination>
             }
-            {
+            {authCTX.role === "ROLE_USER" ? false :
                 status === 'completed' &&
                 !error &&
                 !data.elements.length &&
-                <div className={styles['output-container']}> <h3 className={styles['redText']}>No challenges added or YOU DONT HAVE A TEAM! Join/Create team first!</h3></div>
+                <div className={styles['output-container']}> <h3 className={styles['redText']}>No challenges added!</h3></div>
             }
+
+            {
+                status === 'completed' &&
+                !error &&
+                authCTX.role === "ROLE_USER" &&
+
+                <div className={styles['output-container']}> <h3 className={styles['redText']}> Join/Create team first!</h3></div>
+            }
+
 
             {startContainersStatus === 'completed' &&
                 authCTX.role !== 'ROLE_CTF_ADMIN' && startContainersStatus !== null && <Container style={{ margin: '0.2em' }} className={`${styles['output-content-container']}`}>
