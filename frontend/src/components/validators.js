@@ -12,7 +12,8 @@ function usernameValidator(input) {
 }
 
 function teamNameValidator(input) {
-    return String(input).match(/^(?=.{6,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/);
+
+    return String(input).match(/^[a-z]{6,20}$/);
 }
 
 
