@@ -162,7 +162,7 @@ const CreateTeam = () => {
 
                         />
                         <Form.Text className="text-muted">
-                            6 to 20 characters, _ . might be not allowed at the beginning/end
+                            6 to 20 lowercase characters
                         </Form.Text>
                     </Form.Group>
 
