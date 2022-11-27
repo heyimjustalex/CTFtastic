@@ -34,6 +34,9 @@ spec:
             - name: http
               containerPort: {{ .containerPort }}
               protocol: TCP
+          env:
+            - name: TEAM_LINK
+              value: /{{$.Values.teamHash}}/{{.challNum}}
           resources:
             {{- toYaml $.Values.resources | nindent 12 }}
 ---

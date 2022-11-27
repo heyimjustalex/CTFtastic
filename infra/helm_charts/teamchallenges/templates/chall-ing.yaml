@@ -25,8 +25,5 @@ spec:
                 name: team-{{- $.Values.teamName }}-{{- .chall}}-svc
                 port:
                   number: 1100{{ .challNum }}
-                env:
-                  - name: TEAM_LINK
-                    value: /{{$.Values.teamHash}}/{{.challNum}}
 ---
 {{- end}}

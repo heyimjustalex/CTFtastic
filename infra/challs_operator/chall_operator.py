@@ -58,6 +58,7 @@ def stop_team_challenge():
     result = subprocess.run(['helm', 'uninstall', f'{team_name}'], capture_output=True)
 
     if result.returncode != 0:
+        app.logger.error(f'Something went wrong when deleting teamchallenges Helm Release: {result.stderr}\n')
         return make_response(f'Something went wrong when deleting teamchallenges Helm Release: {result.stderr}\n', 400)
 
     return make_response(f'Challenges stopped for {team_name}', 200)
