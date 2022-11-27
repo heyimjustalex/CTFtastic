@@ -158,16 +158,18 @@ public class ContestController {
         }
         team = user.get().getTeam();
 
-        List<String> challanges = challengeService.getAllChallanges(true);
+        List<Challenge> challanges = challengeService.getAllChallanges(true);
         List<ChallangeToStart> chall = new ArrayList<>();
         int i = 0;
-        for (String challange:challanges) {
-            i++;
-            chall.add(ChallangeToStart.builder()
-                            .chall(challange)
-                            .challNum(i)
-                            .containerPort(80)
-                    .build());
+        for (Challenge challange:challanges) {
+            if(challange.getDockerfile() != null) {
+                i++;
+                chall.add(ChallangeToStart.builder()
+                        .chall(challange.getName())
+                        .challNum(i)
+                        .containerPort(80)
+                        .build());
+            }
         }
 
 
