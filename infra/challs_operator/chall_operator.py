@@ -40,7 +40,7 @@ def run_team_challenge():
 
     return make_response(f'Challenges created for {team_name}\n', 200)
 
-@app.route('/stopchall', methods=['DELETE'])
+@app.route('/stopchall', methods=['POST'])
 def stop_team_challenge():
     try:
         request_json = request.get_json()
