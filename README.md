@@ -2,6 +2,9 @@
 
 App that is used to organize CTF contests with React/Spring/MySQL/Flask/Kubernetes/Docker/Helm. It allows people to generate one container per challenge per team.
 
+
+![Screenshot_1400](https://user-images.githubusercontent.com/21158649/210182881-dfa4de16-5ec0-42e1-a8b1-c48a805250ef.png)
+
 ## Starting project
 
 To start project without backend:
