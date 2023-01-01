@@ -1,5 +1,7 @@
 # CTFtastic
 
+App that is used to organize CTF contests with React/Spring/MySQL/Flask/Kubernetes/Docker/Helm. It allows people to generate one container per challenge per team.
+
 ## Starting project
 
 To start project without backend:
